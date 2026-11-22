@@ -95,9 +95,9 @@ None.
 
 ## Approvals
 
-| Approval | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
-| Spec + Plan (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan.md rev 1 (5 tasks) with plan-graph exit 0 | Export error alert untested until staging (release checklist) | approved |
+| Specify + Design (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan.md rev 1 (5 tasks) with plan-graph exit 0 | Export error alert untested until staging (release checklist) | approved |
 
 ### Waivers
 

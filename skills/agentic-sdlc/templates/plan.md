@@ -26,7 +26,7 @@ Matt Pocock `to-tickets` (MIT) and Addy Osmani `planning-and-task-breakdown` (MI
 
 <!--
 Rules (checked by plan-graph, exit 1 on any violation):
-- ID: T1..Tn, unique, in creation order. Never renumber after Plan approval; a removed task keeps its ID out of use.
+- ID: T1..Tn, unique, in creation order. Never renumber after Design sign-off; a removed task keeps its ID out of use.
 - AC: ≥ 1 acceptance-criterion ID from spec.md (AC-n). A prefactor or setup task lists the AC it enables.
   Every AC in the spec has ≥ 1 task.
 - Blocked by: task IDs that must be committed first, or "—". Unknown IDs and cycles fail.
@@ -127,7 +127,7 @@ or Important review finding. No new dependency → the single line `none — <re
 ## Loop ledger
 
 <!--
-Mechanism 6.3. Excluded from the plan hash: appending rows never voids Plan approval.
+Mechanism 6.3. Excluded from the plan hash: appending rows never voids Design sign-off.
 Rows come from `run-ledger render` (references/loops.md): one row per failed round, per round that
 fixed a failure, per ruling and per halt. Loop: red-green | build-test | review-fix | debug (plus
 `ruling` and `halt` rows). Cause: spec | design | plan | code | test | env | unknown; a second
@@ -154,13 +154,13 @@ Plan hash = first 12 hex chars of SHA-256 over this file without the "## Approva
 "## Loop ledger" sections (plan-graph prints it as planHash). Spec hash = the spec's own hash
 (spec.md body without its "## Approvals" section). Any edit outside those two sections changes the
 plan hash and voids the approval.
-Approval values: "Plan" or "Spec + Plan (combined)". Combined is allowed only on the Standard path
-with ≤ 5 tasks (rule K8); otherwise Spec and Plan approvals are two reviews. A combined review is
+Sign-off values: "Design" or "Specify + Design (combined)". Combined is allowed only on the Standard path
+with ≤ 5 tasks (rule K8); otherwise Specify and Design sign-offs are two reviews. A combined review is
 one request covering both files: spec.md records the Product Owner's answer, this file records the
-Tech Lead's answer, both with Approval = "Spec + Plan (combined)" and the same Spec hash.
+Tech Lead's answer, both with Sign-off = "Specify + Design (combined)" and the same Spec hash.
 Only an explicit "yes"/"approved" from the named role in a later turn counts.
 Check: node <skill>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --check-approval
 -->
 
-| Approval | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|

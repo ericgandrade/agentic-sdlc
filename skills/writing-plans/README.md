@@ -11,7 +11,7 @@ Converts specs or requirements into a detailed, executable implementation plan b
 
 ## What is included
 
-- `SKILL.md` — Design-stage workflow: task graph, task details, impact, dependencies, `plan-graph` validation, Plan approval and handoff
+- `SKILL.md` — Design-stage workflow: task graph, task details, impact, dependencies, `plan-graph` validation, Design sign-off and handoff
 - `evals/evals.json` — 3 realistic test cases with assertions for trigger accuracy and workflow correctness
 - `evals/trigger-eval.json` — 20 queries (10 should-trigger / 10 should-not-trigger) for description optimization
 
@@ -24,17 +24,17 @@ Converts specs or requirements into a detailed, executable implementation plan b
 
 ## What's New in v3.1
 
-- **Design stage, D10 vocabulary** — writes `specs/NNN-slug/plan.md` from `agentic-sdlc/templates/plan.md`; Plan approval recorded in the plan's `## Approvals` and the `approvals.md` register
+- **Design stage, D10 vocabulary** — writes `specs/NNN-slug/plan.md` from `agentic-sdlc/templates/plan.md`; Design sign-off recorded in the plan's `## Approvals` and the `approvals.md` register
 - **plan-graph** — `agentic-sdlc/scripts/plan-graph.mjs` validates the task table (AC links both ways, cycles, unknown dependencies, size ≤ 1 day, ≤ 15 tasks, prose budget), computes waves, serializes same-wave tasks with overlapping Files and writes `graph.json`; `--check` in CI, `--check-approval` before Build
 - **Impact from the code map** — modules touched, dependents, mapped tests and a Regression scope command; a file outside every module stops the plan until the map is updated
 - **Dependencies note** — exact version, license, last release ≤ 12 months, 0 critical/high advisories, lockfile, typosquat check
-- **Combined review rule** — one Spec + Plan review on Standard with ≤ 5 tasks; otherwise two
+- **Combined review rule** — one Specify + Design review on Standard with ≤ 5 tasks; otherwise two
 - **Loop ledger** — table appended during Build; excluded from the plan hash so it never voids approval
 - **Commit trailer** — `Refs: Tn AC-n`
 
 ## What's New in v3.0
 
-- **Agentic SDLC Design stage** — plans from an approved spec revision; the approval record format was replaced in v3.1 (Plan approval in `## Approvals`)
+- **Agentic SDLC Design stage** — plans from an approved spec revision; the approval record format was replaced in v3.1 (Design sign-off in `## Approvals`)
 - **Task graph** — tracer-bullet vertical slices with `Satisfies: AC-n`, `Implements: ADR`, `Blocked by:` edges
 - **Wide refactors** — expand → migrate → contract sequencing
 - **Coverage check** — every acceptance criterion has a task, every task serves a criterion or is an explicit enabler

@@ -3,7 +3,7 @@
 <!-- Worked example (synthetic). Written from templates/release-notes.md; rules in references/release-ops.md. Times use the team's local offset (-03:00). -->
 
 **Spec:** `specs/001-csv-export/spec.md` rev 1 · hash `2aef8f23fc84` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
-**Release commit:** `5d2e8b0` (merge of PR #138, 2026-11-27T11:30:00-03:00; tree identical to head `1b8d74a`, fingerprint `b7e2a91c04d5`) · **Tag:** `v2.14.0` (pushed only after Release approval) · **Planned date:** 2026-11-30
+**Release commit:** `5d2e8b0` (merge of PR #138, 2026-11-27T11:30:00-03:00; tree identical to head `1b8d74a`, fingerprint `b7e2a91c04d5`) · **Tag:** `v2.14.0` (pushed only after Release sign-off) · **Planned date:** 2026-11-30
 **Release Engineer:** Release Engineer agent (fresh subagent) · **Release Owner:** Release Owner, P. Nair
 
 ## Summary
@@ -107,13 +107,13 @@ New endpoint and new alert → operated behaviour changes → runbook required. 
 
 ## Residual risks
 
-- Spec approval residual risk "export error alert untested until staging" — closed by R5 (test alert received in 1.2 min).
+- Specify sign-off residual risk "export error alert untested until staging" — closed by R5 (test alert received in 1.2 min).
 - Totals use `.` as the decimal separator (PR finding F-5, declined to judge). The Product Owner kept the spec format; locale-aware export is issue #143. Owner: Product Owner, L. Rocha.
 - The `COUNT(*)` before streaming had no index review at production volume; staging p95 for 50,000 rows was 1.9 s (spec limit 3 s). The p95 advance rule above catches a regression. Owner: Tech Lead, D. Okafor.
 
 ## Approval
 
-| Approval | Bound to (tag · rehearsal) | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Bound to (tag · rehearsal) | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|
 | Release | `v2.14.0` · rehearsal 2026-11-27T13:52:40-03:00 | 2026-11-30 | Release Owner | P. Nair | "Yes, release v2.14.0 at 10% this morning and go to 100% if the 24 h window is clean." | §Shipped acceptance criteria, §Rollback rehearsal, §Release checklist, §Go/no-go | F-5 locale format (#143); COUNT(*) index at volume | approved |
 
@@ -124,4 +124,4 @@ New endpoint and new alert → operated behaviour changes → runbook required. 
 | 1 | 2026-11-30T10:02:00-03:00 | 2026-12-01T10:10:00-03:00 | `flagctl set reports.csvExport on --env prod --percent 10` | 0.4% (export 0.3%) | 318 ms | silent | advance |
 | 2 | 2026-12-01T10:14:00-03:00 | 2026-12-02T10:20:00-03:00 | `flagctl set reports.csvExport on --env prod --percent 100` | 0.4% (export 0.5%) | 322 ms | silent | closed |
 
-Tag `v2.14.0` pushed 2026-11-30T10:01:00-03:00, after the Release approval and before stage 1. Release closed with no incident. The retro is due by 2026-12-08 (5 business days after 100% on 2026-12-01). The indicator's first reading is due 2026-12-07 (release + 7 days).
+Tag `v2.14.0` pushed 2026-11-30T10:01:00-03:00, after the Release sign-off and before stage 1. Release closed with no incident. The retro is due by 2026-12-08 (5 business days after 100% on 2026-12-01). The indicator's first reading is due 2026-12-07 (release + 7 days).

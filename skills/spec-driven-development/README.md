@@ -1,6 +1,6 @@
 # spec-driven-development
 
-Specify-stage skill of the **Agentic SDLC**: writes `specs/NNN-slug/spec.md` from the method's template — problem, numbered acceptance criteria (`AC-n`), non-goals, security notes, rollback, release & observability, indicator — runs an independent 12-item critique with a 3-round stop rule, checks the file with `spec-lint`, and requests the **Spec approval** from the Product Owner. The approved revision and its 12-hex hash are the build baseline; any later edit voids the approval until it is renewed.
+Specify-stage skill of the **Agentic SDLC**: writes `specs/NNN-slug/spec.md` from the method's template — problem, numbered acceptance criteria (`AC-n`), non-goals, security notes, rollback, release & observability, indicator — runs an independent 12-item critique with a 3-round stop rule, checks the file with `spec-lint`, and requests the **Specify sign-off** from the Product Owner. The approved revision and its 12-hex hash are the build baseline; any later edit voids the approval until it is renewed.
 
 ## When to use
 
@@ -15,12 +15,12 @@ Specify-stage skill of the **Agentic SDLC**: writes `specs/NNN-slug/spec.md` fro
 |---|---|
 | create | Short interview needed |
 | synthesize | Answers already exist in the conversation or brief |
-| validate | Check an existing spec before the Spec approval |
+| validate | Check an existing spec before the Specify sign-off |
 | revise | Change an approved spec via the change protocol (hash re-open rule) |
 
 ## What is included
 
-- `SKILL.md` — scope check, assumptions, spec sections, acceptance-criteria rules, independent critique and stop rule, `spec-lint` step, Spec approval, revise and validate modes
+- `SKILL.md` — scope check, assumptions, spec sections, acceptance-criteria rules, independent critique and stop rule, `spec-lint` step, Specify sign-off, revise and validate modes
 - Uses from `agentic-sdlc`: `templates/spec.md`, `scripts/spec-lint.mjs`, `references/governance.md`
 - `evals/evals.json` — 3 scenarios (synthesize, validate, revise)
 - `evals/trigger-eval.json` — 14 trigger queries (8 positive, 6 negative)

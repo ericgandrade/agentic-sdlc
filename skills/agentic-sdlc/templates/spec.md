@@ -3,7 +3,7 @@
 <!--
 Template for specs/NNN-slug/spec.md (mechanism 2.1). Copy it, replace every {{...}} placeholder,
 and delete no section. HTML comments are guidance: spec-lint ignores them, so they can stay.
-Check before the Spec approval request:
+Check before the Specify sign-off request:
   node .agentic-sdlc/bin/spec-lint.mjs specs/NNN-slug/spec.md      (vendored copy)
   node <agentic-sdlc skill>/scripts/spec-lint.mjs specs/NNN-slug/spec.md
 Exit 0 is required to request approval. Exit 1 lists the failing rules; exit 2 means the file is
@@ -28,7 +28,7 @@ Size and Risk follow references/paths.md §Score.
 Size: files (≤ 3 → 1, 4–15 → 2, > 15 → 3) + components (1/2/≥ 3 → 1/2/3) + iterations (1/2/≥ 3 → 1/2/3).
 Risk triggers: auth, personal data, health data, money, public API, schema/migration, irreversible, regulated.
 spec-lint recomputes the route: Path lower than max(size route, risk route) → exit 1 (never route down).
-Intake records the Plan-stage duplicate search (references/lifecycle.md §Intake decision). A duplicate
+Intake records the Discover-stage duplicate search (references/lifecycle.md §Intake decision). A duplicate
 stops the work item, so a spec only carries "n/a — <reason>" or "prior rejection #n — <why it differs>".
 -->
 
@@ -145,14 +145,14 @@ Critique (mechanism 2.4): "<fresh-context | self-review> · 12/12 · <findings f
 
 <!--
 references/governance.md §Approval record. Excluded from the spec hash, so appending rows never
-changes it. Hash = `spec-lint --hash` output at the time of the decision. Approval values: "Spec",
-or "Spec + Plan (combined)" on the Standard path with ≤ 5 plan tasks. Only an explicit "yes" or
+changes it. Hash = `spec-lint --hash` output at the time of the decision. Sign-off values: "Specify",
+or "Specify + Design (combined)" on the Standard path with ≤ 5 plan tasks. Only an explicit "yes" or
 "approved" given by the named role in a later turn than the request counts. Earlier rows stay as
 history; the last Spec row is the binding one. Gate before Build:
   spec-lint --check-approval specs/NNN-slug/spec.md
 -->
 
-| Approval | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
 
 ### Waivers

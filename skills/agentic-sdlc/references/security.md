@@ -1,17 +1,17 @@
 # Agentic SDLC — Security by Default
 
-Load when filling `spec.md` §Security notes, when running review lens L3, and before adding or upgrading a dependency. Security sits on the default path: classification in Plan and Specify, secret and dependency rules in Build, the checklist lens in Test. Lead: Security Auditor (`agents/security-auditor.md`); it reports checks performed and findings, never "secure" or "compliant".
+Load when filling `spec.md` §Security notes, when running review lens L3, and before adding or upgrading a dependency. Security sits on the default path: classification in Discover and Specify, secret and dependency rules in Build, the checklist lens in Test. Lead: Security Auditor (`agents/security-auditor.md`); it reports checks performed and findings, never "secure" or "compliant".
 
 | Section | Mechanism | Trigger | Record |
 |---|---|---|---|
-| §Data classification | 11.1 input, risk triggers | Plan (path score); Specify | Score line; `spec.md` §Security notes |
+| §Data classification | 11.1 input, risk triggers | Discover (path score); Specify | Score line; `spec.md` §Security notes |
 | §Secrets | 11.3 | Every commit and PR, all paths | PR Verification row `secret-scan` |
 | §Dependencies | 11.3, rule 10 | A new, upgraded or removed dependency | `plan.md` `## Dependencies` note; PR row `dep-audit` |
 | §Review checklist | 11.2 | Lens L3: every Standard/Full PR; any Quick PR with a risk trigger | PR Review triage rows tagged `sec` |
 
 ## Data classification
 
-**Trigger:** Plan scores the path; Specify writes §Security notes. Classify every data element the change reads, writes, stores, logs, exports or sends to a model.
+**Trigger:** Discover scores the path; Specify writes §Security notes. Classify every data element the change reads, writes, stores, logs, exports or sends to a model.
 
 | Class | Examples | Risk trigger | Handling rule |
 |---|---|---|---|
@@ -34,7 +34,7 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 4. **Secrets:** each new secret, where it is stored (environment or secret manager) and who rotates it; or `none`.
 5. **Threat model:** `specs/NNN-slug/threat-model.md` link on Full or risk-flagged items; otherwise `n/a — <reason>`.
 
-**Failure behaviour.** Empty section on Standard/Full → `spec-lint` exit 1. Threat model: Full path without `threat-model.md` → TM01 error (exit 1); risk-flagged Standard spec without it → TM02 warning, written by the Security Auditor before Spec approval; a high or critical threat whose Mitigation cites no active `AC-n` → TM03 error (exit 1). Classification unknown after the 3-round question limit → Security Auditor `NEEDS_CONTEXT`; the path is scored with the `personal/health data` trigger.
+**Failure behaviour.** Empty section on Standard/Full → `spec-lint` exit 1. Threat model: Full path without `threat-model.md` → TM01 error (exit 1); risk-flagged Standard spec without it → TM02 warning, written by the Security Auditor before Specify sign-off; a high or critical threat whose Mitigation cites no active `AC-n` → TM03 error (exit 1). Classification unknown after the 3-round question limit → Security Auditor `NEEDS_CONTEXT`; the path is scored with the `personal/health data` trigger.
 
 ## Secrets
 
@@ -97,7 +97,7 @@ Scope: one row per new or upgraded direct dependency; no new dependency → the 
 
 **Output.** One PR Review triage row per FAIL, tagged `sec` with the item ID (`sec S10`), severity, file:line and cause; plus one summary line: `L3 security: 20 items · <n> PASS · <n> FAIL · <n> n/a`.
 
-**Failure behaviour.** A required L3 not run, or a PASS without evidence → `lens not run`, counted as `CANNOT_VERIFY` → PR NO-GO. An open Critical `sec` finding blocks PR and Release approval; an Important one needs a fix or owner acceptance with a follow-up issue.
+**Failure behaviour.** A required L3 not run, or a PASS without evidence → `lens not run`, counted as `CANNOT_VERIFY` → PR NO-GO. An open Critical `sec` finding blocks Test and Release sign-off; an Important one needs a fix or owner acceptance with a follow-up issue.
 
 ## Sources
 

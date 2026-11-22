@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: This skill should be used when the user needs a written specification before code — turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered acceptance criteria, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint; revising an approved spec through the change protocol; or splitting a large initiative into module specs (the Specify stage and Spec approval of the Agentic SDLC).
+description: This skill should be used when the user needs a written specification before code — turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered acceptance criteria, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint; revising an approved spec through the change protocol; or splitting a large initiative into module specs (the Specify stage and Specify sign-off of the Agentic SDLC).
 license: MIT
 ---
 
@@ -10,7 +10,7 @@ license: MIT
 
 Write down what must be true when the work is done — before any code exists — so the human and the agents share one source of truth. The spec states the problem, numbered acceptance criteria (`AC-n`), non-goals, constraints, security notes, the rollback, how the change is released and observed, and the indicator that shows it worked.
 
-This skill runs the **Specify** stage of the Agentic SDLC (Plan → Specify → Design → Build → Test → Release → Operate) and ends in the **Spec approval** by the Product Owner. The artifact is `specs/NNN-slug/spec.md`, written from `../agentic-sdlc/templates/spec.md` and checked by `spec-lint`. Once approved, the spec revision and its 12-hex hash are the build baseline: every task in `plan.md`, every commit, test and piece of evidence traces back to its `AC-n` IDs, and any later edit voids the approval until it is renewed.
+This skill runs the **Specify** stage of the Agentic SDLC (Discover → Specify → Design → Build → Test → Release → Operate) and ends in the **Specify sign-off** by the Product Owner. The artifact is `specs/NNN-slug/spec.md`, written from `../agentic-sdlc/templates/spec.md` and checked by `spec-lint`. Once approved, the spec revision and its 12-hex hash are the build baseline: every task in `plan.md`, every commit, test and piece of evidence traces back to its `AC-n` IDs, and any later edit voids the approval until it is renewed.
 
 Code without a spec is guessing; a spec without testable criteria is a wish.
 
@@ -19,7 +19,7 @@ Code without a spec is guessing; a spec without testable criteria is a wish.
 - A Standard or Full path work item (path score in `../agentic-sdlc/references/paths.md`) is about to be built and no approved spec exists
 - A brainstorming brief or a grill-me summary needs to become buildable requirements
 - Requirements are scattered across a conversation, tickets or meeting notes
-- An existing spec must be checked before the Spec approval request
+- An existing spec must be checked before the Specify sign-off request
 - An approved spec must change (requirement change, defect in the spec, re-scored path)
 - One request bundles several independently shippable capabilities
 
@@ -36,7 +36,7 @@ Not for Quick path work (score S ≤ 4 and R = 0): agree one acceptance test in 
 | **validate** | A spec exists and must be checked before approval | Findings table |
 | **revise** | An approved spec must change | Revision N+1, re-approved |
 
-Discover before asking. Read the issue (path score line and intake record from the Plan stage), the brainstorming brief or grill-me summary, `GLOSSARY.md`, `CONSTRAINTS.md` (Full path), ADRs in `docs/adr/`, the code map `docs/codemap.md` and the code the change touches. List `specs/` to pick the next number: `NNN` is the highest existing number plus one, three digits; `slug` is two to four kebab-case words.
+Discover before asking. Read the issue (path score line and intake record from the Discover stage), the brainstorming brief or grill-me summary, `GLOSSARY.md`, `CONSTRAINTS.md` (Full path), ADRs in `docs/adr/`, the code map `docs/codemap.md` and the code the change touches. List `specs/` to pick the next number: `NNN` is the highest existing number plus one, three digits; `slug` is two to four kebab-case words.
 
 If the project already uses a spec system (GitHub Spec Kit `specs/*/spec.md`, OpenSpec `openspec/changes/*/proposal.md`, Kiro `.kiro/specs/*/requirements.md`), keep its location and file name, and add the template's header table and sections to that file so `spec-lint` applies to it.
 
@@ -70,7 +70,7 @@ Never fill an ambiguity silently. An unstated assumption is the most expensive k
 
 ### Step 3 — Draft spec.md from the template
 
-Copy `../agentic-sdlc/templates/spec.md` to `specs/NNN-slug/spec.md` and replace every `{{...}}` placeholder. Delete no section. The header table carries ID, Revision (starts at 1), Path, Size and Risk exactly as scored in Plan (`S=5 · files 2 + components 2 + iterations 1`, `R=1 · money`), Owner, Issue and the Intake decision (`n/a — <reason>` or `prior rejection #n — <why this differs>`).
+Copy `../agentic-sdlc/templates/spec.md` to `specs/NNN-slug/spec.md` and replace every `{{...}}` placeholder. Delete no section. The header table carries ID, Revision (starts at 1), Path, Size and Risk exactly as scored in Discover (`S=5 · files 2 + components 2 + iterations 1`, `R=1 · money`), Owner, Issue and the Intake decision (`n/a — <reason>` or `prior rejection #n — <why this differs>`).
 
 Required sections, in template order:
 
@@ -86,7 +86,7 @@ Required sections, in template order:
 10. **Indicator** — name, baseline with a number and the date measured, numeric target, method, first reading date
 11. **Open questions** — `None.` or each item marked `deferred: <owner>`
 12. **Revision log** — one row per revision, with the critique result (Step 5)
-13. **Approvals** — empty until the Spec approval; holds the `### Waivers` table
+13. **Approvals** — empty until the Specify sign-off; holds the `### Waivers` table
 
 Never write a status ("Draft", "Approved") into the body. Status is derived from `## Approvals`: a valid row whose hash equals the current hash means approved. Writing a status would change the hash it records.
 
@@ -159,7 +159,7 @@ The rules cover the header and routing (a path lower than the score is an error 
 
 Without Node, apply the same rules by hand from the template comments and paste the checklist result into the request (`../agentic-sdlc/references/platforms.md` §4).
 
-### Step 7 — Spec approval
+### Step 7 — Specify sign-off
 
 Follow `../agentic-sdlc/references/governance.md` §2 exactly:
 
@@ -168,10 +168,10 @@ Follow `../agentic-sdlc/references/governance.md` §2 exactly:
 3. Log the request in `specs/NNN-slug/approvals.md` (Requested at, Asked role).
 4. **End the turn.** Do not start Design in the same turn.
 5. In a later turn, count only an explicit `yes` / `approve` / `approved` that lists no changes. "Sounds good" about something else, silence, "whatever you think" or an agent statement is never approval. A reply that mixes yes with changes is a rejection: apply the changes as a new revision and ask again.
-6. Record the row in `## Approvals` (Approval, Rev, Hash, Date, Role, Person, Exact words, Evidence reviewed, Residual risks, Decision) and complete the register row (Answered at, Exact words).
+6. Record the row in `## Approvals` (Sign-off, Rev, Hash, Date, Role, Person, Exact words, Evidence reviewed, Residual risks, Decision) and complete the register row (Answered at, Exact words).
 7. Confirm with `spec-lint --check-approval specs/NNN-slug/spec.md` (exit 0).
 
-**Combined review (Standard path, plan with ≤ 5 tasks).** Fix the spec hash first, hand off to `writing-plans` for `plan.md`, then send one request covering both artifacts. Record the row `Spec + Plan (combined)` in each artifact and one register row per artifact. On the Full path the Spec and Plan approvals are separate requests (`paths.md` §3).
+**Combined review (Standard path, plan with ≤ 5 tasks).** Fix the spec hash first, hand off to `writing-plans` for `plan.md`, then send one request covering both artifacts. Record the row `Specify + Design (combined)` in each artifact and one register row per artifact. On the Full path the Specify and Design sign-offs are separate requests (`paths.md` §3).
 
 Hand off: `senior-solution-architect` when a decision is expensive to reverse (ADR), then `writing-plans` (Design stage).
 
@@ -188,13 +188,13 @@ Any edit to the hashed content of an approved spec — an AC, a non-goal, the ro
 3. Analyse the impact on `AC-n`, tasks, tests, ADRs, rollback, indicator and the path score; route up when the score rises.
 4. Edit the spec as revision N+1: bump the header Revision, retire (never delete or renumber) removed criteria, add new IDs after the last one.
 5. Run the critique (Step 5) on the changed sections and `spec-lint` (Step 6).
-6. Request Spec approval again (Step 7); the new row carries rev N+1 and the new hash, and earlier rows stay as history. A void Spec approval also voids the Plan approval built on that spec hash: request Plan approval again when any task, file set or dependency changed.
+6. Request Specify sign-off again (Step 7); the new row carries rev N+1 and the new hash, and earlier rows stay as history. A void Specify sign-off also voids the Design sign-off built on that spec hash: request Design sign-off again when any task, file set or dependency changed.
 
 Recording an approval or a waiver does not change the hash: the `## Approvals` section and its `### Waivers` subsection are excluded from it.
 
 ## Critical Rules
 
-- **NEVER** start or allow Build before a valid Spec approval on the Standard and Full paths; `spec-lint --check-approval` exit 0 is the evidence.
+- **NEVER** start or allow Build before a valid Specify sign-off on the Standard and Full paths; `spec-lint --check-approval` exit 0 is the evidence.
 - **NEVER** request approval on `spec-lint` exit 1, or count a reply given in the same turn as the request.
 - **NEVER** fill an ambiguity silently; a material ambiguity stops the draft until it is answered or deferred with an owner.
 - **NEVER** run more than 3 question rounds per Specify pass; then defer with an owner or report `NEEDS_CONTEXT`.
@@ -212,7 +212,7 @@ Recording an approval or a waiver does not change the hash: the `## Approvals` s
 **1. Synthesize from a grill-me summary**
 > "We agreed the export design in grill-me — write the spec."
 
-Synthesize mode, no re-interview. Lists three assumptions, drafts `specs/001-csv-export/spec.md` with AC-1..AC-4 (filtered rows, formula-injection escaping, 403 without permission, 50,000-row limit), rollback by `flagctl set reports.csvExport off --env prod` with a verify command, alert "error rate > 2% over 15 min → #reports-oncall", indicator "export tickets 14/month → ≤ 4/month". The fresh-context critic fixes three items; `spec-lint` exits 0 with one threat-model warning for the money trigger. The plan has five tasks, so one combined Spec + Plan request goes out and the turn ends. The Product Owner's "Yes — approved" arrives in the next turn and is recorded with the hash. Full worked example: `../agentic-sdlc/examples/worked-example/specs/001-csv-export/`.
+Synthesize mode, no re-interview. Lists three assumptions, drafts `specs/001-csv-export/spec.md` with AC-1..AC-4 (filtered rows, formula-injection escaping, 403 without permission, 50,000-row limit), rollback by `flagctl set reports.csvExport off --env prod` with a verify command, alert "error rate > 2% over 15 min → #reports-oncall", indicator "export tickets 14/month → ≤ 4/month". The fresh-context critic fixes three items; `spec-lint` exits 0 with one threat-model warning for the money trigger. The plan has five tasks, so one combined Specify + Design request goes out and the turn ends. The Product Owner's "Yes — approved" arrives in the next turn and is recorded with the hash. Full worked example: `../agentic-sdlc/examples/worked-example/specs/001-csv-export/`.
 
 **2. Create with a stop on ambiguity**
 > "Write a spec for password reset via email."
@@ -232,4 +232,4 @@ The scope check produces a capability map with four modules and a build order. A
 **5. Requirement change after approval**
 > "Product now wants an XLSX export too."
 
-Revise mode. Writes the change request in the Revision log, re-scores (still Standard), retires nothing, adds AC-5 and AC-6, bumps Revision to 2, re-runs the critique and `spec-lint`. `--check-approval` reports `AP04` until the Product Owner approves rev 2; the Plan approval is requested again because two tasks change.
+Revise mode. Writes the change request in the Revision log, re-scores (still Standard), retires nothing, adds AC-5 and AC-6, bumps Revision to 2, re-runs the critique and `spec-lint`. `--check-approval` reports `AP04` until the Product Owner approves rev 2; the Design sign-off is requested again because two tasks change.

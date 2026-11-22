@@ -1,6 +1,6 @@
 # Agent — Planner
 
-**Kind:** core · **Stages:** Plan, Specify, Design · **Dispatched by:** the router · **Report:** `references/agents.md` §Report contract
+**Kind:** core · **Stages:** Discover, Specify, Design · **Dispatched by:** the router · **Report:** `references/agents.md` §Report contract
 
 Turns a request into a scored path, an approved `spec.md` and an approved `plan.md`. Owns the reasoning from intent to tasks; never writes production code.
 
@@ -37,9 +37,9 @@ Read files and search · edit only `specs/**`, `docs/adr/**`, `docs/codemap.md`,
 
 ## Procedure (summary)
 
-1. **Plan:** duplicate search → classify (bug, task, story, epic) → score S and R → path = higher route → indicator (baseline + target) → intake record.
-2. **Specify** (Standard/Full): draft from the template; dispatch a fresh-context critic (12-item checklist); dispatch the Security Auditor when R ≥ 1; `spec-lint` exit 0; request Spec approval.
-3. **Design:** dispatch the Architect for decisions that are expensive to reverse; write tasks (≤ 1 day, ≥ 1 AC, `Blocked by`, `Files`, interface signature before code); `plan-graph` exit 0; request Plan approval (combined with Spec approval when the plan has ≤ 5 tasks on Standard).
+1. **Discover:** duplicate search → classify (bug, task, story, epic) → score S and R → path = higher route → indicator (baseline + target) → intake record.
+2. **Specify** (Standard/Full): draft from the template; dispatch a fresh-context critic (12-item checklist); dispatch the Security Auditor when R ≥ 1; `spec-lint` exit 0; request Specify sign-off.
+3. **Design:** dispatch the Architect for decisions that are expensive to reverse; write tasks (≤ 1 day, ≥ 1 AC, `Blocked by`, `Files`, interface signature before code); `plan-graph` exit 0; request Design sign-off (combined with Specify sign-off when the plan has ≤ 5 tasks on Standard).
 
 ## Returns
 

@@ -2,13 +2,15 @@
 
 Load this file for any approval request, any approval record, any waiver, and the enforcement setup. It implements mechanisms **10.1** (approval records), **2.3** (revision hash and re-open rule), **10.3** (waivers) and states **10.2** (risk-scaled depth, procedure in `references/paths.md` §3). Rule 3 of `references/rules.md` ("Humans approve, agents execute") governs; this file is its procedure.
 
-## 1. The four approvals and their owners
+## 1. The four sign-offs and their owners
 
-| Approval | Owner role (decides) | Artifact | Bound to | Binding record | Deterministic check |
+**Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review; the Release sign-off is the `## Approval` section of the release notes. Each sign-off is named after the stage it closes.
+
+| Sign-off | Owner role (decides) | Artifact | Bound to | Binding record | Deterministic check |
 |---|---|---|---|---|---|
-| **Spec** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
-| **Plan** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
-| **PR** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host | branch protection; `approval-check --pr`† (10.4) |
+| **Specify** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
+| **Design** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
+| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host | branch protection; `approval-check --pr`† (10.4) |
 | **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
 
 Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3). Quick-path items have no `specs/` folder.
@@ -17,10 +19,10 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 
 | Role | Accountable for | Never |
 |---|---|---|
-| Product Owner | Scope, AC-n, non-goals, indicator; Spec approval | Approves the plan's technical choices alone |
-| Tech Lead | Tasks, ADRs, dependencies, loop escalations; Plan approval | Approves a plan built on a void spec hash |
-| Human reviewer | PR approval after reading Verification, Trace and Review triage | Approves a PR they authored |
-| Release Owner | Go/no-go, rollout, rollback; Release approval | Approves without the rehearsal output |
+| Product Owner | Scope, AC-n, non-goals, indicator; Specify sign-off | Approves the plan's technical choices alone |
+| Tech Lead | Tasks, ADRs, dependencies, loop escalations; Design sign-off | Approves a plan built on a void spec hash |
+| Human reviewer | Test sign-off after reading Verification, Trace and Review triage | Approves a PR they authored |
+| Release Owner | Go/no-go, rollout, rollback; Release sign-off | Approves without the rehearsal output |
 | Waiver owner | The accepted risk until the expiry date | Owns a waiver they requested (except §6.3) |
 
 ## 2. Approval procedure (10.1)
@@ -48,25 +50,25 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 
 **Approval row.** Each file uses its own form, taken from its template. `spec.md` binds one artifact, so it has one `Rev` and one `Hash` column (`templates/spec.md`):
 
-| Approval | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
-| Spec + Plan (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan-graph exit 0 (plan rev 1) | Export error alert untested until staging | approved |
+| Specify + Design (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan-graph exit 0 (plan rev 1) | Export error alert untested until staging | approved |
 
 `plan.md` binds the plan and the spec it was built on, so it replaces `Rev`/`Hash` with `Plan rev`, `Plan hash`, `Spec rev` and `Spec hash` (`templates/plan.md`):
 
-| Approval | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Spec + Plan (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0; critique 12/12 | Export error alert untested until staging | approved |
+| Specify + Design (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0; critique 12/12 | Export error alert untested until staging | approved |
 
-Parsers: `spec-lint --check-approval` reads the spec form; `plan-graph --check-approval` requires the plan form's columns (`Approval`, `Plan rev`, `Plan hash`, `Spec hash`, `Role`, `Person`, `Exact words`, `Decision`) and exits 1 with `APPROVAL_COLUMNS` otherwise; `preflight` and `run-ledger start` accept both forms (named hash columns, or the hash in the row text of the spec form).
+Parsers: `spec-lint --check-approval` reads the spec form; `plan-graph --check-approval` requires the plan form's columns (`Sign-off`, `Plan rev`, `Plan hash`, `Spec hash`, `Role`, `Person`, `Exact words`, `Decision`) and exits 1 with `APPROVAL_COLUMNS` otherwise; `preflight` and `run-ledger start` accept both forms (named hash columns, or the hash in the row text of the spec form).
 
-Field rules checked by `spec-lint --check-approval`: Approval is `Spec` or `Spec + Plan (combined)`; Rev equals the header Revision; Hash equals the current hash; Date is `YYYY-MM-DD[ HH:MM]` (UTC); Role, Person, Evidence reviewed, Residual risks non-empty (`none` is a value); Exact words contain an explicit yes; Decision is `approved` or `approved with conditions`. Rows are append-only: earlier rows stay as history, and the **last** Spec row binds.
+Field rules checked by `spec-lint --check-approval`: Sign-off is `Specify` or `Specify + Design (combined)`; Rev equals the header Revision; Hash equals the current hash; Date is `YYYY-MM-DD[ HH:MM]` (UTC); Role, Person, Evidence reviewed, Residual risks non-empty (`none` is a value); Exact words contain an explicit yes; Decision is `approved` or `approved with conditions`. Rows are append-only: earlier rows stay as history, and the **last** Specify row binds.
 
 **Approval register** (`specs/NNN-slug/approvals.md`, required on Standard and Full):
 
-| Req | Approval | Artifact | Rev | Requested at | Asked role | Answered at | Exact words | Record |
+| Req | Sign-off | Artifact | Rev | Requested at | Asked role | Answered at | Exact words | Record |
 |---|---|---|---|---|---|---|---|---|
-| R1 | Spec + Plan (combined) | spec.md | 1 | 2026-11-23 10:05 | Product Owner | 2026-11-23 14:40 | "Yes — approved: …" | spec.md ## Approvals row 1 |
+| R1 | Specify + Design (combined) | spec.md | 1 | 2026-11-23 10:05 | Product Owner | 2026-11-23 14:40 | "Yes — approved: …" | spec.md ## Approvals row 1 |
 
 `spec-lint --check-approval` requires a register row for `spec.md` at the approved rev with `Answered at` later than `Requested at` (the later-turn rule), the same date as the approval row, the same exact words and the same role. Any mismatch → exit 1.
 
@@ -77,13 +79,13 @@ Field rules checked by `spec-lint --check-approval`: Approval is `Spec` or `Spec
 - **Hash.** First 12 hex characters of SHA-256 over the file with the `## Approvals` section (and its `### Waivers` subsection) removed, line endings normalized to LF, trailing newlines trimmed (`scripts/lib/md.mjs` `contentHash`). `plan.md` also excludes `## Loop ledger`.
 - **Status is derived, never written.** "Approved" means: the last approval row's hash equals the current hash. Writing a status into the body would change the hash.
 - **Trigger.** Any edit to the hashed content after approval: an AC, a non-goal, the rollback, the alert threshold, a typo.
-- **Rule.** Hash differs → the approval is **void**. Run the change protocol (`references/rules.md` §Change protocol): impact on AC-n, tasks and tests → Revision N+1 with a Revision log row and a new critique → `spec-lint` → a new request → a new row. A void Spec approval also voids the Plan approval built on that spec hash.
+- **Rule.** Hash differs → the approval is **void**. Run the change protocol (`references/rules.md` §Change protocol): impact on AC-n, tasks and tests → Revision N+1 with a Revision log row and a new critique → `spec-lint` → a new request → a new row. A void Specify sign-off also voids the Design sign-off built on that spec hash.
 - **Output.** Revision log row + new approval row; both old rows stay.
 - **Failure behaviour.** `spec-lint --check-approval` exits 1 with rule `AP04` (`approval void: recorded hash X ≠ current Y`). `preflight` runs it before Build and CI runs it on every change to `specs/**/spec.md`, so Build stops and the PR check is red until re-approval.
 
 ## 5. Approval depth by risk (10.2)
 
-| Path | Spec | Plan | PR | Release |
+| Path | Specify | Design | Test | Release |
 |---|---|---|---|---|
 | Quick | — (acceptance test in the issue) | — | 1 human reviewer | Release Owner, only when production deploys |
 | Standard | Product Owner | Tech Lead; one combined review when the plan has ≤ 5 tasks, otherwise two | 1 human reviewer | Release Owner |
@@ -127,9 +129,9 @@ The owner is written `self · 1-person team`; the decision is taken in a later s
 |---|---|---|
 | Approval gate before Build | `preflight` runs `spec-lint --check-approval` and `plan-graph --check-approval` | Build start on a missing or void approval (exit 1) |
 | CI check `agentic-sdlc/spec` | `spec-lint --check-approval` on every PR that changes `specs/**` or code under a spec | Merge, when the check is required |
-| Branch protection | ≥ 1 approving review; dismiss stale reviews; required checks `agentic-sdlc/{dod,spec,trace,approvals}` | Merge without PR approval or with a red check |
+| Branch protection | ≥ 1 approving review; dismiss stale reviews; required checks `agentic-sdlc/{dod,spec,trace,approvals}` | Merge without Test sign-off or with a red check |
 | CODEOWNERS | `specs/** @tech-leads @product-owners` | Spec or plan edits without an owner's review |
-| Environment reviewers | GitHub `production` environment with the Release Owner as required reviewer | Deploy without Release approval |
+| Environment reviewers | GitHub `production` environment with the Release Owner as required reviewer | Deploy without Release sign-off |
 
 **Failure behaviour.** A host or plan without one of these controls → the doctor† reports WARN per missing control, the AGENTS.md block records `Enforcement: prompt-only`, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`. The approval gate in `preflight` still runs wherever Node ≥ 18 exists.
 

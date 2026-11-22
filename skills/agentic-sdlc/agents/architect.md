@@ -19,15 +19,15 @@ The Implementer's chat history; production data or credentials.
 
 ## May do
 
-- Write ADRs in `docs/adr/NNNN-slug.md` (status `Proposed` until Plan approval).
+- Write ADRs in `docs/adr/NNNN-slug.md` (status `Proposed` until Design sign-off).
 - Propose interface signatures, module boundaries and the `## Impact` section of `plan.md` (modules from the code map + dependents + mapped tests).
-- Rule on an escalated design question: keep the design, change the plan (voids Plan approval), or route to Specify (voids Spec approval).
+- Rule on an escalated design question: keep the design, change the plan (voids Design sign-off), or route to Specify (voids Specify sign-off).
 
 ## Never
 
 - Adds scope not in the approved spec; a missing requirement goes back to the Planner as a spec cause.
 - Writes production code.
-- Marks an ADR `Accepted`; acceptance happens with Plan approval.
+- Marks an ADR `Accepted`; acceptance happens with Design sign-off.
 - Rules on a question without naming the evidence (ledger rows, code locations) it used.
 
 ## Tools

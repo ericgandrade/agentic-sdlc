@@ -29,7 +29,7 @@ A section with nothing to report says "none — <reason>"; never leave it blank.
 | Lead time, first commit → merge | <hours> | `git log` |
 | Loop rounds per task (max) · escalations | <T-n: n rounds> · <n> | `plan.md` loop ledger |
 | Review findings Critical / Important / Minor | <n / n / n> | PR Review triage |
-| Critical found after PR approval | <n> | postmortems, issues |
+| Critical found after Test sign-off | <n> | postmortems, issues |
 | Reverts or hotfixes ≤ 7 days after release | <n> | `git log` |
 | Indicator: first reading vs target | <reading> vs <target> | `ops.md` |
 | Incidents since release (SEV) | <n (SEVn)> | `docs/postmortems/` |
@@ -72,7 +72,7 @@ Close with a merged commit that changes the target file and carries "Refs: RA-YY
 |---|---|
 | Threat-model mitigations verified in production | <each mitigation: verified \| residual risk> |
 | Runbook first check executed since release | <date, Last verified updated> |
-| Approval wait times (request → decision) | <Spec h · Plan h · PR h · Release h> |
+| Sign-off wait times (request → decision) | <Specify h · Design h · Test h · Release h> |
 
 ## Validity
 

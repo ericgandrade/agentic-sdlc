@@ -49,7 +49,7 @@ Only `confirmed` findings get a severity:
 
 | Severity | Definition | Examples | Effect |
 |---|---|---|---|
-| **Critical** | An AC is violated, data is lost or corrupted, a security weakness is exploitable, a secret is exposed, or the DoD is red | Formula injection unescaped; permission check missing; totals rounded wrongly | Blocks PR and Release approval; never deferred |
+| **Critical** | An AC is violated, data is lost or corrupted, a security weakness is exploitable, a secret is exposed, or the DoD is red | Formula injection unescaped; permission check missing; totals rounded wrongly | Blocks Test and Release sign-off; never deferred |
 | **Important** | Correct today but fragile or misleading: missing negative test, test anti-pattern, design rule broken, ADR still `Proposed`, missing dependency note | Mocked internal collaborator; unbounded memory on a bounded input | Fixed, or deferred only with owner acceptance and a follow-up issue |
 | **Minor** | Readability or convention not enforced by a linter | Naming, comment wording | Deferred list, triaged at the end |
 

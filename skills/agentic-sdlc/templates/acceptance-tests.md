@@ -1,6 +1,6 @@
 <!--
 Agentic SDLC — acceptance tests. Rules: references/verification.md §2 (independent test design) and §3 (CANNOT_VERIFY).
-Written by the Test Engineer (agents/test-engineer.md) after Plan approval, from the approved spec only,
+Written by the Test Engineer (agents/test-engineer.md) after Design sign-off, from the approved spec only,
 in a context that has never seen the implementation diff, the feature branch or the PR text.
 The Implementer never edits this file or the tests it lists. Delete these comments; keep every heading.
 -->
@@ -45,7 +45,7 @@ Filled in the Test stage; the same rows appear in the PR `## Verification` table
 |---|---|---|---|---|---|
 | <AC-n or "none"> | <yes \| no> | <production-only, third party without sandbox, hardware, human judgement> | <check> | <role, person> | <date or event> |
 
-A Critical row here needs a waiver before PR approval (`references/governance.md` §Waivers). More than half of the ACs here → return to Design for test seams.
+A Critical row here needs a waiver before Test sign-off (`references/governance.md` §Waivers). More than half of the ACs here → return to Design for test seams.
 
 ## Coverage check
 

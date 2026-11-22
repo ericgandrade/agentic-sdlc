@@ -12,10 +12,10 @@ import {
 
 const HELP = `Usage: node spec-lint.mjs <spec.md>... [options]
 
-Validates a spec written from templates/spec.md before the Spec approval request.
+Validates a spec written from templates/spec.md before the Specify sign-off request.
 
 Options:
-  --check-approval   Also verify the binding Spec approval: rev and hash match the current file,
+  --check-approval   Also verify the binding Specify sign-off: rev and hash match the current file,
                      explicit "yes", request logged earlier in approvals.md, waivers unexpired.
                      Run before Build (preflight) and in CI.
   --hash             Print the spec hash (first 12 hex of SHA-256 without ## Approvals) and exit 0.
@@ -376,7 +376,7 @@ export function lintSpec(md, { pathOverride, checkApproval = false, today, readS
   const flagged = path === 'Full' || triggers.some((t) => THREAT_MODEL_TRIGGERS.has(t));
   const tm = readSibling('threat-model.md');
   if (tm == null && path === 'Full') err('TM01', 'Full path requires threat-model.md next to spec.md');
-  else if (tm == null && flagged) warn('TM02', `risk-flagged spec (${triggers.join(', ')}) without threat-model.md; the Security Auditor writes it before Spec approval`);
+  else if (tm == null && flagged) warn('TM02', `risk-flagged spec (${triggers.join(', ')}) without threat-model.md; the Security Auditor writes it before Specify sign-off`);
   if (tm != null) {
     for (const t of parseTables(blankComments(tm))) {
       const rk = t.header.findIndex((h) => /rating|severity/i.test(h));
@@ -433,12 +433,12 @@ export function lintSpec(md, { pathOverride, checkApproval = false, today, readS
 }
 
 function checkSpecApproval({ approvalsBody, hash, revision, readSibling, err }) {
-  const t = parseTables(approvalsBody).find((x) => x.header.some((h) => /^approval$/i.test(h)) && x.header.some((h) => /hash/i.test(h)));
-  const rows = t ? tableToObjects(t).filter((r) => /^spec(\s*\+\s*plan)?(\s*\(combined\))?$/i.test(col(r, /^approval$/i).trim())) : [];
-  if (rows.length === 0) { err('AP01', 'no Spec approval row in ## Approvals: request approval and record the decision'); return null; }
+  const t = parseTables(approvalsBody).find((x) => x.header.some((h) => /^sign-off$/i.test(h)) && x.header.some((h) => /hash/i.test(h)));
+  const rows = t ? tableToObjects(t).filter((r) => /^specify(\s*\+\s*design)?(\s*\(combined\))?$/i.test(col(r, /^sign-off$/i).trim())) : [];
+  if (rows.length === 0) { err('AP01', 'no Specify sign-off row in ## Approvals: request approval and record the decision'); return null; }
   const row = rows[rows.length - 1];
   const rec = {
-    approval: col(row, /^approval$/i).trim(),
+    signOff: col(row, /^sign-off$/i).trim(),
     rev: Number(col(row, /^spec rev$/i, /^rev$/i)),
     hash: col(row, /^spec hash$/i, /^hash$/i).replace(/`/g, '').replace(/^sha256[:\s]*/i, '').trim(),
     date: col(row, /^date/i).trim(),
@@ -447,7 +447,7 @@ function checkSpecApproval({ approvalsBody, hash, revision, readSibling, err }) 
     words: unquote(col(row, /exact words/i)),
     decision: col(row, /^decision$/i).trim().toLowerCase(),
   };
-  if (!/^approved( with conditions)?$/.test(rec.decision)) err('AP02', `binding Spec approval decision is "${rec.decision || 'empty'}", not approved`);
+  if (!/^approved( with conditions)?$/.test(rec.decision)) err('AP02', `binding Specify sign-off decision is "${rec.decision || 'empty'}", not approved`);
   if (rec.rev !== revision) err('AP03', `approval is for rev ${rec.rev}, spec is rev ${revision}: request approval of rev ${revision}`);
   if (rec.hash !== hash) err('AP04', `approval void: recorded hash ${rec.hash || '(none)'} ≠ current ${hash}; run the change protocol (references/rules.md) and request approval again`);
   if (!EXPLICIT_YES.test(rec.words)) err('AP05', `exact words "${rec.words}" contain no explicit "yes" or "approved"`);
@@ -487,7 +487,7 @@ function format(r) {
   const warns = r.findings.filter((f) => f.level === 'warn');
   const out = [`spec-lint ${r.file} · ${r.path} · rev ${r.revision} · hash ${r.hash} · ${r.words}/${r.budget} words · ${r.acs.length} AC`];
   for (const f of r.findings) out.push(`  ${f.level === 'error' ? 'ERROR' : 'WARN '} ${f.rule}${f.line ? ` line ${f.line}` : ''}: ${f.message}`);
-  if (r.approval) out.push(`  approval: ${r.approval.approval} rev ${r.approval.rev} · ${r.approval.hash} · ${r.approval.role} · ${r.approval.decision}`);
+  if (r.approval) out.push(`  sign-off: ${r.approval.signOff} rev ${r.approval.rev} · ${r.approval.hash} · ${r.approval.role} · ${r.approval.decision}`);
   out.push(`${errors.length ? 'FAIL' : 'PASS'} (${errors.length} errors, ${warns.length} warnings)`);
   return out;
 }

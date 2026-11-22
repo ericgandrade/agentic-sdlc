@@ -24,7 +24,7 @@ Pre-implementation ideation skill that generates structured design options for f
 
 ## What's New in v3.0
 
-- **Agentic SDLC integration** — brainstorming is the PL (Plan) stage ideation step; hands off to `spec-driven-development` (AN) by default
+- **Agentic SDLC integration** — brainstorming is the Discover-stage ideation step; hands off to `spec-driven-development` (AN) by default
 - **Divergent → convergent phases** — 5–8 options generated with deliberate lenses before evaluation
 - **Problem-first** — confirms a "How might we…" statement and a success indicator before generating solutions
 - **Prototype detour** — throwaway prototype on its own branch for questions that cannot be settled on paper

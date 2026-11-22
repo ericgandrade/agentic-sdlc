@@ -1,6 +1,6 @@
 ---
 name: grill-me
-description: Relentless Socratic interview that walks down every branch of a plan or design, resolving decisions round by round and, inside a repository, recording glossary terms and ADRs as it goes, with a 3-round stop rule (Plan and Specify stages of the Agentic SDLC). Trigger ONLY when the user explicitly says "grill me" or the PT equivalent "me grille", or when the agentic-sdlc router invokes it with the user's agreement. Do NOT trigger for stress-test, poke holes, devil's advocate, challenge, review, or feedback requests.
+description: Relentless Socratic interview that walks down every branch of a plan or design, resolving decisions round by round and, inside a repository, recording glossary terms and ADRs as it goes, with a 3-round stop rule (Discover and Specify stages of the Agentic SDLC). Trigger ONLY when the user explicitly says "grill me" or the PT equivalent "me grille", or when the agentic-sdlc router invokes it with the user's agreement. Do NOT trigger for stress-test, poke holes, devil's advocate, challenge, review, or feedback requests.
 license: MIT
 ---
 
@@ -10,7 +10,7 @@ license: MIT
 
 Stress-test a plan, design or idea through relentless questioning until every branch of the decision tree is resolved and nothing is silently assumed. The agent finds the facts; the human makes the decisions.
 
-Inside a repository, run in **docs mode**: resolved vocabulary goes into `GLOSSARY.md` and hard-to-reverse decisions become ADRs, so the interview leaves a durable trail. In the Agentic SDLC this is a **Plan and Specify** tool: the closing summary is the raw material for `spec-driven-development`, which turns it into `specs/NNN-slug/spec.md`.
+Inside a repository, run in **docs mode**: resolved vocabulary goes into `GLOSSARY.md` and hard-to-reverse decisions become ADRs, so the interview leaves a durable trail. In the Agentic SDLC this is a **Discover and Specify** tool: the closing summary is the raw material for `spec-driven-development`, which turns it into `specs/NNN-slug/spec.md`.
 
 ## When to Use
 
@@ -20,7 +20,7 @@ Trigger ONLY when the user explicitly uses the word "grill" — e.g.:
 - "I want you to grill me before I present"
 - PT: "me grille sobre esse plano"
 
-Also run when the `agentic-sdlc` router proposes it during Plan or Specify and the user agrees, and when the Specify critique finds a material ambiguity that needs an interview.
+Also run when the `agentic-sdlc` router proposes it during Discover or Specify and the user agrees, and when the Specify critique finds a material ambiguity that needs an interview.
 
 Do NOT trigger for synonyms or near-misses, even when the intent seems similar:
 - "stress-test this" → not grill-me
@@ -72,7 +72,7 @@ Word each question so that "yes" accepts the recommendation. Wait for the answer
 
 | Mode | Limit | After the limit |
 |---|---|---|
-| SDLC mode | 3 rounds per stage (Plan, Specify) | Each open item becomes a line in the spec's Open questions marked `deferred: <owner>` when the build proceeds safely without it; when a material item remains (it changes an acceptance outcome, the scope or the handling of data), end with status `NEEDS_CONTEXT`, name the missing answer and its owner, and request no approval |
+| SDLC mode | 3 rounds per stage (Discover, Specify) | Each open item becomes a line in the spec's Open questions marked `deferred: <owner>` when the build proceeds safely without it; when a material item remains (it changes an acceptance outcome, the scope or the handling of data), end with status `NEEDS_CONTEXT`, name the missing answer and its owner, and request no approval |
 | Docs and conversation mode | A question asked in 3 rounds without an answer | Record it under Open questions with an owner and move to the next branch; never ask it a fourth time |
 
 A round where the user answers every question resets nothing: the limit counts rounds, not unanswered questions. Announce the last round ("Round 3 of 3 — open items after this are deferred with an owner").

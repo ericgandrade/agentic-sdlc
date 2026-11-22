@@ -16,6 +16,6 @@
 
 ## Approvals
 
-| Approval | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
-| Spec | 1 | 140722953a7a | 2026-11-20 | Product Owner | R. Diaz | "Yes, approved" | spec.md rev 1 | none | approved |
+| Specify | 1 | 140722953a7a | 2026-11-20 | Product Owner | R. Diaz | "Yes, approved" | spec.md rev 1 | none | approved |

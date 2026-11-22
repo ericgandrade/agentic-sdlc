@@ -51,4 +51,4 @@ Security notes · threat model · findings (ID · `sec` · severity · file:line
 
 ## Failure behaviour
 
-`spec-lint` enforces the threat model: Full path without `threat-model.md` → TM01 error (FAIL); a risk-flagged Standard spec without it → TM02 warning, and the Security Auditor writes it before Spec approval; a `threat-model.md` with a high or critical threat whose Mitigation cites no active AC → TM03 error (FAIL) on any path. Scanner reports a critical or high advisory → Critical finding; the PR stays NO-GO until it is fixed or waived (`references/governance.md` §Waivers).
+`spec-lint` enforces the threat model: Full path without `threat-model.md` → TM01 error (FAIL); a risk-flagged Standard spec without it → TM02 warning, and the Security Auditor writes it before Specify sign-off; a `threat-model.md` with a high or critical threat whose Mitigation cites no active AC → TM03 error (FAIL) on any path. Scanner reports a critical or high advisory → Critical finding; the PR stays NO-GO until it is fixed or waived (`references/governance.md` §Waivers).

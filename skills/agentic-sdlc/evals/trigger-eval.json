@@ -1,6 +1,6 @@
 {
   "skill_name": "agentic-sdlc",
-  "description": "Triggers for running software work end to end through the Agentic SDLC (7 stages, 4 human approvals, Quick/Standard/Full paths), resuming from specs/ artifacts, or handling requirement changes after Spec approval",
+  "description": "Triggers for running software work end to end through the Agentic SDLC (7 stages, 4 human sign-offs, Quick/Standard/Full paths), resuming from specs/ artifacts, or handling requirement changes after Specify sign-off",
   "queries": [
     {
       "id": 1,
@@ -39,7 +39,7 @@
     },
     {
       "id": 8,
-      "query": "Start the Release stage for the reporting feature, the PR approval was given yesterday",
+      "query": "Start the Release stage for the reporting feature, the Test sign-off was given yesterday",
       "should_trigger": true
     },
     {
@@ -59,7 +59,7 @@
     },
     {
       "id": 20,
-      "query": "Run the Test stage and ask the human reviewer for PR approval with the trace table",
+      "query": "Run the Test stage and ask the human reviewer for Test sign-off with the trace table",
       "should_trigger": true
     },
     {

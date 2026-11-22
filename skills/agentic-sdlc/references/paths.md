@@ -1,6 +1,6 @@
 # Agentic SDLC — Paths: Select, Score, Escalate, Adopt
 
-Load this file in Plan for every work item and in Build whenever a task touches more files than the path allows or meets a new risk trigger. It decides how much process a change gets (Quick, Standard or Full), how deep the approvals go, when work moves up a path and how the method enters an existing codebase. `references/rules.md` rule 11 ("Right-size, never down") is the governing rule; this file is its procedure.
+Load this file in Discover for every work item and in Build whenever a task touches more files than the path allows or meets a new risk trigger. It decides how much process a change gets (Quick, Standard or Full), how deep the approvals go, when work moves up a path and how the method enters an existing codebase. `references/rules.md` rule 11 ("Right-size, never down") is the governing rule; this file is its procedure.
 
 ## 1. Selection rule (mechanism 14.1)
 
@@ -65,10 +65,10 @@ The fourth and sixth rows show risk overriding size. The tool form of this rubri
 
 | | Quick | Standard | Full |
 |---|---|---|---|
-| Spec approval | — (acceptance test in the issue) | Product Owner | Product Owner, separate review |
-| Plan approval | — | Tech Lead; **one combined Spec + Plan review when the plan has ≤ 5 tasks**, otherwise two | Tech Lead, separate review |
-| PR approval | 1 human reviewer | 1 human reviewer | **2 human reviewers**, at least one not involved in Design |
-| Release approval | Release Owner, only when production deploys | Release Owner | Release Owner, after the rollback rehearsal output is attached |
+| Specify sign-off | — (acceptance test in the issue) | Product Owner | Product Owner, separate review |
+| Design sign-off | — | Tech Lead; **one combined Specify + Design review when the plan has ≤ 5 tasks**, otherwise two | Tech Lead, separate review |
+| Test sign-off | 1 human reviewer | 1 human reviewer | **2 human reviewers**, at least one not involved in Design |
+| Release sign-off | Release Owner, only when production deploys | Release Owner | Release Owner, after the rollback rehearsal output is attached |
 | Review lenses | L1 + L2; L3 added on a Quick item kept by waiver despite a risk trigger | L1–L4 | L1–L4 |
 | Artifacts | Issue with acceptance test, PR with Verification | `spec.md`, `plan.md`, `graph.json`, `acceptance-tests.md`, PR, release notes | Standard set + ADRs, `threat-model.md`, `CONSTRAINTS.md`, runbook |
 | Retro | Batched: every 10 merged items or 14 days, whichever comes first | Within 5 business days of Release, ≤ 15 min | Full retro within 5 business days |

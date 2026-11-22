@@ -26,7 +26,7 @@ Score line: `Path: Standard · S=5 · R=1 (money)`. Adding customer names adds t
 | 11-24 | Build run `r1`: T1–T5 red → green, one commit each | `run-ledger.jsonl` |
 | 11-25 | Review round 1 (F-1..F-7), fixes, review round 2 → GO; Verification rows at the head `1b8d74a` | `pr-body.md`, `plan.md` §Loop ledger |
 | 11-27 | Merge `5d2e8b0`; staging rollback rehearsal and test alert | `release-notes.md` |
-| 11-30 | Release approval (Release Owner P. Nair), tag `v2.14.0`, stage 1 at 10% | `release-notes.md` |
+| 11-30 | Release sign-off (Release Owner P. Nair), tag `v2.14.0`, stage 1 at 10% | `release-notes.md` |
 | 12-01 | Stage 2 at 100% | `release-notes.md` §Deploy log |
 | 12-08 | Retro (facilitator R. Costa, SRE; engineer A. Mendes) | `retro.md` |
 

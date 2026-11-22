@@ -7,10 +7,10 @@ Exact words). Times are UTC. The binding records stay in each artifact's ## Appr
 spec-lint --check-approval cross-checks the spec.md row against this register.
 -->
 
-| Req | Approval | Artifact | Rev | Requested at | Asked role | Answered at | Exact words | Record |
+| Req | Sign-off | Artifact | Rev | Requested at | Asked role | Answered at | Exact words | Record |
 |---|---|---|---|---|---|---|---|---|
-| R1 | Spec + Plan (combined) | spec.md | 1 | 2026-11-23 10:05 | Product Owner | 2026-11-23 14:40 | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec.md ## Approvals, row 1 |
-| R2 | Spec + Plan (combined) | plan.md | 1 | 2026-11-23 10:05 | Tech Lead | 2026-11-23 15:10 | "Approved. Plan rev 1, five tasks, go." | plan.md ## Approvals, row 1 |
+| R1 | Specify + Design (combined) | spec.md | 1 | 2026-11-23 10:05 | Product Owner | 2026-11-23 14:40 | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec.md ## Approvals, row 1 |
+| R2 | Specify + Design (combined) | plan.md | 1 | 2026-11-23 10:05 | Tech Lead | 2026-11-23 15:10 | "Approved. Plan rev 1, five tasks, go." | plan.md ## Approvals, row 1 |
 
 ## Request R1/R2 as sent (2026-11-23 10:05)
 
@@ -24,6 +24,6 @@ spec-lint --check-approval cross-checks the spec.md row against this register.
 
 The agent ended its turn after this message. Both replies arrived in later turns; their exact words are in the table.
 
-## PR and Release approvals
+## Test and Release sign-offs
 
-Recorded at their stages: the PR approval as the human review on the pull request (`pr-body.md` §Verification lists the head commit), the Release approval in `release-notes.md` § Approval. Each is appended here as R3 and R4 when requested.
+Recorded at their stages: the Test sign-off as the human review on the pull request (`pr-body.md` §Verification lists the head commit), the Release sign-off in `release-notes.md` § Approval. Each is appended here as R3 and R4 when requested.

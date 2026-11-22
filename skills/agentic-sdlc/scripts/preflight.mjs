@@ -30,7 +30,7 @@ Checks (each PASS, FAIL or SKIP):
   branch        a named branch that is not the default branch (or main/master/trunk/develop)
   isolation     unattended: a linked worktree on an sdlc/* branch (created by run-ledger start)
   tools         the first program of every DoD command resolves on PATH
-  approvals     Spec and Plan approvals bind the current hashes (plan without ## Approvals: SKIP when attended)
+  approvals     Specify and Design sign-offs bind the current hashes (plan without ## Approvals: SKIP when attended)
   ledger        the run ledger parses (with --run)
   baseline-dod  every command of the AGENTS.md sdlc-dod block exits 0 before any change (SKIP after an earlier FAIL)
 
@@ -143,7 +143,7 @@ export function runPreflight({ cwd = process.cwd(), runId = null, plan = null, m
     if (!a.plan.section) {
       if (mode === 'unattended') problems.push('plan has no ## Approvals section');
     } else if (!a.plan.valid) {
-      problems.push(a.plan.detail || `no approved Plan row binds the current plan hash ${a.plan.hash} (approval void → change protocol)`);
+      problems.push(a.plan.detail || `no approved Design row binds the current plan hash ${a.plan.hash} (approval void → change protocol)`);
     }
     if (a.spec && !a.spec.valid && (a.spec.section || mode === 'unattended')) problems.push(`no approved row binds the current spec hash ${a.spec.hash}`);
     if (mode === 'unattended' && !a.spec) problems.push('spec.md missing next to the plan');

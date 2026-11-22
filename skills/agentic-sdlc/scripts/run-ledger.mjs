@@ -26,7 +26,7 @@ export const HALT_REASONS = Object.freeze([
 ]);
 export const CAUSES = Object.freeze(['spec', 'design', 'plan', 'code', 'test', 'env', 'unknown']);
 export const ROUTES = Object.freeze({
-  spec: 'Specify (Spec approval void)', design: 'Design (Plan approval void)', plan: 'Design (Plan approval void)',
+  spec: 'Specify (Specify sign-off void)', design: 'Design (Design sign-off void)', plan: 'Design (Design sign-off void)',
   code: 'Build', test: 'Build', env: 'preflight', unknown: 'Build',
 });
 const RULINGS = Object.freeze(['continue', 'reroute', 'split', 'handover', 'drop']);
@@ -116,7 +116,7 @@ export function readPlanTasks(md) {
 }
 
 // Approval hashes (references/governance.md): plan hash = body without ## Approvals and ## Loop ledger
-// (Loop ledger rows never void Plan approval, same as plan-graph planHash); spec hash = body without ## Approvals.
+// (Loop ledger rows never void Design sign-off, same as plan-graph planHash); spec hash = body without ## Approvals.
 export function planHashOf(md) {
   return contentHash(md, { exclude: ['Approvals', 'Loop ledger'] });
 }
@@ -140,7 +140,7 @@ function approvedRows(md) {
     const dec = at(/^decision$/);
     const ph = at(/^plan hash$/);
     const sh = at(/^spec hash$/);
-    const kind = at(/^approval$/);
+    const kind = at(/^sign-off$/);
     for (const r of t.rows) {
       const text = r.map(clean).join(' | ');
       const ok = dec >= 0 ? /^approved\b/i.test(clean(r[dec])) : /\bapproved\b/i.test(text) && !NEG.test(text);
@@ -160,8 +160,8 @@ function approvedRows(md) {
 
 const binds = (row, col, hash) => (row[col] != null ? row[col] === hash : row.text.includes(hash));
 
-// Spec and Plan approval validity for a plan file and its sibling spec.md. The plan approval binds
-// the plan hash; the spec approval comes from spec.md (Spec or combined row) or from a plan row
+// Specify and Design sign-off validity for a plan file and its sibling spec.md. The Design sign-off binds
+// the plan hash; the Specify sign-off comes from spec.md (Specify or combined row) or from a plan row
 // that binds the current spec hash.
 export function approvalState(planPath) {
   const plan = readMarkdownFile(planPath);
@@ -538,10 +538,10 @@ function cmdStart(flags, out) {
   const approvals = approvalState(planAbs);
   if (mode === 'unattended') {
     const missing = [];
-    if (!approvals.plan.valid) missing.push('Plan approval missing or hash void');
+    if (!approvals.plan.valid) missing.push('Design sign-off missing or hash void');
     if (!approvals.spec) missing.push('spec.md missing (unattended mode runs Standard/Full items only)');
-    else if (!approvals.spec.valid) missing.push('Spec approval missing or hash void');
-    if (missing.length) return out({ ok: false, code: EXIT.FAIL, lines: ['REFUSED: unattended mode starts only after valid Spec and Plan approvals', ...missing.map((m) => `- ${m}`)] });
+    else if (!approvals.spec.valid) missing.push('Specify sign-off missing or hash void');
+    if (missing.length) return out({ ok: false, code: EXIT.FAIL, lines: ['REFUSED: unattended mode starts only after valid Specify and Design sign-offs', ...missing.map((m) => `- ${m}`)] });
   }
   if (tasks.length > budgets.max_tasks) {
     return out({ ok: false, code: EXIT.BOUND, lines: [`BOUND: plan has ${tasks.length} tasks > max_tasks ${budgets.max_tasks}; split the plan into runs of ≤ ${budgets.max_tasks} tasks`] });
@@ -732,7 +732,7 @@ function cmdCheck(flags, out) {
     if (findings.outOfPlan.length > OUT_OF_PLAN_LIMIT) halts.push(['out-of-plan-files', `${findings.outOfPlan.length} files outside plan Files (> ${OUT_OF_PLAN_LIMIT}): ${findings.outOfPlan.slice(0, 8).join(', ')}`]);
   }
   findings.dependency = changed.filter((f) => (MANIFESTS.has(basename(f)) || /^requirements.*\.txt$/.test(basename(f)) || /\.csproj$/.test(f)) && !(planFiles && planFiles.some((p) => p === f || (p.includes('*') && globToRe(p).test(f)))));
-  if (findings.dependency.length) halts.push(['dependency-added', `dependency manifest changed outside plan Files: ${findings.dependency.join(', ')} (Plan-approval note required, references/rules.md rule 10)`]);
+  if (findings.dependency.length) halts.push(['dependency-added', `dependency manifest changed outside plan Files: ${findings.dependency.join(', ')} (Design sign-off note required, references/rules.md rule 10)`]);
   findings.secrets = scanSecrets(ctx.root, start.base);
   if (findings.secrets.length) halts.push(['secret-detected', findings.secrets.map((s) => `${s.file}:${s.line} (${s.pattern})`).join(', ')]);
   const appr = approvalState(planAbs);
@@ -902,7 +902,7 @@ Usage: node run-ledger.mjs <command> [options] [--json]
 Commands
   start   --run <id> --plan <specs/NNN-slug/plan.md> [--mode attended|unattended] [--base <ref>]
           [--max-tasks N --max-rounds N --max-hours N --max-turns N --max-tokens N]
-          Unattended: refuses without valid Spec and Plan approvals; creates worktree
+          Unattended: refuses without valid Specify and Design sign-offs; creates worktree
           ../<repo>-sdlc-<id> on branch sdlc/NNN-<id>.
   task    --run <id> --task Tn --state started|done|blocked [--note <text>] [--no-red <reason>] [--commit <sha>]
   red     --run <id> --task Tn --test "<AC-n test name>" --signature "<first failing line>"

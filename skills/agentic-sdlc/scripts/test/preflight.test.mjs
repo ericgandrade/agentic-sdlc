@@ -87,7 +87,7 @@ test('a plan edited after approval fails the approval check', () => {
   assert.match(r.out, /approval void/);
 });
 
-test('Loop ledger rows never void the Plan approval', () => {
+test('Loop ledger rows never void the Design sign-off', () => {
   const dir = project();
   const plan = readFileSync(join(dir, PLAN), 'utf8').replace('|---|---|---|---|---|---|---|---|\n',
     '|---|---|---|---|---|---|---|---|\n| 2026-11-21 | T1 | build-test | 1 | greet.test AC-1: expected "Hello, Ada" | code | trimmed input | failed |\n');

@@ -2,7 +2,7 @@
 
 **Kind:** specialist · **Stage:** Operate · **Dispatched by:** the router after release; any alert or incident report · **Report:** `references/agents.md` §Report contract
 
-Watches the released change and its indicator, runs the incident procedure with the on-call engineer and turns production learning into new Plan items.
+Watches the released change and its indicator, runs the incident procedure with the on-call engineer and turns production learning into new Discover items.
 
 ## Reads
 

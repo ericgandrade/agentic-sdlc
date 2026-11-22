@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: This skill should be used when an approved spec or a set of requirements exists and multi-step work has not started — the Design stage of the Agentic SDLC, which turns acceptance criteria into specs/NNN-slug/plan.md with a validated task graph (graph.json), an impact section from the code map, and a Plan approval request.
+description: This skill should be used when an approved spec or a set of requirements exists and multi-step work has not started — the Design stage of the Agentic SDLC, which turns acceptance criteria into specs/NNN-slug/plan.md with a validated task graph (graph.json), an impact section from the code map, and a Design sign-off request.
 license: MIT
 ---
 
@@ -10,7 +10,7 @@ license: MIT
 
 Turn an approved spec into a plan that a fresh agent with no context runs task by task with predictable results. The plan is a **task graph**: vertical slices, each naming the acceptance criteria (AC-n) it serves, the tasks that block it, the files it touches and its size. A script, `plan-graph`, checks the graph and writes `graph.json`, which drives the waves and the parallel frontier in the Build stage.
 
-This skill is the **Design stage** of the Agentic SDLC (Plan → Specify → **Design** → Build → Test → Release → Operate). Its exit record is `specs/NNN-slug/plan.md`, `specs/NNN-slug/graph.json`, any ADRs, and the **Plan approval** (one of the 4 approvals: Spec, Plan, PR, Release). The lead agent is the Planner; the Architect joins when a decision is expensive to reverse (`senior-solution-architect`).
+This skill is the **Design stage** of the Agentic SDLC (Discover → Specify → **Design** → Build → Test → Release → Operate). Its exit record is `specs/NNN-slug/plan.md`, `specs/NNN-slug/graph.json`, any ADRs, and the **Design sign-off** (one of the 4 sign-offs: Specify, Design, Test, Release). The lead agent is the Planner; the Architect joins when a decision is expensive to reverse (`senior-solution-architect`).
 
 Write for an executor who is skilled but knows nothing about this codebase, its tools or its domain: exact files, interfaces, commands and expected output. DRY. YAGNI. Test first. One commit per task.
 
@@ -18,7 +18,7 @@ Write for an executor who is skilled but knows nothing about this codebase, its 
 
 ## When to Use
 
-- A spec at `specs/NNN-slug/spec.md` has a valid Spec approval (Standard or Full path) and no `plan.md` exists — router state row 4, "Plan missing".
+- A spec at `specs/NNN-slug/spec.md` has a valid Specify sign-off (Standard or Full path) and no `plan.md` exists — router state row 4, "Plan missing".
 - An approved plan was voided by a spec revision and needs revision N+1 (change protocol).
 - Requirements exist outside the Agentic SDLC and the work spans several files, layers or sessions: **standalone mode** (§Standalone mode).
 
@@ -28,7 +28,7 @@ Not for the Quick path: a Quick item has no `plan.md`; its issue holds one accep
 
 | Item | Location | Rule |
 |---|---|---|
-| Spec (input) | `specs/NNN-slug/spec.md` | Valid Spec approval: the hash in its `## Approvals` row equals `spec-lint --hash`. Otherwise stop and report `BLOCKED: Spec approval missing or void` |
+| Spec (input) | `specs/NNN-slug/spec.md` | Valid Specify sign-off: the hash in its `## Approvals` row equals `spec-lint --hash`. Otherwise stop and report `BLOCKED: Specify sign-off missing or void` |
 | Code map (input) | `docs/codemap.md` (`templates/codemap.md`) | Required for the Impact section. Absent → produce it first with `project-context` adopt mode |
 | ADRs (input/output) | `docs/adr/NNNN-slug.md` | One per decision that is expensive to reverse; written by the Architect before tasks are detailed |
 | Plan (output) | `specs/NNN-slug/plan.md` from `agentic-sdlc/templates/plan.md` | Every section filled; an empty section holds `none — <reason>` |
@@ -44,14 +44,14 @@ In the commands below, `<agentic-sdlc>` is the installed `agentic-sdlc` skill di
 [████████░░░░░░░░░░░░] 40% — Phase 2/5: Task graph
 [████████████░░░░░░░░] 60% — Phase 3/5: Task details, impact, dependencies
 [████████████████░░░░] 80% — Phase 4/5: plan-graph validation
-[████████████████████] 100% — Phase 5/5: Plan approval and handoff
+[████████████████████] 100% — Phase 5/5: Design sign-off and handoff
 ```
 
 ## Workflow
 
 ### Step 0 — Discovery
 
-1. Locate the work item: `ls specs/` and pick the folder whose `spec.md` has a valid Spec approval and no `plan.md`. Several candidates → list them and ask which one. None → standalone mode or back to the Specify stage.
+1. Locate the work item: `ls specs/` and pick the folder whose `spec.md` has a valid Specify sign-off and no `plan.md`. Several candidates → list them and ask which one. None → standalone mode or back to the Specify stage.
 2. Read the spec: AC table (active IDs only; rows "Retired in rev N" are out), Non-goals, Constraints, Security notes, Rollback, Release & observability, and the header `Path`, `Size`, `Risk`.
 3. Locate the code map (`docs/codemap.md`, else `**/codemap.md`), ADRs (`docs/adr/`, else `**/adr/`), and the `sdlc-dod` block in `AGENTS.md` or `CLAUDE.md` (the DoD commands). A missing `sdlc-dod` block → record it in `## Risks` and ask the Tech Lead for the commands before Phase 3.
 4. Read the code the plan touches: entry points, existing tests and their harness, a similar feature to imitate, and the `## Pitfalls` list in `AGENTS.md`.
@@ -76,7 +76,7 @@ Fill the `## Tasks` table. Every rule below is enforced by `plan-graph` with exi
 
 | Column | Rule | Error code |
 |---|---|---|
-| ID | `T1..Tn`, unique, in creation order; never renumbered after Plan approval; a removed task keeps its ID out of use | `BAD_ID`, `DUPLICATE_ID` (gap → warning `ID_GAP`) |
+| ID | `T1..Tn`, unique, in creation order; never renumbered after Design sign-off; a removed task keeps its ID out of use | `BAD_ID`, `DUPLICATE_ID` (gap → warning `ID_GAP`) |
 | Title | Verb + object, one slice | `NO_TITLE` |
 | AC | ≥ 1 active AC ID from the spec; every active AC has ≥ 1 task | `NO_AC`, `UNKNOWN_AC`, `UNCOVERED_AC` |
 | Blocked by | Task IDs or `—`; no unknown IDs, no cycles, no self-dependency | `UNKNOWN_DEP`, `CYCLE` |
@@ -136,13 +136,13 @@ node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --write
 
 Exit codes: 0 pass · 1 check failed · 2 plan or spec missing or unparsable. `--json` gives the same result machine-readable.
 
-**Failure behaviour.** Exit 1 or 2 → fix the plan and re-run; never request Plan approval on a failing plan. Two fix attempts that leave the same error code → stop, report `BLOCKED` with the error lines, and route by cause: `UNCOVERED_AC` or `UNKNOWN_AC` that the plan cannot fix → spec defect → Specify stage (change protocol); `TASK_BOUND` → split the spec; `CYCLE` that survives re-slicing → design question for the Architect.
+**Failure behaviour.** Exit 1 or 2 → fix the plan and re-run; never request Design sign-off on a failing plan. Two fix attempts that leave the same error code → stop, report `BLOCKED` with the error lines, and route by cause: `UNCOVERED_AC` or `UNKNOWN_AC` that the plan cannot fix → spec defect → Specify stage (change protocol); `TASK_BOUND` → split the spec; `CYCLE` that survives re-slicing → design question for the Architect.
 
 **CI.** The repository's CI runs `plan-graph --check` on every changed `specs/**/plan.md`: it fails with `GRAPH_STALE` when the committed `graph.json` differs from the regenerated graph and with `GRAPH_MISSING` when it is absent. Commit `plan.md` and `graph.json` together.
 
-### Phase 5 — Plan approval and handoff
+### Phase 5 — Design sign-off and handoff
 
-**Review count (rule K8).** One combined Spec + Plan review when the path is Standard **and** the plan has ≤ 5 tasks; otherwise two reviews (Spec approval first, then Plan approval). The Full path always holds them separately. `plan-graph` prints `review: combined` or `review: separate`; use that value.
+**Review count (rule K8).** One combined Specify + Design review when the path is Standard **and** the plan has ≤ 5 tasks; otherwise two reviews (Specify sign-off first, then Design sign-off). The Full path always holds them separately. `plan-graph` prints `review: combined` or `review: separate`; use that value.
 
 **Request.**
 
@@ -153,10 +153,10 @@ Exit codes: 0 pass · 1 check failed · 2 plan or spec missing or unparsable. `-
 **Record.** Only an explicit "yes" or "approved" from the named role in a later turn counts. Write the row in `plan.md` `## Approvals`:
 
 ```markdown
-| Spec + Plan (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0 | Export alert untested until staging | approved |
+| Specify + Design (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0 | Export alert untested until staging | approved |
 ```
 
-A combined review records two rows from one request: the Product Owner's answer in `spec.md`, the Tech Lead's answer in `plan.md`, both with Approval `Spec + Plan (combined)` and the same spec hash. Fill `Answered at` and `Exact words` in `approvals.md`. ADRs referenced by the plan move from *Proposed* to *Accepted*. Then confirm the binding:
+A combined review records two rows from one request: the Product Owner's answer in `spec.md`, the Tech Lead's answer in `plan.md`, both with Sign-off `Specify + Design (combined)` and the same spec hash. Fill `Answered at` and `Exact words` in `approvals.md`. ADRs referenced by the plan move from *Proposed* to *Accepted*. Then confirm the binding:
 
 ```bash
 node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --check --check-approval
@@ -164,7 +164,7 @@ node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --check --chec
 
 `--check-approval` fails with `APPROVAL_VOID` (plan hash differs), `APPROVAL_SPEC_VOID` (spec changed after approval), `APPROVAL_REV` (approved rev ≠ latest Revision log rev), `APPROVAL_FIELD` (role, person or exact words empty) or `COMBINED_NOT_ALLOWED` (combined row on Full or with > 5 tasks).
 
-**Hash rule.** The plan hash is the first 12 hex characters of SHA-256 over `plan.md` without `## Approvals` and `## Loop ledger`. Ledger rows appended during Build never void the approval; any other edit does. A void approval runs the change protocol (`references/rules.md`): impact on AC, tasks and tests → Revision log row N+1 → `plan-graph` → a new request. A void Spec approval also voids the Plan approval built on its hash.
+**Hash rule.** The plan hash is the first 12 hex characters of SHA-256 over `plan.md` without `## Approvals` and `## Loop ledger`. Ledger rows appended during Build never void the approval; any other edit does. A void approval runs the change protocol (`references/rules.md`): impact on AC, tasks and tests → Revision log row N+1 → `plan-graph` → a new request. A void Specify sign-off also voids the Design sign-off built on its hash.
 
 **Handoff.** Hand `plan.md` and `graph.json` to `executing-plans` (Build stage). The Build stage dispatches waves in order and, within a wave, the **frontier**: ready tasks (all blockers committed) with pairwise disjoint Files, at most 3 at once, each in its own worktree; tasks deferred by a file conflict run in the next dispatch. The current frontier at any time:
 
@@ -188,15 +188,15 @@ For requirements outside the Agentic SDLC (no `specs/` folder):
 
 ## Critical Rules
 
-- **NEVER** write a plan against a spec without a valid Spec approval on Standard or Full; report `BLOCKED: Spec approval missing or void`.
-- **NEVER** request Plan approval while `plan-graph` exits non-zero, and never edit `graph.json` by hand.
+- **NEVER** write a plan against a spec without a valid Specify sign-off on Standard or Full; report `BLOCKED: Specify sign-off missing or void`.
+- **NEVER** request Design sign-off while `plan-graph` exits non-zero, and never edit `graph.json` by hand.
 - **NEVER** leave a step abstract: every step names files, interface, command and expected output.
 - **NEVER** slice horizontally by layer except for wide refactors sequenced expand → migrate → contract.
 - **NEVER** add a task that serves no AC; a prefactor lists the AC it enables. Scope outside the spec is a spec change.
-- **NEVER** renumber task IDs after Plan approval.
+- **NEVER** renumber task IDs after Design sign-off.
 - **NEVER** add a package without a `## Dependencies` row inside the bounds of mechanism 11.3.
 - **ALWAYS** fill `## Impact` from the code map; a file outside every module stops the plan until the map is updated.
-- **ALWAYS** use one combined Spec + Plan review on Standard with ≤ 5 tasks and two reviews otherwise.
+- **ALWAYS** use one combined Specify + Design review on Standard with ≤ 5 tasks and two reviews otherwise.
 - **ALWAYS** end the turn after the approval request; only a later explicit "yes"/"approved" counts.
 - **ALWAYS** keep secrets and real personal or client data out of plans, fixtures and examples.
 

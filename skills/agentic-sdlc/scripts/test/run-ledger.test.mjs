@@ -150,7 +150,7 @@ test('a spec or design cause escalates B6 at once; an unknown cause twice is tre
   const r = fail(a.rl, 'T1', 'build-test', 'AC-1 contradicts AC-2', 'read spec', 'spec');
   assert.equal(r.code, 3);
   assert.match(r.out, /B6 .* → Product Owner/);
-  assert.match(r.out, /route Specify \(Spec approval void\)/);
+  assert.match(r.out, /route Specify \(Specify sign-off void\)/);
   assert.equal(a.rl('ruling', '--run', 'r1', '--task', 'T1', '--decision', 'continue', '--by', 'PO: R. Diaz', '--note', 'x').code, 1);
 
   const b = runFixture();
@@ -256,7 +256,7 @@ test('unattended start refuses stale approvals, creates the worktree, halts and 
   commit(dir, 'stale plan');
   const refused = exec(LEDGER, dir, ['start', '--run', 'u1', '--plan', PLAN, '--mode', 'unattended']);
   assert.equal(refused.code, 1);
-  assert.match(refused.out, /REFUSED: unattended mode starts only after valid Spec and Plan approvals/);
+  assert.match(refused.out, /REFUSED: unattended mode starts only after valid Specify and Design sign-offs/);
   write(dir, PLAN, planText);
   commit(dir, 'approved plan');
 

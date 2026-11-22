@@ -1,18 +1,18 @@
 # Agentic SDLC — Release and Operations
 
-Load at Release, when an alert fires, when an incident is reported, or when a production signal must enter Plan. Rules here start in Specify: **observability and rollback are defined before release; Operate monitors what the spec defined, it does not define it.** Lead agents: Release Engineer (`agents/release-engineer.md`) at Release, SRE (`agents/sre.md`) in Operate.
+Load at Release, when an alert fires, when an incident is reported, or when a production signal must enter Discover. Rules here start in Specify: **observability and rollback are defined before release; Operate monitors what the spec defined, it does not define it.** Lead agents: Release Engineer (`agents/release-engineer.md`) at Release, SRE (`agents/sre.md`) in Operate.
 
 | Section | Mechanism | Trigger | Record |
 |---|---|---|---|
-| §Observability before release | 12.1 | Specify; re-checked at Release approval | `spec.md` §Release & observability |
+| §Observability before release | 12.1 | Specify; re-checked at Release sign-off | `spec.md` §Release & observability |
 | §Release checklist | 12.2 | PR approved and merged, production change | Release notes |
-| §Go/no-go | 12.3 | Before the Release approval request; each rollout stage | Release notes §Go/no-go, §Deploy log |
+| §Go/no-go | 12.3 | Before the Release sign-off request; each rollout stage | Release notes §Go/no-go, §Deploy log |
 | §Runbook | K4 | Change alters operated behaviour; every Full release | `docs/runbooks/<service>.md` or release notes §Runbook |
 | §Incidents, §Intake | 12.4, 12.5 | Alert, incident report, indicator miss | `docs/postmortems/`, issues labelled `from-production` |
 
 ## Observability before release (12.1)
 
-**Artifact:** `spec.md` §Release & observability (`templates/spec.md`). **Trigger:** written in Specify; `spec-lint` checks it before the Spec approval request; the Release Engineer re-reads it before the Release approval request.
+**Artifact:** `spec.md` §Release & observability (`templates/spec.md`). **Trigger:** written in Specify; `spec-lint` checks it before the Specify sign-off request; the Release Engineer re-reads it before the Release sign-off request.
 
 Required fields (Standard and Full):
 
@@ -29,7 +29,7 @@ Required fields (Standard and Full):
 
 **Decision rule.** "Logs exist", "we will monitor" and an alert without a number fail the field. An alert threshold is a number with a unit and a window (`> 2% over 15 min`, `p95 > 800 ms over 10 min`, `0 successful runs in 26 h`).
 
-**Failure behaviour.** A missing or non-numeric field → `spec-lint` exit 1 → no Spec approval request. A field changed after Spec approval voids the approval hash → change protocol (`references/rules.md`). At Release, any field missing → NO-GO; no Release approval request.
+**Failure behaviour.** A missing or non-numeric field → `spec-lint` exit 1 → no Specify sign-off request. A field changed after Specify sign-off voids the approval hash → change protocol (`references/rules.md`). At Release, any field missing → NO-GO; no Release sign-off request.
 
 ## Release checklist (12.2)
 
@@ -47,11 +47,11 @@ Required fields (Standard and Full):
 | R8 | Waivers unexpired | `## Waivers` rows with expiry after the release date (`references/governance.md` §Waivers) | when waivers exist |
 | R9 | No overdue retro | No retro past its due date in `docs/retros/` (`references/retrospective.md`) | Standard, Full |
 
-**Failure behaviour.** Any applicable item `false` → verdict NO-GO, the Release Engineer reports `BLOCKED` with the item numbers, and no Release approval request is sent. No staging environment → R3 and R5 are `CANNOT_VERIFY`; release proceeds only under an accept-risk waiver signed by the Release Owner (owner ≠ requester, expiry ≤ 30 days, follow-up issue to create staging).
+**Failure behaviour.** Any applicable item `false` → verdict NO-GO, the Release Engineer reports `BLOCKED` with the item numbers, and no Release sign-off request is sent. No staging environment → R3 and R5 are `CANNOT_VERIFY`; release proceeds only under an accept-risk waiver signed by the Release Owner (owner ≠ requester, expiry ≤ 30 days, follow-up issue to create staging).
 
 ## Go/no-go (12.3)
 
-**Trigger:** the Release Engineer evaluates the criteria before asking for Release approval, then again at the end of each rollout stage. **Record:** release notes §Go/no-go (pre-release) and §Deploy log (per stage).
+**Trigger:** the Release Engineer evaluates the criteria before asking for Release sign-off, then again at the end of each rollout stage. **Record:** release notes §Go/no-go (pre-release) and §Deploy log (per stage).
 
 **Pre-release — GO only if all are true:**
 
@@ -71,7 +71,7 @@ Required fields (Standard and Full):
 
 Baseline = the 7-day value of the same signal before stage 1, read from the spec's dashboard and written into the release notes before deploying. A flag-only change without stages uses stage 3. A spec rollout with other exposures maps each of its stages to the first row whose exposure is equal or higher (5% or 10% → row 2), applies that row's advance and roll-back rules, and watches for the longer of the spec's window and that row's minimum.
 
-**Failure behaviour.** Any pre-release criterion false → NO-GO. A breach during rollout → the Release Engineer runs the rollback command named in the approved release notes immediately (the Release approval covers that command), runs the verify command, records both in §Deploy log, opens an incident at SEV2 or higher, and stops. Re-release needs a new go/no-go and a new Release approval.
+**Failure behaviour.** Any pre-release criterion false → NO-GO. A breach during rollout → the Release Engineer runs the rollback command named in the approved release notes immediately (the Release sign-off covers that command), runs the verify command, records both in §Deploy log, opens an incident at SEV2 or higher, and stops. Re-release needs a new go/no-go and a new Release sign-off.
 
 ## Runbook (K4)
 
@@ -95,7 +95,7 @@ First three actions: (1) acknowledge and name the incident owner; (2) run the ru
 
 ## Intake from production (12.5)
 
-**Trigger:** a postmortem action, an alert that fired ≥ 3 times in 7 days without an incident, or an indicator reading below its target. **Rule:** open an issue labelled `from-production` with the spec ID and AC-n, the signal reading and its source; Plan triages it within 2 business days (duplicate search, path score). **Failure behaviour:** untriaged after 2 business days → `status.mjs`† next step.
+**Trigger:** a postmortem action, an alert that fired ≥ 3 times in 7 days without an incident, or an indicator reading below its target. **Rule:** open an issue labelled `from-production` with the spec ID and AC-n, the signal reading and its source; Discover triages it within 2 business days (duplicate search, path score). **Failure behaviour:** untriaged after 2 business days → `status.mjs`† next step.
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 

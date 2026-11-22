@@ -23,7 +23,7 @@ Load this file at every stage end, when the platform reports high context use, a
 
 ## Decision order
 
-1. Reasoning exists only in this conversation → write it into the proper artifact (spec Revision log, ADR, plan task, loop ledger) **first**, then go to step 2. Continue only when the next stage is the same agent within the same stage group (Plan → Specify → Design for the Planner).
+1. Reasoning exists only in this conversation → write it into the proper artifact (spec Revision log, ADR, plan task, loop ledger) **first**, then go to step 2. Continue only when the next stage is the same agent within the same stage group (Discover → Specify → Design for the Planner).
 2. Next unit self-contained → **Delegate**.
 3. Everything in artifacts → **Clear**.
 4. Moving to another tool, machine or person → **Hand off**.
@@ -35,14 +35,14 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 
 | Transition | Default | Reason |
 |---|---|---|
-| Plan → Specify → Design | Continue (Planner) | One line of reasoning from intent to plan; written to `spec.md` and `plan.md` as it goes |
+| Discover → Specify → Design | Continue (Planner) | One line of reasoning from intent to plan; written to `spec.md` and `plan.md` as it goes |
 | Design → Build | Clear; delegate each task | `plan.md` task rows are self-contained by design |
 | Build task → Build task | Delegate (fresh Implementer per task) | Fresh context per task prevents drift |
-| Plan approval → acceptance tests | Delegate to the Test Engineer | The test designer never sees the implementation diff |
+| Design sign-off → acceptance tests | Delegate to the Test Engineer | The test designer never sees the implementation diff |
 | Build → Test | Delegate each review lens (Reviewer) | Reviewers start without the author's reasoning |
 | Test → Release | Continue (Release Engineer reads the approved PR) | Release uses the evidence and approval just produced |
 | Release → Operate | Continue through the first indicator reading (≤ 7 days), then clear | Later incidents start from `ops.md` and the runbook |
-| Operate → next Plan | Clear after the retro record is written | Learnings live in AGENTS.md, checklists and new issues, not in chat |
+| Operate → next Discover | Clear after the retro record is written | Learnings live in AGENTS.md, checklists and new issues, not in chat |
 
 ## Context hygiene by agent (what each agent never sees)
 
@@ -55,7 +55,7 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 | Reviewer lenses L1–L3 | Diff, spec, plan, evidence ledger | The Implementer's reasoning; the PR prose as evidence |
 | Reviewer lens L4 | The diff only | Spec, plan, PR text |
 | Security Auditor | Spec, threat model, diff (Test stage) | Secrets, production data |
-| Release Engineer | Approved PR, spec rollback and observability, CI config | Production credentials before Release approval |
+| Release Engineer | Approved PR, spec rollback and observability, CI config | Production credentials before Release sign-off |
 | SRE | Ops record, runbook, alerts, spec indicator | Credentials beyond the on-call engineer's grant |
 
 ## Resume procedure
@@ -74,7 +74,7 @@ Failure behaviour: `handoff.md` older than HEAD (commits after it) → ignore it
 ```markdown
 # Handoff — NNN-slug — YYYY-MM-DD HH:MM
 
-**Stage:** Plan | Specify | Design | Build | Test | Release | Operate · **Path:** Quick | Standard | Full
+**Stage:** Discover | Specify | Design | Build | Test | Release | Operate · **Path:** Quick | Standard | Full
 **Last commit:** <sha> · **Fingerprint:** <12 hex>
 **Artifacts:** spec.md rev N (hash) · plan.md rev N (hash) · PR #<n>
 **Done:** T1–T5 (evidence in ledger)

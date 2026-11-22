@@ -100,7 +100,7 @@ After each batch of at most 3 tasks (or after each task when the user asked for 
 2. Copy the rendered rows into the plan's `## Loop ledger` (excluded from the plan hash; never delete rows).
 3. Say "Batch N done: T1–T3 committed. Continue with T4–T6?" and end the turn. No reply → no next batch.
 
-Feedback that changes a task, a file set or an AC is a plan change: run the change protocol, regenerate `graph.json`, request Plan approval again, then resume.
+Feedback that changes a task, a file set or an AC is a plan change: run the change protocol, regenerate `graph.json`, request Design sign-off again, then resume.
 
 ### Step 5 — Finish the branch
 
@@ -116,7 +116,7 @@ New session or compaction: `run-ledger resume --run r1` (with `--ack "<name>: <d
 
 ## Unattended Mode
 
-Entry only when the user says "run unattended" for a plan with valid Spec and Plan approvals (Standard or Full path); otherwise refuse and stay attended. Requires enforced mode.
+Entry only when the user says "run unattended" for a plan with valid Specify and Design sign-offs (Standard or Full path); otherwise refuse and stay attended. Requires enforced mode.
 
 ```bash
 node <agentic-sdlc>/scripts/run-ledger.mjs start --run r2 --plan specs/007-rate-limit/plan.md --mode unattended
@@ -152,7 +152,7 @@ Per task: `check` → `task started` → red → rounds → DoD → commit → `
 ## Example Usage
 
 1. **Attended build with checkpoints.** "Execute `specs/001-csv-export/plan.md`." → Step 0 finds the scripts and the DoD block; preflight passes on `feat/001-csv-export`; batch 1 runs T1 and T2 (red output pasted for each, commits `Refs: T1 AC-1`, `Refs: T2 AC-2 AC-3`) and T3; the checkpoint shows 3/5 done and asks "Continue with T4–T5?"; after the yes, T4 and T5 finish, the final DoD is green and the PR body is drafted from the template.
-2. **A loop hits its bound.** T3's test fails twice with the same signature `export.test AC-4: expected 422, got 200` → `run-ledger round` exits 3 with breaker B2 and an escalation brief listing both approaches; the agent ends the turn; the Architect answers "split counting into its own task" → `ruling --decision split --by "Architect: M. Silva"` → re-plan and new Plan approval.
+2. **A loop hits its bound.** T3's test fails twice with the same signature `export.test AC-4: expected 422, got 200` → `run-ledger round` exits 3 with breaker B2 and an escalation brief listing both approaches; the agent ends the turn; the Architect answers "split counting into its own task" → `ruling --decision split --by "Architect: M. Silva"` → re-plan and new Design sign-off.
 3. **Subagent dispatch.** "Run the plan with subagents." → the frontier `T1, T2` has disjoint Files → two fresh Implementers, each given only its task subsection and files; T2 returns `DONE_WITH_CONCERNS` (an extra helper in a file outside its Files) → the concern goes into the checkpoint report.
 4. **Unattended run.** "Run unattended on 007-rate-limit." → approvals valid → worktree `../app-sdlc-r2` on `sdlc/007-r2`; after T4, `check` finds `package.json` changed outside plan Files → halt `dependency-added`, result `NEEDS_HUMAN`; the next morning the Tech Lead adds the Rule 10 note, re-approves, and resumes with `--ack "J. Park: lodash pinned 4.17.21, approved"`.
 5. **Resume after compaction.** "Continue the build." → `run-ledger resume --run r1` reports T1–T3 done, T4 started with 2 failed build-test rounds; preflight passes; the agent reads both tried approaches and starts round 3 with a different one.

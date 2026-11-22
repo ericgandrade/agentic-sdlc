@@ -54,21 +54,21 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 
 | Artifact | Location | Template | Created in · by | Required on | Validated by |
 |---|---|---|---|---|---|
-| AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Plan · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor`† |
-| Issue with acceptance test | tracker | — (Given/When/Then in the issue body) | Plan · Planner | Quick | Reviewer lens L1 |
+| AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor`† |
+| Issue with acceptance test | tracker | — (Given/When/Then in the issue body) | Discover · Planner | Quick | Reviewer lens L1 |
 | `spec.md` | `specs/NNN-slug/` | `templates/spec.md` | Specify · Planner | Standard, Full | `spec-lint` |
 | Approval register `approvals.md` | `specs/NNN-slug/` | `references/governance.md` §3 | Specify, Design · Planner | Standard, Full | `spec-lint --check-approval` (AP07) |
 | `threat-model.md` | `specs/NNN-slug/` | `templates/threat-model.md`† | Specify · Security Auditor | Full; risk-flagged Standard | `spec-lint`: TM01 error on Full, TM02 warning on risk-flagged Standard, TM03 high threat without AC |
 | ADR | `docs/adr/NNNN-slug.md` | §ADR below | Design · Architect | Full; Standard when a decision is expensive to reverse | Reviewer lens L2 |
 | `plan.md` | `specs/NNN-slug/` | `templates/plan.md` | Design · Planner | Standard, Full | `plan-graph` |
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
-| `codemap.md` | `docs/` | `templates/codemap.md` | Plan (adoption) · `project-context` | brownfield repos | `doctor`† (age ≤ 90 days, every top-level dir mapped) |
-| `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Plan approval · Test Engineer | Standard, Full | `trace-check`† |
+| `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor`† (age ≤ 90 days, every top-level dir mapped) |
+| `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check`† |
 | PR body | pull request | `templates/pr-body.md` | Build · Implementer; Test · Reviewer | all paths | `approval-check --pr`†, `trace-check`† |
 | Run ledger | `.agentic-sdlc/runs/<id>/ledger.jsonl`; archived to `specs/NNN-slug/run-ledger.jsonl` | generated | Build · `run-ledger start` … `finish` | every `executing-plans` run | `run-ledger status`, `check` |
 | Preflight record | `.agentic-sdlc/runs/<id>/preflight.json` | generated | Build · `preflight` | every `executing-plans` run | `preflight` exit code |
 | Run worktree | `../<repo>-sdlc-<id>` on `sdlc/NNN-<id>` | generated | Build · `run-ledger start --mode unattended` | unattended runs | `preflight` (isolation) |
-| Project config | `.agentic-sdlc/config.json` | — (`budgets` keys, `references/autonomous.md` §4) | Plan · `project-context` | when budgets differ from the defaults | `run-ledger start` |
+| Project config | `.agentic-sdlc/config.json` | — (`budgets` keys, `references/autonomous.md` §4) | Discover · `project-context` | when budgets differ from the defaults | `run-ledger start` |
 | Evidence ledger | `.agentic-sdlc/evidence/ledger.jsonl` | generated | Build, Test · `evidence record`† | all paths | `evidence check`† |
 | Release notes | release / `CHANGELOG.md` | `templates/release-notes.md` | Release · Release Engineer | production releases | release checklist |
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md`† | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
@@ -76,7 +76,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Postmortem | `docs/postmortems/` | `templates/postmortem.md`† | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
 | Retro record | `docs/retros/` | `templates/retro.md` | Operate · SRE + Planner | all paths (Quick batched) | `status.mjs`† overdue check |
 | Handoff | `specs/NNN-slug/handoff.md` | `references/phase-boundaries.md` §Handoff | any stage end | when context is cleared or work changes hands | Step 0 state detection |
-| `CONSTRAINTS.md` | project root | §CONSTRAINTS.md below | Plan · `project-context` | Full | Reviewer lens L2 |
+| `CONSTRAINTS.md` | project root | §CONSTRAINTS.md below | Discover · `project-context` | Full | Reviewer lens L2 |
 | `GLOSSARY.md` | project root | — (term · definition · source) | Specify · `grill-me` | when Specify defines ≥ 1 domain term | Reviewer lens L1 |
 
 A template listed above that is absent in the installed version → use the section list in `references/lifecycle.md` §1 for that artifact and record `template missing: <path>` in the PR body.
@@ -93,7 +93,7 @@ The router Module Index and other files name the files below; they are added in 
 | `scripts/evidence.mjs`† | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
 | `scripts/trace-check.mjs`† | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
 | `scripts/dod-gate.mjs`† | Definition of Done gate | Run every `sdlc-dod` command and paste each exit code; `preflight` runs the same commands as baseline-dod |
-| `scripts/approval-check.mjs`† | PR approval binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the PR approval row (`references/governance.md`) |
+| `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off row (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
 | `scripts/loop-ledger.mjs`† | Loop ledger, machine form | `run-ledger round` and `run-ledger render` (`references/loops.md`) |
 | `scripts/ext-check.mjs`† | Extension validation | No extensions are loaded until it exists |
@@ -146,11 +146,11 @@ Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `te
 
 ## ADR
 
-Write an ADR when a decision is expensive to reverse (data model, public interface, framework, deployment topology) or when ≥ 2 options were seriously compared. Sections: `Status` (Proposed → Accepted at Plan approval → Superseded by NNNN) · `Date` · `Related` (spec ID, AC-n) · `Context` · `Decision` · `Options considered` (option · pros · cons) · `Consequences` (one-way or two-way door). An ADR still `Proposed` after Plan approval → Reviewer lens L2 Important finding.
+Write an ADR when a decision is expensive to reverse (data model, public interface, framework, deployment topology) or when ≥ 2 options were seriously compared. Sections: `Status` (Proposed → Accepted at Design sign-off → Superseded by NNNN) · `Date` · `Related` (spec ID, AC-n) · `Context` · `Decision` · `Options considered` (option · pros · cons) · `Consequences` (one-way or two-way door). An ADR still `Proposed` after Design sign-off → Reviewer lens L2 Important finding.
 
 ## CONSTRAINTS.md (Full path)
 
-Sections: `Floor` (always enforced: no new suppression comments, no skipped tests without a reason, no secrets, this file is not weakened to make a change pass) · `Enforced with numbers` (dimension · rule · exact command · runs at) · `Ratchets` (metric · today · direction) · `Exceptions` (rule · path · reason · owner · expiry ≤ 30 days). Loosening any rule requires an ADR and Plan approval. A diff that weakens the file without both → Critical finding.
+Sections: `Floor` (always enforced: no new suppression comments, no skipped tests without a reason, no secrets, this file is not weakened to make a change pass) · `Enforced with numbers` (dimension · rule · exact command · runs at) · `Ratchets` (metric · today · direction) · `Exceptions` (rule · path · reason · owner · expiry ≤ 30 days). Loosening any rule requires an ADR and Design sign-off. A diff that weakens the file without both → Critical finding.
 
 ## What no longer exists
 

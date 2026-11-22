@@ -4,11 +4,11 @@ Eight agents, named by function. Each agent file in `agents/` is a self-containe
 
 | Agent | File | Kind | Stages | Dispatched by | Tool profile | Returns |
 |---|---|---|---|---|---|---|
-| **Planner** | `agents/planner.md` | Core | Plan, Specify, Design | Router | read · edit `specs/**`, `docs/adr/**`, `docs/codemap.md` · run lint scripts | path score, `spec.md`, `plan.md`, approval requests |
+| **Planner** | `agents/planner.md` | Core | Discover, Specify, Design | Router | read · edit `specs/**`, `docs/adr/**`, `docs/codemap.md` · run lint scripts | path score, `spec.md`, `plan.md`, approval requests |
 | **Implementer** | `agents/implementer.md` | Core | Build | Router / `executing-plans`, one per task | read · edit files listed in the task · run DoD and test commands · git local | task report, commits, evidence records |
 | **Reviewer** | `agents/reviewer.md` | Core, read-only | Test | Router | read · run test/DoD/check scripts · write PR sections only | verdict GO / NO-GO, triage log |
 | **Architect** | `agents/architect.md` | Specialist | Design; loop escalations | Planner; loop anti-thrash | read · edit `docs/adr/**`, `plan.md` design notes | ADRs, interface notes, design rulings |
-| **Test Engineer** | `agents/test-engineer.md` | Specialist | after Plan approval → Test | Router / Reviewer | read at base commit · edit test files + `acceptance-tests.md` · run tests | acceptance tests mapped AC-n → test id |
+| **Test Engineer** | `agents/test-engineer.md` | Specialist | after Design sign-off → Test | Router / Reviewer | read at base commit · edit test files + `acceptance-tests.md` · run tests | acceptance tests mapped AC-n → test id |
 | **Security Auditor** | `agents/security-auditor.md` | Specialist | Specify, Test | Planner (R ≥ 1); Reviewer (lens L3) | read · edit `threat-model.md`, spec Security notes · run scanners | threat model, `sec` findings |
 | **Release Engineer** | `agents/release-engineer.md` | Specialist | Release | Router after PR merge | read · edit release notes, runbook · run staging commands | release checklist, go/no-go brief |
 | **SRE** | `agents/sre.md` | Specialist | Operate | Router after release; alerts | read · edit `ops.md`, postmortems, retro · read-only production queries | ops record, incident record, retro actions |
@@ -38,6 +38,6 @@ Eight agents, named by function. Each agent file in `agents/` is a self-containe
 | `NEEDS_CONTEXT` | Missing input named | Supply it or ask the human |
 | `CANNOT_VERIFY` | A check was not run; states why, who verifies and when | Record it in the PR Verification table; a Critical AC needs a waiver |
 
-Severity scale: **Critical** (blocks PR and Release approval; never deferred) · **Important** (fix, or defer with owner acceptance and an issue) · **Minor** (deferred list).
+Severity scale: **Critical** (blocks Test and Release sign-off; never deferred) · **Important** (fix, or defer with owner acceptance and an issue) · **Minor** (deferred list).
 
 A report that lacks the status line or evidence for a `DONE` claim is treated as `BLOCKED: report incomplete` and re-requested once; a second incomplete report escalates to the human.

@@ -8,7 +8,7 @@
 >
 > **Supersedes** the structure and execution order of `docs/plans/2026-11-18-agentic-sdlc.md` (master plan, V-shaped design) and `docs/plans/2026-11-19-agentic-sdlc-depth-pass.md` (8-stage cycle). Those remain for history; the depth standard and license rules from them are restated here.
 
-**Goal:** Turn claude-superskills into the home of the **Agentic SDLC** — a method that follows the standard software development life cycle with AI agents: seven standard stages, four named human approvals, eight agents named by function, three paths sized by risk, and standard artifacts — built at real depth from the five reference frameworks, released as v3.0.0 with 33 skills.
+**Goal:** Turn claude-superskills into the home of the **Agentic SDLC** — a method that follows the standard software development life cycle with AI agents: seven standard stages, four named human sign-offs, eight agents named by function, three paths sized by risk, and standard artifacts — built at real depth from the five reference frameworks, released as v3.0.0 with 33 skills.
 
 **Evidence:** every structural choice below comes from `docs/research/methods/2026-11-20-structure-proposal.md`, which synthesizes broad research on ~25 methods (classic and standards, agile/flow/DevOps, AI-native) plus deep inventories of Superpowers, Matt Pocock, Addy Osmani, BMad and Agile V (concepts only).
 
@@ -18,33 +18,33 @@
 
 ### 1.1 Seven standard stages
 
-**Plan → Specify → Design → Build → Test → Release → Operate**, iterated per work item; Operate feeds Plan.
+**Discover → Specify → Design → Build → Test → Release → Operate**, iterated per work item; Operate feeds Discover.
 
 | Stage | What happens | Lead agent | Helpers |
 |---|---|---|---|
-| **Plan** | Take in the request; check duplicates and prior rejections; classify (bug, task, story, epic); size and choose the path; set the goal and the indicator to measure | Planner | — |
+| **Discover** | Take in the request; check duplicates and prior rejections; classify (bug, task, story, epic); size and choose the path; set the goal and the indicator to measure | Planner | — |
 | **Specify** | Write `spec.md`: user stories, acceptance criteria (Given/When/Then), non-goals, constraints, security notes, indicator, and §Release & observability (signal, numeric alert threshold, dashboard, owner, rollout, rollback command — required by `spec-lint`, M 12.1) | Planner | Security Auditor |
 | **Design** | ADRs for real decisions; `plan.md` with approach and the `## Tasks` table (thin vertical slices with dependencies, M 7.1) — tasks live in `plan.md` on every path | Planner | Architect |
 | **Build** | Implement task by task, test-first, small commits, open the pull request; debug systematically | Implementer | — |
 | **Test** | Verify against the spec in a fresh context: acceptance tests, independent code review, security review; evidence in the PR | Reviewer | Test Engineer, Security Auditor |
 | **Release** | Deploy behind feature flags, staged rollout, rehearsed rollback, test alert fired in staging, release notes; runbook whenever the change alters operated behaviour (new endpoint, job, config or alert) | Release Engineer | — |
-| **Operate** | Monitor the change against the alerts and indicator defined in Specify (Operate monitors; it does not define), handle incidents, postmortems, retrospective on every path (M 16.1); new work returns to Plan | SRE | — |
+| **Operate** | Monitor the change against the alerts and indicator defined in Specify (Operate monitors; it does not define), handle incidents, postmortems, retrospective on every path (M 16.1); new work returns to Discover | SRE | — |
 
-- **Review is not a stage**: independent review happens in Test and ends in the PR approval.
+- **Review is not a stage**: independent review happens in Test and ends in the Test sign-off.
 - **Unit tests live in Build** (TDD); **Test** is verification against the spec (Continuous Delivery commit stage vs acceptance stage).
 - "Specify" = requirements specification (standards vocabulary) written as `spec.md` (AI-native vocabulary).
 
-### 1.2 Four human approvals (+ intake decision)
+### 1.2 Four human sign-offs (+ intake decision)
 
-| Approval | When | Default role | Recorded in | Enforced by (M 10.4, M 10.5) |
+| Sign-off | When | Default role | Recorded in | Enforced by (M 10.4, M 10.5) |
 |---|---|---|---|---|
-| Intake decision — required when Plan finds a duplicate or a prior rejection; otherwise recorded as `n/a — <reason>` | End of Plan | Product Owner | Issue / spec.md header | `spec-lint` (intake line present) |
-| **Spec approval** | End of Specify | Product Owner | `spec.md` → `## Approvals` | `approval-check` required CI check: rev + 12-hex hash match, approver ≠ author |
-| **Plan approval** | End of Design, before code | Tech Lead | `plan.md` → `## Approvals` | `approval-check` required CI check: rev + 12-hex hash match, approver ≠ author |
-| **PR approval** | End of Test | Human reviewer (engineer) | Pull request review | Branch protection, CODEOWNERS required reviewers, required CI checks |
-| **Release approval** | Before production | Release Owner | Release notes | Deployment environment required reviewers |
+| Intake decision — required when Discover finds a duplicate or a prior rejection; otherwise recorded as `n/a — <reason>` | End of Discover | Product Owner | Issue / spec.md header | `spec-lint` (intake line present) |
+| **Specify sign-off** | End of Specify | Product Owner | `spec.md` → `## Approvals` | `approval-check` required CI check: rev + 12-hex hash match, approver ≠ author |
+| **Design sign-off** | End of Design, before code | Tech Lead | `plan.md` → `## Approvals` | `approval-check` required CI check: rev + 12-hex hash match, approver ≠ author |
+| **Test sign-off** | End of Test | Human reviewer (engineer) | Pull request review | Branch protection, CODEOWNERS required reviewers, required CI checks |
+| **Release sign-off** | Before production | Release Owner | Release notes | Deployment environment required reviewers |
 
-- Each record states: approval, revision, 12-hex hash of the file body without `## Approvals`, date, role, person, exact words, evidence reviewed, residual risks accepted, decision. Any edit changes the hash and voids the approval.
+- Each record states: sign-off, revision, 12-hex hash of the file body without `## Approvals`, date, role, person, exact words, evidence reviewed, residual risks accepted, decision. Any edit changes the hash and voids the approval.
 - Failure behaviour: when the host offers none of the platform controls above, the PR body carries the banner `enforcement: prompt-only` and the doctor reports WARN; the approvals still apply.
 - The agent **ends its turn** after producing an artifact that needs approval; only an explicit "yes" in a later turn counts. "Sounds good" about something else, silence or "whatever you think" is not approval.
 - One person can hold several roles; the record names the role exercised. Approver ≠ PR author is enforced by `approval-check` (M 10.4); in a one-person team the waiver procedure applies (owner, reason, expiry ≤ 30 days, follow-up issue — M 10.3).
@@ -55,16 +55,16 @@ Defined in `skills/agentic-sdlc/agents/<name>.md` (M 13.1); each file states wha
 
 | Agent | File | Kind | Stages | Never |
 |---|---|---|---|---|
-| **Planner** | `planner.md` | Core | Plan, Specify, Design | Writes production code |
+| **Planner** | `planner.md` | Core | Discover, Specify, Design | Writes production code |
 | **Implementer** | `implementer.md` | Core | Build | Verifies or approves its own work; weakens tests |
 | **Reviewer** | `reviewer.md` | Core (independent, read-only) | Test | Fixes code; trusts the PR description |
 | **Architect** | `architect.md` | Specialist (called by Planner) | Design | Adds scope not in the spec |
 | **Test Engineer** | `test-engineer.md` | Specialist (called by Reviewer) | Test | Designs tests from the implementation instead of the spec |
 | **Security Auditor** | `security-auditor.md` | Specialist (Planner, Reviewer) | Specify, Test | Claims compliance |
-| **Release Engineer** | `release-engineer.md` | Specialist | Release | Deploys to production without Release approval |
+| **Release Engineer** | `release-engineer.md` | Specialist | Release | Deploys to production without Release sign-off |
 | **SRE** | `sre.md` | Specialist | Operate | Takes destructive production actions without the on-call engineer |
 
-Shared report status vocabulary: `DONE` · `DONE_WITH_CONCERNS` · `BLOCKED` · `NEEDS_CONTEXT` · `CANNOT_VERIFY`. Shared severity scale: **Critical** (blocks PR/Release approval) · **Important** (fix or accept as residual risk) · **Minor** (deferred list).
+Shared report status vocabulary: `DONE` · `DONE_WITH_CONCERNS` · `BLOCKED` · `NEEDS_CONTEXT` · `CANNOT_VERIFY`. Shared severity scale: **Critical** (blocks Test/Release sign-off) · **Important** (fix or accept as residual risk) · **Minor** (deferred list).
 
 No subagent on the platform → a separate labeled pass; the label `self-review` is mandatory in the PR for every check of the author's own work.
 
@@ -72,9 +72,9 @@ No subagent on the platform → a separate labeled pass; the label `self-review`
 
 | Path | Typical work item | Score (M 14.2) | Approvals | Required artifacts |
 |---|---|---|---|---|
-| **Quick** | Bug, task | S ≤ 4 and R = 0 | PR (+ Release when production deploys) | Issue with acceptance test, PR with evidence, retro record (batched: every 10 items or 14 days) |
-| **Standard** | Story, feature | S 5–6 or R = 1 | Spec, Plan, PR, Release (one combined Spec + Plan review when the plan has ≤ 5 tasks; otherwise two) | `spec.md`, `plan.md` (tasks inside), `acceptance-tests.md`, PR, release notes, retro record (≤ 15 min, within 5 business days) |
-| **Full** | Epic, high-risk or regulated change, brownfield modernization | S ≥ 7, R ≥ 2, personal/health data or irreversible | All four, separately + second human reviewer on the PR | `spec.md`, `plan.md` (tasks inside), `acceptance-tests.md`, ADRs, threat model, `CONSTRAINTS.md`, release plan, runbook, full retrospective |
+| **Quick** | Bug, task | S ≤ 4 and R = 0 | Test (+ Release when production deploys) | Issue with acceptance test, PR with evidence, retro record (batched: every 10 items or 14 days) |
+| **Standard** | Story, feature | S 5–6 or R = 1 | Specify, Design, Test, Release (one combined Specify + Design review when the plan has ≤ 5 tasks; otherwise two) | `spec.md`, `plan.md` (tasks inside), `acceptance-tests.md`, PR, release notes, retro record (≤ 15 min, within 5 business days) |
+| **Full** | Epic, high-risk or regulated change, brownfield modernization | S ≥ 7, R ≥ 2, personal/health data or irreversible | All four, separately + second human reviewer on the Test sign-off (PR) | `spec.md`, `plan.md` (tasks inside), `acceptance-tests.md`, ADRs, threat model, `CONSTRAINTS.md`, release plan, runbook, full retrospective |
 
 Size S = files (≤ 3: 1 · 4–15: 2 · > 15: 3) + components (1/2/≥ 3 → 1/2/3) + iterations (1/2/≥ 3 → 1/2/3). Risk R = count of triggers: auth, personal/health data, money, public API, schema/migration, irreversible, regulated. The path is the higher of the size route and the risk route; missing inputs → Standard, recorded as `default: inputs missing`. Escalation (M 14.3): during Build, more files than the bound (Quick > 3, Standard > 15) or a new trigger → stop, re-score, route up, Revision log entry; never route down silently. Runbook rule: a runbook is required whenever a change alters operated behaviour (new endpoint, job, config or alert) on any path, and always on Full. Appendix maps paths to IEC 62304 classes A/B/C and to Spec Kit / Kiro / AI-DLC / BMad paths.
 
@@ -101,9 +101,9 @@ Release notes · runbook (operated-behaviour change) · postmortem (SEV1/2) · r
 
 ### 1.6 Rules (non-negotiable)
 
-1. **Spec before code** — no production code before Spec approval (Standard/Full) or an agreed acceptance test (Quick).
+1. **Spec before code** — no production code before Specify sign-off (Standard/Full) or an agreed acceptance test (Quick).
 2. **Evidence before claims** — never say done/fixed/passing without command output bound to the current working-tree fingerprint (M 4.4); evidence from another fingerprint is stale and is re-run.
-3. **Humans approve, agents execute** — the four approvals are explicit, recorded with a content hash, checked by `approval-check` in CI and enforced by branch protection, CODEOWNERS and environment reviewers (M 10.4, M 10.5); without platform controls the PR carries `enforcement: prompt-only` and the doctor reports WARN.
+3. **Humans approve, agents execute** — the four sign-offs are explicit, recorded with a content hash, checked by `approval-check` in CI and enforced by branch protection, CODEOWNERS and environment reviewers (M 10.4, M 10.5); without platform controls the PR carries `enforcement: prompt-only` and the doctor reports WARN.
 4. **Test first** — red → green → refactor; a bug fix starts with a failing regression test.
 5. **Independent verification** — the Implementer never verifies or approves its own work. No subagent → a separate labeled pass; the label `self-review` is mandatory in the PR.
 6. **Rollback always** — every spec states how to undo; Release rehearses it.
@@ -137,6 +137,7 @@ Traceability past the PR to production; Release and Operate covered by default; 
 | D6 | Agile V (CC BY-SA 4.0) concepts only, never text | 2026-11-18 |
 | D8 | ~~8-stage cycle with codes and CP1–CP5~~ — superseded by D10 | 2026-11-20 |
 | **D10** | Structure §1.1–1.6: 7 standard stages, 4 approvals, 8 agents named by function (option C, no human names), 3 paths, standard artifacts | 2026-11-20 |
+| D10a | Terminology change (2026-11-22, owner): stage Plan → Discover; approvals renamed Specify / Design / Test / Release sign-off; rule: each sign-off is named after the stage it closes | 2026-11-22 |
 | **D11** | Launch audience: **developers in general** (healthcare IT is a secondary audience via the Business Plan, not the launch focus). Launch is planned as Phase H; its *how* (channels, content, calendar) is deliberately **not decided yet** and will be discussed with the owner after the v3.0.0 release. | 2026-11-22 |
 
 Open design questions to confirm at Checkpoint 1 (recommendations in brackets): Q1 small refactors inside TDD [allow; structural refactors become tasks] · Q2 file paths [none in spec.md; allowed in the `plan.md` task table] · Q3 debugging hypotheses [rank 3–5, test one at a time] · Q4 regression test exception [if no proper seam, record the missing seam as a finding] · Q5 user-only skills [strict descriptions, no extra frontmatter] · Q6 path selection [risk signals first, size second] · Q7 agent files [source in `skills/agentic-sdlc/agents/`; generating Claude Code plugin `agents/` in Phase F is a packaging decision — not part of the method; not scored] · Q8 acceptance-criteria format [Given/When/Then default, EARS accepted].
@@ -183,9 +184,9 @@ Reference repos (pinned commits): `obra/superpowers@22f0b46`, `mattpocock/skills
 | Stage | Skill | Status | Used by agent |
 |---|---|---|---|
 | Router | `agentic-sdlc` | Rewrite (Phase 0) + deepen (B) | all |
-| Plan | `issue-triage` | **New** (B) | Planner |
-| Plan | `project-context` | Align (0) + deepen (B) | Planner |
-| Plan | `brainstorming` | Align (0) + deepen (B) | Planner |
+| Discover | `issue-triage` | **New** (B) | Planner |
+| Discover | `project-context` | Align (0) + deepen (B) | Planner |
+| Discover | `brainstorming` | Align (0) + deepen (B) | Planner |
 | Specify | `spec-driven-development` | Align (0) + deepen (B) | Planner |
 | Specify | `grill-me` | Align (0) + deepen (B) | Planner |
 | Specify / Build | `codebase-modernization` | **New** (C) | Planner, Implementer |
@@ -234,7 +235,7 @@ Every Agentic SDLC skill must meet all of these:
 | 0.3 | Rewrite `references/artifacts.md` as the index for §1.5 (`specs/<NNN-feature>/spec.md · plan.md · acceptance-tests.md`, Approvals sections, PR Verification section, release notes, runbook, postmortem, retro, ADR, AGENTS.md block with `sdlc-dod`), pointing to `templates/`; delete the superseded checkpoint, verification and traceability templates | Index matches §1.5 |
 | 0.4 | Update `references/rules.md` (§1.6) and `references/phase-boundaries.md` (stage names) | Consistent |
 | 0.5 | Rewrite router `SKILL.md`, `README.md`, evals for D10 | Validators pass |
-| 0.6 | Align the six existing skills: stage names, approvals (Spec/Plan approval instead of CP2/CP3), `specs/<NNN-feature>/` paths, AGENTS.md marker `<!-- AGENTIC-SDLC:BEGIN -->` kept, no CHECKPOINTS.md | `grep -rE "CP[0-9]|CHECKPOINTS|docs/agentic-sdlc|PL ·|\\bAN\\b stage" skills/` returns nothing relevant |
+| 0.6 | Align the six existing skills: stage names, approvals (Specify/Design sign-off instead of CP2/CP3), `specs/<NNN-feature>/` paths, AGENTS.md marker `<!-- AGENTIC-SDLC:BEGIN -->` kept, no CHECKPOINTS.md | `grep -rE "CP[0-9]|CHECKPOINTS|docs/agentic-sdlc|PL ·|\\bAN\\b stage" skills/` returns nothing relevant |
 | 0.7 | Update `THIRD_PARTY_NOTICES.md` skill lists for the final skill set | Matches §3 |
 
 Commit: `refactor(agentic-sdlc): apply D10 structure`. **Checkpoint 0** — owner reviews the router, lifecycle, agents and artifact templates (the "one page" of the method) before any deepening. Also confirm Q1–Q8.
@@ -242,10 +243,10 @@ Commit: `refactor(agentic-sdlc): apply D10 structure`. **Checkpoint 0** — owne
 ### Phase A — Mechanism matrix
 
 **A.1** Light spot-check of the five inventories (already verified 2026-11-19).
-**A.2** `docs/research/2026-11-xx-mechanism-matrix.md`: one section per stage (Plan … Operate) plus router, agents and cross-cutting; for each capability (e.g., implementer contract, fix loop, spec-compliance review, acceptance-criteria rubric, readiness scoring, rollout thresholds, postmortem format) list competing mechanisms by inventory ID, then a **Decision** (chosen/combined, why, target skill and file). End with a per-skill **bill of materials** (mechanism IDs each of the 20 skills must implement) and per-agent briefs inputs.
+**A.2** `docs/research/2026-11-xx-mechanism-matrix.md`: one section per stage (Discover … Operate) plus router, agents and cross-cutting; for each capability (e.g., implementer contract, fix loop, spec-compliance review, acceptance-criteria rubric, readiness scoring, rollout thresholds, postmortem format) list competing mechanisms by inventory ID, then a **Decision** (chosen/combined, why, target skill and file). End with a per-skill **bill of materials** (mechanism IDs each of the 20 skills must implement) and per-agent briefs inputs.
 **Checkpoint 1** — owner reviews the bill of materials.
 
-### Phase B — Plan, Specify, Design skills (deepen + new)
+### Phase B — Discover, Specify, Design skills (deepen + new)
 
 | Task | Skill | Mechanisms (architect report §2 IDs) and content |
 |---|---|---|
@@ -256,7 +257,7 @@ Commit: `refactor(agentic-sdlc): apply D10 structure`. **Checkpoint 0** — owne
 | B.5 | `grill-me` | M 2.4: Full grilling primitive, question bank by category, glossary/ADR capture, closing summary contract; add missing `evals/evals.json` |
 | B.6 | `spec-driven-development` | M 2.1–2.4, 11.1, 12.1: Acceptance-criteria rubric with good/bad examples, NFR catalog, capability map for epics, doubt-pass prompt, revise mode (delta spec stating what must not change), mapping to Spec Kit / Kiro / OpenSpec formats, three example specs |
 | B.7 | `senior-solution-architect` | M 7.3, 7.5, 11.4: Design-it-twice, deep-module vocabulary, interface checklist, ADR three-condition test and lifecycle, architecture notes template |
-| B.8 | `writing-plans` | M 7.1, 7.2, 7.5, 9.1: `plan.md` format with the `## Tasks` table, task brief prompt, vertical-slice and expand–contract rules, plan self-review, readiness checklist for Plan approval, coverage check AC ↔ task |
+| B.8 | `writing-plans` | M 7.1, 7.2, 7.5, 9.1: `plan.md` format with the `## Tasks` table, task brief prompt, vertical-slice and expand–contract rules, plan self-review, readiness checklist for Design sign-off, coverage check AC ↔ task |
 
 Commit per skill. **Checkpoint 2.**
 
@@ -277,9 +278,9 @@ Commit per skill. **Checkpoint 3.**
 |---|---|---|
 | D.1 | `test-strategy` (new) | M 4.2, 9.2: Tests designed from the spec in a separate context; AC → level → case; test pyramid and patterns; verification-gap lens; NFR checks; E2E mode following the existing harness |
 | D.2 | `verification-gate` (new) | M 4.1, 4.3, 4.4, 3.3, 9.3 (promotes `references/verification.md`): Claim → command → fresh run → read output → compare → record in the PR Verification section; claims check (PR description is testimony); evidence bound to the commit; two-way gap check (untested AC, unrequested code); Definition of Done check |
-| D.3 | `multi-axis-code-review` (new) | M 5.1–5.7 (promotes `references/review.md`): Axes (spec compliance, design & standards, correctness & edge cases, security, simplicity); parallel context-free reviewer prompts; verify-then-verdict triage; root-cause routing (spec gap → Spec revision; plan defect → plan amendment; local → Build); weakened-bar guard; "declined to judge" list; receive mode; PR approval preparation |
+| D.3 | `multi-axis-code-review` (new) | M 5.1–5.7 (promotes `references/review.md`): Axes (spec compliance, design & standards, correctness & edge cases, security, simplicity); parallel context-free reviewer prompts; verify-then-verdict triage; root-cause routing (spec gap → Spec revision; plan defect → plan amendment; local → Build); weakened-bar guard; "declined to judge" list; receive mode; Test sign-off preparation |
 | D.4 | `security-hardening` (new) | M 11.1–11.6 (promotes `references/security.md`): Five-minute threat model with abuse cases as negative AC; security checklist and hardening patterns; secrets and supply chain; AI-use data guardrails; Security Auditor prompt; `references/ssdf-mapping.md` (NIST SP 800-218 → stage and evidence, from the public NIST document); no compliance claims |
-| D.5 | `deployment-pipeline` (new) | M 3.4, 10.4, 10.5, 12.2, 12.3: CI/CD discovery; quality gates matching the Definition of Done; branch protection and environment approvals that enforce PR and Release approval; deployment strategies; prove each gate bites; rollback template and rehearsal; advance/hold/roll back thresholds |
+| D.5 | `deployment-pipeline` (new) | M 3.4, 10.4, 10.5, 12.2, 12.3: CI/CD discovery; quality gates matching the Definition of Done; branch protection and environment approvals that enforce Test and Release sign-off; deployment strategies; prove each gate bites; rollback template and rehearsal; advance/hold/roll back thresholds |
 | D.6 | `shipping-and-handover` (new) | M 12.2, 9.4, 5.7: Pre-ship checklist; integration options (merge / PR / keep / discard) with confirmation; PR body (visual, before/after evidence, one-way vs two-way door, rollback, Verification table); release notes; runbook; docs-drift check |
 | D.7 | `operations-and-incidents` (new) | M 12.4–12.6, 9.4, 16.3: SLOs from the spec indicator; watch period; symptom-based alerts with short runbooks; incident roles, severity, timeline, communication; on-call ownership; blameless postmortem; DORA metrics; action items → `issue-triage` |
 | D.8 | `retrospective` (new) | M 16.1–16.4 (promotes `references/retrospective.md`): Evidence gathering; acceptance decision with fail-safes; indicator vs baseline; aggregate views across an epic; environment improvements (mechanical → check, judgment → AGENTS.md); feed `project-context` and `issue-triage` |
@@ -299,7 +300,7 @@ Commit per skill. **Checkpoint 4.**
 ### Phase F — Documentation, bundles, release prep
 
 Follow `CLAUDE.md` New Skill Checklist and Documentation Consistency Rule:
-- `bundles.json`: `agentic-sdlc` bundle (20 skills, ordered Plan → Operate); update `essential`, `planning`, `all` (33).
+- `bundles.json`: `agentic-sdlc` bundle (20 skills, ordered Discover → Operate); update `essential`, `planning`, `all` (33).
 - New `docs/guides/agentic-sdlc.md` — **reference guide, ≤ 2,500 words, not needed before the first run** (the first path is README install + `references/quickstart.md` + router, ≤ 3,700 words) with the stage diagram, approvals, agents, paths, artifacts, worked example; appendices: standards mapping (IEC 62304, ISO/IEC/IEEE 12207, NIST SSDF) and "coming from Spec Kit / Kiro / AI-DLC / BMad".
 - `README.md` (Agentic SDLC section with diagram, categories, `skills-33` badge), `CLAUDE.md` (architecture tree incl. `skills/agentic-sdlc/agents/`, Skill Types, bundles, counts), `CATALOG.md` + `skills_index.json` (`npm run generate-all --prefix cli-installer`), `.claude-plugin/marketplace.json`, `cli-installer/README.md`, `cli-installer/package.json` description, `docs/guides/skill-anatomy.md`, `docs/guides/getting-started.md`, `docs/bundles/bundles.md`.
 - Q7 (packaging decision — not part of the method; not scored): generate Claude Code plugin `agents/` from `skills/agentic-sdlc/agents/` when the owner confirms Q7.

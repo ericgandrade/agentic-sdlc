@@ -1,6 +1,6 @@
 # Agentic SDLC — Unattended Build Runs
 
-Loaded only when the user asks to **run unattended** after Plan approval (mechanisms 8.1–8.5; budgets and the run result are enforced by the same script). An unattended run executes the approved plan's tasks with no human in the loop, inside an isolated worktree, and stops at the first condition on the halt list. It never pushes.
+Loaded only when the user asks to **run unattended** after Design sign-off (mechanisms 8.1–8.5; budgets and the run result are enforced by the same script). An unattended run executes the approved plan's tasks with no human in the loop, inside an isolated worktree, and stops at the first condition on the halt list. It never pushes.
 
 ## 1. Entry (8.1)
 
@@ -8,7 +8,7 @@ Loaded only when the user asks to **run unattended** after Plan approval (mechan
 |---|---|
 | **Artifact** | Run ledger `.agentic-sdlc/runs/<id>/ledger.jsonl` (start event: mode, plan, base, branch, worktree, plan and spec hashes, budgets) |
 | **Trigger** | The user's words contain "run unattended" (or the platform's background-agent command) for a named `plan.md` |
-| **Rule** | Standard or Full path only (a `spec.md` exists next to the plan); valid Spec approval and Plan approval rows whose hashes match the current files; scope = the approved plan's tasks, nothing else |
+| **Rule** | Standard or Full path only (a `spec.md` exists next to the plan); valid Specify sign-off and Design sign-off rows whose hashes match the current files; scope = the approved plan's tasks, nothing else |
 | **Output** | `run-ledger start --mode unattended` prints the run ID, branch and worktree |
 | **Failure behaviour** | Approval missing or hash void, or no `spec.md` → `REFUSED`, exit 1; the agent answers with the missing approvals and stays attended. Quick items are never run unattended |
 
@@ -32,7 +32,7 @@ node <skill>/scripts/preflight.mjs --run r1 --mode unattended
 | isolation | unattended: linked worktree on an `sdlc/*` branch | FAIL |
 | ledger | run ledger parses (attended runs without `--run`: SKIP) | exit 2 |
 | tools | every program named in the `sdlc-dod` block resolves on `PATH` | FAIL |
-| approvals | Spec and Plan approval rows bind the current hashes and match the start event | FAIL (attended without an Approvals section: SKIP) |
+| approvals | Specify and Design sign-off rows bind the current hashes and match the start event | FAIL (attended without an Approvals section: SKIP) |
 | baseline-dod | every `sdlc-dod` command exits 0 within `--timeout` (default 30 min) | FAIL → halt reason `red-baseline` |
 
 Output: `.agentic-sdlc/runs/<id>/preflight.json` and a `preflight` ledger event. Any FAIL → exit 1 and `run-ledger task --state started` refuses until a later preflight passes.

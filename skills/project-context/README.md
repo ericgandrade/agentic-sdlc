@@ -1,6 +1,6 @@
 # project-context
 
-Plan-stage foundation of the **Agentic SDLC**: gives every agent session in a repository the same verified starting context — commands, the `sdlc-dod` Definition of Done, the code map, conventions, the quality bar, domain vocabulary and known agent pitfalls — and vendors the method's scripts into `.agentic-sdlc/bin/` with `VERSION` and `SHA256SUMS`.
+Discover-stage foundation of the **Agentic SDLC**: gives every agent session in a repository the same verified starting context — commands, the `sdlc-dod` Definition of Done, the code map, conventions, the quality bar, domain vocabulary and known agent pitfalls — and vendors the method's scripts into `.agentic-sdlc/bin/` with `VERSION` and `SHA256SUMS`.
 
 ## When to use
 

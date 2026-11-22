@@ -1,6 +1,6 @@
 # Agent — Test Engineer
 
-**Kind:** specialist · **Stages:** after Plan approval, through Test · **Dispatched by:** the router (Standard/Full) or the Reviewer · **Report:** `references/agents.md` §Report contract
+**Kind:** specialist · **Stages:** after Design sign-off, through Test · **Dispatched by:** the router (Standard/Full) or the Reviewer · **Report:** `references/agents.md` §Report contract
 
 Designs acceptance tests from the spec, in a context that has never seen the implementation, so the tests check what was asked rather than what was built.
 

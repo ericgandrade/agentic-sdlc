@@ -138,7 +138,7 @@ test('approval check fails without an explicit yes, a register, or a later-turn 
   assert.ok(rules(lint(SPEC, { checkApproval: true, siblings: { 'approvals.md': sameTurn } })).includes('AP08'));
   const wrongRole = REGISTER.replace('| 2026-11-23 10:05 | Product Owner |', '| 2026-11-23 10:05 | Tech Lead |');
   assert.ok(rules(lint(SPEC, { checkApproval: true, siblings: { 'approvals.md': wrongRole } })).includes('AP08'));
-  const noRow = SPEC.replace(/\| Spec \+ Plan \(combined\) \| 1 \|[^\n]+\n/, '');
+  const noRow = SPEC.replace(/\| Specify \+ Design \(combined\) \| 1 \|[^\n]+\n/, '');
   assert.ok(rules(lint(noRow, { checkApproval: true })).includes('AP01'));
   const rejected = edit(SPEC, '| approved |\n', '| rejected |\n');
   assert.ok(rules(lint(rejected, { checkApproval: true })).includes('AP02'));
@@ -156,7 +156,7 @@ test('waivers: recording one keeps the hash; bounds, owner and expiry are checke
 
   const critical = WAIVER_ROW('accept-risk | review finding F1 | Critical | ship today | Implementer | Tech Lead | 2026-11-24 | 2026-11-30 | #420');
   assert.ok(rules(lint(critical)).includes('WV03'));
-  const tooLong = WAIVER_ROW('emergency | Spec approval | Critical | incident INC-7 | SRE | Release Owner | 2026-11-24 | 2026-12-10 | INC-7');
+  const tooLong = WAIVER_ROW('emergency | Specify sign-off | Critical | incident INC-7 | SRE | Release Owner | 2026-11-24 | 2026-12-10 | INC-7');
   assert.ok(rules(lint(tooLong)).includes('WV04'));
   const noFollowUp = WAIVER_ROW('defer | lint | Minor | later | Implementer | Tech Lead | 2026-11-24 | 2026-12-01 | later');
   assert.ok(rules(lint(noFollowUp)).includes('WV01'));

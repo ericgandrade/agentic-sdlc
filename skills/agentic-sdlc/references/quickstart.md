@@ -20,7 +20,7 @@ coverage_min: 71.3
 
 On an existing codebase it runs adopt mode first and also writes `docs/codemap.md`. Done when the block exists between `<!-- AGENTIC-SDLC:BEGIN -->` and `<!-- AGENTIC-SDLC:END -->` and every `sdlc-dod` command exits 0 on the current branch. A command that fails at setup is recorded in the block's `Baseline:` line; it is never deleted to get green.
 
-## Step 2 — Plan: score the path
+## Step 2 — Discover: score the path
 
 Issue #142: "The date column on the orders page shows UTC instead of the user's time zone."
 
@@ -31,7 +31,7 @@ Ask: "Fix issue #142 with the Agentic SDLC." The Planner scores it (`references/
 
 It writes the score line as the first line of the issue: `Path: Quick · S=3 · R=0`. Any risk trigger (auth, personal/health data, money, public API, schema/migration, irreversible, regulated) would have moved the item to Standard or Full regardless of size.
 
-## Step 3 — Plan: acceptance test in the issue
+## Step 3 — Discover: acceptance test in the issue
 
 On the Quick path the issue is the spec. The Planner adds one acceptance criterion in Given/When/Then form:
 
@@ -69,13 +69,13 @@ The fingerprint comes from `scripts/lib/git.mjs` (or, without Node, the 12-hex H
 
 The Reviewer runs in a fresh context with the issue, the diff and the evidence, never the Implementer's reasoning. Quick-path lenses: **L1** (does the change meet AC-1?) and **L2** (correctness and code quality). Each finding is verified before it is listed and triaged as Critical, Important or Minor. The verdict defaults to NO-GO until AC-1 has fresh evidence and no Critical finding is open. On a platform without subagents the same pass runs in the session and is labelled `self-review` in the PR.
 
-## Step 8 — PR approval
+## Step 8 — Test sign-off
 
 The agent presents the PR, the evidence and the residual risks ("other date columns use the same formatter and were not changed"), asks the reviewer for a decision and **ends its turn**. Only an explicit "approved" in a later turn counts; the agent records the exact words, the date and the head commit SHA. The human merges.
 
 ## Step 9 — Release and retro
 
-- When the merge deploys to production, the Release Owner gives the Release approval; the release notes list AC-1 and the rollback command (`git revert <merge sha>` and redeploy).
+- When the merge deploys to production, the Release Owner gives the Release sign-off; the release notes list AC-1 and the rollback command (`git revert <merge sha>` and redeploy).
 - Quick items share a batched retro: every 10 merged Quick items or 14 days, whichever comes first, with at least one owned action that changes a file (`references/retrospective.md`).
 
 ## When something goes wrong
@@ -90,7 +90,7 @@ The agent presents the PR, the evidence and the residual risks ("other date colu
 
 ## Next
 
-- A feature with a spec, a plan and four approvals: `examples/worked-example/` (CSV export, Standard path).
+- A feature with a spec, a plan and four sign-offs: `examples/worked-example/` (CSV export, Standard path).
 - Path rules and escalation: `references/paths.md`. Platform differences: `references/platforms.md`.
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

@@ -36,7 +36,7 @@ Decision rules:
 | Element | Rule |
 |---|---|
 | Artifact | `specs/NNN-slug/acceptance-tests.md` (`templates/acceptance-tests.md`); test files named with their AC ID |
-| Trigger | Plan approval (Standard/Full); the Quick-path acceptance test is written in the issue before any code |
+| Trigger | Design sign-off (Standard/Full); the Quick-path acceptance test is written in the issue before any code |
 | Rule | The Test Engineer (`agents/test-engineer.md`) derives each test from the approved spec in a context that has never seen the implementation diff, the branch or the PR text. It reads code only at the base commit |
 | Output | AC-n → test ID map, level, failure caught, criticality, red output at the base commit, green output at the PR head |
 | Failure | The designer received the diff, branch or PR text → `BLOCKED: context contaminated`; a fresh Test Engineer redoes the design and the contaminated file is replaced |
@@ -63,7 +63,7 @@ The Implementer never edits a test listed in `acceptance-tests.md`. An acceptanc
 | Trigger | An AC that cannot be exercised before merge: production-only data or volume, a third-party system without a sandbox, physical hardware, a legal or human judgement |
 | Rule | Record `AC-n · reason · what was checked instead · verifier (role + person) · when (date or event, ≤ 14 days after release) · Critical? · waiver ID`. "Not run" without a reason is a missing row, not `CANNOT_VERIFY` |
 | Output | The table row, repeated as an item in `## Review guide`, and as a post-release check in the release notes |
-| Failure | ≥ 1 `CANNOT_VERIFY` on a Critical AC → PR approval requires an explicit waiver (`references/governance.md` §Waivers: owner ≠ requester, reason, expiry ≤ 30 days, follow-up issue). More than half of the ACs `CANNOT_VERIFY` → NO-GO and return to Design for test seams |
+| Failure | ≥ 1 `CANNOT_VERIFY` on a Critical AC → Test sign-off requires an explicit waiver (`references/governance.md` §Waivers: owner ≠ requester, reason, expiry ≤ 30 days, follow-up issue). More than half of the ACs `CANNOT_VERIFY` → NO-GO and return to Design for test seams |
 
 **Critical AC.** An AC is Critical when its `Priority` in `spec.md` is `critical`; the Test Engineer copies it into the `Critical` column of `acceptance-tests.md`. Every AC that touches a risk trigger (auth, personal/health data, money, public API, schema/migration, irreversible, regulated) or a spec Security note must be `critical`; one marked `normal` → L1 Important finding, cause `spec`.
 
@@ -84,7 +84,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 **Staleness rule.** A row is **stale** when its fingerprint differs from the current fingerprint, when the fingerprint cell is empty or unknown, or when a `head:` row was recorded and the tree is now dirty. Stale → re-run; a stale row never counts.
 
-**When to check staleness:** before every completion claim; before the Reviewer issues GO; before the PR approval request; after any commit, rebase or merge from the base branch; before the Release approval request.
+**When to check staleness:** before every completion claim; before the Reviewer issues GO; before the Test sign-off request; after any commit, rebase or merge from the base branch; before the Release sign-off request.
 
 **Persistence.** The PR body is the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md`, committed on the feature branch. `scripts/evidence.mjs record|check`† writes `.agentic-sdlc/evidence/ledger.jsonl` (cmd, exit, stdout sha256, last 40 lines, fingerprint, time) and renders the same table; when present, it replaces steps 1–5 and its `check` exit 1 is a Reviewer NO-GO.
 
@@ -93,7 +93,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 | Element | Rule |
 |---|---|
 | Artifact | PR `## Trace` matrix and `Orphans` list (`templates/pr-body.md`) |
-| Trigger | Before the Reviewer issues GO; repeated before the PR approval request when commits were added |
+| Trigger | Before the Reviewer issues GO; repeated before the Test sign-off request when commits were added |
 | Rule | Forward: every AC has ≥ 1 task and ≥ 1 test with a fresh passing row (or a waived `CANNOT_VERIFY`). Backward: every task names ≥ 1 AC; every commit on the branch names ≥ 1 Tn; every AC ID cited in a task, commit or test exists in the spec |
 | Output | One matrix row per AC: `AC-n · tasks · commits · tests · Verification rows · status`; an `Orphans` list (`none` when empty) |
 | Failure | Any orphan → NO-GO until resolved as below |
@@ -108,7 +108,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 
 | Orphan | Resolution |
 |---|---|
-| AC without a task | Back to Design: add the task; Plan approval re-opens |
+| AC without a task | Back to Design: add the task; Design sign-off re-opens |
 | AC without a passing test | Back to the Test Engineer for the test, then a fresh row |
 | Task without an AC | Remove the task, or run the change protocol (`references/rules.md`) to add the AC |
 | Commit without a Tn | Reword the commit on the feature branch before merge (`git rebase -i <base>`, `reword`); the default branch is never rewritten |

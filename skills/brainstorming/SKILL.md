@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: This skill should be used when the user needs pre-implementation ideation for creative work, such as creating features, building components, adding functionality, or modifying behavior — exploring the problem, generating and comparing approaches, and agreeing on a design brief before any specification or code (the Plan stage of the Agentic SDLC).
+description: This skill should be used when the user needs pre-implementation ideation for creative work, such as creating features, building components, adding functionality, or modifying behavior — exploring the problem, generating and comparing approaches, and agreeing on a design brief before any specification or code (the Discover stage of the Agentic SDLC).
 license: MIT
 ---
 
@@ -8,7 +8,7 @@ license: MIT
 
 ## Purpose
 
-Turn a raw idea into an agreed design brief through collaborative dialogue: understand the real problem, widen the option space, converge on one direction with explicit trade-offs, and write down what will and will not be built. In the Agentic SDLC this is the **PL (Plan)** stage's ideation step; its output feeds `spec-driven-development` in AN.
+Turn a raw idea into an agreed design brief through collaborative dialogue: understand the real problem, widen the option space, converge on one direction with explicit trade-offs, and write down what will and will not be built. In the Agentic SDLC this is the **Discover** stage's ideation step; its output feeds `spec-driven-development` in AN.
 
 ## When to Use
 

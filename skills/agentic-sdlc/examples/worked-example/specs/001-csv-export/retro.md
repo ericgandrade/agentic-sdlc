@@ -20,7 +20,7 @@
 | Lead time, first commit → merge | 77 h (`a11c0f3` 2026-11-24T09:41Z → merge `5d2e8b0` 2026-11-27T14:30Z) | `git log`; `run-ledger.jsonl` |
 | Loop rounds per task (max) · escalations | T2: 3 rounds (red-green 1, review-fix 2: F-3) · T3: 3 rounds (red-green 1, review-fix 2: F-1, F-2) · T1, T4, T5: 1 round (red-green) · 0 escalations | `run-ledger status --ledger specs/001-csv-export/run-ledger.jsonl`; `plan.md` Loop ledger (failed and fixing rounds only) |
 | Review findings Critical / Important / Minor | 1 / 3 / 1 (F-1 / F-2, F-3, F-7 / F-6); F-7 rejected on spec text | PR #138 Review triage |
-| Critical found after PR approval | 0 | postmortems, issues |
+| Critical found after Test sign-off | 0 | postmortems, issues |
 | Reverts or hotfixes ≤ 7 days after release | 0 (window 2026-11-30 → 2026-12-07, closed) | `git log -E -i --since=2026-11-30 --until=2026-12-07 --grep='^Revert\|hotfix'` |
 | Indicator: first reading vs target | 1 ticket tagged `export-request` from 2026-11-30 to 2026-12-07 vs target ≤ 4 tickets/month (baseline 14/month) → on track | help-desk tag count, read 2026-12-07 |
 | Incidents since release (SEV) | 0 | `docs/postmortems/` |

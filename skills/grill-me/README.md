@@ -1,6 +1,6 @@
 # grill-me
 
-Relentless Socratic interview that walks every branch of a plan or design until nothing is silently assumed. Inside a repository it runs in **docs mode**, recording glossary terms and ADRs as decisions settle. Plan- and Specify-stage tool of the **Agentic SDLC**, with a 3-round stop rule: open items after round 3 are deferred with an owner or end the stage as `NEEDS_CONTEXT`.
+Relentless Socratic interview that walks every branch of a plan or design until nothing is silently assumed. Inside a repository it runs in **docs mode**, recording glossary terms and ADRs as decisions settle. Discover- and Specify-stage tool of the **Agentic SDLC**, with a 3-round stop rule: open items after round 3 are deferred with an owner or end the stage as `NEEDS_CONTEXT`.
 
 ## When to use
 

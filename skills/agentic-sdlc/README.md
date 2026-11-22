@@ -1,18 +1,18 @@
 # agentic-sdlc
 
-Router for the **Agentic SDLC**: a method that follows the standard software development life cycle with AI agents. **7 stages, 4 human approvals, 8 agents named by function, 3 paths sized by risk**, one rule — every requirement is proven.
+Router for the **Agentic SDLC**: a method that follows the standard software development life cycle with AI agents. **7 stages, 4 human sign-offs, 8 agents named by function, 3 paths sized by risk**, one rule — every requirement is proven.
 
-| Stage | Lead agent (helpers) | Human approval |
+| Stage | Lead agent (helpers) | Human sign-off |
 |---|---|---|
-| **Plan** | Planner | — (intake decision when a duplicate or prior rejection is found) |
-| **Specify** | Planner (Security Auditor) | **Spec approval** — Product Owner |
-| **Design** | Planner (Architect) | **Plan approval** — Tech Lead |
+| **Discover** | Planner | — (intake decision when a duplicate or prior rejection is found) |
+| **Specify** | Planner (Security Auditor) | **Specify sign-off** — Product Owner |
+| **Design** | Planner (Architect) | **Design sign-off** — Tech Lead |
 | **Build** | Implementer | — (bounded loops: 3 red-green attempts, 5 rounds per task) |
-| **Test** | Reviewer (Test Engineer, Security Auditor) | **PR approval** — human reviewer (engineer) |
-| **Release** | Release Engineer | **Release approval** — Release Owner |
+| **Test** | Reviewer (Test Engineer, Security Auditor) | **Test sign-off** — human reviewer (engineer) |
+| **Release** | Release Engineer | **Release sign-off** — Release Owner |
 | **Operate** | SRE | On-call engineer owns incidents |
 
-Operate feeds incidents, alert trends, indicator misses and retro actions back into Plan. Acceptance-criterion IDs (`AC-n`) trace `spec.md` → plan task → commit trailer → test → fingerprint-bound evidence → PR → release notes → production record.
+Operate feeds incidents, alert trends, indicator misses and retro actions back into Discover. Acceptance-criterion IDs (`AC-n`) trace `spec.md` → plan task → commit trailer → test → fingerprint-bound evidence → PR → release notes → production record.
 
 ## Install and first run
 
@@ -22,10 +22,10 @@ Operate feeds incidents, alert trends, indicator misses and retro actions back i
 
 ## Paths
 
-| Path | Score | Approvals |
+| Path | Score | Sign-offs |
 |---|---|---|
-| Quick | S ≤ 4 and R = 0 | PR (+ Release when production deploys) |
-| Standard | S 5–6 or R = 1 | Spec + Plan (one combined review when ≤ 5 tasks), PR, Release |
+| Quick | S ≤ 4 and R = 0 | Test (+ Release when production deploys) |
+| Standard | S 5–6 or R = 1 | Specify + Design (one combined review when ≤ 5 tasks), Test, Release |
 | Full | S ≥ 7, R ≥ 2, personal/health data or irreversible | All four separately + a second human reviewer |
 
 S = files + components + iterations (each scored 1–3); R = number of risk triggers (auth, personal/health data, money, public API, schema/migration, irreversible, regulated). The path is the higher of the two routes.
@@ -33,7 +33,7 @@ S = files + components + iterations (each scored 1–3); R = number of risk trig
 ## What is included
 
 - `SKILL.md` — router: state detection (Step 0), path scoring, stage dispatch, approvals, loop bounds, progress display and the Module Index (every module and when to load it).
-- `references/lifecycle.md` — stages with entry/exit conditions, the four approvals, paths, ID chain, loop bounds, release and operate rules that start in Specify.
+- `references/lifecycle.md` — stages with entry/exit conditions, the four sign-offs, paths, ID chain, loop bounds, release and operate rules that start in Specify.
 - `references/rules.md` — 12 non-negotiable rules with checks and failure behaviour, status vocabulary, change protocol, red-flag table.
 - `references/artifacts.md` — artifact index: project layout, template per artifact, required paths, validators, AGENTS.md block with `sdlc-dod`.
 - `references/phase-boundaries.md` — hand-off triggers, context hygiene per agent, resume procedure, `handoff.md` format.
@@ -52,7 +52,7 @@ node --test skills/agentic-sdlc/scripts/test/*.test.mjs
 
 - "Build the CSV export with the Agentic SDLC."
 - "Where are we on the payments refactor? What's next?"
-- "Requirements changed after Spec approval — handle it."
+- "Requirements changed after Specify sign-off — handle it."
 - "An incident in production created new work — bring it into the cycle."
 
 ## Related approaches
@@ -72,7 +72,7 @@ All text is original; mechanism IDs and precedents are listed in `docs/research/
 
 ## What's New in 2.0.0
 
-- Rewritten in the D10 vocabulary: 7 stages, 4 approvals, 8 agents, 3 paths. Stage codes and numbered checkpoints are gone.
+- Rewritten in the D10 vocabulary: 7 stages, 4 sign-offs, 8 agents, 3 paths. Stage codes and numbered checkpoints are gone.
 - Scored path rubric (size + risk), approval hashes that void on edit, fingerprint-bound evidence, explicit loop bounds.
 - Eight agent files with tool allow lists and authority limits; Module Index with the off-first-path rule.
 - Shared script libraries and test harness; worked-example skeleton.

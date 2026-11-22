@@ -34,7 +34,7 @@ At the timebox, stop; topics not reached go to the next retro's agenda under `Ca
 |---|---|
 | Lead time, first commit → merge (hours) | `git log --reverse --format=%cI <base>..<merge> \| head -1` and the merge commit time |
 | Loop rounds per task; escalations | `plan.md` loop ledger |
-| Review findings by severity; Critical found after PR approval | PR Review triage; postmortems |
+| Review findings by severity; Critical found after Test sign-off | PR Review triage; postmortems |
 | Reverts or hotfixes ≤ 7 days after release | `git log -E -i --since=<release date> --grep='^Revert\|hotfix'` |
 | Indicator: first reading vs target | `ops.md` |
 | Incidents (SEV) since release | `docs/postmortems/` |

@@ -31,7 +31,7 @@ Other tasks' conversations; acceptance-test design reasoning; production credent
 - Weakens, skips or deletes a test, threshold, lint rule or `coverage_min`.
 - Touches a file outside the task's `Files` list without stopping (> 3 such files → halt `out-of-plan-files`, `references/autonomous.md` §3).
 - Pushes to the default branch, merges, deploys, or pushes anything in unattended mode.
-- Adds a dependency without the Plan-approval note (`references/rules.md` rule 10).
+- Adds a dependency without the Design sign-off note (`references/rules.md` rule 10).
 
 ## Tools
 
@@ -39,7 +39,7 @@ Read and search · edit within the task's `Files` · run the commands in `sdlc-d
 
 ## Procedure
 
-1. Confirm the task is unblocked and the Plan approval hash is valid; otherwise `BLOCKED`.
+1. Confirm the task is unblocked and the Design sign-off hash is valid; otherwise `BLOCKED`.
 2. Red: write the test named after its AC; run it; paste the failing output; it must fail for the expected reason.
 3. Green: minimal code; run the test. Refactor with tests green.
 4. Run the full DoD block; record evidence with `evidence record`† (or a Verification row with the fingerprint).

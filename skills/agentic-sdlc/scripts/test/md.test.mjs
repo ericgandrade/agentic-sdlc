@@ -32,9 +32,9 @@ const SPEC = [
   '',
   '## Approvals',
   '',
-  '| Approval | Rev | Hash |',
+  '| Sign-off | Rev | Hash |',
   '|---|---|---|',
-  '| Spec | 1 | abc |',
+  '| Specify | 1 | abc |',
   '',
   '## Revisions',
   'none',
@@ -93,7 +93,7 @@ test('parseFrontmatter and countWords skip frontmatter and code', () => {
 test('contentHash excludes the Approvals section and ignores CRLF', () => {
   const h = contentHash(SPEC);
   assert.match(h, /^[0-9a-f]{12}$/);
-  const approved = SPEC.replace('| Spec | 1 | abc |', '| Spec | 1 | abc |\n| Plan | 1 | def |');
+  const approved = SPEC.replace('| Specify | 1 | abc |', '| Specify | 1 | abc |\n| Design | 1 | def |');
   assert.equal(contentHash(approved), h, 'edits inside Approvals keep the hash');
   assert.equal(contentHash(SPEC.replace(/\n/g, '\r\n')), h, 'CRLF does not change the hash');
   assert.notEqual(contentHash(SPEC.replace('50k', '60k')), h, 'body edits change the hash');

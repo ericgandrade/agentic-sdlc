@@ -47,7 +47,7 @@ function withTasks(plan, rows) {
   return plan.replace(/(\|---\|---\|---\|---\|---\|---\|\n)[\s\S]*?\n\n/, `$1${rows}\n\n`);
 }
 
-function approve(plan, { spec = SPEC, approval = 'Spec + Plan (combined)', planRev = 1, hash = null } = {}) {
+function approve(plan, { spec = SPEC, approval = 'Specify + Design (combined)', planRev = 1, hash = null } = {}) {
   const row = `| ${approval} | ${planRev} | ${hash ?? planHash(plan)} | 2 | ${contentHash(spec)} | 2026-11-21 10:00 | Tech Lead | A. Lee | "Approved." | plan-graph exit 0 | none | approved |`;
   return `${plan.trimEnd()}\n${row}\n`;
 }
@@ -179,7 +179,7 @@ test('--check-approval binds the plan hash and the spec hash', () => {
   assert.deepEqual(codes(r), ['APPROVAL_FIELD']);
 });
 
-test('Loop ledger rows never void Plan approval', () => {
+test('Loop ledger rows never void Design sign-off', () => {
   const ledger = '\n## Loop ledger\n\n| Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |\n|---|---|---|---|---|---|---|---|\n';
   const base = VALID.replace('\n## Revision log', `${ledger}\n## Revision log`);
   const approved = approve(base);
@@ -189,7 +189,7 @@ test('Loop ledger rows never void Plan approval', () => {
   assert.equal(exec(stage(appended), '--check-approval').code, 0);
 });
 
-test('combined Spec + Plan review: Standard with ≤ 5 tasks only (K8)', () => {
+test('combined Specify + Design review: Standard with ≤ 5 tasks only (K8)', () => {
   const five = withTasks(VALID, taskRows(5));
   let r = exec(stage(approve(five)), '--check-approval', '--json');
   assert.equal(r.code, 0, r.stdout);
@@ -199,7 +199,7 @@ test('combined Spec + Plan review: Standard with ≤ 5 tasks only (K8)', () => {
   r = exec(stage(approve(six)), '--check-approval', '--json');
   assert.equal(r.json.graph.review, 'separate');
   assert.deepEqual(codes(r), ['COMBINED_NOT_ALLOWED']);
-  assert.equal(exec(stage(approve(six, { approval: 'Plan' })), '--check-approval').code, 0);
+  assert.equal(exec(stage(approve(six, { approval: 'Design' })), '--check-approval').code, 0);
 
   const full = five.replace('Path:** Standard', 'Path:** Full');
   const fullSpec = SPEC.replace('| Path | Standard |', '| Path | Full |');

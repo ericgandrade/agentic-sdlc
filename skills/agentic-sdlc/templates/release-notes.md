@@ -1,7 +1,7 @@
 <!--
 Agentic SDLC — release notes. Rules: references/release-ops.md (checklist R1–R9, go/no-go, runbook),
-references/governance.md (Release approval record, waivers).
-The Release Engineer fills every section before the Release approval request, then §Deploy log after it.
+references/governance.md (Release sign-off record, waivers).
+The Release Engineer fills every section before the Release sign-off request, then §Deploy log after it.
 Every checklist and go/no-go row is true or false with evidence; prose without output counts as false.
 A section with nothing to report says "none — <reason>"; never leave it blank. Keep every heading.
 Location: the release entry on the host (GitHub/GitLab release) or CHANGELOG.md; §Summary is the
@@ -11,7 +11,7 @@ user-facing CHANGELOG text.
 # Release notes — <service> v<X.Y.Z>
 
 **Spec:** `specs/<NNN-slug>/spec.md` rev <N> · sha256 `<12 hex>` · **PR:** #<n> (head `<sha>`) · **Path:** <Quick | Standard | Full>
-**Release commit:** `<sha>` · **Tag:** `v<X.Y.Z>` (pushed only after Release approval) · **Planned date:** <YYYY-MM-DD>
+**Release commit:** `<sha>` · **Tag:** `v<X.Y.Z>` (pushed only after Release sign-off) · **Planned date:** <YYYY-MM-DD>
 **Release Engineer:** <agent or person> · **Release Owner:** <role, person>
 
 ## Summary
@@ -110,13 +110,13 @@ exit <code> · <ISO-8601 time>
 
 <!-- Present this file, end the turn, record only an explicit "yes"/"approved" from the Release Owner in a later turn. -->
 
-| Approval | Bound to (tag · rehearsal) | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Bound to (tag · rehearsal) | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|
 | Release | `v<X.Y.Z>` · rehearsal <ISO time> | <YYYY-MM-DD> | Release Owner | <name> | "<quote>" | <sections read> | <list or none> | <approved \| approved with conditions \| rejected> |
 
 ## Deploy log
 
-<!-- After Release approval only. One row per stage, written at the end of its watch window. -->
+<!-- After Release sign-off only. One row per stage, written at the end of its watch window. -->
 
 | Stage | Start (ISO) | End (ISO) | Command | Error rate | p95 | Alert | Decision |
 |---|---|---|---|---|---|---|---|

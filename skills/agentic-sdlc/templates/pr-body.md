@@ -83,7 +83,7 @@ Every merged finding has one row and one disposition. Only `confirmed` findings 
 
 ## Review guide
 
-For the human reviewer (engineer) who gives PR approval. Read in this order.
+For the human reviewer (engineer) who gives Test sign-off. Read in this order.
 
 1. **Files, riskiest first:** <`path` — why it is risky (risk trigger, security, data, public interface)>
 2. **Questions for the human (3–7):**

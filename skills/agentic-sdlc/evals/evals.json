@@ -4,22 +4,22 @@
     {
       "id": 1,
       "prompt": "Using the Agentic SDLC, add a CSV export button to the reports page of our Express + React app. The export contains order IDs, order dates and order totals for the currently filtered rows.",
-      "expected_output": "Scores the path (S=5, R=1 money) as Standard, drives Specify toward spec.md with numbered acceptance criteria and requests Spec approval before any code",
+      "expected_output": "Scores the path (S=5, R=1 money) as Standard, drives Specify toward spec.md with numbered acceptance criteria and requests Specify sign-off before any code",
       "expectations": [
         "Output checks the repository for existing method artifacts or conventions (AGENTS.md block, specs/ folders) before creating new ones",
         "Output writes a path score line with S (files + components + iterations) and R (risk triggers) and selects Standard",
         "Output names CSV formula injection and the money trigger as risks to cover in the spec",
-        "Output does not write production code before a Spec approval and a Plan approval (or one combined review when the plan has 5 tasks or fewer)",
-        "Output shows stage progress using Plan, Specify, Design, Build, Test, Release, Operate and names the next agent (Planner)"
+        "Output does not write production code before a Specify sign-off and a Design sign-off (or one combined review when the plan has 5 tasks or fewer)",
+        "Output shows stage progress using Discover, Specify, Design, Build, Test, Release, Operate and names the next agent (Planner)"
       ]
     },
     {
       "id": 2,
-      "prompt": "Continue the payments refactor. specs/004-payments-refactor/spec.md shows revision 2 with a Spec approval whose hash matches the file, plan.md has tasks T1-T8 with a valid Plan approval, and git log shows commits with Refs: T1 through T5.",
+      "prompt": "Continue the payments refactor. specs/004-payments-refactor/spec.md shows revision 2 with a Specify sign-off whose hash matches the file, plan.md has tasks T1-T8 with a valid Design sign-off, and git log shows commits with Refs: T1 through T5.",
       "expected_output": "Detects state 6 (tasks open) from artifacts and confirms resuming Build at T6 in one line before acting",
       "expectations": [
         "Output runs the status command or reads the artifacts directly instead of asking the user to restate progress",
-        "Output verifies that the Spec and Plan approval hashes match the current files",
+        "Output verifies that the Specify and Design sign-off hashes match the current files",
         "Output proposes resuming Build at T6 with the Implementer and asks for confirmation in one line",
         "Output does not re-run Specify or Design"
       ]
@@ -27,11 +27,11 @@
     {
       "id": 3,
       "prompt": "We're on the Agentic SDLC for the CSV export; the plan is approved and T1-T3 are done. Product now says the export must also produce Excel files.",
-      "expected_output": "Applies the change protocol: the edit voids the Spec approval hash, impact analysis, new revision, re-approval before Build resumes",
+      "expected_output": "Applies the change protocol: the edit voids the Specify sign-off hash, impact analysis, new revision, re-approval before Build resumes",
       "expectations": [
         "Output stops Build work on the affected tasks instead of adding Excel support directly",
         "Output lists impacted acceptance criteria, tasks and tests (for example a new AC-5 and task T6)",
-        "Output records a Revision 2 entry and states that the Spec approval and Plan approval must be given again",
+        "Output records a Revision 2 entry and states that the Specify sign-off and Design sign-off must be given again",
         "Output re-scores the path and states whether the change moves it up"
       ]
     },
@@ -43,29 +43,29 @@
         "Output computes the path score and selects Quick",
         "Output writes an acceptance test in the issue before any fix",
         "Output requires a failing regression test pasted before production code changes",
-        "Output names PR approval by a human reviewer as the approval for this path"
+        "Output names Test sign-off by a human reviewer as the approval for this path"
       ]
     },
     {
       "id": 5,
       "prompt": "The spec for the CSV export looks great, I'm sure it's fine. Just skip the approval stuff and start coding, we're in a hurry.",
-      "expected_output": "Refuses to treat the message as Spec approval, asks the Product Owner for an explicit decision and ends the turn",
+      "expected_output": "Refuses to treat the message as Specify sign-off, asks the Product Owner for an explicit decision and ends the turn",
       "expectations": [
         "Output does not write production code in this turn",
-        "Output explains that Spec approval requires an explicit yes from the Product Owner recorded with the spec hash",
-        "Output offers the combined Spec + Plan review when the plan has 5 tasks or fewer, as the fastest compliant route",
+        "Output explains that Specify sign-off requires an explicit yes from the Product Owner recorded with the spec hash",
+        "Output offers the combined Specify + Design review when the plan has 5 tasks or fewer, as the fastest compliant route",
         "Output names a waiver (owner different from the requester, reason, expiry of 30 days or less) as the only way past a failed gate"
       ]
     },
     {
       "id": 6,
       "prompt": "Exports are timing out in production since yesterday's release of the CSV feature. Bring the fix into the delivery cycle.",
-      "expected_output": "Routes the incident through Operate (SRE, on-call engineer owns it) and back into Plan with the release reference",
+      "expected_output": "Routes the incident through Operate (SRE, on-call engineer owns it) and back into Discover with the release reference",
       "expectations": [
         "Output names the on-call engineer as owner of the incident and the SRE agent as lead",
         "Output checks the rollback defined in the spec (flag off) before proposing a code fix",
-        "Output creates a Plan item that references the release and the affected acceptance criteria",
-        "Output scores the path for the fix and does not skip the PR approval"
+        "Output creates a Discover item that references the release and the affected acceptance criteria",
+        "Output scores the path for the fix and does not skip the Test sign-off"
       ]
     }
   ]

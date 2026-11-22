@@ -32,20 +32,20 @@
 
 ## 2. Proposed lifecycle — seven standard stages
 
-**Plan → Specify → Design → Build → Test → Release → Operate**, iterated per work item, with Operate feeding Plan.
+**Discover → Specify → Design → Build → Test → Release → Operate**, iterated per work item, with Operate feeding Discover.
 
 | Stage | What happens | Standard name precedent |
 |---|---|---|
-| **Plan** | Take in the request, check it is not a duplicate or previously rejected, size it, choose the path, set the goal and the indicator to measure | Planning (12207, SWEBOK, RUP, Scrum, DevOps loop, Anthropic, Spec Kit) |
+| **Discover** | Take in the request, check it is not a duplicate or previously rejected, size it, choose the path, set the goal and the indicator to measure | Planning (12207, SWEBOK, RUP, Scrum, DevOps loop, Anthropic, Spec Kit) |
 | **Specify** | Write `spec.md`: user stories and acceptance criteria (Given/When/Then), non-goals, constraints, rollback | Requirements (8/8 classic); `/specify` and `spec.md` (Spec Kit, Kiro, OpenSpec, BMad) |
 | **Design** | Architecture decisions (ADRs) and `plan.md`; break into `tasks.md` (thin vertical slices with dependencies) | Design/Architecture (8/8 classic, Anthropic, Spec Kit); plan + tasks (AI-native) |
 | **Build** | Implement task by task, test-first, in small commits and a pull request; debug systematically | Build/Implementation/Development (all three groups); TDD (XP); commit stage (CD) |
 | **Test** | Verify the change against the spec in a fresh context: acceptance tests, independent code review, security review; evidence in the PR | Testing/Verification (7/8 classic); acceptance stage (CD); verify/converge (Spec Kit, OpenSpec) |
 | **Release** | Deploy behind feature flags, staged rollout, rehearsed rollback, release notes and runbook | Release/Deployment (classic, DevOps, Anthropic, Spec Kit) |
-| **Operate** | Monitor the change and its indicator, handle incidents, run postmortems and retrospectives; new work returns to Plan | Operations/Maintenance (12207, SWEBOK); Operate/Monitor (DevOps); Maintain (Anthropic) |
+| **Operate** | Monitor the change and its indicator, handle incidents, run postmortems and retrospectives; new work returns to Discover | Operations/Maintenance (12207, SWEBOK); Operate/Monitor (DevOps); Maintain (Anthropic) |
 
 Notes:
-- **Review is not a stage.** Independent review happens in Test and ends in the PR approval (AI-native research, point 4; agile research, recommendation 3).
+- **Review is not a stage.** Independent review happens in Test and ends in the Test sign-off (AI-native research, point 4; agile research, recommendation 3).
 - **Unit tests live in Build** (TDD); **Test** is verification against the spec (CD commit stage vs acceptance stage).
 - "Specify" is preferred to "Analyze" (Spec Kit's `/analyze` means a consistency check) and to "Requirements" (developers using AI tools know `spec.md`); the guide states that Specify = requirements specification for readers coming from the standards.
 
@@ -53,17 +53,17 @@ Notes:
 
 ## 3. Human approvals — four named decisions
 
-| Approval | When | Who (default role) | Precedent |
+| Sign-off | When | Who (default role) | Precedent |
 |---|---|---|---|
-| **Spec approval** | End of Specify | Product Owner | Requirements Baseline (classic); spec approval (Spec Kit, Kiro, AI-DLC) |
-| **Plan approval** | End of Design, before code | Tech Lead | Plan Approved / Architecture Review (RUP, 62304, DO-178C); plan approval (AI-native) |
-| **PR approval** | End of Test | Reviewer (Engineer) | Code review / pull request (agile, DORA, all AI-native) |
-| **Release approval** | Before production | Release Owner (on-call for Operate) | Release Approved (classic); release authorization (AI-native); go/no-go (agile) |
+| **Specify sign-off** | End of Specify | Product Owner | Requirements Baseline (classic); spec approval (Spec Kit, Kiro, AI-DLC) |
+| **Design sign-off** | End of Design, before code | Tech Lead | Plan Approved / Architecture Review (RUP, 62304, DO-178C); plan approval (AI-native) |
+| **Test sign-off** | End of Test | Reviewer (Engineer) | Code review / pull request (agile, DORA, all AI-native) |
+| **Release sign-off** | Before production | Release Owner (on-call for Operate) | Release Approved (classic); release authorization (AI-native); go/no-go (agile) |
 
-- An optional **intake decision** in Plan (go / no-go / later) for teams that need it.
-- **Quick path:** only PR approval (plus release approval when production deploys). **Standard:** all four, Spec + Plan can be one review for small features. **Full:** all four, separately.
-- Approvals are recorded where developers already look: Spec and Plan approvals in an "Approvals" section of `spec.md`/`plan.md`; PR approval in the PR; Release approval in the release notes. No separate checkpoint files.
-- **Enforced where possible**, not only by prompt: branch protection for PR approval, required reviewers, CI status checks, deployment environment approvals (gap found in every AI-native method).
+- An optional **intake decision** in Discover (go / no-go / later) for teams that need it.
+- **Quick path:** only Test sign-off (plus Release sign-off when production deploys). **Standard:** all four, Specify + Design can be one review for small features. **Full:** all four, separately.
+- Approvals are recorded where developers already look: Specify and Design sign-offs in an "Approvals" section of `spec.md`/`plan.md`; Test sign-off in the PR; Release sign-off in the release notes. No separate checkpoint files.
+- **Enforced where possible**, not only by prompt: branch protection for Test sign-off, required reviewers, CI status checks, deployment environment approvals (gap found in every AI-native method).
 
 ---
 
@@ -75,7 +75,7 @@ Notes:
 
 | Agent responsibility | Does | Never |
 |---|---|---|
-| **Planner** | Plan, Specify, Design: clarifies, writes spec.md / plan.md / tasks.md, proposes ADRs | Writes production code |
+| **Planner** | Discover, Specify, Design: clarifies, writes spec.md / plan.md / tasks.md, proposes ADRs | Writes production code |
 | **Implementer** | Build: one task at a time, test-first, commits, opens the PR | Approves or verifies its own work |
 | **Reviewer** (independent, read-only) | Test: verifies against the spec, reviews code and security, writes the evidence in the PR | Fixes code itself |
 
@@ -119,7 +119,7 @@ Release notes · runbook · postmortem · retrospective   # Release and Operate
 
 Grounded in the gaps found across all surveyed AI-native methods:
 1. **Traceability past the PR** — acceptance criterion → task → commit/test → PR evidence → release note → production indicator.
-2. **Release and Operate covered by default** — rollout, rollback rehearsal, incidents and postmortems feed the next Plan (only AI-DLC and Anthropic cover this; most stop at the PR).
+2. **Release and Operate covered by default** — rollout, rollback rehearsal, incidents and postmortems feed the next Discover (only AI-DLC and Anthropic cover this; most stop at the PR).
 3. **Measured outcomes** — DORA metrics plus a per-change indicator, reviewed after release (no surveyed method publishes outcomes).
 4. **Security in the default path** — not an optional add-on.
 5. **Enforced approvals** — branch protection, required reviewers, CI checks, environment approvals, not prompt-only gates.
@@ -136,15 +136,15 @@ Grounded in the gaps found across all surveyed AI-native methods:
 
 | Stage | What the developer sees |
 |---|---|
-| Plan | Planner checks no export exists, classifies as a story, signals: customer names (data) → **Standard path**; indicator: export-related support tickets per month |
-| Specify | `specs/014-report-csv-export/spec.md`: 4 acceptance criteria (visible rows only; formula-injection escaping; permission required; 50k row limit), rollback = feature flag off. **Spec approval** by the Product Owner |
-| Design | `plan.md`: stream CSV from the existing report query (ADR-0007), 5 tasks with dependencies. **Plan approval** by the Tech Lead |
+| Discover | Planner checks no export exists, classifies as a story, signals: customer names (data) → **Standard path**; indicator: export-related support tickets per month |
+| Specify | `specs/014-report-csv-export/spec.md`: 4 acceptance criteria (visible rows only; formula-injection escaping; permission required; 50k row limit), rollback = feature flag off. **Specify sign-off** by the Product Owner |
+| Design | `plan.md`: stream CSV from the existing report query (ADR-0007), 5 tasks with dependencies. **Design sign-off** by the Tech Lead |
 | Build | Implementer builds task by task, test-first, commits `feat(reports): … [T2, AC-1]`, opens the PR |
-| Test | Reviewer agent (fresh context) runs the acceptance tests, reviews code and security, fills the PR verification table (AC → test → evidence). **PR approval** by a Reviewer |
-| Release | Flag on for 10% of managers, rollback rehearsed, release notes. **Release approval** by the Release Owner |
+| Test | Reviewer agent (fresh context) runs the acceptance tests, reviews code and security, fills the PR verification table (AC → test → evidence). **Test sign-off** by a Reviewer |
+| Release | Flag on for 10% of managers, rollback rehearsed, release notes. **Release sign-off** by the Release Owner |
 | Operate | Error rate and the support-ticket indicator watched for two weeks; retro notes one improvement to AGENTS.md |
 
-Quick path example: "Sessions expire after 5 minutes instead of 30" → issue with acceptance test → failing test, fix → PR with evidence → **PR approval** → merged.
+Quick path example: "Sessions expire after 5 minutes instead of 30" → issue with acceptance test → failing test, fix → PR with evidence → **Test sign-off** → merged.
 
 ---
 

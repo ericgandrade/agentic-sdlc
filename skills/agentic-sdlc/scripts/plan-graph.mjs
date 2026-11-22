@@ -336,14 +336,14 @@ export function checkApproval(md, { graph, specMd = null }) {
   const table = sec && parseTables(sec.body)[0];
   if (!table) return [{ code: 'APPROVAL_MISSING', message: 'no "## Approvals" table' }];
   const idx = headerIndex(table.header);
-  const need = ['approval', 'plan rev', 'plan hash', 'spec hash', 'role', 'person', 'exact words', 'decision'];
+  const need = ['sign-off', 'plan rev', 'plan hash', 'spec hash', 'role', 'person', 'exact words', 'decision'];
   const lacking = need.filter((c) => idx[c] == null);
   if (lacking.length) return [{ code: 'APPROVAL_COLUMNS', message: `"## Approvals" table lacks column(s): ${lacking.join(', ')}` }];
   const rows = table.rows.map((r) => Object.fromEntries(Object.entries(idx).map(([k, i]) => [k, (r[i] ?? '').replace(/`/g, '').trim()])));
   const approved = rows.filter((r) => /^approved/i.test(r.decision));
   if (!approved.length) return [{ code: 'APPROVAL_MISSING', message: 'no row with Decision "approved"' }];
   const row = approved[approved.length - 1];
-  const label = `approval row "${row.approval}" (plan rev ${row['plan rev']})`;
+  const label = `sign-off row "${row['sign-off']}" (plan rev ${row['plan rev']})`;
   if (row['plan hash'] !== graph.planHash) {
     errors.push({ code: 'APPROVAL_VOID', message: `${label}: plan hash ${row['plan hash'] || '(empty)'} ≠ current ${graph.planHash}; the plan changed after approval — run the change protocol` });
   }
@@ -366,10 +366,10 @@ export function checkApproval(md, { graph, specMd = null }) {
       errors.push({ code: 'APPROVAL_REV', message: `${label}: approved plan rev ${approvedRev} ≠ latest Revision log rev ${latest}` });
     }
   }
-  if (/combined/i.test(row.approval) && graph.review !== 'combined') {
+  if (/combined/i.test(row['sign-off']) && graph.review !== 'combined') {
     errors.push({
       code: 'COMBINED_NOT_ALLOWED',
-      message: `${label}: a combined Spec + Plan review requires the Standard path and ≤ ${LIMITS.combinedReviewMaxTasks} tasks (path ${graph.path}, ${graph.taskCount} tasks); hold two reviews`,
+      message: `${label}: a combined Specify + Design review requires the Standard path and ≤ ${LIMITS.combinedReviewMaxTasks} tasks (path ${graph.path}, ${graph.taskCount} tasks); hold two reviews`,
     });
   }
   return errors;
@@ -469,7 +469,7 @@ export async function main(argv = process.argv.slice(2), out = process.stdout) {
   for (const w of warnings) lines.push(`WARN ${w.code}: ${w.message}`);
   for (const e of errors) lines.push(`FAIL ${e.code}: ${e.message}`);
   if (written) lines.push(`wrote ${written}`);
-  lines.push(ok ? 'PASS' : `FAIL (${errors.length}) — fix the plan before requesting Plan approval`);
+  lines.push(ok ? 'PASS' : `FAIL (${errors.length}) — fix the plan before requesting Design sign-off`);
 
   return report({
     ok,

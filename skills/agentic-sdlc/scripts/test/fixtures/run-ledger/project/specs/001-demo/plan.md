@@ -17,6 +17,6 @@
 
 ## Approvals
 
-| Approval | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+| Sign-off | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Plan | 1 | 9093733fe471 | 1 | 140722953a7a | 2026-11-20 | Tech Lead | J. Park | "Approved" | plan.md rev 1, graph.json | none | approved |
+| Design | 1 | 9093733fe471 | 1 | 140722953a7a | 2026-11-20 | Tech Lead | J. Park | "Approved" | plan.md rev 1, graph.json | none | approved |

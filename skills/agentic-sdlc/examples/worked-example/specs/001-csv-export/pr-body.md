@@ -99,7 +99,7 @@ Round 1, stage 1: L1 returned F-3 and F-7 (no confirmed Critical) → stage 2 di
 
 ## Review guide
 
-For the human reviewer (engineer) who gives PR approval. Read in this order.
+For the human reviewer (engineer) who gives Test sign-off. Read in this order.
 
 1. **Files, riskiest first:**
    - `server/src/routes/reports/export.ts` — sends money data out; authorization; user input in filters; streaming and the row limit (F-1, F-2).

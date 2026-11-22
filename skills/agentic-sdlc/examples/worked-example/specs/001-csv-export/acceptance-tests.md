@@ -2,7 +2,7 @@
 
 **Spec:** `specs/001-csv-export/spec.md` rev 1 · sha256 `2aef8f23fc84` (a later spec revision voids the rows of every changed AC)
 **Base commit:** `9e1d4c2` (the only code the designer read)
-**Designed by:** Test Engineer (fresh subagent, 2026-11-23, after the Plan approval at 15:10 UTC)
+**Designed by:** Test Engineer (fresh subagent, 2026-11-23, after the Design sign-off at 15:10 UTC)
 **Inputs read:** `spec.md` rev 1; the code map (`codemap.md`); test conventions in `server/test/README.md`; `server/test/helpers/seed-orders.ts` and the Express app at the base commit · **Not seen:** implementation diff, branch `feat/001-csv-export`, PR text
 
 ## Map

@@ -1,6 +1,6 @@
 ---
 name: project-context
-description: This skill should be used when the user wants to set up, adopt, refresh or audit the agent instructions for a repository (the AGENTIC-SDLC block in AGENTS.md or CLAUDE.md with its sdlc-dod Definition of Done), enter an existing codebase before the first change, build or refresh the code map, vendor the Agentic SDLC scripts into .agentic-sdlc/bin, define CONSTRAINTS.md, build a GLOSSARY.md, or record a mistake an AI agent made so it is not repeated — the Plan-stage context foundation of the Agentic SDLC.
+description: This skill should be used when the user wants to set up, adopt, refresh or audit the agent instructions for a repository (the AGENTIC-SDLC block in AGENTS.md or CLAUDE.md with its sdlc-dod Definition of Done), enter an existing codebase before the first change, build or refresh the code map, vendor the Agentic SDLC scripts into .agentic-sdlc/bin, define CONSTRAINTS.md, build a GLOSSARY.md, or record a mistake an AI agent made so it is not repeated — the Discover-stage context foundation of the Agentic SDLC.
 license: MIT
 ---
 
@@ -8,7 +8,7 @@ license: MIT
 
 ## Purpose
 
-Give every agent session in a repository the same verified starting context: how to build, test and run the project, which Definition of Done every change must pass, how the code is organised, which quality bar must never be lowered, what the domain words mean and which mistakes agents have already made here. This is the **Plan-stage** foundation of the Agentic SDLC: router Step 0 state 1 ("No AGENTS.md block") sends every new project here, later stages read these files instead of re-discovering them, and retro actions (`../agentic-sdlc/references/retrospective.md`) are written back through pitfall mode.
+Give every agent session in a repository the same verified starting context: how to build, test and run the project, which Definition of Done every change must pass, how the code is organised, which quality bar must never be lowered, what the domain words mean and which mistakes agents have already made here. This is the **Discover-stage** foundation of the Agentic SDLC: router Step 0 state 1 ("No AGENTS.md block") sends every new project here, later stages read these files instead of re-discovering them, and retro actions (`../agentic-sdlc/references/retrospective.md`) are written back through pitfall mode.
 
 It manages six artifacts, all plain files in the project:
 
@@ -163,7 +163,7 @@ Use `../agentic-sdlc/templates/codemap.md`; write `docs/codemap.md`.
 
 Output: `docs/codemap.md`, committed with the block.
 
-Failure behaviour: a directory that cannot be classified → `excluded` with `reason: unknown — ask` and one question to the user. A plan touching a module missing from the map → the Architect updates the map first, in the same PR. Map older than 90 days or a top-level directory unmapped → doctor† WARN and codemap mode at the next Plan.
+Failure behaviour: a directory that cannot be classified → `excluded` with `reason: unknown — ask` and one question to the user. A plan touching a module missing from the map → the Architect updates the map first, in the same PR. Map older than 90 days or a top-level directory unmapped → doctor† WARN and codemap mode at the next Discover stage.
 
 ### Step 6 — Vendor the scripts (vendor mode; last step of setup and adopt)
 
@@ -212,7 +212,7 @@ Show the complete block, the ledger (adopt/refresh), the code map summary and th
 4. Defaults when the user has no opinion: changed-line coverage ≥ 80%; project coverage must not fall below `coverage_min`; 0 dependency advisories at high or critical; 0 critical/serious accessibility violations on new UI. State each number with its reason.
 5. Include ≥ 1 external check (vulnerability database, accessibility engine, real-browser metrics): a bar built only from the project's own tests is satisfied by code that does not work.
 
-Failure: loosening any rule needs an ADR and Plan approval; a diff that weakens the file without both → Critical review finding.
+Failure: loosening any rule needs an ADR and Design sign-off; a diff that weakens the file without both → Critical review finding.
 
 ### Glossary mode — GLOSSARY.md
 

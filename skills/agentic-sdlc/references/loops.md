@@ -33,9 +33,9 @@ Review-fix rounds belong to the task whose code the finding names (`--task T3`) 
 
 | Cause | Evidence that names it | Return to | Approval effect |
 |---|---|---|---|
-| `spec` | ACs contradict each other, or an AC cannot be met as written | Specify (Product Owner) | Spec approval void → change protocol (`references/rules.md`) |
-| `design` | Interface or architecture in the plan cannot satisfy the AC | Design (Tech Lead, Architect) | Plan approval void |
-| `plan` | Task order, Files or Blocked by is wrong | Design | Plan approval void |
+| `spec` | ACs contradict each other, or an AC cannot be met as written | Specify (Product Owner) | Specify sign-off void → change protocol (`references/rules.md`) |
+| `design` | Interface or architecture in the plan cannot satisfy the AC | Design (Tech Lead, Architect) | Design sign-off void |
+| `plan` | Task order, Files or Blocked by is wrong | Design | Design sign-off void |
 | `code` | Implementation defect | Build, same task | none |
 | `test` | The test itself is wrong (fixture, assertion, anti-pattern in `references/tdd.md` §3) | Build, same task | none |
 | `env` | Tool missing, service down, flaky infrastructure | preflight (`scripts/preflight.mjs`) before the next round | none |
