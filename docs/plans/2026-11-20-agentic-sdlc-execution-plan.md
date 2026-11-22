@@ -140,21 +140,27 @@ Open design questions to confirm at Checkpoint 1 (recommendations in brackets): 
 
 1. `CLAUDE.md`
 2. This plan
-3. `docs/research/methods/2026-11-20-structure-proposal.md` (why each choice)
-4. `docs/research/methods/*.md` (classic-and-standards, agile-flow-devops, ai-native-methods, bmad-and-mattpocock-structure)
-5. `docs/research/inventory/*.md` (mechanism catalogs: SP-, MP-, AO-, BM-, AV-)
-6. Current skills on the branch (§2.4)
+3. **`docs/research/README.md`** — index and status of every research file, evidence limits and open points
+4. `docs/research/scoring/HANDOFF.md` and `orchestrator-log.md` — state of the scoring round (the build gate)
+5. `docs/research/methods/2026-11-20-structure-proposal.md` (why each structural choice) and the four methods files
+6. `docs/research/inventory/*.md` (mechanism catalogs: SP-, MP-, AO-, BM-, AV-)
+7. Current skills on the branch (§2.4)
 
-### 2.4 Current state of the branch (2026-11-20)
+### 2.4 Current state of the branch (2026-11-22)
 
 | Item | State |
 |---|---|
 | `THIRD_PARTY_NOTICES.md` | Done (MIT notices; Agile V concept-only note) |
-| `docs/research/inventory/*` (5 files, ~92k words) | Done |
-| `docs/research/methods/*` (4 files + proposal) | Done |
+| `docs/research/inventory/*` (5 files, ~92k words) | ✅ Done |
+| `docs/research/methods/*` (4 research files + structure proposal) | ✅ Done; decision D10 approved |
+| `docs/research/scoring/` methodology, script, freeze | ✅ Frozen before any score |
+| Scoring cards: 9 benchmark methods × 2 independent scorers (18 cards) | ✅ Done |
+| Scoring cards: Agentic SDLC design-only (S-A, S-C) | ⏳ In progress |
+| Red-team audit, aggregation, verdict (`scoring/results.md`) | ⬜ Not started — **build gate** |
 | `skills/agentic-sdlc/` (router + references) | Exists, **written for the superseded 8-stage design** — rewrite in Phase 0 |
 | `project-context`, `brainstorming`, `grill-me`, `spec-driven-development`, `senior-solution-architect`, `writing-plans` | Exist, **shallow**, use superseded vocabulary (CP2/CP3, CHECKPOINTS.md, `docs/agentic-sdlc/`) — align in Phase 0, deepen in Phase B |
 | 12 new skills, 8 agent files | Not started |
+| Visual map of the method (Claude artifact, private to the owner) | Published; not in the repository |
 
 ### 2.5 License rules
 
