@@ -35,3 +35,5 @@ Pending, strictly sequential, commit after each card:
 After the cards: red-team audit (reviews this log and all cards, writes audit/adjustments.json if any overrides), `python3 docs/research/scoring/aggregate.py`, results report.
 
 Rules for scorers still to score: no totals visible; do not open other scorers' cards; do not change earlier cards without telling the orchestrator.
+
+| 2026-11-22 | agentic-sdlc/S-C written (design-only) | First S-C run was cancelled before writing (session permission change); re-run from scratch with the same brief. Methodology hash verified; 0 H / 13 M / 3 L; r 0.7–0.9; random criterion order recorded in the card | **All 20 cards present.** Preliminary aggregate run (not committed) used only to set audit scope: top two under baseline = AWS AI-DLC, Agile V |
