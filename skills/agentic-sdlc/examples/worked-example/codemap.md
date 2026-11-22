@@ -34,7 +34,7 @@ modules:
     paths: [web/src/reports/**]
     deploy: web
     depends_on: [web-api-client]
-    tests: [web/src/reports/__tests__/**]
+    tests: [web/src/reports/__tests__/**, e2e/reports/**]
     owner: reports-team
   - name: web-api-client
     paths: [web/src/api/**]

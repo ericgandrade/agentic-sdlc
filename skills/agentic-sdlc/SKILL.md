@@ -31,8 +31,8 @@ Not for one-off explanations or line-by-line edits the user directs. Pure ideati
 
 Run the status command once, first match wins:
 
-1. `node .agentic-sdlc/bin/status.mjs --json` (vendored into the project by `project-context`).
-2. `node <this skill>/scripts/status.mjs --json`.
+1. `node .agentic-sdlc/bin/status.mjs --json`† (vendored into the project by `project-context`).
+2. `node <this skill>/scripts/status.mjs --json`†.
 3. Neither exists or Node is absent → apply the table below by reading the files.
 
 | # | State (first match from the top) | Detected by | Next step |
@@ -48,13 +48,13 @@ Run the status command once, first match wins:
 | 9 | Retro actions open | Retro action without `done` or `dropped: <reason>` | Work the oldest action as a Plan item |
 | — | Nothing open | None of the above | Ask for the next request |
 
-Unparsable artifact → state `UNKNOWN`, recommend `project-context audit` and `references/faq.md`; the status script exits 2. Confirm a resume in one line before acting: `Spec rev 2 approved, plan approved, T1–T5 committed. Resume Build at T6?`
+Unparsable artifact → state `UNKNOWN`, recommend `project-context audit` and `references/faq.md`†; the status script† exits 2. Confirm a resume in one line before acting: `Spec rev 2 approved, plan approved, T1–T5 committed. Resume Build at T6?`
 
 When the user names a stage, check its entry condition (`references/lifecycle.md` §1) and report each missing prerequisite. Never skip one silently.
 
 ### Step 1 — Choose the path
 
-Score every item with `references/paths.md` §Score (or `scripts/path-score.mjs`):
+Score every item with `references/paths.md` §Score (or `scripts/path-score.mjs`†):
 
 - **Size S** = files (≤ 3: 1 · 4–15: 2 · > 15: 3) + components (1/2/≥ 3 → 1/2/3) + iterations (1/2/≥ 3 → 1/2/3). S ≤ 4 Quick · 5–6 Standard · ≥ 7 Full.
 - **Risk R** = count of triggers: auth, personal/health data, money, public API, schema/migration, irreversible, regulated. R = 0 Quick · R = 1 Standard · R ≥ 2, personal/health data or irreversible → Full.
@@ -88,7 +88,7 @@ Stage skills: `project-context` (Plan), `brainstorming` and `grill-me` (Plan/Spe
 
 1. Present the artifact, the evidence reviewed and the residual risks; ask the named role for a decision; **end the turn**.
 2. Only an explicit "yes" or "approved" in a later turn counts. Record approval, rev + 12-hex hash, date, role, person, exact words, evidence, residual risks, decision (`references/governance.md`).
-3. Any later edit to an approved file changes its hash and voids the approval → change protocol (`references/rules.md`).
+3. Any later edit to an approved file changes its hash and voids the approval → change protocol (`references/rules.md`). Rows appended to the plan's `## Loop ledger` are excluded from the hash.
 4. Proceeding past a failed gate requires a waiver: owner ≠ requester, reason, expiry ≤ 30 days, follow-up issue.
 
 ### Step 4 — Keep loops bounded
@@ -106,7 +106,7 @@ Plan ✅ ▸ Specify ✅ Spec approval ▸ Design ✅ Plan approval ▸ Build �
 
 ## Module Index
 
-Load a module only at its trigger. A listed file that is absent in the installed version → follow the rule summary in this router, record `module missing: <path>` in the PR body, and continue.
+Load a module only at its trigger. A listed file that is absent in the installed version → follow the rule summary in this router, record `module missing: <path>` in the PR body, and continue. † = added in a later release; manual fallback: `references/artifacts.md` §Later-release files.
 
 **First path** (≤ 3,700 words in total: README install section, `references/quickstart.md`, this file). **Off-first-path rule:** the Full path, unattended mode, extensions and metrics are loaded only after the first merged PR or on explicit request.
 
@@ -129,28 +129,28 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `references/security.md` | Spec Security notes; review lens L3; new dependency |
 | `references/release-ops.md` | Release; alerts; incidents; production intake |
 | `references/retrospective.md` | After Release; Quick batch due |
-| `references/faq.md` | Status `UNKNOWN`; doctor FAIL |
-| `references/upgrading.md` | Skill version changed; doctor schema WARN |
-| `references/adoption.md` | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
-| `references/brownfield.md` | Touching code without tests |
-| `references/extension-interface.md` | Loading or writing an extension |
-| `references/standards-mapping.md`, `references/ssdf-mapping.md` | Audit export; regulated work |
+| `references/faq.md`† | Status `UNKNOWN`; doctor† FAIL |
+| `references/upgrading.md`† | Skill version changed; doctor† schema WARN |
+| `references/adoption.md`† | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
+| `references/brownfield.md`† | Touching code without tests |
+| `references/extension-interface.md`† | Loading or writing an extension |
+| `references/standards-mapping.md`†, `references/ssdf-mapping.md`† | Audit export; regulated work |
 | `templates/spec.md`, `plan.md`, `acceptance-tests.md` | Specify; Design; acceptance-test design |
 | `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
-| `templates/codemap.md`, `threat-model.md` | Brownfield adoption; risk-triggered spec |
-| `templates/ops-record.md`, `postmortem.md`, `runbook.md` | Operate; SEV1/2 incident; operated-behaviour change |
-| `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS` | `project-context` CI and enforcement setup |
+| `templates/codemap.md`, `threat-model.md`† | Brownfield adoption; risk-triggered spec |
+| `templates/ops-record.md`†, `postmortem.md`†, `runbook.md`† | Operate; SEV1/2 incident; operated-behaviour change |
+| `templates/ci/agentic-sdlc.yml`†, `ci/gitlab-ci.yml`†, `ci/security.yml`†, `CODEOWNERS`† | `project-context` CI and enforcement setup |
 | `scripts/spec-lint.mjs`, `plan-graph.mjs` | Before Spec / Plan approval; CI |
-| `scripts/preflight.mjs`, `run-ledger.mjs`, `loop-ledger.mjs` | Build start; unattended runs; each loop round |
-| `scripts/evidence.mjs`, `trace-check.mjs`, `dod-gate.mjs` | Completion claims; before PR approval; CI |
-| `scripts/approval-check.mjs`, `audit-export.mjs` | CI on every PR; audit request |
-| `scripts/status.mjs`, `doctor.mjs`, `path-score.mjs` | Step 0; setup check; Plan |
-| `scripts/budget-check.mjs`, `ext-check.mjs`, `metrics.mjs` | CI on `skills/**`; extensions; each retro |
+| `scripts/preflight.mjs`, `run-ledger.mjs`, `loop-ledger.mjs`† | Build start; unattended runs; each loop round |
+| `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs`† | Completion claims; before PR approval; CI |
+| `scripts/approval-check.mjs`†, `audit-export.mjs`† | CI on every PR; audit request |
+| `scripts/status.mjs`†, `doctor.mjs`†, `path-score.mjs`† | Step 0; setup check; Plan |
+| `scripts/budget-check.mjs`, `ext-check.mjs`†, `metrics.mjs`† | CI on `skills/**`; extensions; each retro |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
 | `examples/worked-example/` | Learning the Standard path; script test fixtures |
-| `examples/paths/`, `examples/extensions/` | Checking a path decision; writing an extension |
+| `examples/paths/`†, `examples/extensions/`† | Checking a path decision; writing an extension |
 
-Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. `--json` prints a machine-readable result. Node absent → the method runs from the Markdown rules and the doctor reports `enforcement: prompt-only`.
+Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. `--json` prints a machine-readable result. Node absent → the method runs from the Markdown rules and the doctor† reports `enforcement: prompt-only`.
 
 ## Critical Rules
 

@@ -22,7 +22,7 @@ Write for an executor who is skilled but knows nothing about this codebase, its 
 - An approved plan was voided by a spec revision and needs revision N+1 (change protocol).
 - Requirements exist outside the Agentic SDLC and the work spans several files, layers or sessions: **standalone mode** (§Standalone mode).
 
-Not for the Quick path: a Quick item has no `plan.md`; its issue holds one acceptance test and `test-driven-development` drives the change. `plan-graph` rejects a Quick-path plan with `PATH_QUICK`.
+Not for the Quick path: a Quick item has no `plan.md`; its issue holds one acceptance test and the red-green-refactor cycle in `agentic-sdlc/references/tdd.md` drives the change. `plan-graph` rejects a Quick-path plan with `PATH_QUICK`.
 
 ## Inputs and Outputs
 
@@ -97,7 +97,7 @@ Show the table to the user and ask whether granularity and blocking edges are ri
 3. **Red** — test names that contain the AC ID, the exact run command and the expected failure line (`Expected: FAIL with ...`).
 4. **Green** — the minimal implementation, the same command, `Expected: PASS (n tests)`.
 5. **Refactor** — what changes; tests stay green.
-6. **Commit** — conventional message with the trailer `Refs: Tn AC-n` (one line, every AC the task serves). `executing-plans`, `trace-check` and `plan-graph --from-git` read this trailer.
+6. **Commit** — conventional message with the trailer `Refs: Tn AC-n` (one line, every AC the task serves). `executing-plans`, `trace-check`† and `plan-graph --from-git` read this trailer.
 
 Each step is one action of 2–5 minutes. Non-code tasks (docs, configuration, infrastructure) still get a verification command with an expected result (`terraform plan`, a validator, a dry run). Never write "add validation" without what is validated, the rule and the error returned.
 
@@ -153,7 +153,7 @@ Exit codes: 0 pass · 1 check failed · 2 plan or spec missing or unparsable. `-
 **Record.** Only an explicit "yes" or "approved" from the named role in a later turn counts. Write the row in `plan.md` `## Approvals`:
 
 ```markdown
-| Spec + Plan (combined) | 1 | 84da5fd5847a | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | Marco Silva | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0 | Export alert untested until staging | approved |
+| Spec + Plan (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0 | Export alert untested until staging | approved |
 ```
 
 A combined review records two rows from one request: the Product Owner's answer in `spec.md`, the Tech Lead's answer in `plan.md`, both with Approval `Spec + Plan (combined)` and the same spec hash. Fill `Answered at` and `Exact words` in `approvals.md`. ADRs referenced by the plan move from *Proposed* to *Accepted*. Then confirm the binding:
@@ -176,7 +176,7 @@ node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --from-git mai
 
 ### Loop ledger (mechanism 6.3)
 
-The plan carries a `## Loop ledger` table that the Build and Test stages append to: one row per failed round and per wave integration — date, task (or `W<n>` for a wave), loop (red-green, build-test, review-fix, debug, wave), round, failure signature (first failing test + first error line), cause (spec, design, plan, code, test, env), what was tried, result (fixed, failed, escalated, merged, conflict, red). The same signature in 2 consecutive rounds, or 3 failed fixes on one task, sets the result `escalated` and sends a design question to the Architect. Leave the table empty at Design; never delete rows.
+The plan carries a `## Loop ledger` table that the Build and Test stages fill from `run-ledger render` (`agentic-sdlc/references/loops.md`): one row per failed round, per round that fixed a failure, per ruling and per halt — date, task, loop (red-green, build-test, review-fix, debug), round, failure signature (first failing test + first error line), cause (spec, design, plan, code, test, env, unknown), what was tried, result (failed, fixed, escalated). A second `unknown` cause on one task is treated as `design`. The same signature in 2 consecutive rounds, or 3 failed fixes on one task, sets the result `escalated` and sends a design question to the Architect. Waves are the `plan-graph` frontier waves in `graph.json`, not a loop: a red DoD after merging a wave's worktrees is a `build-test` round on the task whose files the failure names. Leave the table empty at Design; never delete rows.
 
 ## Standalone Mode
 
@@ -228,3 +228,5 @@ Stops the Impact section, adds module `api-billing` (paths, depends_on, tests, o
 Writes `docs/plans/2026-11-24-worker-queue.md` with requirements AC-1..AC-3, tasks with `terraform plan` verification and a flag-gated dual-run task, runs `plan-graph --no-spec --write --out docs/plans/2026-11-24-worker-queue.graph.json`, and hands off to `executing-plans`.
 
 Sources: task-graph and slicing conventions adapted from Superpowers `writing-plans` (MIT), Matt Pocock `to-tickets` (MIT) and Addy Osmani `planning-and-task-breakdown` (MIT).
+
+† Added in a later release; manual fallback in `agentic-sdlc/references/artifacts.md` §Later-release files.

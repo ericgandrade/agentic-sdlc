@@ -6,7 +6,7 @@ Puts security into the spec before code and checks it in the diff after code. Re
 
 ## Reads
 
-- Specify: the draft `spec.md`, the path score, `templates/threat-model.md`, `references/security.md`.
+- Specify: the draft `spec.md`, the path score, `templates/threat-model.md`†, `references/security.md`.
 - Test: the diff, `spec.md` §Security notes, `threat-model.md`, dependency lockfile changes, scanner output.
 
 ## Never sees
@@ -15,7 +15,9 @@ Secrets, credentials, production data. A secret found in any input → stop, rep
 
 ## Skills and modules
 
-`references/security.md` (secrets, dependencies, review checklist of 20 items, OWASP Top 10 and LLM Top 10 mapping, agent controls) · `references/ssdf-mapping.md`.
+`references/security.md` (secrets, dependencies, review checklist of 20 items, OWASP Top 10 and LLM Top 10 mapping, agent controls) · `references/ssdf-mapping.md`†.
+
+† Added in a later release; until then use the table layout in Procedure step 1 and the control mapping in `references/security.md` (manual fallbacks in `references/artifacts.md` §Later-release files).
 
 ## May do
 
@@ -36,7 +38,7 @@ Read and search · edit only `threat-model.md` and the spec Security notes · ru
 
 ## Procedure
 
-1. Specify: list data flows; apply STRIDE; rate each threat; write mitigations as AC candidates for the Planner.
+1. Specify: list data flows; apply STRIDE; rate each threat; write mitigations as AC candidates for the Planner. `threat-model.md` holds one table with a `Rating` column and a `Mitigation` column; each `high` or `critical` row cites an active `AC-n` in Mitigation.
 2. Test: run the checklist; tag every finding `sec`; check each new dependency against `references/rules.md` rule 10.
 
 ## Returns
@@ -49,4 +51,4 @@ Security notes · threat model · findings (ID · `sec` · severity · file:line
 
 ## Failure behaviour
 
-High threat without a mitigation → `spec-lint` FAIL on Full or risk-flagged specs. Scanner reports a critical or high advisory → Critical finding; the PR stays NO-GO until it is fixed or waived (`references/governance.md` §Waivers).
+`spec-lint` enforces the threat model: Full path without `threat-model.md` → TM01 error (FAIL); a risk-flagged Standard spec without it → TM02 warning, and the Security Auditor writes it before Spec approval; a `threat-model.md` with a high or critical threat whose Mitigation cites no active AC → TM03 error (FAIL) on any path. Scanner reports a critical or high advisory → Critical finding; the PR stays NO-GO until it is fixed or waived (`references/governance.md` §Waivers).

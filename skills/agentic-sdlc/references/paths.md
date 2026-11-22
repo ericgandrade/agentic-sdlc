@@ -59,7 +59,7 @@ Risk route: **R = 0 → Quick · R = 1 → Standard · R ≥ 2, or any Full-forc
 | Add customer email to the CSV export | 5 · 2 · 1 | 5 | money, personal data | 2 | Standard / Full | **Full** |
 | Drop the legacy `orders_old` table | 3 · 1 · 1 | 3 | schema, irreversible | 2 | Quick / Full | **Full** |
 
-The fourth and sixth rows show risk overriding size. The tool form of this rubric (`scripts/path-score.mjs`) returns the same route for the same inputs.
+The fourth and sixth rows show risk overriding size. The tool form of this rubric (`scripts/path-score.mjs`†) returns the same route for the same inputs.
 
 ## 3. Approval depth by path (mechanism 10.2)
 
@@ -73,7 +73,7 @@ The fourth and sixth rows show risk overriding size. The tool form of this rubri
 | Artifacts | Issue with acceptance test, PR with Verification | `spec.md`, `plan.md`, `graph.json`, `acceptance-tests.md`, PR, release notes | Standard set + ADRs, `threat-model.md`, `CONSTRAINTS.md`, runbook |
 | Retro | Batched: every 10 merged items or 14 days, whichever comes first | Within 5 business days of Release, ≤ 15 min | Full retro within 5 business days |
 
-Failure behaviour: an approval missing for the current path → status `BLOCKED` at the next stage entry (`references/lifecycle.md` §1); `approval-check` (mechanism 10.4) fails the PR check once CI is installed.
+Failure behaviour: an approval missing for the current path → status `BLOCKED` at the next stage entry (`references/lifecycle.md` §1); `approval-check`† (mechanism 10.4) fails the PR check once CI is installed.
 
 ## 4. Escalate (mechanism 14.3)
 
@@ -116,7 +116,7 @@ Failure behaviour: Build continuing past a trigger without re-routing → the Re
 
 **Rules for the first changes in a brownfield repository:**
 
-- A task that changes a function with no covering test first adds a characterization test that pins the current behaviour, tagged `CHAR-n`, and commits it green before the change (`references/brownfield.md`).
+- A task that changes a function with no covering test first adds a characterization test that pins the current behaviour, tagged `CHAR-n`, and commits it green before the change (`references/brownfield.md`†).
 - A module the plan touches that is missing from the code map → update `docs/codemap.md` first, in the same PR.
 - Size inputs come from the code map: components = mapped modules that are built or deployed separately.
 
@@ -125,6 +125,8 @@ Failure behaviour: Build continuing past a trigger without re-routing → the Re
 - Any code change requested before adopt mode completes → status `BLOCKED` with next step `project-context` (adopt).
 - Baseline tests red at adoption → each failing test is listed in the block's `Baseline:` line and one issue labelled `baseline-red` is opened per test; Build preflight halts on a red baseline until the test is fixed or a waiver covers it.
 - No test suite at all → `Baseline: no tests`; every first change on that code is at least Standard, and characterization tests come first.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

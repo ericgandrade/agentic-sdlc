@@ -43,13 +43,13 @@ Quick path: Plan → Build → Test → (Release when production deploys) → Op
 
 **Record fields:** approval · rev + hash · date · role · person · exact words · evidence reviewed · residual risks · decision (approved / approved with conditions / rejected). Full rules: `references/governance.md`.
 
-**Hash rule.** The hash is the first 12 hex characters of SHA-256 over the file body excluding the `## Approvals` section (`scripts/lib/md.mjs` `contentHash`). Any later edit changes the hash and voids the approval; the change protocol in `references/rules.md` runs.
+**Hash rule.** The hash is the first 12 hex characters of SHA-256 over the file body (`scripts/lib/md.mjs` `contentHash`). The spec hash excludes `## Approvals`; the plan hash excludes `## Approvals` and `## Loop ledger`, so ledger rows appended during Build never void the Plan approval. Any other later edit changes the hash and voids the approval; the change protocol in `references/rules.md` runs. `spec-lint --hash` and `plan-graph` (`planHash`) print the values to record.
 
 **Intake decision.** Required when Plan finds a duplicate or a prior rejection; otherwise recorded as `n/a — <reason>` in the issue.
 
-**Roles.** One person can hold several roles; the record names the role exercised. Approver ≠ PR author is enforced by `approval-check` (mechanism 10.4); in a 1-person team the waiver procedure in `references/governance.md` applies.
+**Roles.** One person can hold several roles; the record names the role exercised. Approver ≠ PR author is enforced by `approval-check`† (mechanism 10.4); in a 1-person team the waiver procedure in `references/governance.md` applies.
 
-**Enforcement.** Branch protection with ≥ 1 review, CODEOWNERS on `specs/**`, required checks `agentic-sdlc/{dod,spec,trace,approvals}`, and a `production` environment with required reviewers. A host without these features → doctor WARN and the PR banner `enforcement: prompt-only`.
+**Enforcement.** Branch protection with ≥ 1 review, CODEOWNERS on `specs/**`, required checks `agentic-sdlc/{dod,spec,trace,approvals}`, and a `production` environment with required reviewers. A host without these features → doctor† WARN and the PR banner `enforcement: prompt-only`.
 
 ## 3. Paths
 
@@ -92,8 +92,10 @@ Anti-thrash: the same failure signature in 2 consecutive rounds, or 3 failed fix
 
 - **Observability is defined in Specify, not Operate.** `spec.md` §Release & observability names the signal, an alert with a numeric threshold, the dashboard or query location, the owner, the rollout (flag or stages 1% → 10% → 100%) and the rollback command. Required on Standard/Full by `spec-lint`; on Quick with a production deploy, one line: signal + rollback command.
 - **Runbook.** Required whenever a change alters operated behaviour (new endpoint, job, config or alert) on any path; always on Full.
-- **Retrospective.** Standard/Full: within 5 business days after Release (after merge when there is no release), ≤ 15 minutes, ≥ 1 owned action that changes a file. Quick: batched every 10 merged items or 14 days, whichever comes first. Overdue → the next step `status.mjs` reports.
+- **Retrospective.** Standard/Full: within 5 business days after Release (after merge when there is no release), ≤ 15 minutes, ≥ 1 owned action that changes a file. Quick: batched every 10 merged items or 14 days, whichever comes first. Overdue → the next step `status.mjs`† reports.
 
 ## 7. Operate → Plan
 
 Every incident action, postmortem action, alert trend and indicator miss becomes an issue labelled `from-production` with the spec or AC ID, triaged in Plan within 2 business days. An incident whose AC is unknown links to the spec ID and is marked `untraced-requirement`.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

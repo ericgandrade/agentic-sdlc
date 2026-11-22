@@ -10,9 +10,9 @@ Load after a Release, after a merge with no release, or when a Quick batch is du
 | Full | Same as Standard | ≤ 5 business days after the trigger | ≤ 45 min (full retro: adds §Full additions) | One spec |
 | Quick | 10 Quick items merged since the last Quick batch retro, or 14 calendar days since it with ≥ 1 Quick item merged; whichever comes first | ≤ 5 business days after the trigger | ≤ 15 min | All Quick items in the batch |
 
-**Record:** `docs/retros/YYYY-MM-DD.md` (second retro on the same date: `YYYY-MM-DD-2.md`). The header line `**Covers:**` names the spec folder and release tag, or the batch's PR numbers; `status.mjs` matches retros to items by this line.
+**Record:** `docs/retros/YYYY-MM-DD.md` (second retro on the same date: `YYYY-MM-DD-2.md`). The header line `**Covers:**` names the spec folder and release tag, or the batch's PR numbers; `status.mjs`† matches retros to items by this line.
 
-**Failure behaviour.** No valid record by the due date → `status.mjs` reports `Retro overdue: <spec or batch>` as the next step (router Step 0, state 8), and the next Release in the repository is NO-GO (`references/release-ops.md` checklist R9; `trace-check` FAIL once it exists) until the retro is held. A retro is never skipped because the cycle "went fine": a 15-minute retro with one action is the minimum.
+**Failure behaviour.** No valid record by the due date → `status.mjs`† reports `Retro overdue: <spec or batch>` as the next step (router Step 0, state 8), and the next Release in the repository is NO-GO (`references/release-ops.md` checklist R9; `trace-check`† FAIL once it exists) until the retro is held. A retro is never skipped because the cycle "went fine": a 15-minute retro with one action is the minimum.
 
 ## Procedure
 
@@ -68,6 +68,8 @@ Full retros (≤ 45 min) add three checks to step 2: each threat-model mitigatio
 ## Roles and solo teams
 
 The meeting needs ≥ 1 human with the authority to own actions; the agent never owns an action. In a 1-person team the same person runs the retro and owns the actions; the recurrence approval falls under the waiver procedure (`references/governance.md` §Waivers).
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

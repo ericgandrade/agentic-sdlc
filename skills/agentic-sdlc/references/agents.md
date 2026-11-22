@@ -18,7 +18,7 @@ Eight agents, named by function. Each agent file in `agents/` is a self-containe
 - **Fresh context per dispatch.** Give the agent its file, the artifacts listed under "Reads" and nothing else (`references/phase-boundaries.md` §Context hygiene).
 - **Tool lists are allow lists.** A subagent's tool list is a subset of its delegator's. Platform tool names per host: `references/platforms.md`.
 - **No subagents on the platform** → run the agent inline as a separate, labelled pass: start with `--- <Agent> pass ---`, load only its brief and inputs, and label every check of the author's own work `self-review` in the PR.
-- **Authority (all agents).** No push to the default branch, merge, deploy, release, tag or secret access without a human decision in the same session; in unattended mode no push at all (`references/autonomous.md`). An attempt → halt.
+- **Authority (all agents).** No push to the default branch, merge, deploy, release, tag or secret access without a human decision in the same session; in unattended mode no push at all (`references/autonomous.md`). An attempt → halt `authority`.
 
 ## Report contract (every agent)
 

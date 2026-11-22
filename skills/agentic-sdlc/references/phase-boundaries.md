@@ -62,7 +62,7 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 
 Trigger: a new session on a repository with open work, or a compaction mid-task.
 
-1. Run Step 0 of the router (`status.mjs` or the manual state table).
+1. Run Step 0 of the router (`status.mjs`† or the manual state table).
 2. Unattended run in progress (`.agentic-sdlc/runs/<id>/ledger.jsonl` exists, no `result.json`) → run `preflight`, then continue from the first task whose state is not `done` (`references/autonomous.md`).
 3. Otherwise read `specs/NNN-slug/handoff.md` if present; compare its `Last commit` with `git rev-parse HEAD`.
 4. Confirm the resume point with the human in one line: `Spec rev 2 approved, plan approved, T1–T5 committed. Resume Build at T6?`
@@ -85,6 +85,8 @@ Failure behaviour: `handoff.md` older than HEAD (commits after it) → ignore it
 ```
 
 The handoff file is a pointer, not the record. Overwrite it at each hand-off; git history keeps earlier versions.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Source
 

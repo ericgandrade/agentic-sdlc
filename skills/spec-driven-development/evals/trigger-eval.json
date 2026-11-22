@@ -3,7 +3,7 @@
   "description": "Triggers for writing, synthesizing, validating or revising a specification with numbered acceptance criteria before code",
   "queries": [
     {"id": 1, "query": "Write a spec with acceptance criteria for the CSV export before anyone codes it", "should_trigger": true},
-    {"id": 2, "query": "Turn what we just discussed into a SPEC — no need to interview me again", "should_trigger": true},
+    {"id": 2, "query": "Turn what we just discussed into a spec — no need to interview me again", "should_trigger": true},
     {"id": 3, "query": "Check this spec before we approve it — are the acceptance criteria testable?", "should_trigger": true},
     {"id": 4, "query": "Product changed the requirement after approval, update the spec properly", "should_trigger": true},
     {"id": 5, "query": "Define the requirements, boundaries and rollback for password reset via email", "should_trigger": true},

@@ -19,8 +19,10 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 | Internal | Order IDs, internal hostnames, feature names | none | Never in public artifacts or third-party prompts |
 | Financial | Prices, order totals, payment amounts, revenue | `money` when amounts are created, changed or exported | Access-checked on the server; exports logged with actor ID |
 | Personal | Names, emails, phone numbers, IP addresses, user IDs linked to a person | `personal/health data` | Synthetic data in fixtures; logs carry opaque IDs only; exports access-checked and logged |
-| Sensitive personal | Health, biometric, government ID, bank or card data, precise location, children's data | `personal/health data` | Personal rules + threat model (`templates/threat-model.md`) |
+| Sensitive personal | Health, biometric, government ID, bank or card data, precise location, children's data | `personal/health data` | Personal rules + threat model (`templates/threat-model.md`†) |
 | Secret | Passwords, API keys, tokens, private keys, connection strings | none by itself | §Secrets; never in code, prompts, logs or fixtures |
+
+† `templates/threat-model.md` is added in a later release; until then write one table with `Threat`, `STRIDE`, `Rating` and `Mitigation` columns (`agents/security-auditor.md`).
 
 **Decision rule.** Personal or sensitive personal data in the change → the `personal/health data` trigger counts in the path score, which forces the path to **at least Standard**; `references/paths.md` §Score sets the final path. A data element with an unknown class is treated as Personal until classified.
 
@@ -32,7 +34,7 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 4. **Secrets:** each new secret, where it is stored (environment or secret manager) and who rotates it; or `none`.
 5. **Threat model:** `specs/NNN-slug/threat-model.md` link on Full or risk-flagged items; otherwise `n/a — <reason>`.
 
-**Failure behaviour.** Empty section on Standard/Full → `spec-lint` exit 1. Classification unknown after the 3-round question limit → Security Auditor `NEEDS_CONTEXT`; the path is scored with the `personal/health data` trigger.
+**Failure behaviour.** Empty section on Standard/Full → `spec-lint` exit 1. Threat model: Full path without `threat-model.md` → TM01 error (exit 1); risk-flagged Standard spec without it → TM02 warning, written by the Security Auditor before Spec approval; a high or critical threat whose Mitigation cites no active `AC-n` → TM03 error (exit 1). Classification unknown after the 3-round question limit → Security Auditor `NEEDS_CONTEXT`; the path is scored with the `personal/health data` trigger.
 
 ## Secrets
 

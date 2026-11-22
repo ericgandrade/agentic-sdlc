@@ -128,11 +128,14 @@ or Important review finding. No new dependency → the single line `none — <re
 
 <!--
 Mechanism 6.3. Excluded from the plan hash: appending rows never voids Plan approval.
-One row per failed round and per escalation (references/loops.md). Loop: red-green | build-test |
-review-fix | debug | wave. Cause: spec | design | plan | code | test | env. Result: fixed | failed |
-escalated. Signature = first failing test + first error line. The same signature in 2 consecutive
-rounds, or 3 failed fixes on one task → Result `escalated` and a design question for the Architect.
-A `wave` row records the integration of a parallel wave (Task = W<n>; Result merged | conflict | red).
+Rows come from `run-ledger render` (references/loops.md): one row per failed round, per round that
+fixed a failure, per ruling and per halt. Loop: red-green | build-test | review-fix | debug (plus
+`ruling` and `halt` rows). Cause: spec | design | plan | code | test | env | unknown; a second
+`unknown` on one task is treated as `design` (breaker B6). Result: failed | fixed | escalated.
+Signature = first failing test + first error line. The same signature in 2 consecutive rounds, or
+3 failed fixes on one task → Result `escalated` and a design question for the Architect.
+Waves are the plan-graph frontier waves in graph.json; a red DoD after merging a wave's worktrees
+is a `build-test` round on the task whose files the failure names.
 -->
 
 | Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |

@@ -29,7 +29,7 @@ Artifact locations and the block format are indexed in `../agentic-sdlc/referenc
 - First use of the Agentic SDLC on an existing codebase (brownfield): adopt mode runs before the first change.
 - The Definition of Done is missing, a DoD command fails, or `coverage_min` needs its first measurement.
 - A PR adds, removes or moves a top-level source directory (code map refresh).
-- The installed `agentic-sdlc` version differs from `.agentic-sdlc/bin/VERSION`, or the doctor reports a checksum mismatch (vendor).
+- The installed `agentic-sdlc` version differs from `.agentic-sdlc/bin/VERSION`, or `shasum -a 256 -c SHA256SUMS` in `.agentic-sdlc/bin/` reports a mismatch (vendor).
 - A Full-path item starts and `CONSTRAINTS.md` is absent.
 - Domain vocabulary is ambiguous ("account" means three things).
 - An agent made a mistake worth preventing next time, or a retro action targets the instructions.
@@ -142,9 +142,9 @@ coverage_min: <baseline %>
 | Missing tool | `<key>: n/a — <reason>` (for example `typecheck: n/a — plain JavaScript`) |
 | Verification | Every command runs once at setup and exits 0 on the baseline commit, or is listed in `Baseline: … red:` |
 | `coverage_min` | The coverage measured at adoption, one decimal. Never lowered; a higher measured value at a later refresh becomes the new floor |
-| Consumers | `dod-gate` before the PR opens and as CI check `agentic-sdlc/dod`; the Implementer before any completion claim; the doctor |
+| Consumers | `dod-gate`† before the PR opens and as CI check `agentic-sdlc/dod`; the Implementer before any completion claim; `preflight` (baseline-dod); the doctor† |
 
-Failure behaviour: the block is not written without the `sdlc-dod` fence. A missing fence later → `dod-gate` exit 2 and doctor FAIL. A request to lower `coverage_min` or delete a DoD key → refuse; the only route is a waiver with an owner ≠ requester and an expiry ≤ 30 days.
+Failure behaviour: the block is not written without the `sdlc-dod` fence. A missing fence later → `preflight` and `run-ledger start` exit 2 (`dod-gate`† exit 2 and doctor† FAIL). A request to lower `coverage_min` or delete a DoD key → refuse; the only route is a waiver with an owner ≠ requester and an expiry ≤ 30 days.
 
 Leave out what manifests already say plainly, generic advice ("write clean code") and anything a tool enforces. For each candidate rule, check whether a lint rule, hook or CI check enforces it; when one does, propose the check and keep the line only until the check is merged.
 
@@ -163,7 +163,7 @@ Use `../agentic-sdlc/templates/codemap.md`; write `docs/codemap.md`.
 
 Output: `docs/codemap.md`, committed with the block.
 
-Failure behaviour: a directory that cannot be classified → `excluded` with `reason: unknown — ask` and one question to the user. A plan touching a module missing from the map → the Architect updates the map first, in the same PR. Map older than 90 days or a top-level directory unmapped → doctor WARN and codemap mode at the next Plan.
+Failure behaviour: a directory that cannot be classified → `excluded` with `reason: unknown — ask` and one question to the user. A plan touching a module missing from the map → the Architect updates the map first, in the same PR. Map older than 90 days or a top-level directory unmapped → doctor† WARN and codemap mode at the next Plan.
 
 ### Step 6 — Vendor the scripts (vendor mode; last step of setup and adopt)
 
@@ -188,7 +188,7 @@ Copy the method's deterministic gates into the project so CI runs the same code 
 
 Failure behaviour:
 
-- Checksum mismatch at any later check → doctor FAIL; never patch a vendored file by hand: re-vendor from the pinned release and review the diff.
+- Checksum mismatch at any later check (`shasum -a 256 -c SHA256SUMS`, or the doctor†) → FAIL; never patch a vendored file by hand: re-vendor from the pinned release and review the diff.
 - A script named in the router's Module Index absent from the installed skill → vendor the scripts that exist and add `missing: <names>` to `VERSION`; the router falls back to the Markdown rule for each.
 - Node absent or < 18 → vendor anyway (files are inert), set `node: absent` on the Platform line and `Enforcement: prompt-only`; the method runs on the Markdown-only path (`../agentic-sdlc/references/platforms.md` §4).
 
@@ -253,9 +253,11 @@ Output: a findings list (line · evidence gone · proposed edit). Every removal 
 
 **3. Defining the quality bar for a Full-path item.** "Agents keep adding `@ts-ignore` to get green builds." Constraints mode: floor bans new suppressions; changed-line coverage ≥ 80% via `vitest --coverage`; `osv-scanner` for advisories; project coverage 61.2% as a ratchet. Adds the "never weaken" line to the block.
 
-**4. Upgrade with a checksum mismatch.** The doctor reports `plan-graph.mjs: FAILED` in `SHA256SUMS`. Vendor mode: the diff shows a local edit; it is reverted by re-vendoring from agentic-sdlc 2.0.0, the check passes, and a pitfall line records "edited vendored script → change the skill upstream".
+**4. Upgrade with a checksum mismatch.** `shasum -a 256 -c SHA256SUMS` in `.agentic-sdlc/bin/` prints `plan-graph.mjs: FAILED`. Vendor mode: the diff shows a local edit; it is reverted by re-vendoring from agentic-sdlc 2.0.0, the check passes, and a pitfall line records "edited vendored script → change the skill upstream".
 
 **5. Recording a pitfall.** "The agent ran `pytest` outside the virtualenv again." Second occurrence → pitfall line `2026-11-19 — plain pytest runs outside the project env → use uv run pytest`, plus `test: uv run pytest` in `sdlc-dod` as the durable fix.
+
+† Added in a later release; manual fallback in `agentic-sdlc/references/artifacts.md` §Later-release files.
 
 ## Sources
 

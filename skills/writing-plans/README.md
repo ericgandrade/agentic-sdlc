@@ -34,11 +34,11 @@ Converts specs or requirements into a detailed, executable implementation plan b
 
 ## What's New in v3.0
 
-- **Agentic SDLC DE stage** — plans from an approved SPEC revision; CP3 approval recorded in CHECKPOINTS.md
+- **Agentic SDLC Design stage** — plans from an approved spec revision; the approval record format was replaced in v3.1 (Plan approval in `## Approvals`)
 - **Task graph** — tracer-bullet vertical slices with `Satisfies: AC-n`, `Implements: ADR`, `Blocked by:` edges
 - **Wide refactors** — expand → migrate → contract sequencing
 - **Coverage check** — every acceptance criterion has a task, every task serves a criterion or is an explicit enabler
-- **Traceable commits** — commit messages carry `[Tn, AC-n]`
+- **Traceable commits** — commit messages carry task and AC IDs (trailer format `Refs: Tn AC-n` since v3.1)
 - **Fixed handoff** — points to `executing-plans` (subagent or inline mode) instead of external skill names
 
 ## Influences

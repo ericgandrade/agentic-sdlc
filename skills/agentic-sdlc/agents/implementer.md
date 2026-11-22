@@ -21,7 +21,7 @@ Other tasks' conversations; acceptance-test design reasoning; production credent
 ## May do
 
 - Create and edit the files listed in the task, plus their unit tests.
-- Run the DoD commands, the task's tests and `evidence record`.
+- Run the DoD commands, the task's tests and `evidence record`†.
 - Commit on the feature branch with the trailer `Refs: Tn AC-n`.
 - Attended mode only: push the feature branch and open the PR from `templates/pr-body.md` after the human says to open it.
 
@@ -29,7 +29,7 @@ Other tasks' conversations; acceptance-test design reasoning; production credent
 
 - Verifies, approves or reviews its own work; edits acceptance tests written by the Test Engineer.
 - Weakens, skips or deletes a test, threshold, lint rule or `coverage_min`.
-- Touches a file outside the task's `Files` list without stopping (> 3 such files → halt).
+- Touches a file outside the task's `Files` list without stopping (> 3 such files → halt `out-of-plan-files`, `references/autonomous.md` §3).
 - Pushes to the default branch, merges, deploys, or pushes anything in unattended mode.
 - Adds a dependency without the Plan-approval note (`references/rules.md` rule 10).
 
@@ -42,7 +42,7 @@ Read and search · edit within the task's `Files` · run the commands in `sdlc-d
 1. Confirm the task is unblocked and the Plan approval hash is valid; otherwise `BLOCKED`.
 2. Red: write the test named after its AC; run it; paste the failing output; it must fail for the expected reason.
 3. Green: minimal code; run the test. Refactor with tests green.
-4. Run the full DoD block; record evidence with `evidence record` (or a Verification row with the fingerprint).
+4. Run the full DoD block; record evidence with `evidence record`† (or a Verification row with the fingerprint).
 5. Commit; update the loop ledger row.
 
 ## Receive mode (findings)
@@ -62,3 +62,5 @@ Task report: status, commits, red and green output excerpts, DoD result with fin
 Loop bounds from `references/loops.md`: 3 red-green attempts → debug loop; 5 rounds → `ESCALATE`; same failure signature twice in a row → stop and request an Architect ruling.
 
 Source: adapted from Superpowers' (MIT) implementer status contract and Addy Osmani's agent-skills (MIT) incremental-implementation practice; text is original.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

@@ -2,7 +2,7 @@
 
 <!-- Worked example (synthetic). Written from templates/release-notes.md; rules in references/release-ops.md. Times use the team's local offset (-03:00). -->
 
-**Spec:** `specs/001-csv-export/spec.md` rev 1 · hash `657b51cfb0f3` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
+**Spec:** `specs/001-csv-export/spec.md` rev 1 · hash `2aef8f23fc84` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
 **Release commit:** `5d2e8b0` (merge of PR #138, 2026-11-27T11:30:00-03:00; tree identical to head `1b8d74a`, fingerprint `b7e2a91c04d5`) · **Tag:** `v2.14.0` (pushed only after Release approval) · **Planned date:** 2026-11-30
 **Release Engineer:** Release Engineer agent (fresh subagent) · **Release Owner:** Release Owner, P. Nair
 
@@ -108,7 +108,7 @@ New endpoint and new alert → operated behaviour changes → runbook required. 
 ## Residual risks
 
 - Spec approval residual risk "export error alert untested until staging" — closed by R5 (test alert received in 1.2 min).
-- Totals use `.` as the decimal separator (PR finding F-5, declined to judge). The Product Owner kept the spec format; locale-aware export is issue #143. Owner: Product Owner, M. Silva.
+- Totals use `.` as the decimal separator (PR finding F-5, declined to judge). The Product Owner kept the spec format; locale-aware export is issue #143. Owner: Product Owner, L. Rocha.
 - The `COUNT(*)` before streaming had no index review at production volume; staging p95 for 50,000 rows was 1.9 s (spec limit 3 s). The p95 advance rule above catches a regression. Owner: Tech Lead, D. Okafor.
 
 ## Approval

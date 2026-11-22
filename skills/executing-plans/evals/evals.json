@@ -4,13 +4,13 @@
     {
       "id": 1,
       "prompt": "Execute this implementation plan: Plan.md is in the current directory and outlines a 5-step process to add authentication to our Express.js API using JWT tokens. Start with step 1.",
-      "expected_output": "Systematic execution of the plan file with checkpoint verification between steps",
+      "expected_output": "Test-first execution of the plan in batches of at most 3 tasks, with preflight, a run ledger and an attended checkpoint after each batch",
       "expectations": [
-        "Output reads and confirms understanding of the plan before starting",
-        "Output executes steps sequentially, not all at once",
-        "Output verifies completion of each step before proceeding",
-        "Output pauses for user review at defined checkpoints",
-        "Output reports what was done and what comes next at each checkpoint"
+        "Output reads and confirms understanding of the plan before starting, and runs or describes preflight (clean tree, non-default branch, green baseline)",
+        "Output executes tasks sequentially or as a frontier of tasks with disjoint files, not all at once",
+        "Output writes a failing test and shows its red output before production code for each task",
+        "Output verifies each task with fresh Definition of Done output before reporting it DONE",
+        "Output stops at the attended checkpoint after a batch and reports what was done, rounds per loop and what comes next"
       ]
     },
     {
@@ -21,7 +21,7 @@
         "Output reads the migration plan from the specified location",
         "Output executes exactly one step at a time",
         "Output shows what changed after each step before asking to continue",
-        "Output would stop and report clearly if a step failed",
+        "Output stops and reports clearly if a step fails, recording the failed round (signature, cause, what was tried) and escalating at the loop bound instead of retrying without limit",
         "Output tracks which steps are complete and which are remaining"
       ]
     }

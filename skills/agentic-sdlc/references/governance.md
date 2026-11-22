@@ -8,12 +8,12 @@ Load this file for any approval request, any approval record, any waiver, and th
 |---|---|---|---|---|---|
 | **Spec** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
 | **Plan** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
-| **PR** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host | branch protection; `approval-check --pr` (10.4) |
+| **PR** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host | branch protection; `approval-check --pr`† (10.4) |
 | **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
 
 Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3). Quick-path items have no `specs/` folder.
 
-**Accountability roles (K12).** One person can hold several roles; every record names the role exercised. Approver ≠ PR author is enforced by `approval-check` (mechanism 10.4); in a 1-person team the waiver procedure (§6) applies.
+**Accountability roles (K12).** One person can hold several roles; every record names the role exercised. Approver ≠ PR author is enforced by `approval-check`† (mechanism 10.4); in a 1-person team the waiver procedure (§6) applies.
 
 | Role | Accountable for | Never |
 |---|---|---|
@@ -29,7 +29,7 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 
 1. **Pre-check.** Run the artifact's check. Exit ≠ 0 → no request; fix or report `BLOCKED`.
 2. **Hash.** `node .agentic-sdlc/bin/spec-lint.mjs --hash specs/NNN-slug/spec.md` prints the hash to record.
-3. **Request.** Present, in one message: artifact path, rev, hash, the evidence reviewed (lint output, critique summary, test output), the residual risks, and one question naming the role: `Product Owner: approve spec.md rev 1 (hash 3fa9c0e1b2d4) as the build baseline? Reply "yes" or list changes.`
+3. **Request.** Present, in one message: artifact path, rev, hash, the evidence reviewed (lint output, critique summary, test output), the residual risks, and one question naming the role: `Product Owner: approve spec.md rev 1 (hash 2aef8f23fc84) as the build baseline? Reply "yes" or list changes.`
 4. **Log the request** as a new row in `approvals.md` with `Requested at` (UTC, minute precision) and the asked role.
 5. **End the turn.** No further tool call, no work on the next stage.
 6. **Read the reply in a later turn.** Count it as approval only when it contains an explicit `yes`, `approve` or `approved` and names nothing to change. Record the decision:
@@ -46,11 +46,19 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 
 ## 3. Record formats
 
-**Approval row** (`## Approvals` in `spec.md`; `plan.md` adds Plan rev/hash and Spec rev/hash columns):
+**Approval row.** Each file uses its own form, taken from its template. `spec.md` binds one artifact, so it has one `Rev` and one `Hash` column (`templates/spec.md`):
 
 | Approval | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
-| Spec + Plan (combined) | 1 | 3fa9c0e1b2d4 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan-graph exit 0 (plan rev 1) | Export error alert untested until staging | approved |
+| Spec + Plan (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan-graph exit 0 (plan rev 1) | Export error alert untested until staging | approved |
+
+`plan.md` binds the plan and the spec it was built on, so it replaces `Rev`/`Hash` with `Plan rev`, `Plan hash`, `Spec rev` and `Spec hash` (`templates/plan.md`):
+
+| Approval | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Spec + Plan (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0; critique 12/12 | Export error alert untested until staging | approved |
+
+Parsers: `spec-lint --check-approval` reads the spec form; `plan-graph --check-approval` requires the plan form's columns (`Approval`, `Plan rev`, `Plan hash`, `Spec hash`, `Role`, `Person`, `Exact words`, `Decision`) and exits 1 with `APPROVAL_COLUMNS` otherwise; `preflight` and `run-ledger start` accept both forms (named hash columns, or the hash in the row text of the spec form).
 
 Field rules checked by `spec-lint --check-approval`: Approval is `Spec` or `Spec + Plan (combined)`; Rev equals the header Revision; Hash equals the current hash; Date is `YYYY-MM-DD[ HH:MM]` (UTC); Role, Person, Evidence reviewed, Residual risks non-empty (`none` is a value); Exact words contain an explicit yes; Decision is `approved` or `approved with conditions`. Rows are append-only: earlier rows stay as history, and the **last** Spec row binds.
 
@@ -111,7 +119,7 @@ Rules (`spec-lint` rules WV01–WV05): kind is one of the three; gate and reason
 
 The owner is written `self · 1-person team`; the decision is taken in a later session at least 12 hours after the request, and the PR banner shows `self-approved under waiver W<n>`.
 
-**Failure behaviour.** A malformed waiver → `spec-lint` exit 1. An expired waiver → `spec-lint --check-approval` exit 1 (`WV05`), Release go/no-go item R8 false, and `approval-check` FAIL once CI is installed. Renewal is a new row, never an edited date.
+**Failure behaviour.** A malformed waiver → `spec-lint` exit 1. An expired waiver → `spec-lint --check-approval` exit 1 (`WV05`), Release go/no-go item R8 false, and `approval-check`† FAIL once CI is installed. Renewal is a new row, never an edited date.
 
 ## 7. Enforcement (K5)
 
@@ -123,7 +131,9 @@ The owner is written `self · 1-person team`; the decision is taken in a later s
 | CODEOWNERS | `specs/** @tech-leads @product-owners` | Spec or plan edits without an owner's review |
 | Environment reviewers | GitHub `production` environment with the Release Owner as required reviewer | Deploy without Release approval |
 
-**Failure behaviour.** A host or plan without one of these controls → the doctor reports WARN per missing control, the AGENTS.md block records `Enforcement: prompt-only`, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`. The approval gate in `preflight` still runs wherever Node ≥ 18 exists.
+**Failure behaviour.** A host or plan without one of these controls → the doctor† reports WARN per missing control, the AGENTS.md block records `Enforcement: prompt-only`, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`. The approval gate in `preflight` still runs wherever Node ≥ 18 exists.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

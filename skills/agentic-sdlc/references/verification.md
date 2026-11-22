@@ -73,7 +73,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 **Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`; recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. The function is `fingerprint()` in `scripts/lib/git.mjs`.
 
-**Manual procedure (applies whenever `scripts/evidence.mjs` is absent from the installed version):**
+**Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
 
 1. Compute the fingerprint immediately before running the commands:
    `node --input-type=module -e "const m = await import(process.argv[1]); console.log(m.fingerprint().short)" "<skill-dir>/scripts/lib/git.mjs"`
@@ -86,7 +86,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 **When to check staleness:** before every completion claim; before the Reviewer issues GO; before the PR approval request; after any commit, rebase or merge from the base branch; before the Release approval request.
 
-**Persistence.** The PR body is the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md`, committed on the feature branch. `scripts/evidence.mjs record|check` writes `.agentic-sdlc/evidence/ledger.jsonl` (cmd, exit, stdout sha256, last 40 lines, fingerprint, time) and renders the same table; when present, it replaces steps 1–5 and its `check` exit 1 is a Reviewer NO-GO.
+**Persistence.** The PR body is the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md`, committed on the feature branch. `scripts/evidence.mjs record|check`† writes `.agentic-sdlc/evidence/ledger.jsonl` (cmd, exit, stdout sha256, last 40 lines, fingerprint, time) and renders the same table; when present, it replaces steps 1–5 and its `check` exit 1 is a Reviewer NO-GO.
 
 ## 5. Trace — two-way gap analysis
 
@@ -98,7 +98,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 | Output | One matrix row per AC: `AC-n · tasks · commits · tests · Verification rows · status`; an `Orphans` list (`none` when empty) |
 | Failure | Any orphan → NO-GO until resolved as below |
 
-Manual procedure (applies whenever `scripts/trace-check.mjs` is absent):
+Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 
 1. ACs: the `AC-n` IDs in `spec.md` (Quick: in the issue).
 2. Tasks: the `## Tasks` rows of `plan.md` and their AC column.
@@ -116,7 +116,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs` is absent):
 
 **Quick path.** No `plan.md`: commits carry `Refs: AC-n`, and the task checks are recorded as `n/a — Quick`. Every other check applies.
 
-`scripts/trace-check.mjs` performs steps 1–5 from the files and `git log`, writes `specs/NNN-slug/trace.md` and exits 1 listing the orphans; when present, its output replaces the manual matrix.
+`scripts/trace-check.mjs`† performs steps 1–5 from the files and `git log`, writes `specs/NNN-slug/trace.md` and exits 1 listing the orphans; when present, its output replaces the manual matrix.
 
 ## Red flags
 
@@ -130,6 +130,8 @@ The left column quotes rationalizations; the quoted words are what to catch, not
 | "CI is green, that covers the ACs" | CI runs the DoD. Each AC needs its own test row. |
 | "Only a comment changed since the run" | Any change moves the fingerprint. Re-run. |
 | "I'll write the acceptance test after seeing the code" | Tests designed from the code check what was built, not what was asked. |
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

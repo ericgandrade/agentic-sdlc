@@ -15,7 +15,7 @@ The implementation diff, the feature branch, the PR text, or the Implementer's r
 
 ## Skills and modules
 
-`references/verification.md` · `references/tdd.md` §Anti-patterns · `references/brownfield.md` (characterization tests, `CHAR-n`).
+`references/verification.md` · `references/tdd.md` §Anti-patterns · `references/brownfield.md`† (characterization tests, `CHAR-n`).
 
 ## May do
 
@@ -47,3 +47,5 @@ Read and search at the base commit · edit only `acceptance-tests.md` and accept
 ## Status
 
 `DONE` every AC mapped and run · `DONE_WITH_CONCERNS` a test level lower than ideal, with reason · `BLOCKED` contaminated context or no test seam (missing seam recorded as a finding) · `NEEDS_CONTEXT` an AC that is not testable as written (back to the Planner) · `CANNOT_VERIFY` an AC exercisable only in production (who verifies, when).
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

@@ -7,7 +7,7 @@ Watches the released change and its indicator, runs the incident procedure with 
 ## Reads
 
 - `specs/NNN-slug/ops.md`, the spec indicator (baseline + target), alert definitions, dashboards or queries named in the spec, the runbook, release notes.
-- `references/release-ops.md` §Incidents and §Intake, `references/retrospective.md`, `templates/postmortem.md`, `templates/retro.md`.
+- `references/release-ops.md` §Incidents and §Intake, `references/retrospective.md`, `templates/postmortem.md`†, `templates/retro.md`.
 
 ## Never sees
 
@@ -50,4 +50,6 @@ Ops readings · incident record · postmortem draft · retro record · list of n
 
 ## Failure behaviour
 
-No indicator reading 14 days after release → `trace-check` WARN; FAIL at the retro. Postmortem overdue → reported as the next step by `status.mjs`.
+No indicator reading 14 days after release → `trace-check`† WARN; FAIL at the retro. Postmortem overdue → reported as the next step by `status.mjs`†.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

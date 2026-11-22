@@ -1,6 +1,6 @@
 # Agentic SDLC — Platforms: Install, Mapping and Degradation
 
-Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when the doctor reports a platform WARN. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
+Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when the doctor† reports a platform WARN. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
 
 ## 1. Capability probe (mechanism 15.1)
 
@@ -22,7 +22,7 @@ Load this file during `project-context` setup on a new platform, when the router
 - Platform: claude-code · subagents: yes · shell: yes · node: 20.11 · enforcement: branch-protection · ci: github-actions
 ```
 
-**Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3 and the doctor reports it as WARN.
+**Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3 and the doctor† reports it as WARN.
 
 ## 2. Per-platform mapping
 
@@ -62,9 +62,9 @@ The capability probe decides at runtime; this table is the expected default. A p
 |---|---|---|---|---|
 | 1 | Subagents | Run each agent as a separate labelled pass in the same session, loading only that agent's file and listed inputs. The Test Engineer writes `acceptance-tests.md` from the spec **before** Build starts and commits it, so the tests are fixed before any diff exists | Every check of the author's own work is labelled `self-review` in the PR Verification and Review triage sections | Missing `self-review` label on a same-session check → Reviewer Important finding; PR verdict NO-GO |
 | 2 | Shell | The agent writes the exact commands; the human runs them and pastes the output | Verification rows marked `run-by: human` | No pasted output → status `CANNOT_VERIFY`; no completion claim |
-| 3 | Node ≥ 18 | Markdown-only path (§4) | Block `node: absent`; PR banner `enforcement: prompt-only` | Doctor reports WARN once Node is present; the vendored scripts stay unused until then |
+| 3 | Node ≥ 18 | Markdown-only path (§4) | Block `node: absent`; PR banner `enforcement: prompt-only` | Doctor† reports WARN once Node is present; the vendored scripts stay unused until then |
 | 4 | git | None: commit trailers, fingerprints and approval binding need git | — | Router status `BLOCKED`, next step `git init` and a first commit |
-| 5 | Host enforcement | Approvals stay prompt-enforced; the agent never merges, pushes to the default branch or deploys | Block `enforcement: prompt-only`; PR body banner | Doctor WARN on every run until branch protection is set up |
+| 5 | Host enforcement | Approvals stay prompt-enforced; the agent never merges, pushes to the default branch or deploys | Block `enforcement: prompt-only`; PR body banner | Doctor† WARN on every run until branch protection is set up |
 | 6 | CI | Run every gate locally before opening the PR and paste the output | PR body `ci: none` | Missing local output → PR verdict NO-GO |
 | 7 | Tool restriction | Role limits from `agents/*.md` apply by instruction only | Block `permissions: prompt-only` | A role using a tool outside its list → stop that pass, discard its output, re-run the role |
 
@@ -74,15 +74,17 @@ Every script gate has a manual equivalent with the same pass rule. The method's 
 
 | Script | Manual equivalent |
 |---|---|
-| `status.mjs` | Apply the router Step 0 table by reading the files |
-| `path-score.mjs` | Fill the §2 rubric of `references/paths.md` by hand |
+| `status.mjs`† | Apply the router Step 0 table by reading the files |
+| `path-score.mjs`† | Fill the §2 rubric of `references/paths.md` by hand |
 | `spec-lint.mjs` | Check the required sections of `templates/spec.md` one by one; AC IDs contiguous from `AC-1` |
 | Approval hash | Bind the approval to the commit instead: `rev N @ <git log -1 --format=%h -- specs/NNN-slug/spec.md>`; any later commit touching the file voids it |
 | `plan-graph.mjs` | Each `Blocked by` names only lower task IDs (acyclic by construction); list waves by hand in `plan.md` |
-| `dod-gate.mjs` | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
+| `dod-gate.mjs`† | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
 | Evidence fingerprint | `git status --porcelain` empty and `git rev-parse --short=12 HEAD`; a dirty tree gives no valid evidence |
-| `trace-check.mjs` | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test |
+| `trace-check.mjs`† | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test |
 | `budget-check.mjs` | `sed '/^---$/,/^---$/d' <file> \| wc -w` against the budgets: router 2,200 · quickstart 1,200 · README install section 300 · reference 3,000 · agent file 600 |
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

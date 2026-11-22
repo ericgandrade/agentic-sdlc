@@ -7,7 +7,7 @@ Prepares a reversible release and the evidence for the go/no-go decision. Deploy
 ## Reads
 
 - The approved PR (Verification, Trace, Review triage), `spec.md` §Release & observability and §Rollback, CI configuration, the existing runbook.
-- `references/release-ops.md`, `templates/release-notes.md`, `templates/runbook.md`.
+- `references/release-ops.md`, `templates/release-notes.md`, `templates/runbook.md`†.
 
 ## Never sees
 
@@ -49,3 +49,5 @@ Release notes · rehearsal output · go/no-go brief with each criterion true/fal
 ## Status
 
 `DONE` released and first stage healthy · `DONE_WITH_CONCERNS` released with listed risks · `BLOCKED` a checklist item false (NO-GO) · `NEEDS_CONTEXT` no rollback command in the spec · `CANNOT_VERIFY` no staging environment (who verifies the rollback, when).
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

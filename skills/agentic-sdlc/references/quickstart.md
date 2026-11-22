@@ -86,12 +86,14 @@ The agent presents the PR, the evidence and the residual risks ("other date colu
 | Same failure twice in a row, or 3 failed fixes | Stop fixing; open a design question for the Architect |
 | No subagents on the platform | Separate labelled pass; `self-review` label in the PR |
 | Node absent | Manual gate equivalents; PR banner `enforcement: prompt-only` |
-| Router reports state `UNKNOWN` | Run `project-context` audit; see `references/faq.md` |
+| Router reports state `UNKNOWN` | Run `project-context` audit; see `references/faq.md`† |
 
 ## Next
 
 - A feature with a spec, a plan and four approvals: `examples/worked-example/` (CSV export, Standard path).
 - Path rules and escalation: `references/paths.md`. Platform differences: `references/platforms.md`.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

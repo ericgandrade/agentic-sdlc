@@ -66,7 +66,7 @@ The task cycle follows `references/tdd.md` exactly:
 3. **Green.** Minimal code; run the test; paste the passing output; `round --loop red-green --result pass`.
 4. **Refactor** with the tests green; mocks only at process boundaries; no abstraction without ≥ 2 call sites.
 5. **Scoped re-check** after each fix: the failing check plus the tests mapped to the touched files in `docs/codemap.md` or the plan's `## Impact`; an empty mapped set → the full suite.
-6. **Task exit:** run the full DoD block; record evidence (`evidence record`, or a Verification row with the fingerprint from `references/verification.md` §4). Commit with the trailer `Refs: T3 AC-4`. `run-ledger task --state done --commit <sha>` (refused without red output or after a failed last round).
+6. **Task exit:** run the full DoD block; record evidence (`evidence record`†, or a Verification row with the fingerprint from `references/verification.md` §4). Commit with the trailer `Refs: T3 AC-4`. `run-ledger task --state done --commit <sha>` (refused without red output or after a failed last round).
 
 **Each failure** is one round: `run-ledger round --task T3 --loop build-test --result fail --signature "<first failing test + error line>" --cause code --tried "<what this round changed>"`. Before the next round read the ledger: the round number, the signatures seen and every approach tried. A repeated `--tried` is refused. The cause routes the work: `code`/`test` → stay in Build; `env` → preflight; `spec` → Specify; `design`/`plan` → Design; `unknown` twice → design.
 
@@ -123,7 +123,7 @@ node <agentic-sdlc>/scripts/run-ledger.mjs start --run r2 --plan specs/007-rate-
 cd ../<repo>-sdlc-r2 && node <agentic-sdlc>/scripts/preflight.mjs --run r2 --mode unattended
 ```
 
-Per task: `check` → `task started` → red → rounds → DoD → commit → `task done` → `check`. No checkpoints; the run stops at the first halt: loop bound, path escalation, spec/design cause, dependency added, secret detected, > 3 out-of-plan files, red baseline, approval void, budget (15 tasks, 5 rounds per task, 4 active hours, 300 turns), or authority (push, merge, deploy, release, tag, secret access, destructive command). Halt → status `NEEDS_HUMAN`, stop at once, report the brief. Never push in unattended mode. Details: `references/autonomous.md`.
+Per task: `check` → `task started` → red → rounds → DoD → commit → `task done` → `check`. No checkpoints; the run stops at the first halt, recorded with one of the 10 `run-ledger halt --reason` names: `loop-bound`, `path-escalation`, `spec-design-cause`, `dependency-added`, `secret-detected`, `out-of-plan-files` (> 3 files), `red-baseline`, `approval-void`, `budget` (15 tasks, 5 rounds per task, 4 active hours, 300 turns), or `authority` (push, merge, deploy, release, tag, secret access, destructive command). Halt → status `NEEDS_HUMAN`, stop at once, report the brief. Never push in unattended mode. Details: `references/autonomous.md`.
 
 ## Critical Rules
 
@@ -158,3 +158,5 @@ Per task: `check` → `task started` → red → rounds → DoD → commit → `
 5. **Resume after compaction.** "Continue the build." → `run-ledger resume --run r1` reports T1–T3 done, T4 started with 2 failed build-test rounds; preflight passes; the agent reads both tried approaches and starts round 3 with a different one.
 
 Sources: batch execution with checkpoints adapted from Superpowers `executing-plans` and `subagent-driven-development` (MIT, Jesse Vincent); incremental implementation from Addy Osmani's agent-skills (MIT). Text is original.
+
+† Added in a later release; manual fallback in `agentic-sdlc/references/artifacts.md` §Later-release files.

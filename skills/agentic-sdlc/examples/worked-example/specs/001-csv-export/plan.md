@@ -122,7 +122,7 @@ export function ExportButton(props: { filters: OrderFilters }): JSX.Element | nu
 | api-auth | `server/src/auth/permissions.ts` | modify (new permission) | api-reports | `server/test/auth/**`, `server/test/routes/reports/**` |
 | api-reports | `server/src/routes/reports/export.ts` | new file | web-api-client | `server/test/routes/reports/**`, `web/src/api/__tests__/**` |
 | web-api-client | `web/src/api/reports.ts` | modify (new call) | web-reports | `web/src/api/__tests__/**`, `web/src/reports/__tests__/**` |
-| web-reports | `web/src/reports/ExportButton.tsx` | new file | none | `web/src/reports/__tests__/**` |
+| web-reports | `web/src/reports/ExportButton.tsx` | new file | none | `web/src/reports/__tests__/**`, `e2e/reports/**` |
 
 **Regression scope** (scoped re-check after every fix, `references/loops.md`): `npx vitest run server/test/export server/test/auth server/test/routes/reports web/src/api/__tests__ web/src/reports/__tests__`. The full DoD suite runs at loop exit and before the PR.
 
@@ -140,21 +140,23 @@ none — CSV writing is about 40 lines in `server/src/export/csv.ts`; no package
 
 ## Loop ledger
 
+<!-- Rows rendered by `run-ledger render --ledger specs/001-csv-export/run-ledger.jsonl` at run finish (references/loops.md). -->
+
 | Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |
 |---|---|---|---|---|---|---|---|
-| 2026-11-18 | W1 | wave | 1 | — | — | T1 and T2 built in separate worktrees, merged in ID order; full DoD green after the merge | merged |
-| 2026-11-20 | T3 | review-fix | 1 | F-1 (L3, L4): `Content-Disposition` filename built from the free-text filter `q` | code | Filename generated on the server as `orders-YYYY-MM-DD.csv`; `f66b528` | fixed |
-| 2026-11-20 | T3 | review-fix | 1 | F-2 (L2, L4): whole CSV built as one string in memory | code | Rows streamed after the count check; `0a7c639`; regression scope green | fixed |
-| 2026-11-20 | T2 | review-fix | 1 | F-3 (L1): permission test mocks `UserRepository` | test | Test moved to the seeded test database; `1b8d74a` | fixed |
+| 2026-11-25 | T3 | review-fix | 1 | F-1 (L3, L4): Content-Disposition filename built from the free-text filter q; F-2 (L2, L4): whole CSV built as one string in memory | code | review round 1 of 9e1d4c2..e55a417 (lenses L1-L4) | failed |
+| 2026-11-25 | T2 | review-fix | 1 | F-3 (L1): permission test mocks UserRepository | test | review round 1 of 9e1d4c2..e55a417 (lenses L1-L4) | failed |
+| 2026-11-25 | T3 | review-fix | 2 | F-1 (L3, L4): Content-Disposition filename built from the free-text filter q; F-2 (L2, L4): whole CSV built as one string in memory | code | filename generated on the server as orders-YYYY-MM-DD.csv (f66b528); rows streamed after the count check (0a7c639); regression scope green | fixed |
+| 2026-11-25 | T2 | review-fix | 2 | F-3 (L1): permission test mocks UserRepository | test | test moved to the seeded test database (1b8d74a); regression scope green | fixed |
 
 ## Revision log
 
 | Rev | Date | Change | Reason |
 |---|---|---|---|
-| 1 | 2026-11-16 | First plan from spec rev 1 | — |
+| 1 | 2026-11-23 | First plan from spec rev 1 | — |
 
 ## Approvals
 
 | Approval | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Spec + Plan (combined) | 1 | 84da5fd5847a | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | Marco Silva | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0 (W1 T1 T2 · W2 T3 · W3 T4 T5, 1 file conflict); spec-lint exit 0; critique 12/12 | Export error alert untested until staging (release checklist) | approved |
+| Spec + Plan (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0 (W1 T1 T2 · W2 T3 · W3 T4 T5, 1 file conflict); spec-lint exit 0; critique 12/12 | Export error alert untested until staging (release checklist) | approved |

@@ -104,7 +104,7 @@
     },
     {
       "id": 21,
-      "query": "The SPEC is approved \u2014 break it into tasks with acceptance-criteria links and blocking edges",
+      "query": "The spec is approved \u2014 break it into tasks with acceptance-criteria links and blocking edges",
       "should_trigger": true
     },
     {

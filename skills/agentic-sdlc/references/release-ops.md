@@ -75,7 +75,7 @@ Baseline = the 7-day value of the same signal before stage 1, read from the spec
 
 ## Runbook (K4)
 
-**Trigger:** the change alters operated behaviour (new or changed endpoint, job, queue consumer, configuration key, flag or alert) on any path; always on Full. **Location:** `docs/runbooks/<service>.md` from `templates/runbook.md`. On Quick and Standard, when the service has no runbook file, release notes §Runbook holds the runbook and becomes the source of the file at the next Full release.
+**Trigger:** the change alters operated behaviour (new or changed endpoint, job, queue consumer, configuration key, flag or alert) on any path; always on Full. **Location:** `docs/runbooks/<service>.md` from `templates/runbook.md`†. On Quick and Standard, when the service has no runbook file, release notes §Runbook holds the runbook and becomes the source of the file at the next Full release.
 
 Minimum content (5 lines): alert name and threshold · first check (query or dashboard) · rollback command · verify command · escalation owner (role + channel). Plus `Last verified: YYYY-MM-DD` = last date the rollback or the first check was executed against staging or production.
 
@@ -91,11 +91,13 @@ Minimum content (5 lines): alert name and threshold · first check (query or das
 | SEV2 | Degraded feature, threshold breach, rollback executed | 1 h | required, ≤ 5 business days |
 | SEV3 | Minor defect with a workaround | next business day | not required; issue only |
 
-First three actions: (1) acknowledge and name the incident owner; (2) run the runbook first check and record the reading with time; (3) when the runbook or the release notes name a rollback, propose it to the on-call engineer, who executes it. **Record:** `docs/postmortems/YYYY-MM-DD-<slug>.md` from `templates/postmortem.md` (timeline, impact, causes without naming a person as a cause, ≥ 1 action that changes the environment, owner per action), tagged with the spec ID and AC-n. **Failure behaviour:** postmortem past 5 business days → `status.mjs` lists it as the next step; incident with an unknown AC → linked to the spec ID and labelled `untraced-requirement`.
+First three actions: (1) acknowledge and name the incident owner; (2) run the runbook first check and record the reading with time; (3) when the runbook or the release notes name a rollback, propose it to the on-call engineer, who executes it. **Record:** `docs/postmortems/YYYY-MM-DD-<slug>.md` from `templates/postmortem.md`† (timeline, impact, causes without naming a person as a cause, ≥ 1 action that changes the environment, owner per action), tagged with the spec ID and AC-n. **Failure behaviour:** postmortem past 5 business days → `status.mjs`† lists it as the next step; incident with an unknown AC → linked to the spec ID and labelled `untraced-requirement`.
 
 ## Intake from production (12.5)
 
-**Trigger:** a postmortem action, an alert that fired ≥ 3 times in 7 days without an incident, or an indicator reading below its target. **Rule:** open an issue labelled `from-production` with the spec ID and AC-n, the signal reading and its source; Plan triages it within 2 business days (duplicate search, path score). **Failure behaviour:** untriaged after 2 business days → `status.mjs` next step.
+**Trigger:** a postmortem action, an alert that fired ≥ 3 times in 7 days without an incident, or an indicator reading below its target. **Rule:** open an issue labelled `from-production` with the spec ID and AC-n, the signal reading and its source; Plan triages it within 2 business days (duplicate search, path score). **Failure behaviour:** untriaged after 2 business days → `status.mjs`† next step.
+
+† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

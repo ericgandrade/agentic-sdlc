@@ -13,7 +13,7 @@ Rules:
 
 Refresh triggers:
 - A PR that adds, removes or moves a top-level source directory updates this file in the same PR.
-- `verified` older than 90 days, or a top-level directory not mapped → doctor WARN.
+- `verified` older than 90 days, or a top-level directory not mapped → doctor† WARN (doctor† = later release; until then the Tech Lead checks the date at each Plan).
 Failure: a plan touches a module missing from the map → update the map first (Architect, `references/paths.md` §5).
 -->
 
