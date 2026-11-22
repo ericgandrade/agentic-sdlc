@@ -130,6 +130,7 @@ Traceability past the PR to production; Release and Operate covered by default; 
 | D6 | Agile V (CC BY-SA 4.0) concepts only, never text | 2026-11-18 |
 | D8 | ~~8-stage cycle with codes and CP1–CP5~~ — superseded by D10 | 2026-11-20 |
 | **D10** | Structure §1.1–1.6: 7 standard stages, 4 approvals, 8 agents named by function (option C, no human names), 3 paths, standard artifacts | 2026-11-20 |
+| **D11** | Launch audience: **developers in general** (healthcare IT is a secondary audience via the Business Plan, not the launch focus). Launch is planned as Phase H; its *how* (channels, content, calendar) is deliberately **not decided yet** and will be discussed with the owner after the v3.0.0 release. | 2026-11-22 |
 
 Open design questions to confirm at Checkpoint 1 (recommendations in brackets): Q1 small refactors inside TDD [allow; structural refactors become tasks] · Q2 file paths [none in spec.md; allowed in plan.md/tasks.md executed soon] · Q3 debugging hypotheses [rank 3–5, test one at a time] · Q4 regression test exception [if no proper seam, record the missing seam as a finding] · Q5 user-only skills [strict descriptions, no extra frontmatter] · Q6 path selection [risk signals first, size second] · Q7 agent files [source in `skills/agentic-sdlc/agents/`; optionally generate Claude Code plugin `agents/` in Phase F, documented in CLAUDE.md] · Q8 acceptance-criteria format [Given/When/Then default, EARS accepted].
 
@@ -298,6 +299,23 @@ Follow `CLAUDE.md` New Skill Checklist and Documentation Consistency Rule:
 After the release exists: update the private Business Plan draft to the D10 structure with the real release date and version; owner runs a USPTO check and counsel review. Never commit Business Plan content.
 
 ---
+
+
+### Phase H — Launch (after the v3.0.0 release; details to be decided with the owner)
+
+**Status:** placeholder. The *how* (channels, content, calendar, languages) is **not decided** and must not be executed or drafted for publication until the owner discusses it after the release. Nothing in this phase is published without the owner's approval of each item.
+
+**Decided:** audience = developers in general (D11).
+
+**Entry criteria (all must hold before any promotion):**
+1. v3.0.0 is released and the one-page guide, worked example and quickstart exist (Phase F).
+2. The clarity test (Phase E.4) passed and the dogfood reports show the Quick and Standard paths completed.
+3. The scoring verdict (`docs/research/scoring/results.md`) exists, and every public claim about the method is supported by it. If the verdict is not "Superior", claims are limited to the differentiators the scores support.
+4. Install works in one command on the supported platforms.
+
+**Open questions for the discussion:** language(s) (English primary, Portuguese secondary?); which channels and in what order; what evidence to publish (research, methodology, scorecards); who the first 3–5 real users are and how feedback is collected; what adoption numbers are tracked and how they are verified.
+
+**Guardrails (already agreed):** no purchased or inflated engagement; no claims of regulatory compliance or "best method" without supporting scores; publish in the owner's own name without employer materials or marks (check the employer's external-publication policy); publish only verifiable adoption numbers.
 
 ## 6. Per-task procedure
 
