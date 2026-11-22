@@ -161,7 +161,7 @@ Open design questions to confirm at Checkpoint 1 (recommendations in brackets): 
 | `docs/research/scoring/` methodology, script, freeze | ✅ Frozen before any score |
 | Scoring cards: 9 benchmark methods × 2 independent scorers (18 cards) | ✅ Done |
 | Scoring cards: Agentic SDLC design-only (S-A, S-C) | ✅ Done |
-| Red-team audit, aggregation, verdict (`scoring/results.md`) | ✅ Done — **verdict: Not superior** (RA 53.2 vs AWS AI-DLC 68.6 baseline). Gate stays closed: plan must change before Phase 0 |
+| Red-team audit, aggregation, verdict (`scoring/results.md`) | ✅ Round 1: Not superior (RA 53.2). Round 2 after gap-closure Batch 0 + 1: **Superior** (RA 88.5 vs AWS AI-DLC 68.6; audit AUD-2, 0 upheld) |
 | `skills/agentic-sdlc/` (router + references) | Exists, **written for the superseded 8-stage design** — rewrite in Phase 0 |
 | `project-context`, `brainstorming`, `grill-me`, `spec-driven-development`, `senior-solution-architect`, `writing-plans` | Exist, **shallow**, use superseded vocabulary (CP2/CP3, CHECKPOINTS.md, `docs/agentic-sdlc/`) — align in Phase 0, deepen in Phase B |
 | 12 new skills, 8 agent files | Not started |

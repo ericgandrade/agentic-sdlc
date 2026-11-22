@@ -12,6 +12,8 @@
 
 **Architecture (architect report §0, option B):** implement mechanisms as modules inside `skills/agentic-sdlc/` (`references/`, `templates/`, `agents/`, `scripts/`, `examples/`) and deepen the existing stage skills. No new top-level skill, so the skill count and bundles do not change. Scripts are dependency-free Node ≥ 18 ES modules with `node --test` tests and exit codes 0 pass / 1 fail / 2 input missing / 3 bound reached.
 
+> ✅ **Status (2026-11-23): target met.** Batch 0 + Batch 1 built; round-2 re-score + audit AUD-2 → RA **88.5**, verdict **Superior** (see `docs/research/scoring/results.md`, `audit-log-round2.md`). Batch 2 remains optional hardening (closes the † manual fallbacks, e.g. `dod-gate`, which would retire the open C3 adjudication item).
+
 **Owner decisions (2026-11-22):** target is RA ≥ 70; scope covers the design **and** the existing skills; rounds continue until the target is met. The methodology stays frozen.
 
 ---

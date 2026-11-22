@@ -1,5 +1,7 @@
 # Scoring round 1 — handoff (state as of 2026-11-22)
 
+> ✅ **Round 2 complete (2026-11-23).** After gap-closure Batch 0 + 1 were built in `skills/`, agentic-sdlc was re-scored by fresh S-A/S-C scorers and audited by AUD-2 (`audit-log-round2.md`: 0 upheld). `results.md` now reads **Verdict: Superior** — RA 88.5 vs AWS AI-DLC 68.6; robust to the open C3 adjudication item (85.8). Round-1 material is archived in `round1-agentic-sdlc/`.
+
 > ✅ **Round complete (2026-11-22).** All 20 cards, red-team audit (`audit-log.md`, `audit/adjustments.json`) and `results.md` exist. **Verdict: Not superior** — failed S1–S5; S6, S7 hold. Robustness runs (without Kiro; contested items resolved for/against the design) give the same verdict (see `orchestrator-log.md`). Next: owner reviews the verdict; per §4 below, plan changes come **before** any building. The sections below are kept as the historical record of how the round was run.
 
 **Purpose of the round:** prove, before building, that the proposed Agentic SDLC is superior to the benchmark methods under the frozen methodology (`methodology.md`, hash in `FREEZE.md`). **Do not start Phase 0 of `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md` until the verdict exists** (see `results.md` once generated) and the owner has seen it.
