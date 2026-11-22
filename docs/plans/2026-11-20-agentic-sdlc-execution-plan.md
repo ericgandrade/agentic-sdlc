@@ -1,5 +1,7 @@
 # Agentic SDLC — Execution Plan (D10)
 
+> 🛑 **GATE — read before executing anything below (2026-11-22).** Do **not** start Phase 0 or any skill rewrite yet. The owner requires proof, before the large build effort, that this method is superior to the benchmark methods. The scoring round is in progress: see `docs/research/scoring/HANDOFF.md` (state, remaining cards, how to continue) and `docs/research/scoring/orchestrator-log.md`. Phase 0 may start only after `docs/research/scoring/results.md` exists **and** the owner has reviewed the verdict; if the verdict is not "Superior", the plan must be changed first. The kick-off prompt in §10 starts Phase 0 and must **not** be used until the gate is lifted.
+
 > **For the executing agent (Codex, Claude Code or any other):** this document is self-contained and is the **single source of truth for execution** from 2026-11-20. Read it fully, then the files in §2.3, before touching anything. Execute task by task with the `executing-plans` discipline: one task at a time, verify, commit, move on. **Stop at every Checkpoint and wait for the owner.**
 >
 > **Supersedes** the structure and execution order of `docs/plans/2026-11-18-agentic-sdlc.md` (master plan, V-shaped design) and `docs/plans/2026-11-19-agentic-sdlc-depth-pass.md` (8-stage cycle). Those remain for history; the depth standard and license rules from them are restated here.
@@ -360,7 +362,7 @@ After the release exists: update the private Business Plan draft to the D10 stru
 - `THIRD_PARTY_NOTICES.md` and every `## Influences` table complete; no Agile V text anywhere.
 - Branch pushed; owner notified.
 
-## 10. Kick-off prompt (Codex or a new session)
+## 10. Kick-off prompt (Codex or a new session) — **only after the scoring gate is lifted**
 
 ```text
 Read CLAUDE.md, then docs/plans/2026-11-20-agentic-sdlc-execution-plan.md (this is your plan),
