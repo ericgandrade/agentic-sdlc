@@ -1,10 +1,10 @@
 # Research index and status
 
-**Last updated:** 2026-11-22 (all 20 scorecards done; audit running) · **Branch:** `claude/superskills-dev-workflow-kppj2r`
+**Last updated:** 2026-11-22 (round 1 complete: verdict Not superior) · **Branch:** `claude/superskills-dev-workflow-kppj2r`
 
 This folder holds the evidence behind the Agentic SDLC method. Read this page first: it says what each file is, how far each piece got, how reliable it is, and what is still open. The execution plan is `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`.
 
-> 🛑 **Build gate.** The large build effort (Phase 0 onward of the execution plan) must not start until the scoring round (§4) has produced a verdict and the owner has reviewed it.
+> 🛑 **Build gate: closed.** Scoring round 1 returned **"Not superior"** for the design as written (`scoring/results.md`). Phase 0 of the execution plan must not start until the owner has decided how to change the design and a re-scoring of the revised design under the same frozen methodology says otherwise.
 
 ---
 
@@ -18,8 +18,8 @@ This folder holds the evidence behind the Agentic SDLC method. Read this page fi
 | Scoring methodology | `scoring/methodology.md`, `evaluator-agent.md` | ✅ Frozen 2026-11-20 | Hashes in `scoring/FREEZE.md`; written blind to our proposal |
 | Scoring of 9 benchmark methods | `scoring/scores/S-*/` | ✅ Done (18 cards, 2 independent cards per method) | See §4 for open points the auditor must check |
 | Scoring of the Agentic SDLC (design-only) | `scoring/scores/S-A/` and `S-C/` `agentic-sdlc.md` | ✅ Done (S-A, S-C) | Design score × realization factor |
-| Red-team audit | `scoring/audit/` | ⏳ In progress | Blind to totals; adjustments applied as written |
-| Aggregation and verdict | `scoring/results.md` (generated) | ⬜ Not started | Run `scoring/aggregate.py` |
+| Red-team audit | `scoring/audit/` | ✅ Done (35 challenges, 9 upheld, 9 cells adjusted) | Blind to totals; adjustments applied exactly as written |
+| Aggregation and verdict | `scoring/results.md`, `scoring/sensitivity.md` | ✅ Done — **verdict: Not superior** | Design 52.4 risk-adjusted (62.4 before discount) vs 68.6 for AWS AI-DLC; robust to the sensitivity runs |
 | Earlier framework evaluation | `2026-11-18-dev-workflow-frameworks-evaluation.md` | 🕰 Historical | Written for the V-shaped design; the framework comparison and absorption map remain useful |
 
 ---
@@ -77,7 +77,7 @@ Key findings that shaped D10: standard SDLC words with no stage codes; feature f
 3. Contestable readings flagged by scorers: OpenSpec C15 (CLI dependency), BMad C15 (uv/Python), Agile V C2 (no explicit non-goals), C4 (unwired reference module), C8 (human-gated by design), C12 (release skill outside the default profile).
 4. Both Agentic SDLC cards (design-only rules, realization factors). S-A applied strict calls (hedged enforcement and "minimum additions" lines not credited; evals without pass thresholds not counted) — check that benchmarks were judged with the same strictness.
 
-**Next steps (see `scoring/HANDOFF.md`):** finish the two Agentic SDLC cards → red-team audit → `python3 docs/research/scoring/aggregate.py` (also run once without the Kiro cards to test robustness) → present the verdict and gap table to the owner. If the verdict is not "Superior", change the plan before building.
+**Result:** see `scoring/results.md` (tables, the seven conditions, gap analysis) and `scoring/sensitivity.md`. The design-only Agentic SDLC scores 52.4 risk-adjusted (62.4 before the realization discount) against 68.6 for AWS AI-DLC, 67.0 for Agile V and 65.6 for BMad; it fails S1–S5 and stays 'Not superior' without the audit adjustments, without Kiro, and even with no realization discount. Largest losses: C3 code quality, C8 autonomous safety, C4 verification, C1 ease of adoption, C5 code review, C6 loops (18.6 of 28.2 points). Strongest: C13 context (4.5), C2 specs, C10 governance, C15 portability. **Next step:** owner decision on changing the design; re-score only the revised design under the frozen methodology (fresh scorers).
 
 ---
 

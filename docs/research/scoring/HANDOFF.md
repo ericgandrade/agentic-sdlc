@@ -21,9 +21,11 @@ Cards present in `scores/` (each has 16 criteria and a parsing JSON block). Two 
 
 Read `orchestrator-log.md` first: it lists every event that may affect scores (interruptions, the spec-kit C5 revision, the Kiro evidence problem and its fix) and the remaining queue.
 
-## What remains, in order (strictly sequential, commit after each card)
+## Historical: what remained before the verdict
 
-> All 20 cards exist. The red-team audit is being run by the original Claude session; **do not run it in parallel from another tool**. If `audit/audit-log.md` exists on the branch, go to the aggregation step.
+> ## VERDICT (2026-11-22): **Not superior** — see `results.md` and `sensitivity.md`
+
+All 20 cards, the red-team audit and the aggregation are done. The design-only Agentic SDLC scores 52.4 (risk-adjusted; 62.4 before the realization discount) against 68.6 for the best benchmark (AWS AI-DLC); S1–S5 fail. **The build gate stays closed.** Do not start Phase 0. The next step is a decision by the owner on how to change the design (see `docs/research/README.md` §4 and the proposals presented with this verdict); any re-scoring of a revised design must use the same frozen methodology, fresh scorers who have not seen these cards, and a new round log.
 
 
 1. **Red-team audit** (methodology §10.3; auditor appendix in `evaluator-agent.md`): review every card, the orchestrator log, the Kiro S-B/S-D comparison, C5 consistency across methods, and the design-only cards; write overrides (if any) to `audit/adjustments.json` and the audit log (§11.5).

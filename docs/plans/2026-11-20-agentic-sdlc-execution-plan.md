@@ -1,6 +1,6 @@
 # Agentic SDLC — Execution Plan (D10)
 
-> 🛑 **GATE — read before executing anything below (2026-11-22).** Do **not** start Phase 0 or any skill rewrite yet. The owner requires proof, before the large build effort, that this method is superior to the benchmark methods. The scoring round is in progress: see `docs/research/scoring/HANDOFF.md` (state, remaining cards, how to continue) and `docs/research/scoring/orchestrator-log.md`. Phase 0 may start only after `docs/research/scoring/results.md` exists **and** the owner has reviewed the verdict; if the verdict is not "Superior", the plan must be changed first. The kick-off prompt in §10 starts Phase 0 and must **not** be used until the gate is lifted.
+> 🛑 **GATE CLOSED — scoring verdict: "Not superior" (2026-11-22; `docs/research/scoring/results.md`).** The design as written scores 52.4 risk-adjusted (62.4 before the realization discount) against 68.6 for the best benchmark. Do **not** start Phase 0 or any skill rewrite; the design must change first (owner decision pending), then be re-scored under the same frozen methodology. Original gate text follows. Do **not** start Phase 0 or any skill rewrite yet. The owner requires proof, before the large build effort, that this method is superior to the benchmark methods. The scoring round is in progress: see `docs/research/scoring/HANDOFF.md` (state, remaining cards, how to continue) and `docs/research/scoring/orchestrator-log.md`. Phase 0 may start only after `docs/research/scoring/results.md` exists **and** the owner has reviewed the verdict; if the verdict is not "Superior", the plan must be changed first. The kick-off prompt in §10 starts Phase 0 and must **not** be used until the gate is lifted.
 
 > **For the executing agent (Codex, Claude Code or any other):** this document is self-contained and is the **single source of truth for execution** from 2026-11-20. Read it fully, then the files in §2.3, before touching anything. Execute task by task with the `executing-plans` discipline: one task at a time, verify, commit, move on. **Stop at every Checkpoint and wait for the owner.**
 >
@@ -155,8 +155,8 @@ Open design questions to confirm at Checkpoint 1 (recommendations in brackets): 
 | `docs/research/methods/*` (4 research files + structure proposal) | ✅ Done; decision D10 approved |
 | `docs/research/scoring/` methodology, script, freeze | ✅ Frozen before any score |
 | Scoring cards: 9 benchmark methods × 2 independent scorers (18 cards) | ✅ Done |
-| Scoring cards: Agentic SDLC design-only (S-A, S-C) | ⏳ In progress |
-| Red-team audit, aggregation, verdict (`scoring/results.md`) | ⬜ Not started — **build gate** |
+| Scoring cards: Agentic SDLC design-only (S-A, S-C) | ✅ Done |
+| Red-team audit, aggregation, verdict (`scoring/results.md`) | ✅ Done — **verdict: Not superior; build gate closed** |
 | `skills/agentic-sdlc/` (router + references) | Exists, **written for the superseded 8-stage design** — rewrite in Phase 0 |
 | `project-context`, `brainstorming`, `grill-me`, `spec-driven-development`, `senior-solution-architect`, `writing-plans` | Exist, **shallow**, use superseded vocabulary (CP2/CP3, CHECKPOINTS.md, `docs/agentic-sdlc/`) — align in Phase 0, deepen in Phase B |
 | 12 new skills, 8 agent files | Not started |

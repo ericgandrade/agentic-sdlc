@@ -37,3 +37,5 @@ Pending, strictly sequential, commit after each card:
 After the cards: red-team audit (reviews this log and all cards, writes audit/adjustments.json if any overrides), `python3 docs/research/scoring/aggregate.py`, results report.
 
 Rules for scorers still to score: no totals visible; do not open other scorers' cards; do not change earlier cards without telling the orchestrator.
+
+| 2026-11-22 | Audit and aggregation completed | Audit: 35 challenges, 9 upheld/partially, 9 cells adjusted (applied exactly as written, no orchestrator veto). Verdict: Not superior (S1–S5 fail, S6–S7 hold). Sensitivity: without audit 54.1, without Kiro 52.4, no realization discount 62.4 — all below the best benchmark | Build gate stays closed; owner decides how to change the design; re-score under the frozen methodology with fresh scorers |
