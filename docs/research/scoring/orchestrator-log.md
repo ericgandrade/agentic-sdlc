@@ -21,9 +21,11 @@ Chronological record of events that may affect scores. The red-team auditor must
 
 | 2026-11-22 | agentic-sdlc/S-A written (design-only) | 15 Medium, 1 Low (C11); realization factors 0.7–0.9 (lowest: C9 traceability, C12 release/ops); scorer applied strict calls: hedged enforcement ("where possible") not credited, "minimum additions" lines not credited without behaviour, evals without pass thresholds not counted as measurement; Phase H, D11 and the gate banner not credited | Auditor to check realization factors and the strict calls for symmetry with benchmark scoring |
 
+| 2026-11-22 | agentic-sdlc/S-C written (design-only) | 13 Medium, 3 Low (C1 guide size read as ~12k words; C11; C16); r 0.6–0.9 (lowest C9 r=0.6: the design contradicts itself on the release link — Standard path artifacts omit release notes while Release approval is recorded there); scope penalty applied nowhere (AI-DLC implements at least as many mechanisms); same strict calls as S-A (hedges, name-only mechanisms, evals without pass threshold) | **All 20 cards complete.** Next: red-team audit (blind to totals), then aggregation. Note for the plan: the C9 contradiction is a real design defect to fix regardless of the verdict |
+
 ## Queue state (2026-11-22)
 
-Done (19 scorecards; all 9 benchmarks have two independent cards; agentic-sdlc has S-A): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
+Done (20 scorecards; all 9 benchmarks and agentic-sdlc have two independent cards): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
 
 Pending, strictly sequential, commit after each card:
 1. kiro / S-B (re-score from saved official docs)  ← next
