@@ -15,6 +15,8 @@ Chronological record of events that may affect scores. The red-team auditor must
 
 | 2026-11-22 | kiro/S-B re-scored from the saved official docs | 7 cells changed vs the first S-B card (C1 2→4, C5 1→2, C7 1→3, C13 2→4, C14 2→3, C16 0→2; C9 same score, better evidence); average confidence Low → Medium. Confirms the first card under-scored Kiro | S-B's first card (8b8aebf) is superseded; auditor to compare S-B and S-D Kiro cards |
 
+| 2026-11-22 | agile-v/S-B written; license check | n-gram overlap against the Agile V clone limited to file paths, skill names and `file#section` citations (identifiers, permitted); no body text copied. 14 Medium, 2 Low (C2 strict reading of non-goals; C12 release-manager not in the existing-repo profile) | Auditor to review the two contestable readings |
+
 ## Queue state (2026-11-22)
 
 Done (14 scorecards, 7 benchmarks with two independent cards each): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
