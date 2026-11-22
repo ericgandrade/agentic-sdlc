@@ -1,0 +1,30 @@
+{
+  "agentic-sdlc": {
+    "C1": {"s": 2, "r": 0.9, "conf": "L"},
+    "C3": {"s": 3, "r": 0.8, "conf": "M"},
+    "C8": {"s": 1, "r": 0.9, "conf": "M"},
+    "C9": {"s": 4, "r": 0.7, "conf": "M"}
+  },
+  "ai-dlc": {
+    "C1": {"s": 2, "r": 1.0, "conf": "M"},
+    "C7": {"s": 3, "r": 1.0, "conf": "M"},
+    "C15": {"s": 2, "r": 1.0, "conf": "L"}
+  },
+  "openspec": {
+    "C15": {"s": 2, "r": 1.0, "conf": "L"}
+  },
+  "spec-kit": {
+    "C5": {"s": 2, "r": 1.0, "conf": "M"}
+  },
+  "_notes": [
+    "agentic-sdlc C1: D stays 2, r 0.9 (awarded level already implemented: installer + router; r followed the other scorer's D=3) - audit A5",
+    "agentic-sdlc C3: D 4->3, L4 safeguards (mock limits, catalogue, name-the-break) are named only; benchmarks denied L4 for less - audit A1",
+    "agentic-sdlc C8: D 2->1, loop bound is homed in C6 (one-home rule); only role authority limits remain - audit A2",
+    "agentic-sdlc C9: r 0.6->0.7, omission in plan 1.4 does not affect the awarded level (PR table meets the release link) - audit A3",
+    "ai-dlc C1: 3->2, entry skill 8,065 words + README 1,425 words exceed the 8k core reading limit - audit B1",
+    "ai-dlc C7: 4->3, swarm fan-out is opt-in and no impact analysis from the code map feeds planning - audit B2",
+    "ai-dlc C15: 3->2, native aidlc engine is a mandatory runtime (contestable, Low) - audit B3",
+    "openspec C15: 3->2, every skill requires the openspec CLI (contestable, Low) - audit B4",
+    "spec-kit C5: 1->2, converge is equivalent to OpenSpec verify, which both scorers rated 2 - audit B5"
+  ]
+}
