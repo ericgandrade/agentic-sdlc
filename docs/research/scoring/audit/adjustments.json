@@ -1,0 +1,23 @@
+{
+  "_audit": {"auditor": "AUD-1", "date": "2026-11-22", "completed": true, "log": "audit-log.md"},
+  "ai-dlc": {
+    "C1": {"s": 2, "conf": "M"},
+    "C7": {"s": 3, "conf": "M"},
+    "C15": {"s": 2, "conf": "M"}
+  },
+  "bmad": {
+    "C1": {"s": 5, "conf": "M"}
+  },
+  "mattpocock": {
+    "C8": {"s": 2, "conf": "L"}
+  },
+  "openspec": {
+    "C15": {"s": 2, "conf": "M"}
+  },
+  "agentic-sdlc": {
+    "C2": {"s": 4, "r": 0.8, "conf": "M"},
+    "C6": {"s": 3, "r": 0.8, "conf": "M"},
+    "C13": {"s": 5, "r": 0.8, "conf": "M"},
+    "C16": {"s": 2, "r": 0.8, "conf": "L"}
+  }
+}

@@ -17,9 +17,9 @@ This folder holds the evidence behind the Agentic SDLC method. Read this page fi
 | Structure decision (D10) | `methods/2026-11-20-structure-proposal.md` | ✅ Approved 2026-11-20 | Decision D10 in the execution plan |
 | Scoring methodology | `scoring/methodology.md`, `evaluator-agent.md` | ✅ Frozen 2026-11-20 | Hashes in `scoring/FREEZE.md`; written blind to our proposal |
 | Scoring of 9 benchmark methods | `scoring/scores/S-*/` | ✅ Done (18 cards, 2 independent cards per method) | See §4 for open points the auditor must check |
-| Scoring of the Agentic SDLC (design-only) | `scoring/scores/S-A/` and `S-C/` `agentic-sdlc.md` | ⏳ **In progress** (S-A done; S-C next) | Design score × realization factor |
-| Red-team audit | `scoring/audit/` | ⬜ Not started | After the two design cards |
-| Aggregation and verdict | `scoring/results.md` (generated) | ⬜ Not started | Run `scoring/aggregate.py` |
+| Scoring of the Agentic SDLC (design-only) | `scoring/scores/S-A/` and `S-C/` `agentic-sdlc.md` | ✅ Done (S-A, S-C) | Design score × realization factor |
+| Red-team audit | `scoring/audit-log.md`, `scoring/audit/adjustments.json` | ✅ Done (AUD-1: 81 challenges, 10 upheld, 4 to adjudicator) | Upheld changes applied by `aggregate.py` |
+| Aggregation and verdict | `scoring/results.md` (generated) | ✅ **Verdict: Not superior** (S1–S5 fail; S6, S7 hold) | Robust without Kiro and under both adjudication outcomes; awaiting owner review |
 | Earlier framework evaluation | `2026-11-18-dev-workflow-frameworks-evaluation.md` | 🕰 Historical | Written for the V-shaped design; the framework comparison and absorption map remain useful |
 
 ---
