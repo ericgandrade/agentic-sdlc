@@ -1,6 +1,6 @@
 # executing-plans
 
-Executes a written implementation plan in a separate session with step-by-step review checkpoints and progress tracking.
+Executes an approved implementation plan task by task — test-first, with bounded fix loops, a run ledger, review checkpoints, inline or subagent dispatch and an unattended mode. The Build stage of the Agentic SDLC.
 
 ## When to use
 
@@ -22,6 +22,15 @@ Executes a written implementation plan in a separate session with step-by-step r
 - "Continue executing from Step 3 of the plan."
 - "Execute the plan in Plan.md with checkpoints after each section."
 
+## What's New in v3.0
+
+- **Test-first per task** — red output pasted and recorded before green (`agentic-sdlc/references/tdd.md`)
+- **Run ledger and bounded loops** — `run-ledger.mjs` records every round; red-green 3, build-test 5, review-fix 3, debug 3; exit 3 escalates to a named role (`references/loops.md`)
+- **Preflight** — `preflight.mjs` checks clean tree, branch, tools, approval hashes and a green baseline DoD
+- **Inline and subagent dispatch** — one fresh Implementer per task; status vocabulary `DONE` · `DONE_WITH_CONCERNS` · `BLOCKED` · `NEEDS_CONTEXT` · `CANNOT_VERIFY`
+- **Unattended mode** — worktree isolation, 10-reason halt list, budgets, result `DONE` / `BLOCKED` / `NEEDS_HUMAN` (`references/autonomous.md`)
+- **No external skill dependencies** — branch setup and finishing are part of the workflow; works prompt-only when Node is absent
+
 ## What's New in v2.0
 
 - **Progress Tracking** — Dynamic gauge bar that advances per completed plan step, displayed throughout execution
@@ -35,10 +44,10 @@ Executes a written implementation plan in a separate session with step-by-step r
 
 | Field | Value |
 |-------|-------|
-| Version | 2.0.0 |
+| Version | 3.0.0 |
 | Author | Eric Andrade |
 | Created | 2026-02-20 |
-| Updated | 2026-03-19 |
+| Updated | 2026-11-22 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | planning |
 | Tags | planning, execution, checkpoints, implementation |

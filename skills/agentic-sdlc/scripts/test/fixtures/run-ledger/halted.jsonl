@@ -1,0 +1,4 @@
+{"v":1,"seq":1,"ts":"2026-11-21T09:00:00.000Z","type":"start","run":"r1","mode":"attended","plan":"specs/001-demo/plan.md","spec":"specs/001-demo/spec.md","base":"0000000000000000000000000000000000000000","branch":"feat/001-demo","worktree":null,"hashes":{"plan":"9093733fe471","spec":"140722953a7a"},"budgets":{"max_tasks":15,"max_rounds":5,"max_hours":4,"max_turns":300,"max_tokens":null},"tasks":[{"id":"T1","blockedBy":[]},{"id":"T2","blockedBy":["T1"]},{"id":"T3","blockedBy":["T1"]}]}
+{"v":1,"seq":2,"ts":"2026-11-21T09:01:00.000Z","type":"preflight","ok":true,"head":null,"failed":[]}
+{"v":1,"seq":3,"ts":"2026-11-21T09:02:00.000Z","type":"task","task":"T1","state":"started"}
+{"v":1,"seq":4,"ts":"2026-11-21T09:20:00.000Z","type":"halt","reason":"dependency-added","detail":"dependency manifest changed outside plan Files: package.json"}

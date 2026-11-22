@@ -1,6 +1,6 @@
 # grill-me
 
-Relentless Socratic interview that walks every branch of a plan or design until nothing is silently assumed. Inside a repository it runs in **docs mode**, recording glossary terms and ADRs as decisions settle. Analyze-stage (AN) tool of the **Agentic SDLC**.
+Relentless Socratic interview that walks every branch of a plan or design until nothing is silently assumed. Inside a repository it runs in **docs mode**, recording glossary terms and ADRs as decisions settle. Plan- and Specify-stage tool of the **Agentic SDLC**, with a 3-round stop rule: open items after round 3 are deferred with an owner or end the stage as `NEEDS_CONTEXT`.
 
 ## When to use
 
@@ -39,10 +39,10 @@ Relentless Socratic interview that walks every branch of a plan or design until 
 
 | Field | Value |
 |-------|-------|
-| Version | 2.0.0 |
+| Version | 2.1.0 |
 | Author | Eric Andrade |
 | Created | 2026-05-08 |
-| Updated | 2026-11-19 |
+| Updated | 2026-11-22 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | planning |
 | Tags | agentic-sdlc, planning, stress-test, socratic, decision-tree, glossary, adr |

@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: This skill should be used when the user has a spec or requirements for a multi-step task before touching code — breaking the work into a task graph of test-first vertical slices with exact files, commands, expected outputs and links to acceptance criteria (the Design stage and CP3 of the Agentic SDLC).
+description: This skill should be used when an approved spec or a set of requirements exists and multi-step work has not started — the Design stage of the Agentic SDLC, which turns acceptance criteria into specs/NNN-slug/plan.md with a validated task graph (graph.json), an impact section from the code map, and a Plan approval request.
 license: MIT
 ---
 
@@ -8,169 +8,223 @@ license: MIT
 
 ## Purpose
 
-Turn an approved specification into an executable, low-ambiguity plan that another engineer — or a fresh agent with no context — can run task by task with predictable outcomes. The plan is a **task graph**: vertical slices, each declaring the acceptance criteria it satisfies and the tasks that block it. It is the **DE (Design)** artifact of the Agentic SDLC and the subject of **CP3**.
+Turn an approved spec into a plan that a fresh agent with no context runs task by task with predictable results. The plan is a **task graph**: vertical slices, each naming the acceptance criteria (AC-n) it serves, the tasks that block it, the files it touches and its size. A script, `plan-graph`, checks the graph and writes `graph.json`, which drives the waves and the parallel frontier in the Build stage.
 
-Write as if the executor is skilled but knows nothing about this codebase, its tools or its domain, and has questionable taste in test design. Spell out everything: files, code intent, commands, expected output. DRY. YAGNI. TDD. Frequent commits.
+This skill is the **Design stage** of the Agentic SDLC (Plan → Specify → **Design** → Build → Test → Release → Operate). Its exit record is `specs/NNN-slug/plan.md`, `specs/NNN-slug/graph.json`, any ADRs, and the **Plan approval** (one of the 4 approvals: Spec, Plan, PR, Release). The lead agent is the Planner; the Architect joins when a decision is expensive to reverse (`senior-solution-architect`).
 
-**Announce at start:** "Using the writing-plans skill to create the implementation plan."
+Write for an executor who is skilled but knows nothing about this codebase, its tools or its domain: exact files, interfaces, commands and expected output. DRY. YAGNI. Test first. One commit per task.
+
+**Announce at start:** "Using the writing-plans skill to write the plan (Design stage)."
 
 ## When to Use
 
-- A SPEC (or equivalent requirements) exists and implementation has not started
-- Work spans several files, layers or sessions and needs coordination
-- A handoff-ready plan is needed for another session, engineer or subagents
-- DE stage of the Agentic SDLC, after CP2 (and after `senior-solution-architect` when real design decisions exist)
+- A spec at `specs/NNN-slug/spec.md` has a valid Spec approval (Standard or Full path) and no `plan.md` exists — router state row 4, "Plan missing".
+- An approved plan was voided by a spec revision and needs revision N+1 (change protocol).
+- Requirements exist outside the Agentic SDLC and the work spans several files, layers or sessions: **standalone mode** (§Standalone mode).
 
-Not for a one-file Quick-route fix — `test-driven-development` alone is enough there.
+Not for the Quick path: a Quick item has no `plan.md`; its issue holds one acceptance test and `test-driven-development` drives the change. `plan-graph` rejects a Quick-path plan with `PATH_QUICK`.
+
+## Inputs and Outputs
+
+| Item | Location | Rule |
+|---|---|---|
+| Spec (input) | `specs/NNN-slug/spec.md` | Valid Spec approval: the hash in its `## Approvals` row equals `spec-lint --hash`. Otherwise stop and report `BLOCKED: Spec approval missing or void` |
+| Code map (input) | `docs/codemap.md` (`templates/codemap.md`) | Required for the Impact section. Absent → produce it first with `project-context` adopt mode |
+| ADRs (input/output) | `docs/adr/NNNN-slug.md` | One per decision that is expensive to reverse; written by the Architect before tasks are detailed |
+| Plan (output) | `specs/NNN-slug/plan.md` from `agentic-sdlc/templates/plan.md` | Every section filled; an empty section holds `none — <reason>` |
+| Graph (output) | `specs/NNN-slug/graph.json` | Written only by `plan-graph --write`; never edited by hand; committed with the plan |
+| Approval (output) | `plan.md` `## Approvals` + `specs/NNN-slug/approvals.md` register | Plan rev, plan hash, spec rev, spec hash, date, role, person, exact words, evidence, residual risks, decision |
+
+In the commands below, `<agentic-sdlc>` is the installed `agentic-sdlc` skill directory (for example `~/.claude/skills/agentic-sdlc`).
 
 ## Progress Tracking
 
 ```
-[█████░░░░░░░░░░░░░░░] 25% — Phase 1/4: Gathering Context & Constraints
-[██████████░░░░░░░░░░] 50% — Phase 2/4: Slicing Into a Task Graph
-[███████████████░░░░░] 75% — Phase 3/4: Specifying Files, Code & Commands
-[████████████████████] 100% — Phase 4/4: Coverage Check, CP3 & Handoff
+[████░░░░░░░░░░░░░░░░] 20% — Phase 1/5: Context, code map and decisions
+[████████░░░░░░░░░░░░] 40% — Phase 2/5: Task graph
+[████████████░░░░░░░░] 60% — Phase 3/5: Task details, impact, dependencies
+[████████████████░░░░] 80% — Phase 4/5: plan-graph validation
+[████████████████████] 100% — Phase 5/5: Plan approval and handoff
 ```
 
 ## Workflow
 
-### Phase 1 — Gather context and constraints
+### Step 0 — Discovery
 
-1. Read the approved SPEC (note its revision), the ADRs it produced, CONSTRAINTS.md, GLOSSARY.md and the Agentic SDLC block in AGENTS.md/CLAUDE.md.
-2. Explore the code the plan will touch: entry points, existing tests and their harness, conventions, similar features to imitate.
-3. Look for **prefactoring** opportunities — "make the change easy, then make the easy change." A prefactor becomes the first task.
-4. Use the domain vocabulary from GLOSSARY.md in task titles and descriptions.
+1. Locate the work item: `ls specs/` and pick the folder whose `spec.md` has a valid Spec approval and no `plan.md`. Several candidates → list them and ask which one. None → standalone mode or back to the Specify stage.
+2. Read the spec: AC table (active IDs only; rows "Retired in rev N" are out), Non-goals, Constraints, Security notes, Rollback, Release & observability, and the header `Path`, `Size`, `Risk`.
+3. Locate the code map (`docs/codemap.md`, else `**/codemap.md`), ADRs (`docs/adr/`, else `**/adr/`), and the `sdlc-dod` block in `AGENTS.md` or `CLAUDE.md` (the DoD commands). A missing `sdlc-dod` block → record it in `## Risks` and ask the Tech Lead for the commands before Phase 3.
+4. Read the code the plan touches: entry points, existing tests and their harness, a similar feature to imitate, and the `## Pitfalls` list in `AGENTS.md`.
 
-### Phase 2 — Slice into a task graph
+### Phase 1 — Decisions before tasks
 
-Break the work into **tracer-bullet vertical slices**:
-- Each slice cuts a narrow but complete path through every layer it needs (schema, API, UI, tests) — not a horizontal layer on its own.
-- Each completed slice is demonstrable or verifiable on its own.
-- Each slice fits in one fresh context window (a subagent can do it from the task text alone).
-- Each slice declares **Satisfies:** the `AC-n` it delivers, and **Blocked by:** the tasks that must finish first ("—" if none).
+1. For each choice that is expensive to reverse (schema, public API, new service, new dependency, data retention), hand the question to the Architect (`senior-solution-architect`) and wait for an ADR in status *Proposed*. The plan header lists every ADR, or `none — <reason>`.
+2. Look for a **prefactor**: "make the change easy, then make the easy change." A prefactor becomes the first task and lists the AC it enables.
+3. Use the spec's domain vocabulary in task titles.
 
-**Wide refactors** (one mechanical change that breaks many call sites — renaming a column, retyping a shared symbol) are the exception: sequence them **expand → migrate → contract**. Expand adds the new form beside the old; migrate batches move callers over, each its own task blocked by expand, keeping the build green; contract removes the old form, blocked by every migrate batch.
+### Phase 2 — Build the task graph (mechanism 7.1)
 
-Present the graph as a table before detailing tasks:
+Slice the work into **tracer-bullet vertical slices**:
 
-```markdown
-| Task | Title | Satisfies | Implements | Blocked by |
-|---|---|---|---|---|
-| T1 | Prefactor report query into ReportQuery | — (enabler) | — | — |
-| T2 | Export endpoint streams filtered rows as CSV | AC-1 | ADR-0007 | T1 |
-| T3 | CSV-injection escaping | AC-2 | — | T2 |
-| T4 | Permission check on button and endpoint | AC-3 | — | T2 |
-| T5 | Row-limit guard with user message | AC-4 | ADR-0007 | T2 |
-```
+- Each slice cuts a narrow, complete path through every layer it needs (schema, API, UI, tests), never one horizontal layer.
+- Each slice is verifiable on its own by at least one test named after its AC.
+- Each slice fits one fresh context: the Implementer receives only its table row, its `### Tn` subsection, the AC text and the listed files.
 
-Ask the user whether granularity and blocking edges feel right before writing the detail.
+**Wide refactors** (one mechanical change that breaks many call sites) are the one exception to vertical slicing. Sequence them **expand → migrate → contract**: expand adds the new form beside the old; each migrate batch moves a set of callers and is blocked by expand, keeping the build green; contract removes the old form and is blocked by every migrate batch.
 
-### Phase 3 — Specify each task
+Fill the `## Tasks` table. Every rule below is enforced by `plan-graph` with exit 1:
 
-Each step is one action of 2–5 minutes. Use this structure:
+| Column | Rule | Error code |
+|---|---|---|
+| ID | `T1..Tn`, unique, in creation order; never renumbered after Plan approval; a removed task keeps its ID out of use | `BAD_ID`, `DUPLICATE_ID` (gap → warning `ID_GAP`) |
+| Title | Verb + object, one slice | `NO_TITLE` |
+| AC | ≥ 1 active AC ID from the spec; every active AC has ≥ 1 task | `NO_AC`, `UNKNOWN_AC`, `UNCOVERED_AC` |
+| Blocked by | Task IDs or `—`; no unknown IDs, no cycles, no self-dependency | `UNKNOWN_DEP`, `CYCLE` |
+| Files | Every file created or modified, tests included, in backticks; a directory ends in `/`; a glob uses `*` | `NO_FILES` |
+| Size | `Nh`, `Nd` (= 8h) or `Nm`; ≤ 8h | `BAD_SIZE`, `SIZE_BOUND` |
+| Count | ≤ 15 tasks; more → split the spec into two specs (back to Specify) | `TASK_BOUND` |
 
-````markdown
-### T2 — Export endpoint streams filtered rows as CSV
+**Blocked by** records a real dependency only: the task needs code, a schema or an interface another task creates. File overlap is not a dependency; `plan-graph` serializes it. Declaring false dependencies shrinks the frontier and slows the Build stage.
 
-**Satisfies:** AC-1 · **Implements:** ADR-0007 · **Blocked by:** T1
+Show the table to the user and ask whether granularity and blocking edges are right before detailing tasks. A change in this step costs one table edit; a change after Phase 3 costs a rewrite.
 
-**Files:**
-- Create: `src/reports/export.ts`
-- Modify: `src/reports/routes.ts:40-58`
-- Test: `tests/reports/export.test.ts`
+### Phase 3 — Detail each task, then Impact and Dependencies
 
-**Step 1: Write the failing test**
-```ts
-it("exports exactly the filtered rows as CSV", async () => {
-  const res = await request(app).get("/reports/42/export?region=south");
-  expect(res.status).toBe(200);
-  expect(parseCsv(res.text)).toEqual(expectedSouthRows);
-});
-```
+**Task subsections.** One `### Tn — <title>` per row, self-contained, with:
 
-**Step 2: Run it and confirm it fails for the right reason**
-Run: `npm test -- tests/reports/export.test.ts`
-Expected: FAIL — 404 Not Found (route does not exist yet)
+1. `**AC:** · **Blocked by:** · **Files:**` line, each file marked `(create)` or `(modify)`.
+2. **Interface** in a fenced block: the exact function, endpoint or component signature with types, status codes and error bodies. The Interface is fixed here, before any code; a dependent task codes against it.
+3. **Red** — test names that contain the AC ID, the exact run command and the expected failure line (`Expected: FAIL with ...`).
+4. **Green** — the minimal implementation, the same command, `Expected: PASS (n tests)`.
+5. **Refactor** — what changes; tests stay green.
+6. **Commit** — conventional message with the trailer `Refs: Tn AC-n` (one line, every AC the task serves). `executing-plans`, `trace-check` and `plan-graph --from-git` read this trailer.
 
-**Step 3: Write the minimal implementation**
-```ts
-// export.ts — stream rows from ReportQuery through a CSV serializer
-```
+Each step is one action of 2–5 minutes. Non-code tasks (docs, configuration, infrastructure) still get a verification command with an expected result (`terraform plan`, a validator, a dry run). Never write "add validation" without what is validated, the rule and the error returned.
 
-**Step 4: Run it and confirm it passes**
-Run: `npm test -- tests/reports/export.test.ts`
-Expected: PASS (1 test)
+**Impact (mechanism 7.5).** Fill `## Impact` from the code map, one row per module touched:
 
-**Step 5: Commit**
+| Column | Source |
+|---|---|
+| Module | The code-map module whose `paths` glob matches each file in the Files column |
+| Paths touched | The task files inside that module |
+| Change | new file / modify (what) / delete |
+| Dependents | Modules whose `depends_on` lists this module |
+| Mapped tests | This module's `tests` globs plus the `tests` globs of its dependents |
+
+Then write the **Regression scope** line: one command that runs the union of the Mapped tests. The Build stage runs it after every fix (scoped re-check, `references/loops.md`); the full DoD suite runs at loop exit and before the PR. A file that matches no module → **stop**, add the module to the code map (or extend a module's `paths`) in the same change, and re-run the code-map check before continuing. An empty Mapped tests set → the Regression scope is the full DoD suite.
+
+**Dependencies (mechanism 11.3).** Each new package gets one row in `## Dependencies`: package, exact version (pinned, no range), license, last release date (≤ 12 months old), critical/high advisories (must be 0, from `npm audit`, `pip-audit` or `osv-scanner`), the audit command, lockfile committed (yes), typosquat check (name compared with the intended project's registry page), reason. A package failing any bound is replaced, or the row is accepted through a waiver (`references/governance.md`). No new package → `none — <reason>`. A dependency the Build stage adds without a row is a halt and an Important review finding.
+
+**Risks.** One row per risk: likelihood (low/med/high), the mitigation inside this plan (a task, a test or a flag), and the role that accepts it.
+
+**Header.** Path (copied from the spec), spec rev, ADR list, and the executor note. Goal (one sentence), Architecture (2–3 sentences), Tech stack with the DoD commands.
+
+### Phase 4 — Validate with plan-graph (mechanism 7.2)
+
+Run after every edit of the plan and once more before the approval request:
+
 ```bash
-git add src/reports/export.ts src/reports/routes.ts tests/reports/export.test.ts
-git commit -m "feat(reports): stream filtered rows as CSV [T2, AC-1]"
+node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --write
 ```
-````
 
-Rules for the detail:
-- **Exact paths** always, with line ranges for modifications when known.
-- **Real code** for tests and for anything non-obvious; never "add validation" without saying what is validated and how.
-- **Exact commands** with the expected result — including the expected failure message in the red step.
-- **Commit messages** carry the task ID and the criteria: `[T2, AC-1]`.
-- **Non-code tasks** (docs, config, Markdown skills, infrastructure) still get a verification step: the command or check that proves the task is done (validator, lint, dry run, `terraform plan`).
-- Reference relevant skills by name where they apply (`test-driven-development`, `systematic-debugging`, `security-hardening`).
+`plan-graph` parses the `## Tasks` table, reads the active AC IDs of the sibling `spec.md`, and:
 
-### Phase 4 — Coverage check, CP3, handoff
+- builds the DAG and fails on `CYCLE` or `UNKNOWN_DEP`;
+- checks AC links both ways, the Files and Size columns, the 15-task bound, the Path (`PATH_QUICK`; `PATH_MISMATCH` when the plan's Path differs from the spec's), and the prose budget (`WORD_BOUND`: ≤ 3,000 words on Standard, ≤ 6,000 on Full, counted without code blocks, Loop ledger and Approvals);
+- computes **waves**: wave = 1 + the highest wave among the task's blockers; then two tasks in the same wave whose Files overlap (same file, a directory prefix, or a glob prefix) are serialized — the higher ID moves to the next wave and the conflict is recorded;
+- prints the plan hash, the waves, every conflict and the initial frontier, and writes `graph.json` (`nodes`, `edges` with `blocks` and `file-conflict` types, `waves`, `conflicts`, `initialFrontier`, `planHash`, `review`). A failing plan never writes `graph.json`.
 
-1. **Coverage both ways:** every `AC-n` in the SPEC maps to at least one task; every task satisfies at least one `AC-n` or is an explicit enabler (prefactor, setup). Show the check as a short list; fix gaps before proceeding.
-2. **Save the plan** to the project convention, or `docs/agentic-sdlc/YYYY-MM-DD-<feature>/PLAN.md` (standalone use: `docs/plans/YYYY-MM-DD-<feature>.md`). Optionally write one file per task under `tasks/NN-<slug>.md` for subagent execution or export to an issue tracker, keeping the `Blocked by` edges.
-3. **Plan header:**
+Exit codes: 0 pass · 1 check failed · 2 plan or spec missing or unparsable. `--json` gives the same result machine-readable.
+
+**Failure behaviour.** Exit 1 or 2 → fix the plan and re-run; never request Plan approval on a failing plan. Two fix attempts that leave the same error code → stop, report `BLOCKED` with the error lines, and route by cause: `UNCOVERED_AC` or `UNKNOWN_AC` that the plan cannot fix → spec defect → Specify stage (change protocol); `TASK_BOUND` → split the spec; `CYCLE` that survives re-slicing → design question for the Architect.
+
+**CI.** The repository's CI runs `plan-graph --check` on every changed `specs/**/plan.md`: it fails with `GRAPH_STALE` when the committed `graph.json` differs from the regenerated graph and with `GRAPH_MISSING` when it is absent. Commit `plan.md` and `graph.json` together.
+
+### Phase 5 — Plan approval and handoff
+
+**Review count (rule K8).** One combined Spec + Plan review when the path is Standard **and** the plan has ≤ 5 tasks; otherwise two reviews (Spec approval first, then Plan approval). The Full path always holds them separately. `plan-graph` prints `review: combined` or `review: separate`; use that value.
+
+**Request.**
+
+1. Append a row to `specs/NNN-slug/approvals.md` (`Requested at`, UTC minute, asked role).
+2. Present: the task table, the waves and conflicts from `plan-graph`, the Impact table and Regression scope, the Dependencies section, the open Risks, and the plan hash. A combined review also presents the spec (rev, `spec-lint` result, critique result).
+3. Ask the Tech Lead: "Approve plan rev N (hash `<planHash>`) for the Build stage? Reply yes or list changes." A combined review asks the Product Owner about the spec in the same message. **End the turn.**
+
+**Record.** Only an explicit "yes" or "approved" from the named role in a later turn counts. Write the row in `plan.md` `## Approvals`:
 
 ```markdown
-# <Feature> — Implementation Plan
-
-> **For the executor:** use the `executing-plans` skill to run this plan task by task.
-> Source: SPEC revision <N> · ADRs: <list>
-
-**Goal:** <one sentence> · **Architecture:** <2–3 sentences> · **Tech stack:** <key technologies>
+| Spec + Plan (combined) | 1 | 84da5fd5847a | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | Marco Silva | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0 | Export alert untested until staging | approved |
 ```
 
-4. **CP3:** present the task graph, coverage check and any risks; ask the Tech lead explicitly: "Approve this design and plan for execution?" End the turn. Record the decision in `CHECKPOINTS.md`; ADRs referenced by the plan move from *Proposed* to *Accepted*.
-5. **Handoff:** offer the execution mode:
-   - **Subagent mode (this session):** fresh subagent per task, spec-compliance review then quality review between tasks, parallel only across independent ready tasks.
-   - **Inline mode or separate session:** batches with checkpoints, in this session or a new one opened on the plan file.
-   Both run through `executing-plans`.
+A combined review records two rows from one request: the Product Owner's answer in `spec.md`, the Tech Lead's answer in `plan.md`, both with Approval `Spec + Plan (combined)` and the same spec hash. Fill `Answered at` and `Exact words` in `approvals.md`. ADRs referenced by the plan move from *Proposed* to *Accepted*. Then confirm the binding:
+
+```bash
+node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --check --check-approval
+```
+
+`--check-approval` fails with `APPROVAL_VOID` (plan hash differs), `APPROVAL_SPEC_VOID` (spec changed after approval), `APPROVAL_REV` (approved rev ≠ latest Revision log rev), `APPROVAL_FIELD` (role, person or exact words empty) or `COMBINED_NOT_ALLOWED` (combined row on Full or with > 5 tasks).
+
+**Hash rule.** The plan hash is the first 12 hex characters of SHA-256 over `plan.md` without `## Approvals` and `## Loop ledger`. Ledger rows appended during Build never void the approval; any other edit does. A void approval runs the change protocol (`references/rules.md`): impact on AC, tasks and tests → Revision log row N+1 → `plan-graph` → a new request. A void Spec approval also voids the Plan approval built on its hash.
+
+**Handoff.** Hand `plan.md` and `graph.json` to `executing-plans` (Build stage). The Build stage dispatches waves in order and, within a wave, the **frontier**: ready tasks (all blockers committed) with pairwise disjoint Files, at most 3 at once, each in its own worktree; tasks deferred by a file conflict run in the next dispatch. The current frontier at any time:
+
+```bash
+node <agentic-sdlc>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --from-git main..HEAD
+```
+
+`--from-git` marks a task done when a commit in the range carries `Refs: Tn`. A platform without subagents runs the tasks sequentially in wave order.
+
+### Loop ledger (mechanism 6.3)
+
+The plan carries a `## Loop ledger` table that the Build and Test stages append to: one row per failed round and per wave integration — date, task (or `W<n>` for a wave), loop (red-green, build-test, review-fix, debug, wave), round, failure signature (first failing test + first error line), cause (spec, design, plan, code, test, env), what was tried, result (fixed, failed, escalated, merged, conflict, red). The same signature in 2 consecutive rounds, or 3 failed fixes on one task, sets the result `escalated` and sends a design question to the Architect. Leave the table empty at Design; never delete rows.
+
+## Standalone Mode
+
+For requirements outside the Agentic SDLC (no `specs/` folder):
+
+1. Save the plan to `docs/plans/YYYY-MM-DD-<feature>.md` from the same template; replace the Spec reference with the requirement source and number the requirements `AC-1..AC-n` in a `## Requirements` list at the top.
+2. Validate with `plan-graph <plan> --no-spec --write --out docs/plans/YYYY-MM-DD-<feature>.graph.json`. `--no-spec` skips the AC existence and coverage checks; every other rule applies.
+3. Ask the requester for approval with the same record fields; a combined review does not apply.
 
 ## Critical Rules
 
-- **NEVER** plan against an unapproved SPEC on Standard or Full routes; report the missing CP2 instead.
-- **NEVER** leave steps abstract — every step names files, code intent, commands and expected output.
+- **NEVER** write a plan against a spec without a valid Spec approval on Standard or Full; report `BLOCKED: Spec approval missing or void`.
+- **NEVER** request Plan approval while `plan-graph` exits non-zero, and never edit `graph.json` by hand.
+- **NEVER** leave a step abstract: every step names files, interface, command and expected output.
 - **NEVER** slice horizontally by layer except for wide refactors sequenced expand → migrate → contract.
-- **NEVER** add tasks that satisfy no criterion and enable nothing; that is scope creep — raise it as a SPEC change.
-- **ALWAYS** declare `Satisfies` and `Blocked by` on every task.
-- **ALWAYS** start each code task with a failing test and its expected failure.
-- **ALWAYS** run the coverage check before CP3.
-- **ALWAYS** keep secrets and real personal or client data out of plan examples and fixtures.
+- **NEVER** add a task that serves no AC; a prefactor lists the AC it enables. Scope outside the spec is a spec change.
+- **NEVER** renumber task IDs after Plan approval.
+- **NEVER** add a package without a `## Dependencies` row inside the bounds of mechanism 11.3.
+- **ALWAYS** fill `## Impact` from the code map; a file outside every module stops the plan until the map is updated.
+- **ALWAYS** use one combined Spec + Plan review on Standard with ≤ 5 tasks and two reviews otherwise.
+- **ALWAYS** end the turn after the approval request; only a later explicit "yes"/"approved" counts.
+- **ALWAYS** keep secrets and real personal or client data out of plans, fixtures and examples.
 
 ## Example Usage
 
-**1. From an approved SPEC**
-> "SPEC rev 1 for CSV export is approved — write the plan."
+**1. Standard path, combined review.**
+> "Spec 001-csv-export rev 1 is approved — write the plan."
 
-Reads the SPEC and ADR-0007, finds the report query duplicated in two places, makes a prefactor T1, slices T2–T5 by criterion, shows the graph, gets agreement, writes TDD steps, passes the coverage check, requests CP3.
+Reads the spec (AC-1..AC-4, R=1 money) and the code map, writes five tasks: T1 serializer with formula escaping (AC-2), T2 permission (AC-3), T3 export route with the 50,000-row limit (AC-1, AC-4; blocked by T1, T2), T4 column format (AC-1; blocked by T1), T5 Export button (AC-1; blocked by T3). `plan-graph --write` prints `W1 T1 T2 · W2 T3 · W3 T4 T5` and one conflict: T4 shares `server/test/routes/reports/export.test.ts` with T3, so T4 moves to wave 3. Impact lists five modules and the Regression scope command. Five tasks on Standard → one combined review; the Tech Lead answers "Approved. Plan rev 1, five tasks, go." (worked example: `agentic-sdlc/examples/worked-example/specs/001-csv-export/`).
 
-**2. Wide refactor**
+**2. Coverage gap.**
+> `plan-graph` prints `FAIL UNCOVERED_AC: AC-4 has no task`.
+
+Adds T6 "Refuse exports above the row limit" with its Files and Size, re-runs `plan-graph` (exit 0). Six tasks → `review: separate`: the Product Owner approves the spec first, then the Tech Lead approves the plan in a second request.
+
+**3. Wide refactor.**
 > "Plan renaming `customer_id` to `account_id` across the monorepo."
 
-Expand (add `account_id` alongside, dual-write), migrate in five batches by package (each blocked by expand), contract (drop `customer_id`, blocked by all batches). Each batch has its own green-build verification.
+T1 expand (add `account_id`, dual-write), T2–T6 migrate one package each (blocked by T1), T7 contract (blocked by T2–T6). `plan-graph` puts T2–T6 in wave 2; a frontier of 3 runs T2, T3, T4 first, then T5, T6. Each migrate task has a green-build verification.
 
-**3. Handoff to another session**
-> "Write a plan I can execute tomorrow in a fresh session."
+**4. Module missing from the code map.**
+> A task adds `server/src/billing/invoice.ts`; no code-map module matches it.
 
-Self-contained tasks with full context, exact commands and expected outputs; plan header points to `executing-plans`; optional `tasks/` files.
+Stops the Impact section, adds module `api-billing` (paths, depends_on, tests, owner) to `docs/codemap.md`, re-runs the code-map check, then completes Impact and asks for approval.
 
-**4. Infrastructure change**
-> "Plan moving the worker from cron to a queue."
+**5. Standalone plan.**
+> "No spec — plan moving the worker from cron to a queue, to run tomorrow in a fresh session."
 
-Tasks include `terraform plan` verification steps, a feature-flagged dual-run task, and a rollback task mapped to the SPEC's rollback section.
+Writes `docs/plans/2026-11-24-worker-queue.md` with requirements AC-1..AC-3, tasks with `terraform plan` verification and a flag-gated dual-run task, runs `plan-graph --no-spec --write --out docs/plans/2026-11-24-worker-queue.graph.json`, and hands off to `executing-plans`.
 
-**5. Coverage gap found**
-> Coverage check shows AC-4 (row limit) has no task.
-
-Adds T5 before CP3 and reports the fix.
+Sources: task-graph and slicing conventions adapted from Superpowers `writing-plans` (MIT), Matt Pocock `to-tickets` (MIT) and Addy Osmani `planning-and-task-breakdown` (MIT).

@@ -1,12 +1,12 @@
 # spec-driven-development
 
-Analyze-stage (AN) skill of the **Agentic SDLC**: writes the SPEC — objectives, numbered acceptance criteria (`AC-n`), boundaries, rollback and success indicators — and runs **CP2**. The approved revision is frozen and becomes the baseline every later artifact traces back to.
+Specify-stage skill of the **Agentic SDLC**: writes `specs/NNN-slug/spec.md` from the method's template — problem, numbered acceptance criteria (`AC-n`), non-goals, security notes, rollback, release & observability, indicator — runs an independent 12-item critique with a 3-round stop rule, checks the file with `spec-lint`, and requests the **Spec approval** from the Product Owner. The approved revision and its 12-hex hash are the build baseline; any later edit voids the approval until it is renewed.
 
 ## When to use
 
 - Before building any non-trivial feature, change or migration.
 - To turn a brainstorming brief, grill-me summary or conversation into buildable requirements.
-- To validate a spec before approval, or revise one after a requirement change.
+- To validate a spec with `spec-lint` before approval, or revise one after a requirement change.
 - To split a large initiative into module specs (capability map).
 
 ## Modes
@@ -15,19 +15,20 @@ Analyze-stage (AN) skill of the **Agentic SDLC**: writes the SPEC — objectives
 |---|---|
 | create | Short interview needed |
 | synthesize | Answers already exist in the conversation or brief |
-| validate | Check an existing spec before CP2 |
-| revise | Change an approved spec via the change protocol |
+| validate | Check an existing spec before the Spec approval |
+| revise | Change an approved spec via the change protocol (hash re-open rule) |
 
 ## What is included
 
-- `SKILL.md` — scope check, assumptions, SPEC sections, acceptance-criteria rules, doubt pass, CP2, revise and validate modes
+- `SKILL.md` — scope check, assumptions, spec sections, acceptance-criteria rules, independent critique and stop rule, `spec-lint` step, Spec approval, revise and validate modes
+- Uses from `agentic-sdlc`: `templates/spec.md`, `scripts/spec-lint.mjs`, `references/governance.md`
 - `evals/evals.json` — 3 scenarios (synthesize, validate, revise)
 - `evals/trigger-eval.json` — 14 trigger queries (8 positive, 6 negative)
 
 ## Typical invocation
 
 - "Write the spec for the CSV export."
-- "Turn this conversation into a SPEC."
+- "Turn this conversation into a spec."
 - "Validate this spec before we approve it."
 - "Requirements changed — revise the spec."
 
@@ -43,10 +44,10 @@ Analyze-stage (AN) skill of the **Agentic SDLC**: writes the SPEC — objectives
 
 | Field | Value |
 |-------|-------|
-| Version | 1.0.0 |
+| Version | 2.0.0 |
 | Author | Eric Andrade |
 | Created | 2026-11-19 |
-| Updated | 2026-11-19 |
+| Updated | 2026-11-22 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | planning |
 | Tags | agentic-sdlc, specification, acceptance-criteria, requirements, spec-driven |
