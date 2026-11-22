@@ -9,6 +9,8 @@ Chronological record of events that may affect scores. The red-team auditor must
 | 2026-11-21 | Scorers returned baseline totals in their replies | Requested by the orchestrator for progress reporting; scorecard files themselves contain no totals | Do not forward totals to scorers still to score; the nine remaining cards are scored without totals visible |
 | 2026-11-22 | Usage limit hit again during card 4 (kiro, S-B) | No Kiro content saved; repo clean at d5f194c | Resume with kiro/S-B |
 
+| 2026-11-22 | kiro/S-B written with ALL 16 cells Low confidence | kiro.dev blocked by the session network allowlist; evidence = public Kiro GitHub repo README + sample spec, one web search, secondary profile. No cell reached the evidence cap | **Bias risk in our favour**: Kiro is likely under-scored. Auditor must treat Kiro cells as Low; re-score Kiro if kiro.dev becomes reachable (owner decision pending). Superiority must also be checked with Kiro excluded |
+
 ## Queue state (2026-11-22)
 
 Done (14 scorecards, 7 benchmarks with two independent cards each): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
