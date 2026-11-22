@@ -26,7 +26,7 @@ Architect report §4 Batch 0, items 1–6:
 5. Execution plan `2026-11-20-agentic-sdlc-execution-plan.md` amended with K1–K12.
 6. Skill `README.md` and `evals/evals.json` updated.
 
-**Exit check:** the K-grep from architect report §3 returns 0 hits; `node --test skills/agentic-sdlc/scripts/test` passes.
+**Exit check:** the K-grep from architect report §3 returns 0 hits; `node --test skills/agentic-sdlc/scripts/test/*.test.mjs` passes.
 
 ## Batch 1 — T1 minimal set (6 parallel streams; projected 77.0, floor 73.6)
 
@@ -39,7 +39,7 @@ Streams 1A–1F exactly as in architect report §4 Batch 1:
 - **1F Adoption/Context/Paths**
 
 **Exit check:**
-- `node --test skills/agentic-sdlc/scripts/test` passes.
+- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs` passes.
 - `./scripts/validate-skill-yaml.sh` and `./scripts/validate-skill-content.sh` pass on every touched skill.
 - The K-grep returns 0 hits.
 - The worked example is filled end to end.

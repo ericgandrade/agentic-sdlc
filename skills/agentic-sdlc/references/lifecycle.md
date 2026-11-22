@@ -1,78 +1,99 @@
-# The Agentic SDLC — The Cycle
+# Agentic SDLC — The Lifecycle
 
-The Agentic SDLC runs the software development lifecycle as a **continuous cycle** of eight stages. In each stage an **AI agent role** does the work and a **named human role** holds the checkpoint. Build and Test loop automatically within strict limits; every other stage transition waits for an explicit human decision. Operate feeds production learnings back into Plan.
-
-```
-        AI agent              Stage                         Human checkpoint
-  ┌─▶ Triage Agent      ──▶  PL  Plan       import · prioritize · size      ◀── 👤 Product owner — CP1 approves scope & route
-  │   Analyst Agent     ──▶  AN  Analyze    interview · SPEC · AC-n         ◀── 👤 Product owner — CP2 approves SPEC (frozen)
-  │   Architect Agent   ──▶  DE  Design     ADRs · task graph               ◀── 👤 Tech lead     — CP3 signs off design & plan
-  │   Coding Agent      ──▶  BU  Build      TDD slices · commits · PR  ┐
-  │   QA Agent          ──▶  TE  Test       evidence per AC-n · CI     ┘◀── 🔁 bounded auto-retry (max 5 rounds, then escalate)
-  │   Review Agent      ──▶  RV  Review     multi-axis · security      ◀── 👤 Engineer      — CP4 approves the PR
-  │   Release Agent     ──▶  DP  Deploy     flags · promote · rollback ◀── 👤 Release mgr   — CP5 approves prod release
-  │   SRE Agent         ──▶  OP  Operate    SLOs · incidents · retro   ◀── 👤 On-call       — owns incidents
-  └────────────── feedback loop: incidents, postmortems, measured indicators → new work in PL ──────────────┘
-```
-
-## Stages
-
-| Stage | Agent role | Question | Skills | Artifacts | Checkpoint |
-|---|---|---|---|---|---|
-| **PL** Plan | Triage Agent | What should be worked on now, why, how big, which route? | `issue-triage`, `agentic-sdlc` (sizing), `project-context`, `brainstorming` | Prioritized item, readiness score, route, brief, target indicators | **CP1** Product owner approves scope, priority and route |
-| **AN** Analyze | Analyst Agent | What exactly must be true when done? | `grill-me`, `spec-driven-development`, `codebase-modernization` (inventory), `security-hardening` | SPEC.md (AC-n, boundaries, rollback, indicators), GLOSSARY.md | **CP2** Product owner approves the SPEC; the revision is frozen |
-| **DE** Design | Architect Agent | How will it be built, in what order? | `senior-solution-architect`, `writing-plans`, `security-hardening` | ADRs, PLAN.md task graph (each task → AC-n) | **CP3** Tech lead signs off design and plan |
-| **BU** Build | Coding Agent | Build it, slice by slice, test-first | `executing-plans`, `test-driven-development`, `systematic-debugging`, `codebase-modernization` (change) | Code, tests, commits `[Tn, AC-n]`, PR | Bounded auto-retry; escalates to a human at the cap |
-| **TE** Test | QA Agent | Does it provably meet the SPEC? | `test-strategy`, `verification-gate` | TEST-PLAN.md, VERIFICATION.md, TRACEABILITY.md | Bounded auto-retry; no human checkpoint, but no gaps allowed into RV |
-| **RV** Review | Review Agent | Is it correct, safe, simple and true to the design? | `multi-axis-code-review`, `security-hardening` | Review findings, triage, residual risks | **CP4** Engineer approves the PR with the traceability matrix |
-| **DP** Deploy | Release Agent | Ship it safely and reversibly | `deployment-pipeline`, `shipping-and-handover` | Rollout + rollback plan, release notes, HANDOVER.md, runbook | **CP5** Release manager approves the production release |
-| **OP** Operate | SRE Agent | Is it healthy? What did production teach us? | `operations-and-incidents`, `retrospective` | SLO report, incident records, postmortems, RETRO.md, new PL items | On-call engineer owns incidents |
-
-## The rule that replaces the V: every requirement is proven
-
-The cycle keeps the strongest idea of the classic V-model — each definition has a matching proof — as an explicit rule rather than a shape:
-
-| Defined in | Proven in |
-|---|---|
-| PL — scope, target indicators, baseline | DP/OP — indicators measured after release; acceptance decision in RETRO.md |
-| AN — acceptance criteria `AC-n`, boundaries, rollback | TE — evidence per `AC-n`; RV — spec-compliance axis; DP — rollback rehearsed |
-| DE — architecture decisions, constraints, task plan | RV — design and standards axis |
-
-Traceability chain:
+The Agentic SDLC follows the standard software development life cycle with AI agents: **7 stages, 4 human approvals, 8 agents named by function, 3 paths sized by risk.** Agents execute; named human roles approve. Every work item runs Plan → Specify → Design → Build → Test → Release → Operate, and Operate feeds the next Plan.
 
 ```
-SPEC AC-n ─▶ PLAN task ─▶ commit [Tn, AC-n] ─▶ test ─▶ evidence ─▶ PR approval (CP4) ─▶ release (CP5) ─▶ indicator (OP)
+Stage      Lead agent (helpers)                    Ends with                         Human approval
+Plan       Planner                                 path score + intake record        —
+Specify    Planner (Security Auditor)              specs/NNN-slug/spec.md             Spec approval     · Product Owner
+Design     Planner (Architect)                     plan.md + graph.json + ADRs       Plan approval     · Tech Lead
+Build      Implementer                             commits + PR (DoD green)          —   (bounded loops, references/loops.md)
+Test       Reviewer (Test Engineer, Sec. Auditor)  PR Verification/Trace/Triage      PR approval       · human reviewer (engineer)
+Release    Release Engineer                        release notes + rollback rehearsal Release approval  · Release Owner
+Operate    SRE                                     ops record, postmortems, retro    On-call engineer owns incidents
+   └──────── incidents, indicator misses, retro actions → new items in Plan ────────┘
 ```
 
-`TRACEABILITY.md` records one row per `AC-n`. A row with an empty cell is a gap; CP4 cannot pass with gaps unless the approver explicitly accepts them as residual risk in CHECKPOINTS.md.
+Review is not a stage: independent review runs inside Test and ends in PR approval. Unit tests are written in Build (test-first); Test verifies the change against the spec.
 
-## Checkpoints
+## 1. Stages
 
-| ID | Stage | Role | Passes when | Recorded in |
+| Stage | Entry condition | Work (procedure) | Exit record | Failure behaviour |
 |---|---|---|---|---|
-| CP1 | PL | Product owner | Item is ready (readiness score), scope and priority clear, route chosen | CHECKPOINTS.md |
-| CP2 | AN | Product owner | SPEC complete (AC-n, boundaries, rollback, indicators), doubt pass done | CHECKPOINTS.md; SPEC revision frozen |
-| CP3 | DE | Tech lead | Every AC-n has a task, every task serves an AC-n or is an enabler; ADRs proposed | CHECKPOINTS.md; ADRs → Accepted |
-| CP4 | RV | Engineer | Every AC-n has fresh evidence, no open Critical findings, security lens done | CHECKPOINTS.md |
-| CP5 | DP | Release manager | Rollout plan, rollback rehearsed, monitoring in place | CHECKPOINTS.md |
-| — | OP | On-call engineer | Owns incidents; postmortems produce new PL items | Incident records, RETRO.md |
+| **Plan** | A request, issue, incident action or retro action exists | Search the tracker and `specs/` for duplicates and prior rejections (by domain noun + verb); classify as bug, task, story or epic; score the path (§3); name the indicator (baseline + target) | Score line in the issue or spec header: `Path: Standard · S=5 · R=1 (money)`; intake record | Duplicate found → link it, intake decision `duplicate`, stop. Path inputs missing → Standard |
+| **Specify** | Path is Standard or Full | Planner drafts `spec.md` from `templates/spec.md`; critique pass by a fresh context (12-item checklist, max 3 question rounds); Security Auditor fills Security notes when R ≥ 1; `spec-lint` runs | `spec.md` with AC-1..n, Release & observability, Approvals | Lint exit 1 → fix before asking for approval. 3 rounds without an answer → `NEEDS_CONTEXT`, no approval request |
+| **Design** | Spec approval valid (hash matches) | Architect writes ADRs for decisions that are expensive to reverse; Planner writes `plan.md` tasks (≤ 1 day each, ≥ 1 AC each, `Blocked by`, `Files`); `plan-graph` builds waves | `plan.md`, `graph.json`, ADRs `docs/adr/NNNN-*.md` | Cycle or unknown task ID → `plan-graph` exit 1 → no approval request |
+| **Build** | Plan approval valid; preflight green | Implementer takes tasks in graph order, one task per fresh context: red (paste failing output) → green → refactor; commit with trailer `Refs: T3 AC-2`; DoD gate before opening the PR | Commits, PR from `templates/pr-body.md`, evidence records | Loop bound hit → `ESCALATE` (§5). File outside the plan's `Files` → stop and re-plan |
+| **Test** | PR open, DoD green | Test Engineer's acceptance tests (designed from the spec, never from the diff) run; Reviewer runs lenses L1–L4 (Quick: L1 + L2), verifies each finding, fills Verification, Trace and Review triage | PR sections complete; verdict GO / NO-GO | Default verdict NO-GO until every AC has fresh evidence and 0 Critical findings are open |
+| **Release** | PR approved and merged; production change | Release Engineer runs the release checklist: rollback rehearsed in staging, flag defaults off, test alert fired once, go/no-go criteria | Release notes with AC-n list, rehearsal output, runbook link | Any checklist item false → NO-GO; no Release approval request |
+| **Operate** | Released | SRE watches the spec's alert and indicator; first indicator reading ≤ 7 days after release; incidents by severity; postmortems; retro | `specs/NNN/ops.md`, `docs/postmortems/`, `docs/retros/` | SEV1/2 → incident procedure (`references/release-ops.md`); indicator miss → new Plan item labelled `from-production` |
 
-Each checkpoint record states: checkpoint, date, role, person, exact words of approval, evidence reviewed, residual risks accepted, decision (approved / approved with conditions / rejected). Only an explicit "yes" in a later turn counts; the agent ends its turn after producing a checkpointed artifact.
+Quick path: Plan → Build → Test → (Release when production deploys) → Operate. The acceptance test is written in the issue before code; there is no `spec.md` and no Plan approval.
 
-In small teams one person may hold several roles; the record still names the role being exercised.
+## 2. The four approvals
 
-## Routes
+| Approval | Stage end | Default role | Recorded in | Bound to |
+|---|---|---|---|---|
+| **Spec approval** | Specify | Product Owner | `spec.md` → `## Approvals` | spec revision + 12-hex hash |
+| **Plan approval** | Design, before code | Tech Lead | `plan.md` → `## Approvals` | plan revision + hash + spec hash it was built on |
+| **PR approval** | Test | human reviewer (engineer) | Pull request review | head commit SHA |
+| **Release approval** | Before production | Release Owner | Release notes → `## Approval` | release tag + rehearsal output |
 
-| Route | When | Stages and checkpoints |
-|---|---|---|
-| **Quick** | Clear, low-risk, ~1 file, or a well-understood bug | PL (mini) → BU (TDD) → TE → RV → DP (commit/PR). CP1–CP3 collapse into one confirmation of scope and acceptance test; CP4 is the PR approval; CP5 only if production deploys. |
-| **Standard** | Feature or change that fits one session | All stages; short SPEC; CP1+CP2 may be one conversation; CP3–CP5 separate |
-| **Full** | Multi-session, cross-cutting, high-risk, regulated, or brownfield modernization | All stages at full depth; subagent execution; independent test design; security lens mandatory; staged rollout; OP watch period and retrospective mandatory |
+**Procedure (every approval).** Present the artifact, the evidence reviewed and the residual risks; ask for an explicit decision; end the turn. Only an explicit "yes" (or "approved") in a later turn counts. Silence, "sounds good" about something else, and "whatever you think" are not approval.
 
-Escalate a route the moment new risk appears; never downgrade silently.
+**Record fields:** approval · rev + hash · date · role · person · exact words · evidence reviewed · residual risks · decision (approved / approved with conditions / rejected). Full rules: `references/governance.md`.
 
-## Automatic loops (no human in the loop, but bounded)
+**Hash rule.** The hash is the first 12 hex characters of SHA-256 over the file body excluding the `## Approvals` section (`scripts/lib/md.mjs` `contentHash`). Any later edit changes the hash and voids the approval; the change protocol in `references/rules.md` runs.
 
-- **BU ↔ TE:** failing tests or verification gaps go back to the Coding Agent. Maximum 5 fix rounds per task; from round 4 a fresh, more capable agent takes over; after round 5 every open finding gets an explicit ruling and the human is notified. Never weaken a test or a threshold to get green.
-- **RV → BU:** review findings are routed by root cause: intent gaps → new SPEC revision (CP2 again); plan defects → PLAN amendment (CP3 again); local defects → back to the Coding Agent.
-- **OP → PL:** incidents, postmortem actions and indicator misses become new items for the Triage Agent.
+**Intake decision.** Required when Plan finds a duplicate or a prior rejection; otherwise recorded as `n/a — <reason>` in the issue.
+
+**Roles.** One person can hold several roles; the record names the role exercised. Approver ≠ PR author is enforced by `approval-check` (mechanism 10.4); in a 1-person team the waiver procedure in `references/governance.md` applies.
+
+**Enforcement.** Branch protection with ≥ 1 review, CODEOWNERS on `specs/**`, required checks `agentic-sdlc/{dod,spec,trace,approvals}`, and a `production` environment with required reviewers. A host without these features → doctor WARN and the PR banner `enforcement: prompt-only`.
+
+## 3. Paths
+
+| Path | Typical item | Approvals | Required artifacts |
+|---|---|---|---|
+| **Quick** | Bug, small task | PR (+ Release when production deploys) | Issue with acceptance test; PR with Verification; retro batched |
+| **Standard** | Story, feature | Spec + Plan (one combined review when the plan has ≤ 5 tasks; otherwise two), PR, Release | `spec.md`, `plan.md`, `acceptance-tests.md`, PR, release notes, retro record |
+| **Full** | Epic, high-risk, regulated, brownfield modernization | All four separately + a second human reviewer on the PR | Standard set + ADRs, `threat-model.md`, `CONSTRAINTS.md`, runbook, full retro |
+
+**Score (mechanism 14.2).** Size S = files (≤ 3: 1 · 4–15: 2 · > 15: 3) + components (1 · 2 · ≥ 3 → 1/2/3) + iterations (1 · 2 · ≥ 3 → 1/2/3). Risk R = count of triggers: auth, personal/health data, money, public API, schema/migration, irreversible, regulated. Size route: S ≤ 4 Quick, 5–6 Standard, ≥ 7 Full. Risk route: R = 0 Quick, R = 1 Standard, R ≥ 2 **or** personal/health data **or** irreversible → Full. **Path = the higher of the two routes.**
+
+**Escalation.** In Build, touching more files than the path bound (Quick > 3, Standard > 15) or meeting a new trigger → stop, re-score, re-route up, log a Revision entry. Never route down silently. Detail and worked cases: `references/paths.md`.
+
+**Combined review record (Standard, ≤ 5 tasks).** One record names both revisions and both hashes; the spec hash is fixed before the plan is presented.
+
+## 4. Every requirement is proven
+
+The ID chain (mechanism 9.1):
+
+```
+spec AC-n → plan task Tn (lists AC-n) → commit trailer "Refs: Tn AC-n" → test name contains AC-n
+  → PR Verification row (AC-n · test · command · exit · fingerprint · time) → release notes AC-n list
+  → ops record indicator reading / incident tagged AC-n or spec ID
+```
+
+Gap analysis runs both ways before PR approval: every AC has ≥ 1 task and ≥ 1 passing test; every task has an AC; every commit on the branch has a Tn. An orphan → PR NO-GO (`references/verification.md` §Trace).
+
+## 5. Loops and their bounds
+
+| Loop | Exit | Bound | At the bound |
+|---|---|---|---|
+| Red-green | target test green | 3 failed attempts | enter the debug loop |
+| Build-test fix | DoD + AC tests green | 5 rounds per task | `ESCALATE` to the Tech Lead |
+| Review-fix | 0 open Critical findings | 3 review rounds | `ESCALATE` to the Tech Lead |
+| Debug | root cause proven by a test | 3 refuted hypotheses | `ESCALATE` to the Architect |
+
+Anti-thrash: the same failure signature in 2 consecutive rounds, or 3 failed fixes on one task → stop fixing and open a design question for the Architect. Root-cause routing: spec → Specify (voids Spec approval), design/plan → Design (voids Plan approval), code/test → Build, env → preflight. Unknown cause after 2 rounds → treated as design. Detail: `references/loops.md`.
+
+## 6. Release and Operate rules that start earlier
+
+- **Observability is defined in Specify, not Operate.** `spec.md` §Release & observability names the signal, an alert with a numeric threshold, the dashboard or query location, the owner, the rollout (flag or stages 1% → 10% → 100%) and the rollback command. Required on Standard/Full by `spec-lint`; on Quick with a production deploy, one line: signal + rollback command.
+- **Runbook.** Required whenever a change alters operated behaviour (new endpoint, job, config or alert) on any path; always on Full.
+- **Retrospective.** Standard/Full: within 5 business days after Release (after merge when there is no release), ≤ 15 minutes, ≥ 1 owned action that changes a file. Quick: batched every 10 merged items or 14 days, whichever comes first. Overdue → the next step `status.mjs` reports.
+
+## 7. Operate → Plan
+
+Every incident action, postmortem action, alert trend and indicator miss becomes an issue labelled `from-production` with the spec or AC ID, triaged in Plan within 2 business days. An incident whose AC is unknown links to the spec ID and is marked `untraced-requirement`.

@@ -3,38 +3,69 @@
   "evals": [
     {
       "id": 1,
-      "prompt": "Using the Agentic SDLC, add a CSV export button to the reports page of our Express + React app. The export includes customer names and order totals for the currently filtered rows.",
-      "expected_output": "Routes the work through PL sizing, proposes the Standard route, and drives AN toward a SPEC before any code",
+      "prompt": "Using the Agentic SDLC, add a CSV export button to the reports page of our Express + React app. The export contains order IDs, order dates and order totals for the currently filtered rows.",
+      "expected_output": "Scores the path (S=5, R=1 money) as Standard, drives Specify toward spec.md with numbered acceptance criteria and requests Spec approval before any code",
       "expectations": [
-        "Output checks the repository for existing method artifacts or conventions before creating new ones",
-        "Output asks at most three sizing questions (scope, risk, reversibility) or infers them, and proposes a route with justification",
-        "Output identifies the sensitive-data and CSV-injection risk and recommends at least the Standard route",
-        "Output does not write production code before a SPEC with numbered acceptance criteria is approved (CP2)",
-        "Output shows the stage progress (PL, AN, DE, BU, TE, DP) and names the next skill to invoke"
+        "Output checks the repository for existing method artifacts or conventions (AGENTS.md block, specs/ folders) before creating new ones",
+        "Output writes a path score line with S (files + components + iterations) and R (risk triggers) and selects Standard",
+        "Output names CSV formula injection and the money trigger as risks to cover in the spec",
+        "Output does not write production code before a Spec approval and a Plan approval (or one combined review when the plan has 5 tasks or fewer)",
+        "Output shows stage progress using Plan, Specify, Design, Build, Test, Release, Operate and names the next agent (Planner)"
       ]
     },
     {
       "id": 2,
-      "prompt": "Continue the payments refactor. The folder docs/agentic-sdlc/2026-11-02-payments-refactor has SPEC.md (revision 2, approved), PLAN.md with tasks T1-T8, and CHECKPOINTS.md showing CP2 and CP3 approved. Git log shows commits for T1 through T5.",
-      "expected_output": "Detects state from artifacts and resumes the Build stage at T6 after confirming with the user",
+      "prompt": "Continue the payments refactor. specs/004-payments-refactor/spec.md shows revision 2 with a Spec approval whose hash matches the file, plan.md has tasks T1-T8 with a valid Plan approval, and git log shows commits with Refs: T1 through T5.",
+      "expected_output": "Detects state 6 (tasks open) from artifacts and confirms resuming Build at T6 in one line before acting",
       "expectations": [
-        "Output reads or references the existing artifacts instead of restarting planning",
-        "Output determines the current stage is BU and the next task is T6",
-        "Output asks the user to confirm before resuming",
-        "Output names executing-plans (and test-driven-development) as the skills for the next step",
-        "Output does not re-run CP2 or CP3 without a reason"
+        "Output runs the status command or reads the artifacts directly instead of asking the user to restate progress",
+        "Output verifies that the Spec and Plan approval hashes match the current files",
+        "Output proposes resuming Build at T6 with the Implementer and asks for confirmation in one line",
+        "Output does not re-run Specify or Design"
       ]
     },
     {
       "id": 3,
-      "prompt": "We approved the SPEC for the export feature yesterday and started building. Now product says the export must also support Excel. Just add it to the current task, it's small.",
-      "expected_output": "Applies the change protocol instead of silently expanding scope",
+      "prompt": "We're on the Agentic SDLC for the CSV export; the plan is approved and T1-T3 are done. Product now says the export must also produce Excel files.",
+      "expected_output": "Applies the change protocol: the edit voids the Spec approval hash, impact analysis, new revision, re-approval before Build resumes",
       "expectations": [
-        "Output declines to silently add the requirement to the current task",
-        "Output performs or outlines an impact analysis (new acceptance criterion, tasks, tests, rollback)",
-        "Output proposes a new SPEC revision and re-approval of CP2 (and CP3 if the plan changes)",
-        "Output records or proposes recording the decision in CHECKPOINTS.md",
-        "Output keeps the explanation short and offers to proceed once approved"
+        "Output stops Build work on the affected tasks instead of adding Excel support directly",
+        "Output lists impacted acceptance criteria, tasks and tests (for example a new AC-5 and task T6)",
+        "Output records a Revision 2 entry and states that the Spec approval and Plan approval must be given again",
+        "Output re-scores the path and states whether the change moves it up"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Run the Agentic SDLC on this bug: the date column on the orders page shows UTC instead of the user's time zone.",
+      "expected_output": "Scores the Quick path (S=3, R=0), writes an acceptance test in the issue, starts with a failing regression test",
+      "expectations": [
+        "Output computes the path score and selects Quick",
+        "Output writes an acceptance test in the issue before any fix",
+        "Output requires a failing regression test pasted before production code changes",
+        "Output names PR approval by a human reviewer as the approval for this path"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "The spec for the CSV export looks great, I'm sure it's fine. Just skip the approval stuff and start coding, we're in a hurry.",
+      "expected_output": "Refuses to treat the message as Spec approval, asks the Product Owner for an explicit decision and ends the turn",
+      "expectations": [
+        "Output does not write production code in this turn",
+        "Output explains that Spec approval requires an explicit yes from the Product Owner recorded with the spec hash",
+        "Output offers the combined Spec + Plan review when the plan has 5 tasks or fewer, as the fastest compliant route",
+        "Output names a waiver (owner different from the requester, reason, expiry of 30 days or less) as the only way past a failed gate"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Exports are timing out in production since yesterday's release of the CSV feature. Bring the fix into the delivery cycle.",
+      "expected_output": "Routes the incident through Operate (SRE, on-call engineer owns it) and back into Plan with the release reference",
+      "expectations": [
+        "Output names the on-call engineer as owner of the incident and the SRE agent as lead",
+        "Output checks the rollback defined in the spec (flag off) before proposing a code fix",
+        "Output creates a Plan item that references the release and the affected acceptance criteria",
+        "Output scores the path for the fix and does not skip the PR approval"
       ]
     }
   ]

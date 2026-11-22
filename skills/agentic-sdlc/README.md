@@ -1,88 +1,90 @@
 # agentic-sdlc
 
-Router for the **Agentic SDLC**: spec-first, evidence-based AI-assisted software delivery run as a continuous cycle of eight stages, each with an AI agent role and a named human checkpoint.
+Router for the **Agentic SDLC**: a method that follows the standard software development life cycle with AI agents. **7 stages, 4 human approvals, 8 agents named by function, 3 paths sized by risk**, one rule — every requirement is proven.
 
-| AI agent | Stage | Human checkpoint |
+| Stage | Lead agent (helpers) | Human approval |
 |---|---|---|
-| Triage Agent — scores readiness, prioritizes, sizes | **PL** Plan | 👤 Product owner — CP1 approves scope & route |
-| Analyst Agent — interviews, writes the SPEC (AC-n) | **AN** Analyze | 👤 Product owner — CP2 approves the SPEC (frozen) |
-| Architect Agent — ADRs, task graph | **DE** Design | 👤 Tech lead — CP3 signs off design & plan |
-| Coding Agent — TDD slices, commits, PR | **BU** Build | 🔁 Bounded auto-retry (max 5 rounds, then escalate) |
-| QA Agent — tests from the SPEC, evidence per AC-n | **TE** Test | 🔁 Bounded auto-retry |
-| Review Agent — multi-axis review, security | **RV** Review | 👤 Engineer — CP4 approves the PR |
-| Release Agent — flags, staged rollout, rollback | **DP** Deploy | 👤 Release manager — CP5 approves prod release |
-| SRE Agent — SLOs, incidents, postmortems | **OP** Operate | 👤 On-call engineer — owns incidents |
+| **Plan** | Planner | — (intake decision when a duplicate or prior rejection is found) |
+| **Specify** | Planner (Security Auditor) | **Spec approval** — Product Owner |
+| **Design** | Planner (Architect) | **Plan approval** — Tech Lead |
+| **Build** | Implementer | — (bounded loops: 3 red-green attempts, 5 rounds per task) |
+| **Test** | Reviewer (Test Engineer, Security Auditor) | **PR approval** — human reviewer (engineer) |
+| **Release** | Release Engineer | **Release approval** — Release Owner |
+| **Operate** | SRE | On-call engineer owns incidents |
 
-Operate feeds incidents, postmortem actions and measured indicators back into Plan. One rule ties the cycle together: **every requirement is proven** — acceptance-criterion IDs (`AC-n`) trace SPEC → tasks → commits → tests → evidence → PR approval → release → indicators.
+Operate feeds incidents, alert trends, indicator misses and retro actions back into Plan. Acceptance-criterion IDs (`AC-n`) trace `spec.md` → plan task → commit trailer → test → fingerprint-bound evidence → PR → release notes → production record.
 
-## When to use
+## Install and first run
 
-- Start a feature, change, bug fix or modernization with a disciplined path from request to production.
-- Ask "what's next?" on software work, or resume from existing SPEC / PLAN / CHECKPOINTS artifacts.
-- Handle a requirement change after the SPEC was approved.
-- Enter a stage directly: plan, analyze, design, build, test, review, deploy, operate.
+1. Install: `npx claude-superskills` (all 8 platforms) or `/plugin install claude-superskills@claude-superskills` in Claude Code.
+2. In the project, ask: "Set up the Agentic SDLC here." `project-context` writes the AGENTS.md block with the `sdlc-dod` Definition of Done.
+3. Ask: "Fix this bug with the Agentic SDLC: <issue>." Follow `references/quickstart.md` (one Quick-path bug fix, end to end).
 
-## Routes
+## Paths
 
-| Route | When | Checkpoints |
+| Path | Score | Approvals |
 |---|---|---|
-| Quick | Clear, low-risk, ~1 file or well-understood bug | CP1–CP3 collapse into one confirmation; CP4 = PR approval; CP5 only if production deploys |
-| Standard | Fits one session | CP1+CP2 may share one conversation; CP3–CP5 separate |
-| Full | Multi-session, high-risk, regulated, brownfield | Every checkpoint separate; OP watch period and retrospective mandatory |
+| Quick | S ≤ 4 and R = 0 | PR (+ Release when production deploys) |
+| Standard | S 5–6 or R = 1 | Spec + Plan (one combined review when ≤ 5 tasks), PR, Release |
+| Full | S ≥ 7, R ≥ 2, personal/health data or irreversible | All four separately + a second human reviewer |
 
-## Stage skills
-
-| Stage | Skills |
-|---|---|
-| PL Plan | `issue-triage`, `project-context`, `brainstorming` |
-| AN Analyze | `grill-me`, `spec-driven-development`, `codebase-modernization`, `security-hardening` |
-| DE Design | `senior-solution-architect`, `writing-plans` |
-| BU Build | `executing-plans`, `test-driven-development`, `systematic-debugging` |
-| TE Test | `test-strategy`, `verification-gate` |
-| RV Review | `multi-axis-code-review`, `security-hardening` |
-| DP Deploy | `deployment-pipeline`, `shipping-and-handover` |
-| OP Operate | `operations-and-incidents`, `retrospective` |
+S = files + components + iterations (each scored 1–3); R = number of risk triggers (auth, personal/health data, money, public API, schema/migration, irreversible, regulated). The path is the higher of the two routes.
 
 ## What is included
 
-- `SKILL.md` — routing workflow: state detection, triage and sizing, stage sequencing, checkpoints, bounded loops, progress display
-- `references/lifecycle.md` — the cycle, stages, checkpoints, routes, automatic loops, "every requirement is proven" rule
-- `references/agents.md` — the eight agent roles, limits, report status vocabulary, severity scale
-- `references/rules.md` — non-negotiable rules, red flags, change protocol
-- `references/artifacts.md` — templates: TRIAGE, SPEC, PLAN, TEST-PLAN, VERIFICATION, TRACEABILITY, CHECKPOINTS, HANDOVER, OPERATIONS, RETRO, ADR, CONSTRAINTS, AGENTS.md block
-- `references/phase-boundaries.md` — continue / delegate / clear / hand off / compact decision guide
-- `evals/` — scenarios and trigger queries
+- `SKILL.md` — router: state detection (Step 0), path scoring, stage dispatch, approvals, loop bounds, progress display and the Module Index (every module and when to load it).
+- `references/lifecycle.md` — stages with entry/exit conditions, the four approvals, paths, ID chain, loop bounds, release and operate rules that start in Specify.
+- `references/rules.md` — 12 non-negotiable rules with checks and failure behaviour, status vocabulary, change protocol, red-flag table.
+- `references/artifacts.md` — artifact index: project layout, template per artifact, required paths, validators, AGENTS.md block with `sdlc-dod`.
+- `references/phase-boundaries.md` — hand-off triggers, context hygiene per agent, resume procedure, `handoff.md` format.
+- `references/agents.md` + `agents/*.md` — the eight agent briefs: reads, never sees, skills, may do, never, tools, returns, status.
+- `scripts/lib/` — shared Markdown, git and CLI helpers for the method's checks (Node ≥ 18, no dependencies); `scripts/test/` — `node --test` suite.
+- `examples/worked-example/` — the CSV-export Standard-path example used as test fixtures.
+- `evals/` — behaviour scenarios and trigger queries.
+
+Run the tests from the repository root:
+
+```bash
+node --test skills/agentic-sdlc/scripts/test/*.test.mjs
+```
 
 ## Typical invocation
 
 - "Build the CSV export with the Agentic SDLC."
 - "Where are we on the payments refactor? What's next?"
-- "Requirements changed after the SPEC was approved — handle it."
+- "Requirements changed after Spec approval — handle it."
 - "An incident in production created new work — bring it into the cycle."
 
 ## Related approaches
 
-The Agentic SDLC keeps the core idea of the classic V-model — every definition has a matching proof — as an explicit traceability rule inside a continuous delivery cycle. Other frameworks for AI-assisted engineering exist, including V-model-based ones such as **Agile V™** by Christopher Koch (CC BY-SA 4.0); the Agentic SDLC was designed independently and contains no Agile V content. See `THIRD_PARTY_NOTICES.md`.
+The Agentic SDLC keeps the strongest idea of the classic V-model — every definition has a matching proof — as an explicit traceability rule inside a continuous delivery cycle. Other frameworks for AI-assisted engineering exist, including V-model-based ones such as **Agile V™** by Christopher Koch (CC BY-SA 4.0). No Agile V text, templates or structures are used here; where a concept also appears in Agile V, it is expressed in original wording. See `THIRD_PARTY_NOTICES.md`.
 
 ## Influences
 
-- **Addy Osmani — agent-skills** (MIT): DEFINE → SHIP lifecycle and stage entry points; gate turn rule; orchestration patterns.
-- **BMad Method** (MIT): right-sized routes; change impact analysis; root-cause routing of review findings.
-- **Matt Pocock — skills** (MIT): flow map; phase boundaries and context hygiene; handoff.
-- **Superpowers** (MIT): hard gates, anti-rationalization tables, bounded fix loop.
+| Source (license) | Adapted here |
+|---|---|
+| **Superpowers** (MIT) | Hard gates before code, anti-rationalization tables, fresh subagent per task, implementer status contract, bounded fix loop |
+| **Matt Pocock — skills** (MIT) | Phase boundaries, handoff file, context hygiene |
+| **Addy Osmani — agent-skills** (MIT) | Lifecycle entry points, verification before completion, incremental implementation |
+| **BMad Method** (MIT) | Risk-scaled paths, change impact analysis, parallel review lenses with verify-then-verdict |
 
-Detailed mechanism tables are added in the depth pass (see `docs/plans/2026-11-19-agentic-sdlc-depth-pass.md`).
+All text is original; mechanism IDs and precedents are listed in `docs/research/gap-closure/architect-report.md`.
 
----
+## What's New in 2.0.0
+
+- Rewritten in the D10 vocabulary: 7 stages, 4 approvals, 8 agents, 3 paths. Stage codes and numbered checkpoints are gone.
+- Scored path rubric (size + risk), approval hashes that void on edit, fingerprint-bound evidence, explicit loop bounds.
+- Eight agent files with tool allow lists and authority limits; Module Index with the off-first-path rule.
+- Shared script libraries and test harness; worked-example skeleton.
 
 ## Metadata
 
 | Field | Value |
 |-------|-------|
-| Version | 1.0.0 |
+| Version | 2.0.0 |
 | Author | Eric Andrade |
 | Created | 2026-11-19 |
-| Updated | 2026-11-20 |
+| Updated | 2026-11-22 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | orchestration |
 | Tags | agentic-sdlc, sdlc, spec-driven, ai-agents, human-in-the-loop, traceability, workflow, router |

@@ -1,6 +1,6 @@
 {
   "skill_name": "agentic-sdlc",
-  "description": "Triggers for running software work end to end through the Agentic SDLC stages and human checkpoints, resuming from method artifacts, or handling mid-flight requirement changes",
+  "description": "Triggers for running software work end to end through the Agentic SDLC (7 stages, 4 human approvals, Quick/Standard/Full paths), resuming from specs/ artifacts, or handling requirement changes after Spec approval",
   "queries": [
     {
       "id": 1,
@@ -9,7 +9,7 @@
     },
     {
       "id": 2,
-      "query": "Take this feature from idea to release the disciplined way \u2014 plan, analyze, design, build, test, deploy",
+      "query": "Take this feature from idea to production the disciplined way — plan, specify, design, build, test, release, operate",
       "should_trigger": true
     },
     {
@@ -19,12 +19,12 @@
     },
     {
       "id": 4,
-      "query": "Resume the work in docs/agentic-sdlc/2026-11-02-payments-refactor",
+      "query": "Resume the work in specs/004-payments-refactor",
       "should_trigger": true
     },
     {
       "id": 5,
-      "query": "Product changed the requirement after we approved the spec \u2014 now they want Excel too. How do we handle it?",
+      "query": "Product changed the requirement after we approved the spec — now they want Excel too. How do we handle it?",
       "should_trigger": true
     },
     {
@@ -39,7 +39,7 @@
     },
     {
       "id": 8,
-      "query": "Start the deploy stage for the reporting feature, the PR was approved yesterday (CP4)",
+      "query": "Start the Release stage for the reporting feature, the PR approval was given yesterday",
       "should_trigger": true
     },
     {
@@ -54,12 +54,12 @@
     },
     {
       "id": 19,
-      "query": "Exports are timing out in production since yesterday's release \u2014 triage it and bring the fix into the delivery cycle",
+      "query": "Exports are timing out in production since yesterday's release — triage it and bring the fix into the delivery cycle",
       "should_trigger": true
     },
     {
       "id": 20,
-      "query": "Run the review stage and ask the engineer to approve the PR with the traceability matrix",
+      "query": "Run the Test stage and ask the human reviewer for PR approval with the trace table",
       "should_trigger": true
     },
     {

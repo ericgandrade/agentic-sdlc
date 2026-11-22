@@ -1,24 +1,43 @@
-# Agentic SDLC — Agent Roles
+# Agentic SDLC — Agent Index
 
-Each stage is run by a functional **agent role**: a scoped brief that defines what the role reads, which skills it uses, what it may and may not do, and what it must hand back. Roles are not personas; they exist for context isolation, least privilege and separation of duties (the agent that builds never tests or reviews its own work).
+Eight agents, named by function. Each agent file in `agents/` is a self-contained brief (≤ 600 words): what it reads, what it never sees, its skills, what it may do, what it never does, its tool list and its report. Load an agent file only when dispatching that agent.
 
-On platforms with subagents, dispatch each role as a fresh subagent with the brief below plus the artifacts it needs. On platforms without subagents, run the role inline in a clearly separated pass and label any self-check as self-review.
-
-| Role | Stage | Reads | Uses skills | May | Must not | Returns |
+| Agent | File | Kind | Stages | Dispatched by | Tool profile | Returns |
 |---|---|---|---|---|---|---|
-| **Triage Agent** | PL | Issue/request, backlog, AGENTS.md block, CONSTRAINTS.md | `issue-triage`, `project-context`, `brainstorming` | Score readiness, propose priority and route, ask clarifying questions | Start analysis or design before CP1 | Triage record: readiness score, priority, route, open questions |
-| **Analyst Agent** | AN | Triage record, brief, GLOSSARY.md, relevant code | `grill-me`, `spec-driven-development`, `codebase-modernization` (inventory), `security-hardening` | Interview, look up facts, draft SPEC | Make product decisions; edit a frozen SPEC | SPEC.md draft + doubt-pass findings |
-| **Architect Agent** | DE | Frozen SPEC, ADRs, CONSTRAINTS.md, code | `senior-solution-architect`, `writing-plans`, `security-hardening` | Propose ADRs, design interfaces, write PLAN.md | Add scope not in the SPEC | ADRs (Proposed) + PLAN.md + coverage check |
-| **Coding Agent** | BU | One PLAN task brief + referenced files only | `executing-plans`, `test-driven-development`, `systematic-debugging` | Write tests and code for its task, commit `[Tn, AC-n]` | Touch files outside its task, weaken tests, mark its own work as verified | Implementer report: status, commits, test output, concerns |
-| **QA Agent** | TE | Frozen SPEC (not the implementation reasoning), code under test | `test-strategy`, `verification-gate` | Design tests from the SPEC, run suites, record evidence | Accept the Coding Agent's claims without re-running | TEST-PLAN.md, VERIFICATION.md, TRACEABILITY.md, gaps |
-| **Review Agent** | RV | Diff, SPEC, ADRs, CONSTRAINTS.md, evidence | `multi-axis-code-review`, `security-hardening` | Review on all axes in parallel lenses, verify findings | Fix code itself; rank across axes; trust the PR description | Findings (Critical / Important / Minor), routed by root cause, "declined to judge" list |
-| **Release Agent** | DP | Approved PR, SPEC rollback, CONSTRAINTS.md, CI config | `deployment-pipeline`, `shipping-and-handover` | Prepare rollout, flags, rollback rehearsal, PR/release notes, handover | Deploy to production or tag without CP5 | Release plan, rehearsal result, HANDOVER.md, runbook |
-| **SRE Agent** | OP | SLOs, dashboards/logs, incident reports, SPEC indicators | `operations-and-incidents`, `retrospective` | Watch SLOs, triage incidents, draft postmortems, measure indicators | Take destructive production actions without the on-call engineer | SLO report, incident record, postmortem, RETRO.md, new PL items |
+| **Planner** | `agents/planner.md` | Core | Plan, Specify, Design | Router | read · edit `specs/**`, `docs/adr/**`, `docs/codemap.md` · run lint scripts | path score, `spec.md`, `plan.md`, approval requests |
+| **Implementer** | `agents/implementer.md` | Core | Build | Router / `executing-plans`, one per task | read · edit files listed in the task · run DoD and test commands · git local | task report, commits, evidence records |
+| **Reviewer** | `agents/reviewer.md` | Core, read-only | Test | Router | read · run test/DoD/check scripts · write PR sections only | verdict GO / NO-GO, triage log |
+| **Architect** | `agents/architect.md` | Specialist | Design; loop escalations | Planner; loop anti-thrash | read · edit `docs/adr/**`, `plan.md` design notes | ADRs, interface notes, design rulings |
+| **Test Engineer** | `agents/test-engineer.md` | Specialist | after Plan approval → Test | Router / Reviewer | read at base commit · edit test files + `acceptance-tests.md` · run tests | acceptance tests mapped AC-n → test id |
+| **Security Auditor** | `agents/security-auditor.md` | Specialist | Specify, Test | Planner (R ≥ 1); Reviewer (lens L3) | read · edit `threat-model.md`, spec Security notes · run scanners | threat model, `sec` findings |
+| **Release Engineer** | `agents/release-engineer.md` | Specialist | Release | Router after PR merge | read · edit release notes, runbook · run staging commands | release checklist, go/no-go brief |
+| **SRE** | `agents/sre.md` | Specialist | Operate | Router after release; alerts | read · edit `ops.md`, postmortems, retro · read-only production queries | ops record, incident record, retro actions |
 
-## Status vocabulary (shared by every role report)
+## Dispatch rules
 
-`DONE` · `DONE_WITH_CONCERNS` (lists them) · `BLOCKED` (names the blocker and what would unblock it) · `NEEDS_CONTEXT` (names the missing input) · `CANNOT_VERIFY` (states what could not be checked and why).
+- **Fresh context per dispatch.** Give the agent its file, the artifacts listed under "Reads" and nothing else (`references/phase-boundaries.md` §Context hygiene).
+- **Tool lists are allow lists.** A subagent's tool list is a subset of its delegator's. Platform tool names per host: `references/platforms.md`.
+- **No subagents on the platform** → run the agent inline as a separate, labelled pass: start with `--- <Agent> pass ---`, load only its brief and inputs, and label every check of the author's own work `self-review` in the PR.
+- **Authority (all agents).** No push to the default branch, merge, deploy, release, tag or secret access without a human decision in the same session; in unattended mode no push at all (`references/autonomous.md`). An attempt → halt.
 
-## Severity scale (shared)
+## Report contract (every agent)
 
-**Critical** — blocks CP4/CP5. **Important** — must be fixed or explicitly accepted as residual risk. **Minor** — deferred list, triaged at the end.
+```markdown
+**Agent:** <name> · **Task:** <Tn / stage> · **Status:** DONE | DONE_WITH_CONCERNS | BLOCKED | NEEDS_CONTEXT | CANNOT_VERIFY
+**Did:** <bullets with file paths and commit SHAs>
+**Evidence:** <command · exit code · fingerprint> (one line per command)
+**Concerns / blocker / missing input / not verified:** <required for every status except DONE>
+**Next:** <one action the dispatcher takes>
+```
+
+| Status | Meaning | Dispatcher action |
+|---|---|---|
+| `DONE` | Work complete, evidence fresh | Proceed |
+| `DONE_WITH_CONCERNS` | Complete, with listed concerns | Read each concern; open an issue or a finding for each one kept |
+| `BLOCKED` | Cannot continue; names the blocker and what unblocks it | Resolve or escalate; never re-dispatch the same brief unchanged |
+| `NEEDS_CONTEXT` | Missing input named | Supply it or ask the human |
+| `CANNOT_VERIFY` | A check was not run; states why, who verifies and when | Record it in the PR Verification table; a Critical AC needs a waiver |
+
+Severity scale: **Critical** (blocks PR and Release approval; never deferred) · **Important** (fix, or defer with owner acceptance and an issue) · **Minor** (deferred list).
+
+A report that lacks the status line or evidence for a `DONE` claim is treated as `BLOCKED: report incomplete` and re-requested once; a second incomplete report escalates to the human.
