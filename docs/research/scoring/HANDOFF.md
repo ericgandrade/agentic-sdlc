@@ -16,19 +16,21 @@ Cards present in `scores/` (each has 16 criteria and a parsing JSON block). Two 
 | bmad | S-A, S-D |
 | openspec | S-B, S-D |
 | kiro | S-B (re-scored from official docs), S-D |
-| agile-v | S-B; **S-D in progress when this file was written — if `scores/S-D/agile-v.md` exists it is done** |
+| agile-v | S-B, S-D |
 | agentic-sdlc (design-only) | **none yet — S-A and S-C still to score** |
 
 Read `orchestrator-log.md` first: it lists every event that may affect scores (interruptions, the spec-kit C5 revision, the Kiro evidence problem and its fix) and the remaining queue.
 
 ## What remains, in order (strictly sequential, commit after each card)
 
-1. `agile-v` / S-D (if its file is missing).
-2. `agentic-sdlc` / S-A — only after S-A has finished all its benchmarks (done).
-3. `agentic-sdlc` / S-C — only after S-C has finished all its benchmarks (done).
-4. **Red-team audit** (methodology §10.3; auditor appendix in `evaluator-agent.md`): review every card, the orchestrator log, the Kiro S-B/S-D comparison, C5 consistency across methods, and the design-only cards; write overrides (if any) to `audit/adjustments.json` and the audit log (§11.5).
-5. `python3 docs/research/scoring/aggregate.py` → writes `results.md` (reconciliation, five weight profiles, 10,000 random draws, the seven superiority conditions, gap analysis). To check that the verdict does not depend on Kiro, temporarily move the Kiro cards out of `scores/`, re-run, and record both runs (the script has no exclude option).
-6. Present the verdict and the gap table to the owner. If the verdict is not "Superior", propose plan changes **before** any building.
+> The two Agentic SDLC cards are being run by the original Claude session. **Do not run them in parallel from another tool**; if `scores/S-A/agentic-sdlc.md` and `scores/S-C/agentic-sdlc.md` both exist on the branch, go straight to step 3.
+
+
+1. `agentic-sdlc` / S-A — only after S-A has finished all its benchmarks (done).
+2. `agentic-sdlc` / S-C — only after S-C has finished all its benchmarks (done).
+3. **Red-team audit** (methodology §10.3; auditor appendix in `evaluator-agent.md`): review every card, the orchestrator log, the Kiro S-B/S-D comparison, C5 consistency across methods, and the design-only cards; write overrides (if any) to `audit/adjustments.json` and the audit log (§11.5).
+4. `python3 docs/research/scoring/aggregate.py` → writes `results.md` (reconciliation, five weight profiles, 10,000 random draws, the seven superiority conditions, gap analysis). To check that the verdict does not depend on Kiro, temporarily move the Kiro cards out of `scores/`, re-run, and record both runs (the script has no exclude option).
+5. Present the verdict and the gap table to the owner. If the verdict is not "Superior", propose plan changes **before** any building.
 
 ## Rules for scorers (keep identical for the remaining cards)
 

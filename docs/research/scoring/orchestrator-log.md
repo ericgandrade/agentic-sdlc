@@ -17,9 +17,11 @@ Chronological record of events that may affect scores. The red-team auditor must
 
 | 2026-11-22 | agile-v/S-B written; license check | n-gram overlap against the Agile V clone limited to file paths, skill names and `file#section` citations (identifiers, permitted); no body text copied. 14 Medium, 2 Low (C2 strict reading of non-goals; C12 release-manager not in the existing-repo profile) | Auditor to review the two contestable readings |
 
+| 2026-11-22 | agile-v/S-D written; license check | 8-word overlap limited to file paths/skill names; 14 Medium, 2 Low (C4 scored 5 — contestable whether the unwired reference module counts; C8 scored 2 — human-gated by design). S-D did not use the AV inventory as evidence (entries name no source files) and applied the no-non-goals rule to C2 the same way as for Kiro | **All 9 benchmarks now have two independent cards.** Auditor to review C4/C8 readings and C2 consistency (Kiro, Agile V) |
+
 ## Queue state (2026-11-22)
 
-Done (14 scorecards, 7 benchmarks with two independent cards each): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
+Done (18 scorecards; all 9 benchmarks have two independent cards): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
 
 Pending, strictly sequential, commit after each card:
 1. kiro / S-B (re-score from saved official docs)  ← next
