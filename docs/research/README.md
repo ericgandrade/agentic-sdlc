@@ -1,6 +1,6 @@
 # Research index and status
 
-**Last updated:** 2026-11-22 · **Branch:** `claude/superskills-dev-workflow-kppj2r`
+**Last updated:** 2026-11-22 (S-A card for the Agentic SDLC added) · **Branch:** `claude/superskills-dev-workflow-kppj2r`
 
 This folder holds the evidence behind the Agentic SDLC method. Read this page first: it says what each file is, how far each piece got, how reliable it is, and what is still open. The execution plan is `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`.
 
@@ -17,7 +17,7 @@ This folder holds the evidence behind the Agentic SDLC method. Read this page fi
 | Structure decision (D10) | `methods/2026-11-20-structure-proposal.md` | ✅ Approved 2026-11-20 | Decision D10 in the execution plan |
 | Scoring methodology | `scoring/methodology.md`, `evaluator-agent.md` | ✅ Frozen 2026-11-20 | Hashes in `scoring/FREEZE.md`; written blind to our proposal |
 | Scoring of 9 benchmark methods | `scoring/scores/S-*/` | ✅ Done (18 cards, 2 independent cards per method) | See §4 for open points the auditor must check |
-| Scoring of the Agentic SDLC (design-only) | `scoring/scores/S-A/` and `S-C/` `agentic-sdlc.md` | ⏳ **In progress** (S-A running; S-C next) | Design score × realization factor |
+| Scoring of the Agentic SDLC (design-only) | `scoring/scores/S-A/` and `S-C/` `agentic-sdlc.md` | ⏳ **In progress** (S-A done; S-C next) | Design score × realization factor |
 | Red-team audit | `scoring/audit/` | ⬜ Not started | After the two design cards |
 | Aggregation and verdict | `scoring/results.md` (generated) | ⬜ Not started | Run `scoring/aggregate.py` |
 | Earlier framework evaluation | `2026-11-18-dev-workflow-frameworks-evaluation.md` | 🕰 Historical | Written for the V-shaped design; the framework comparison and absorption map remain useful |
@@ -69,13 +69,13 @@ Key findings that shaped D10: standard SDLC words with no stage codes; feature f
 | Superpowers, Matt Pocock, Addy Osmani, BMad, Spec Kit, AI-DLC, OpenSpec | 2 cards each ✅ | Evidence: pinned clones read directly |
 | AWS Kiro | S-B (re-scored from official docs) + S-D ✅ | Closed product: documentation-only evidence capped at 4. S-B's first card (commit `8b8aebf`, Low confidence, repo README + snippets only) was superseded after `kiro.dev` was allowed in the environment |
 | Agile V | S-B + S-D ✅ | Cards cite paths/identifiers only; checked for copied text |
-| **Agentic SDLC (design-only)** | S-A, S-C ⏳ | Scored after each scorer finished its benchmarks |
+| **Agentic SDLC (design-only)** | S-A ✅, S-C ⏳ | Scored after each scorer finished its benchmarks |
 
 **Open points the red-team auditor must review** (also in `scoring/orchestrator-log.md`):
 1. Spec Kit C5 was revised 1 → 2 by its scorer for consistency with OpenSpec — check C5 consistency across all methods.
 2. Kiro: compare the S-B and S-D cards (S-B changed seven cells after reading the official docs).
 3. Contestable readings flagged by scorers: OpenSpec C15 (CLI dependency), BMad C15 (uv/Python), Agile V C2 (no explicit non-goals), C4 (unwired reference module), C8 (human-gated by design), C12 (release skill outside the default profile).
-4. Both Agentic SDLC cards (design-only rules, realization factors).
+4. Both Agentic SDLC cards (design-only rules, realization factors). S-A applied strict calls (hedged enforcement and "minimum additions" lines not credited; evals without pass thresholds not counted) — check that benchmarks were judged with the same strictness.
 
 **Next steps (see `scoring/HANDOFF.md`):** finish the two Agentic SDLC cards → red-team audit → `python3 docs/research/scoring/aggregate.py` (also run once without the Kiro cards to test robustness) → present the verdict and gap table to the owner. If the verdict is not "Superior", change the plan before building.
 

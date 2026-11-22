@@ -19,9 +19,11 @@ Chronological record of events that may affect scores. The red-team auditor must
 
 | 2026-11-22 | agile-v/S-D written; license check | 8-word overlap limited to file paths/skill names; 14 Medium, 2 Low (C4 scored 5 — contestable whether the unwired reference module counts; C8 scored 2 — human-gated by design). S-D did not use the AV inventory as evidence (entries name no source files) and applied the no-non-goals rule to C2 the same way as for Kiro | **All 9 benchmarks now have two independent cards.** Auditor to review C4/C8 readings and C2 consistency (Kiro, Agile V) |
 
+| 2026-11-22 | agentic-sdlc/S-A written (design-only) | 15 Medium, 1 Low (C11); realization factors 0.7–0.9 (lowest: C9 traceability, C12 release/ops); scorer applied strict calls: hedged enforcement ("where possible") not credited, "minimum additions" lines not credited without behaviour, evals without pass thresholds not counted as measurement; Phase H, D11 and the gate banner not credited | Auditor to check realization factors and the strict calls for symmetry with benchmark scoring |
+
 ## Queue state (2026-11-22)
 
-Done (18 scorecards; all 9 benchmarks have two independent cards): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
+Done (19 scorecards; all 9 benchmarks have two independent cards; agentic-sdlc has S-A): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
 
 Pending, strictly sequential, commit after each card:
 1. kiro / S-B (re-score from saved official docs)  ← next
