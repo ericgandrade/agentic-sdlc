@@ -13,6 +13,8 @@ Chronological record of events that may affect scores. The red-team auditor must
 
 | 2026-11-22 | kiro/S-D scored from official kiro.dev docs | Owner approved adding kiro.dev to the environment allowlist; S-D's web-fetch tool still failed to resolve the host, so S-D fetched the official Markdown pages with curl through the session proxy (HTTP 200) into scratchpad/kiro-docs; docs pinned as accessed 2026-11-22 (Kiro IDE 1.4.x, CLI 3.x); 15 Medium, 1 Low (C16) | S-B to re-score Kiro from the same saved docs so both cards share evidence; the earlier S-B card (8b8aebf) stays in git history |
 
+| 2026-11-22 | kiro/S-B re-scored from the saved official docs | 7 cells changed vs the first S-B card (C1 2→4, C5 1→2, C7 1→3, C13 2→4, C14 2→3, C16 0→2; C9 same score, better evidence); average confidence Low → Medium. Confirms the first card under-scored Kiro | S-B's first card (8b8aebf) is superseded; auditor to compare S-B and S-D Kiro cards |
+
 ## Queue state (2026-11-22)
 
 Done (14 scorecards, 7 benchmarks with two independent cards each): superpowers (S-A, S-C), mattpocock (S-A, S-D), spec-kit (S-B, S-C), ai-dlc (S-B, S-C), addyosmani (S-A, S-C), bmad (S-A, S-D), openspec (S-B, S-D).
