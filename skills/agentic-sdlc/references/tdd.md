@@ -2,6 +2,8 @@
 
 Loaded by `executing-plans` and the Developer for **each Build task** (mechanisms 3.1, 3.2). The Reviewer loads §3 for lens L1. Loop bounds and escalation live in `references/loops.md`; evidence records in `references/verification.md` §4.
 
+Full workflow: skill `test-driven-development`.
+
 ## 1. The cycle per task (3.1)
 
 | Element | Rule |

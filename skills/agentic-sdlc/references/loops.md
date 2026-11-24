@@ -2,6 +2,8 @@
 
 Loaded when a test, build or review round fails (mechanisms 6.1–6.5; 6.6 enforcement by `scripts/run-ledger.mjs`). One rule governs every loop: **a loop has an exit, a bound and a named human at the bound.** Exit code `3` from any script means the bound is reached: stop and escalate.
 
+Full workflow: skill `systematic-debugging` (debug loop); task loops run in skill `executing-plans`.
+
 ## 1. Loop catalogue (6.1)
 
 | Loop | Exit | Bound | At the bound | Breaker |

@@ -2,6 +2,8 @@
 
 Load at Release, when an alert fires, when an incident is reported, or when a production signal must enter Discover. Rules here start in Specify: **observability and rollback are defined before release; Operate monitors what the spec defined, it does not define it.** Lead agents: Release Engineer (`agents/release-engineer.md`) at Release, SRE (`agents/sre.md`) in Operate.
 
+Full workflow: skills `deployment-pipeline` (pipeline, rollout, rollback), `shipping-and-handover` (release notes, handover) and `operations-and-incidents` (Operate, incidents, postmortems).
+
 | Section | Mechanism | Trigger | Record |
 |---|---|---|---|
 | §Observability before release | 12.1 | Specify; re-checked at Release sign-off | `spec.md` §Release & observability |

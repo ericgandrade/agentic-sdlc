@@ -2,6 +2,8 @@
 
 Load when filling `spec.md` §Security notes, when running review lens L3, and before adding or upgrading a dependency. Security sits on the default path: classification in Discover and Specify, secret and dependency rules in Build, the checklist lens in Test. Lead: Security Auditor (`agents/security-auditor.md`); it reports checks performed and findings, never "secure" or "compliant".
 
+Full workflow: skill `security-hardening`.
+
 | Section | Mechanism | Trigger | Record |
 |---|---|---|---|
 | §Data classification | 11.1 input, risk triggers | Discover (path score); Specify | Score line; `spec.md` §Security notes |

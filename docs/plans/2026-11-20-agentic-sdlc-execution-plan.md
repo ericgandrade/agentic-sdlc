@@ -51,6 +51,8 @@
 
 ### 1.3 Eight agents, named by function (option C)
 
+> Superseded by decision D10b: 13 agents (Scrum Master as router, plus Analyst, Product Manager, UX Designer, Planner, Architect, Developer, Test Engineer, Reviewer, Security Auditor, Tech Writer, Release Engineer, SRE). The text below is the original option C record.
+
 Defined in `skills/agentic-sdlc/agents/<name>.md` (M 13.1); each file states what the agent reads and never sees, which skills it uses, what it may do and never does, its tool allow list (M 11.5), its authority limits (M 8.6) and what it returns.
 
 | Agent | File | Kind | Stages | Never |
@@ -187,11 +189,11 @@ Reference repos (pinned commits): `obra/superpowers@22f0b46`, `mattpocock/skills
 |---|---|---|---|
 | Router | `agentic-sdlc` | Rewrite (Phase 0) + deepen (B) | all |
 | Discover | `issue-triage` | **New** (B) | Analyst, Product Manager |
-| Discover | `project-context` | Align (0) + deepen (B) | Planner |
-| Discover | `brainstorming` | Align (0) + deepen (B) | Planner |
-| Specify | `spec-driven-development` | Align (0) + deepen (B) | Planner |
-| Specify | `grill-me` | Align (0) + deepen (B) | Planner |
-| Specify / Build | `codebase-modernization` | **New** (C) | Planner, Developer |
+| Discover | `project-context` | Align (0) + deepen (B) | Analyst, Architect, Tech Writer, SRE |
+| Discover | `brainstorming` | Align (0) + deepen (B) | Analyst, Product Manager, UX Designer |
+| Specify | `spec-driven-development` | Align (0) + deepen (B) | Analyst |
+| Specify | `grill-me` | Align (0) + deepen (B) | Analyst, Product Manager, UX Designer |
+| Specify / Build | `codebase-modernization` | **New** (C) | Analyst, Architect, Test Engineer, Developer |
 | Specify / Test | `security-hardening` | **New** (D) | Security Auditor |
 | Design | `senior-solution-architect` | Align (0) + deepen (B) | Architect |
 | Design | `writing-plans` | Align (0) + deepen (B) | Planner |
@@ -199,10 +201,10 @@ Reference repos (pinned commits): `obra/superpowers@22f0b46`, `mattpocock/skills
 | Build | `test-driven-development` | **New** (C) | Developer |
 | Build | `systematic-debugging` | **New** (C) | Developer |
 | Test | `test-strategy` | **New** (D) | Test Engineer |
-| Test | `verification-gate` | **New** (D) | Reviewer |
+| Test | `verification-gate` | **New** (D) | Developer, Test Engineer, Reviewer |
 | Test | `multi-axis-code-review` | **New** (D) | Reviewer |
 | Release | `deployment-pipeline` | **New** (D) | Release Engineer |
-| Release | `shipping-and-handover` | **New** (D) | Release Engineer |
+| Release | `shipping-and-handover` | **New** (D) | Release Engineer, Tech Writer |
 | Operate | `operations-and-incidents` | **New** (D) | SRE |
 | Operate | `retrospective` | **New** (D) | Scrum Master, SRE, Product Manager |
 | — | `agent-skill-orchestrator` | Minor update (E) | — |
@@ -268,7 +270,7 @@ Commit per skill. **Checkpoint 2.**
 | Task | Skill | Mechanisms (architect report §2 IDs) and content |
 |---|---|---|
 | C.1 | `test-driven-development` (new) | M 3.1, 3.2 (promotes `references/tdd.md`): Iron law; fail for the right reason; writing good tests; mocking guidance; integration-first at real seams; bug-fix variant; mutation/"name the break" check; rationalization table |
-| C.2 | `executing-plans` (major) | M 6.1–6.6, 7.4, 8.1–8.8: Inline and subagent modes; prompts `developer.md`, `task-reviewer.md` (spec compliance then quality), `re-review.md`; status vocabulary; bounded fix loop (5 rounds, escalation, breaker rulings); progress ledger copied into the PR at the end; preflight; resume; worktree/branch isolation; parallel only for file-disjoint ready tasks; commits `[Tn, AC-n]` |
+| C.2 | `executing-plans` (major) | M 6.1–6.6, 7.4, 8.1–8.8: Inline and subagent modes; prompts `developer.md`, `task-reviewer.md` (spec compliance then quality), `re-review.md`; status vocabulary; bounded loops (red-green 3, build-test 5 with anti-thrash at 3 failed fixes, review-fix 3; escalation, breaker rulings); progress ledger copied into the PR at the end; preflight; resume; worktree/branch isolation; parallel only for file-disjoint ready tasks; commit trailer `Refs: Tn AC-n` |
 | C.3 | `systematic-debugging` (new) | M 6.1, 6.2, 6.5: Tight red feedback loop first (HITL template); four phases; root-cause tracing; defense in depth; condition-based waiting; test-polluter bisection script; 3-failed-fixes escalation |
 | C.4 | `codebase-modernization` (new) | M 14.1, 14.4, 7.3: Inventory and dependency map; risk/value classification; retire/retain/upgrade/re-platform/migrate rubric; characterization tests; expand–contract and strangler; research with a question firewall and `path:line @ sha` citations; runbook template; no client data |
 

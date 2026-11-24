@@ -9,7 +9,7 @@ Trademarks mentioned here belong to their owners and are named only for attribut
 ## Superpowers
 
 - Repository: https://github.com/obra/superpowers
-- Used in: `brainstorming`, `writing-plans`, `executing-plans`, `test-driven-development`, `systematic-debugging`, `verification-gate`, `multi-axis-code-review`, `shipping-and-handover`
+- Used in: `agentic-sdlc`, `brainstorming`, `codebase-modernization`, `deployment-pipeline`, `executing-plans`, `grill-me`, `issue-triage`, `multi-axis-code-review`, `operations-and-incidents`, `project-context`, `retrospective`, `security-hardening`, `senior-solution-architect`, `shipping-and-handover`, `spec-driven-development`, `systematic-debugging`, `test-driven-development`, `test-strategy`, `verification-gate`, `writing-plans`
 
 ```
 MIT License
@@ -38,7 +38,7 @@ SOFTWARE.
 ## Matt Pocock — skills
 
 - Repository: https://github.com/mattpocock/skills
-- Used in: `grill-me`, `project-context`, `spec-driven-development`, `writing-plans`, `executing-plans`, `test-driven-development`, `systematic-debugging`, `multi-axis-code-review`, `shipping-and-handover`, `retrospective`, `agentic-sdlc`
+- Used in: `agentic-sdlc`, `brainstorming`, `codebase-modernization`, `deployment-pipeline`, `executing-plans`, `grill-me`, `issue-triage`, `multi-axis-code-review`, `operations-and-incidents`, `project-context`, `retrospective`, `senior-solution-architect`, `shipping-and-handover`, `spec-driven-development`, `systematic-debugging`, `test-driven-development`, `test-strategy`, `verification-gate`, `writing-plans`
 
 ```
 MIT License
@@ -67,7 +67,7 @@ SOFTWARE.
 ## Addy Osmani — agent-skills
 
 - Repository: https://github.com/addyosmani/agent-skills
-- Used in: `agentic-sdlc`, `project-context`, `brainstorming`, `spec-driven-development`, `senior-solution-architect`, `writing-plans`, `executing-plans`, `test-driven-development`, `systematic-debugging`, `codebase-modernization`, `test-strategy`, `multi-axis-code-review`, `security-hardening`, `deployment-pipeline`, `shipping-and-handover`
+- Used in: `agentic-sdlc`, `brainstorming`, `codebase-modernization`, `deployment-pipeline`, `executing-plans`, `grill-me`, `issue-triage`, `multi-axis-code-review`, `operations-and-incidents`, `project-context`, `retrospective`, `security-hardening`, `senior-solution-architect`, `shipping-and-handover`, `spec-driven-development`, `systematic-debugging`, `test-driven-development`, `test-strategy`, `verification-gate`, `writing-plans`
 
 ```
 MIT License
@@ -96,7 +96,7 @@ SOFTWARE.
 ## BMad Method
 
 - Repository: https://github.com/bmad-code-org/BMAD-METHOD
-- Used in: `agentic-sdlc`, `project-context`, `spec-driven-development`, `senior-solution-architect`, `test-strategy`, `multi-axis-code-review`, `shipping-and-handover`, `retrospective`
+- Used in: `agentic-sdlc`, `brainstorming`, `codebase-modernization`, `deployment-pipeline`, `executing-plans`, `grill-me`, `issue-triage`, `multi-axis-code-review`, `operations-and-incidents`, `project-context`, `retrospective`, `security-hardening`, `senior-solution-architect`, `shipping-and-handover`, `spec-driven-development`, `systematic-debugging`, `test-driven-development`, `test-strategy`, `verification-gate`, `writing-plans`
 - "BMad" and "BMAD-METHOD" are trademarks of BMad Code, LLC.
 
 ```
@@ -122,6 +122,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+---
+
+## Spec-format methods (ideas and file-format mapping only)
+
+The skills below map their artifacts to these methods' folder layouts and borrow general ideas (spec before code, clarify passes, phase gates). No text, templates or files from these projects are included.
+
+### GitHub Spec Kit
+
+- Repository: https://github.com/github/spec-kit — MIT License, Copyright GitHub, Inc.
+- Used in: `spec-driven-development`, `grill-me`, `writing-plans`, `executing-plans`, `senior-solution-architect`, `test-strategy`, `project-context`, `codebase-modernization`
+
+### AWS AI-DLC workflows
+
+- Repository: https://github.com/awslabs/aidlc-workflows — MIT No Attribution (MIT-0), Copyright Amazon.com, Inc. or its affiliates
+- Used in: `spec-driven-development`, `executing-plans`, `senior-solution-architect`, `project-context`, `codebase-modernization`, `deployment-pipeline`, `operations-and-incidents`, `retrospective`
+
+### OpenSpec
+
+- Repository: https://github.com/Fission-AI/OpenSpec — MIT License, Copyright (c) 2025 FISSION AI INC
+- Used in: `spec-driven-development`, `writing-plans`, `project-context`
+
+### Kiro
+
+- Product documentation: https://kiro.dev — spec folder layout (`.kiro/specs/`) and EARS requirement style referenced by name only
+- Used in: `spec-driven-development`, `grill-me`, `writing-plans`, `executing-plans`, `senior-solution-architect`, `project-context`, `codebase-modernization`
 
 ---
 

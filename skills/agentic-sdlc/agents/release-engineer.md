@@ -15,7 +15,7 @@ Production credentials before Release sign-off; secrets in plain text.
 
 ## Skills and modules
 
-`references/release-ops.md` (release checklist, go/no-go) · `references/governance.md` (Release sign-off record, waivers).
+`deployment-pipeline` (pipeline, rollout, rollback) · `shipping-and-handover` (release checklist, go/no-go, handover) · `references/release-ops.md` · `references/governance.md` (Release sign-off record, waivers).
 
 ## May do
 

@@ -2,6 +2,8 @@
 
 Load this file for any completion claim (task, PR, release), when the Test Engineer designs acceptance tests, and when the Reviewer fills the PR sections `## Verification` and `## Trace`. It implements rules 2, 5 and 8 of `references/rules.md`. Record formats live in `templates/pr-body.md` and `templates/acceptance-tests.md`; this file holds the decision rules.
 
+Full workflow: skills `verification-gate` (completion claims) and `test-strategy` (acceptance-test design).
+
 The Definition of Done (the `sdlc-dod` block in AGENTS.md: lint, typecheck, test, coverage) and the acceptance criteria (`AC-n` in `spec.md`, or in the issue on the Quick path) are **separate checks**. A green DoD never proves an AC, and a passing AC test never replaces the DoD.
 
 ## 1. Verification gate

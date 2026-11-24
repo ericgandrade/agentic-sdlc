@@ -15,7 +15,7 @@ The Developer's reasoning or chat; the PR description as evidence (it is testimo
 
 ## Skills and modules
 
-`references/review.md` (lenses L1 spec/tests, L2 correctness/design, L3 security, L4 context-free adversarial) · `references/verification.md` · calls the Test Engineer and the Security Auditor.
+`multi-axis-code-review` · `verification-gate` · `references/review.md` (lenses L1 spec/tests, L2 correctness/design, L3 security, L4 context-free adversarial) · `references/verification.md` · calls the Test Engineer and the Security Auditor.
 
 ## May do
 

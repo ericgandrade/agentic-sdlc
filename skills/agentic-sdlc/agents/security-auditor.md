@@ -17,8 +17,6 @@ Secrets, credentials, production data. A secret found in any input → stop, rep
 
 `references/security.md` (secrets, dependencies, review checklist of 20 items, OWASP Top 10 and LLM Top 10 mapping, agent controls) · skill `security-hardening` (threat model, SSDF mapping, CI scanners).
 
-† Added in a later release; until then use the table layout in Procedure step 1 and the control mapping in `references/security.md` (manual fallbacks in `references/artifacts.md` §Later-release files).
-
 ## May do
 
 - Fill `spec.md` §Security notes: data classes, authentication and authorization, inputs, secrets; on `regulated`, the obligations table (obligation, clause, control, AC or task, evidence).

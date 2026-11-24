@@ -16,7 +16,7 @@ Secrets or production data. Nothing else is withheld.
 
 ## Skills and modules
 
-`project-context` (missing AGENTS.md block or code map) · `brainstorming` (solution shape still open after 1 question round) · `grill-me` (critique pass, ≤ 3 question rounds) · `spec-driven-development`. Calls the Product Manager, the UX Designer and the Security Auditor on their triggers (`references/agents.md` §Triggers).
+`issue-triage` (incoming issues and requests) · `project-context` (missing AGENTS.md block or code map) · `codebase-modernization` (brownfield inventory and current-state research) · `brainstorming` (solution shape still open after 1 question round) · `grill-me` (critique pass; ≤ 3 question rounds per stage, shared with any skill it calls) · `spec-driven-development`. Calls the Product Manager, the UX Designer and the Security Auditor on their triggers (`references/agents.md` §Triggers).
 
 ## May do
 

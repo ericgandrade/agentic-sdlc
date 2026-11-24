@@ -22,7 +22,7 @@ Secrets or production data.
 
 ## Skills and modules
 
-`references/release-ops.md` §Release notes · `document-converter` (format conversion when needed).
+`shipping-and-handover` (release notes, handover) · `references/release-ops.md` §Release notes · `document-converter` (format conversion when needed).
 
 ## May do
 
@@ -41,7 +41,7 @@ Secrets or production data.
 
 ## Tools
 
-Read and search · edit only `docs/**` (except `docs/adr/**`), README files, `CHANGELOG.md` and the release-notes user section · run the docs build and the link checker · git local commits with `Refs: Tn AC-n` · no push.
+Read and search · edit only `docs/**` (except `docs/adr/**`), AGENTS.md outside the AGENTIC-SDLC block, README files, `CHANGELOG.md` and the release-notes user section · run the docs build and the link checker · git local commits with `Refs: Tn AC-n` · no push.
 
 ## Procedure
 

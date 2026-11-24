@@ -16,7 +16,7 @@ Other tasks' conversations; acceptance-test design reasoning; production credent
 
 ## Skills and modules
 
-`executing-plans` · `test-driven-development` · `systematic-debugging` · `references/tdd.md` · `references/loops.md` · `references/verification.md` (evidence records).
+`executing-plans` · `test-driven-development` · `systematic-debugging` · `verification-gate` (completion claims) · `references/tdd.md` · `references/loops.md` · `references/verification.md` (evidence records).
 
 ## May do
 

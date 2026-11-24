@@ -19,7 +19,8 @@ Load this file during `project-context` setup on a new platform, when the router
 **Output.** One line in the AGENTS.md block, rewritten on every probe:
 
 ```
-- Platform: claude-code · subagents: yes · shell: yes · node: 20.11 · enforcement: branch-protection · ci: github-actions
+- Platform: claude-code · subagents: yes · shell: yes · node: 20.11 · ci: github-actions
+- Enforcement: branch-protection · permissions: enforced
 ```
 
 **Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3 and the doctor† reports it as WARN.
@@ -62,11 +63,11 @@ The capability probe decides at runtime; this table is the expected default. A p
 |---|---|---|---|---|
 | 1 | Subagents | Run each agent as a separate labelled pass in the same session, loading only that agent's file and listed inputs. The Test Engineer writes `acceptance-tests.md` from the spec **before** Build starts and commits it, so the tests are fixed before any diff exists | Every check of the author's own work is labelled `self-review` in the PR Verification and Review triage sections | Missing `self-review` label on a same-session check → Reviewer Important finding; PR verdict NO-GO |
 | 2 | Shell | The agent writes the exact commands; the human runs them and pastes the output | Verification rows marked `run-by: human` | No pasted output → status `CANNOT_VERIFY`; no completion claim |
-| 3 | Node ≥ 18 | Markdown-only path (§4) | Block `node: absent`; PR banner `enforcement: prompt-only` | Doctor† reports WARN once Node is present; the vendored scripts stay unused until then |
+| 3 | Node ≥ 18 | Markdown-only path (§4) | Block `node: absent`; PR banner `Enforcement: prompt-only` | Doctor† reports WARN once Node is present; the vendored scripts stay unused until then |
 | 4 | git | None: commit trailers, fingerprints and approval binding need git | — | Router status `BLOCKED`, next step `git init` and a first commit |
-| 5 | Host enforcement | Approvals stay prompt-enforced; the agent never merges, pushes to the default branch or deploys | Block `enforcement: prompt-only`; PR body banner | Doctor† WARN on every run until branch protection is set up |
+| 5 | Host enforcement | Approvals stay prompt-enforced; the agent never merges, pushes to the default branch or deploys | Block `Enforcement: prompt-only`; PR body banner | Doctor† WARN on every run until branch protection is set up |
 | 6 | CI | Run every gate locally before opening the PR and paste the output | PR body `ci: none` | Missing local output → PR verdict NO-GO |
-| 7 | Tool restriction | Role limits from `agents/*.md` apply by instruction only | Block `permissions: prompt-only` | A role using a tool outside its list → stop that pass, discard its output, re-run the role |
+| 7 | Tool restriction | Role limits from `agents/*.md` apply by instruction only | Block `Enforcement:` line `permissions: prompt-only` | A role using a tool outside its list → stop that pass, discard its output, re-run the role |
 
 ## 4. Markdown-only path (no Node)
 

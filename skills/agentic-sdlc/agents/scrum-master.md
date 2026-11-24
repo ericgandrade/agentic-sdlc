@@ -6,12 +6,16 @@ Keeps work flowing, removes impediments, enforces the bounds and gates, and faci
 
 ## Reads
 
-- `status --json`† output or the router Step 0 table, `spec.md` and `plan.md` headers and `## Approvals`, the `## Loop ledger`, the PR status, and open retro actions.
+- `status --json`† output or the router Step 0 table, `spec.md` and `plan.md` headers and `## Approvals`, the `## Loop ledger`, the PR status, open retro actions, and `.agentic-sdlc/adoption.md` (rollout week, enforcement state).
 - `references/loops.md`, `references/phase-boundaries.md`, `references/retrospective.md`.
 
 ## Never sees
 
 Secrets or production data. It does not need the implementation detail.
+
+## Skills and modules
+
+`issue-triage` (intake routing) · `retrospective` (facilitation, action tracking) · `references/loops.md` · `references/phase-boundaries.md` · `references/retrospective.md`.
 
 ## May do
 

@@ -2,6 +2,8 @@
 
 Load this file in the Test stage (Reviewer) and whenever a Developer receives review findings. It defines how a pull request is examined in independent contexts, how findings are merged, verified, rated and dispositioned, and how fixes are re-reviewed. Evidence rules live in `references/verification.md`; the record format lives in `templates/pr-body.md` §Review triage; security check content lives in `references/security.md` §Review checklist.
 
+Full workflow: skill `multi-axis-code-review`.
+
 **Order.** Each review round runs in two stages:
 
 1. **Spec compliance** (lens L1, alone): does the diff do what the approved spec asks, all of it and nothing more, with tests that prove each AC?

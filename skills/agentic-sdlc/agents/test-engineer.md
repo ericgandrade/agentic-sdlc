@@ -15,7 +15,7 @@ The implementation diff, the feature branch, the PR text, or the Developer's rep
 
 ## Skills and modules
 
-`references/verification.md` · `references/tdd.md` §3 Anti-pattern catalogue · `references/brownfield.md` (characterization tests, `CHAR-n`).
+`test-strategy` (acceptance-test design, test pyramid) · `verification-gate` · `test-driven-development` (acceptance tests first) · `codebase-modernization` (characterization tests) · `references/verification.md` · `references/tdd.md` §3 Anti-pattern catalogue · `references/brownfield.md` (characterization tests, `CHAR-n`).
 
 ## May do
 

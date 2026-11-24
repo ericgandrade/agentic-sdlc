@@ -56,8 +56,10 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor`† |
 | Issue with acceptance test | tracker; no tracker → `docs/issues/NNNN-slug.md` | — (Given/When/Then in the issue body) | Discover · Analyst | Quick | Reviewer lens L1 |
 | Out-of-scope record | `docs/out-of-scope/<slug>.md` | `issue-triage` skill, references/templates.md | Discover · Analyst; Product Owner decides | when a request is declined | duplicate search (`issue-triage`) |
+| Discovery brief | `specs/NNN-slug/brief.md`; Quick → issue comment | skill `brainstorming`, templates/brief.md | Discover · Analyst | when `brainstorming` runs | Analyst input to Specify |
 | `spec.md` | `specs/NNN-slug/` | `templates/spec.md` | Specify · Analyst | Standard, Full | `spec-lint` |
 | Capability map (epics) | epic issue body; no tracker → `docs/issues/NNNN-slug.md` | skill `spec-driven-development`, references/capability-map.md | Specify · Analyst; Product Owner orders | request splits into separately shippable capabilities | Specify sign-off on each child spec |
+| Adoption ledger | `.agentic-sdlc/adoption.md` | skill `project-context`, templates/adoption.md | Discover · `project-context` (adopt mode); Tech Lead approves | adopted repositories | `project-context audit` |
 | Modernization inventory | `docs/modernization/inventory.md` | skill `codebase-modernization` | Discover · Analyst with Architect | brownfield modernization | Tech Lead review of dispositions |
 | `current-state.md` + CHAR register | `specs/NNN-slug/` | `codebase-modernization` templates/current-state.md | Specify · Analyst, Test Engineer | brownfield change to untested code | characterization tests green before Build |
 | `migration-runbook.md` | `specs/NNN-slug/` | `codebase-modernization` templates/migration-runbook.md | Design · Release Engineer | data or platform migration | Release Owner sign-off |
@@ -126,7 +128,7 @@ The block is the project context every agent reads first. `project-context` writ
 ## Agentic SDLC
 - Artifacts: `specs/NNN-slug/` · ADRs: `docs/adr/` · Code map: `docs/codemap.md`
 - Conventions: branch `feat/NNN-slug`; commit trailer `Refs: Tn AC-n`
-- Enforcement: branch-protection | prompt-only
+- Enforcement: branch-protection | prompt-only · permissions: enforced | prompt-only
 
 ## Definition of Done
 ```sdlc-dod

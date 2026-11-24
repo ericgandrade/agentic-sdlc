@@ -2,6 +2,8 @@
 
 Load after a Release, after a merge with no release, or when a Quick batch is due. The retro is part of the default cycle on every path: it turns one cycle's evidence into owned actions that change a file the next cycle reads. Facilitator: the Scrum Master agent (`agents/scrum-master.md`) drafts the agenda and facts, with production facts from the SRE; a named human (the human Scrum Master if the team has one, otherwise the Tech Lead) runs the meeting and records the decisions. Template: `templates/retro.md`.
 
+Full workflow: skill `retrospective`.
+
 ## When a retro is due (16.1, K3)
 
 | Path | Trigger | Due | Timebox | Covers |
