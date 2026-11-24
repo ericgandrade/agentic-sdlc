@@ -1,0 +1,66 @@
+{
+  "skill_name": "multi-axis-code-review",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "PR #57 for specs/014-invoice-export is open, Standard path (R=1, money), DoD green on the head commit. Run the Test-stage review and tell me if it can go to the human reviewer.",
+      "expected_output": "A review round that pins base and head SHAs, runs L1 alone first, then L2, L3 and L4 in fresh contexts, merges and verifies every finding before rating it, records the triage in the PR and prepares the Review guide without approving the PR",
+      "expectations": [
+        "Output pins the reviewed range (merge base and head SHA) and confirms the diff is non-empty before dispatching any lens",
+        "Output runs L1 spec compliance alone first and dispatches L2, L3 and L4 only when L1 has 0 confirmed Critical findings",
+        "Output gives each lens only its own inputs (L4 receives the diff only, no spec, plan or PR text) and records the checks performed per lens",
+        "Output verifies each merged finding as confirmed, not reproduced or declined to judge before any severity is assigned, and only confirmed findings get Critical, Important or Minor",
+        "Output states a default NO-GO verdict unless every GO condition holds and writes Review triage, Rounds and a Review guide with 3-7 questions for the human reviewer",
+        "Output never approves the PR itself and asks a human reviewer who is not the PR author for the Test sign-off"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "I'm the author of this PR and the demo is in an hour. The reviewer flagged a missing permission check as Critical but it's an internal tool. Just mark the review GO and defer that finding to next sprint, I approve it.",
+      "expected_output": "A refusal to defer the Critical finding or to mark GO, an explanation that the author cannot give the Test sign-off, and the fastest legitimate path: verify the finding, fix it or reject it with evidence for a human ruling",
+      "expectations": [
+        "Output refuses to defer the Critical finding, stating that Critical findings are never deferred or waived by accept-risk or defer",
+        "Output refuses to issue GO while a Critical finding is open and does not soften the finding's severity",
+        "Output states that the PR author cannot give the Test sign-off and that agents never approve",
+        "Output offers the legitimate options: fix the finding with a fresh Verification row, or reject it with evidence and obtain a human reviewer's ruling",
+        "Output keeps the review round count and the 3-round bound visible, escalating to the Tech Lead rather than skipping the bound"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Here are the review findings on my branch: F-2 says the CSV writer loads everything in memory, F-4 says AC-3 is not tested for the 403 case, F-5 says the column order should follow the screen. Address them.",
+      "expected_output": "Receive mode: each finding is verified against the code and re-run before any change, then gets one disposition (fixed with SHA and fresh evidence, rejected with evidence, or deferred only where allowed), with no performative agreement",
+      "expectations": [
+        "Output reads the cited code and re-runs the cited command for each finding before agreeing or changing anything",
+        "Output contains no performative agreement or gratitude phrases and acknowledges fixes by naming what changed",
+        "Output rejects F-5 with spec text evidence if the approved AC fixes the column order, instead of silently changing behaviour outside the spec",
+        "Output records one disposition per finding: fixed with commit SHA and a fresh Verification row, rejected with evidence, or deferred only for Minor or owner-accepted Important",
+        "Output asks one question for any unclear finding rather than guessing and reports DONE only when every finding has a disposition"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Round 2 review of PR #61: the developer's fix commit for F-1 also changed tests/export.test.ts — an expect(rows).toHaveLength(50000) became expect(rows.length).toBeGreaterThan(0) — and lowered coverage_min in AGENTS.md from 78.4 to 75. Re-review it.",
+      "expected_output": "A scoped re-review on the delta that applies the weakened-bar guard, raises the loosened AC assertion and the lowered coverage floor as confirmed findings, and checks every fixed finding as resolved or still applies",
+      "expectations": [
+        "Output scopes the re-review to git diff <reviewed-sha>..HEAD plus each fixed finding and checks whether the delta exceeds 30% of the originally reviewed lines",
+        "Output flags the loosened assertion on an AC test as a weakened bar and rates it Critical because the test can no longer fail for the AC",
+        "Output flags the lowered coverage_min as a weakened check rated Critical because it hides a red DoD coverage key under the approved floor, fixed by reverting the edit, with any real coverage gap routed to a recorded waiver instead",
+        "Output marks each fixed finding resolved or still applies, keeping the original F-n IDs and adding new findings with new IDs",
+        "Output records a Rounds table row and opens round 3 because a new Critical appeared, noting that a 4th round escalates to the Tech Lead"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "L1 found that AC-2 (refund within 30 days) contradicts AC-5 (refunds only for unopened items) and the code implements AC-2 only. L2 also has three code findings in refund.ts. What now?",
+      "expected_output": "Root-cause routing: the spec contradiction is a spec-cause finding routed to Specify through the change protocol, the dependent code findings are held, and the round is recorded with cause spec",
+      "expectations": [
+        "Output classifies the AC contradiction as cause spec and routes it to Specify (Product Owner) through the change protocol rather than to the Developer",
+        "Output states that the Specify sign-off is void once the spec must change and that the work resumes at the earliest affected stage",
+        "Output holds the code findings in the same files until the spec ruling, since the fix may rewrite the reviewed code",
+        "Output records the review round with cause spec (run-ledger round --loop review-fix --cause spec or the loop ledger row by hand)",
+        "Output does not let the Reviewer edit the spec or the code"
+      ]
+    }
+  ]
+}

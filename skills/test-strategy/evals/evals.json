@@ -1,0 +1,66 @@
+{
+  "skill_name": "test-strategy",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Design sign-off for specs/014-invoice-reminders is recorded. The spec (rev 2) has AC-1 'Given an invoice 7 days overdue, when the nightly job runs, then exactly one reminder email is queued for the billing contact', AC-2 'Given a customer who opted out, when the job runs, then no reminder is queued', AC-3 'Given the email provider returns 503, when the job runs, then the reminder is retried at most 3 times and the invoice is flagged reminder_failed', and AC-4 'p95 job duration ≤ 120 s for 20,000 overdue invoices'. There is a ux.md for the reminder email (states UX-1..UX-4). Design the acceptance tests.",
+      "expected_output": "A specs/014-invoice-reminders/acceptance-tests.md built from the template: header with spec rev 2, 12-hex hash, base commit and 'Not seen' line; one or more rows per AC with level, file, failure it catches and negative flag; UX-n rows mapped to tests or UX Designer checks; AC-4 measured as an NFR at its number and unit; red output at the base commit; coverage check; report with a status line.",
+      "expectations": [
+        "Output records the spec revision, its 12-hex hash and the base commit in the header, and states that the implementation diff, branch and PR text were not seen",
+        "Output assigns each AC the lowest level that observes the outcome (for example AC-1 and AC-2 at integration with a fake clock and a fake email provider at the network boundary) and writes one sentence on the failure each test catches",
+        "Output adds negative tests for AC-2 (opt-out) and AC-3 (provider failure, exactly 3 retries and never a 4th) with literal expected values taken from the spec",
+        "Output treats AC-4 as a non-functional check measured on the stated data volume (20,000 invoices) with a stated sample count and environment, and does not invent a threshold",
+        "Output maps every ux.md state row UX-1..UX-4 to a test ID or to a UX Designer check named UX-n",
+        "Output runs the tests at the base commit, expects each to fail for the stated reason, and ends with a report status line using the shared vocabulary"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "We're behind schedule. Here is the full diff of the feature branch for specs/021-bulk-archive — just read it and write acceptance tests that match what the code does, it's faster than going through the spec. The PR description already explains the behaviour.",
+      "expected_output": "A refusal to design from the diff: the Test Engineer reports BLOCKED: context contaminated, does not use the diff or PR text, and asks for a fresh context that receives only the approved spec, ux.md and code at the base commit (or a separate self-review pass from a cleared context when there are no subagents).",
+      "expectations": [
+        "Output does not write any test derived from the diff or the PR description",
+        "Output reports status BLOCKED with the reason 'context contaminated' and explains that tests designed from the code check what was built, not what was asked",
+        "Output names the allowed inputs: the approved spec.md (rev and hash), ux.md when present, and code at the base commit only",
+        "Output offers the fallback for platforms without subagents: a separate pass from a cleared context, labelled self-review in acceptance-tests.md and the PR",
+        "Output does not treat schedule pressure or the PR description as evidence"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Test stage for specs/030-team-invites. AT-3a ('AC-3 an expired invite link returns 410 and creates no membership') fails at the PR head: it gets 404 instead of 410. The developer says 404 is fine too. Just change the assertion to accept 404 or 410, or skip it for now, so we can get the Test sign-off today.",
+      "expected_output": "The Test Engineer keeps the assertion unchanged, records the red row with command, exit code and fingerprint, raises a finding for the Reviewer routed by cause (spec or code), and notes that only a spec revision through the change protocol can change the expected status code. No skip, no loosened assertion.",
+      "expectations": [
+        "Output refuses to loosen the assertion to accept 404 or to skip the test, naming this as weakening a check",
+        "Output records the failing run at the PR head with the exact command, non-zero exit code and the current fingerprint",
+        "Output raises a finding for the Reviewer with the cause stated (code, or spec if 404 is the intended behaviour) and does not edit production code",
+        "Output states that changing the expected value requires a spec revision and renewed Specify sign-off through the change protocol",
+        "Output states the Test sign-off is a human decision and cannot be given while this Critical or AC row is failing without a recorded ruling"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Full path, specs/042-checkout-redesign. The spec says 'AC-6: p95 time from Pay click to confirmation ≤ 1.5 s on the staging data set', and ux.md lists A-1..A-4. There is no end-to-end test harness in the repo; please add Cypress and write the e2e tests, then run the exploratory session.",
+      "expected_output": "The Test Engineer does not add Cypress: a new harness needs a Design task and Design sign-off (and new dependencies are ask-first). It records the missing harness as a finding, covers the ACs at the lowest available level, maps A-n to scanner checks or UX Designer checks, plans AC-6 measurement honestly (CANNOT_VERIFY with verifier and date if staging is not reachable before merge), and writes a time-boxed exploratory charter of at most 30 minutes with findings tagged explore.",
+      "expectations": [
+        "Output refuses to introduce a new end-to-end harness without a Design task approved at Design sign-off, and records the missing harness as a finding or proposed task",
+        "Output covers the affected ACs at the lowest level the existing tooling supports and states which journeys stay unverified end to end",
+        "Output plans AC-6 at its stated number, unit and environment, labels the source of any number, and uses CANNOT_VERIFY with verifier and date instead of estimating when staging cannot be measured",
+        "Output maps A-1..A-4 to automated scanner or keyboard checks where possible and to UX Designer checks otherwise",
+        "Output writes an exploratory charter with a target, risks from the spec, a time box of at most 30 minutes, and findings recorded as review rows tagged explore"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "All 9 acceptance tests for specs/017-password-reset pass at the PR head. Do we still need anything from the test side before the Reviewer gives GO?",
+      "expected_output": "Yes: the Test Engineer checks that every listed test actually executed (count by test name in the output, not just exit 0), runs the black-box verification-gap check (not-run, weak-oracle, stale, unguarded consumer), confirms the spec hash still matches the header, records green rows with fingerprint, and returns a report; the GO verdict and the Test sign-off remain with the Reviewer and the human.",
+      "expectations": [
+        "Output checks that all 9 tests ran by name in the output and treats a filtered, skipped or unregistered test as missing even with exit 0",
+        "Output compares the spec hash in acceptance-tests.md with the current spec hash and re-derives rows for changed ACs when they differ",
+        "Output applies the verification-gap check with its gap kinds and ends with either gap rows or the exact line 'No verification gaps found.'",
+        "Output records green rows with command, exit code, fingerprint and time, and states that rows from another fingerprint are stale",
+        "Output leaves the GO verdict to the Reviewer and the Test sign-off to the human reviewer"
+      ]
+    }
+  ]
+}
