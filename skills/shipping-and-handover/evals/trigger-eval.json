@@ -1,0 +1,25 @@
+{
+  "skill_name": "shipping-and-handover",
+  "description": "Triggers for finishing a development branch (pre-ship checklist, opening the PR with evidence, merge / keep / discard), writing release notes and the runbook, checking docs drift and handing a release over to Operate",
+  "queries": [
+    {"id": 1, "query": "All tasks are done and the DoD is green — open the pull request with the evidence", "should_trigger": true},
+    {"id": 2, "query": "I'm finished with this branch, what are my options: merge, PR, keep it or throw it away?", "should_trigger": true},
+    {"id": 3, "query": "Write the PR description with before/after screenshots and whether this is a one-way door", "should_trigger": true},
+    {"id": 4, "query": "Delete the experiment branch and its worktree, we are not shipping it", "should_trigger": true},
+    {"id": 5, "query": "PR #138 is merged, prepare the release notes for v2.14.0", "should_trigger": true},
+    {"id": 6, "query": "Write the runbook for the new export endpoint and alert before we release", "should_trigger": true},
+    {"id": 7, "query": "Which docs does this diff make stale? Check API reference and migration guide drift before shipping", "should_trigger": true},
+    {"id": 8, "query": "Run the pre-ship checklist on feature/csv-export before I ask for review", "should_trigger": true},
+    {"id": 9, "query": "Release is at 100% and stable, hand it over to the SRE with the production links", "should_trigger": true},
+    {"id": 10, "query": "Fill in the 'For users' section and the CHANGELOG entry for this release", "should_trigger": true},
+    {"id": 11, "query": "Test sign-off is in, merge the branch and clean up the worktree", "should_trigger": true},
+    {"id": 12, "query": "Set up branch protection and the production environment reviewers in CI", "should_trigger": false},
+    {"id": 13, "query": "Review this PR across correctness, security and design and triage the findings", "should_trigger": false},
+    {"id": 14, "query": "Are these test results fresh? Check the Verification rows against the current fingerprint", "should_trigger": false},
+    {"id": 15, "query": "The export error alert fired in production, start the incident and write the postmortem", "should_trigger": false},
+    {"id": 16, "query": "Execute the next task in plan.md test-first", "should_trigger": false},
+    {"id": 17, "query": "Run the retrospective for the CSV export release", "should_trigger": false},
+    {"id": 18, "query": "Configure a canary deployment pipeline with automatic rollback thresholds", "should_trigger": false},
+    {"id": 19, "query": "Convert this release notes Markdown file into a PDF", "should_trigger": false}
+  ]
+}

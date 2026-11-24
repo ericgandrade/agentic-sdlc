@@ -2,7 +2,7 @@
 
 <!-- Worked example (synthetic). Written from templates/release-notes.md; rules in references/release-ops.md. Times use the team's local offset (-03:00). -->
 
-**Spec:** `specs/001-csv-export/spec.md` rev 1 · hash `6b4c7f329c93` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
+**Spec:** `specs/001-csv-export/spec.md` rev 1 · sha256 `6b4c7f329c93` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
 **Release commit:** `5d2e8b0` (merge of PR #138, 2026-11-27T11:30:00-03:00; tree identical to head `1b8d74a`, fingerprint `b7e2a91c04d5`) · **Tag:** `v2.14.0` (pushed only after Release sign-off) · **Planned date:** 2026-11-30
 **Release Engineer:** Release Engineer agent (fresh subagent) · **Release Owner:** Release Owner, P. Nair
 
