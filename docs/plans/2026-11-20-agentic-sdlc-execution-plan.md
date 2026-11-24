@@ -25,7 +25,7 @@
 | **Discover** | Take in the request; check duplicates and prior rejections; classify (bug, task, story, epic); size and choose the path; set the goal and the indicator to measure | Planner | — |
 | **Specify** | Write `spec.md`: user stories, acceptance criteria (Given/When/Then), non-goals, constraints, security notes, indicator, and §Release & observability (signal, numeric alert threshold, dashboard, owner, rollout, rollback command — required by `spec-lint`, M 12.1) | Planner | Security Auditor |
 | **Design** | ADRs for real decisions; `plan.md` with approach and the `## Tasks` table (thin vertical slices with dependencies, M 7.1) — tasks live in `plan.md` on every path | Planner | Architect |
-| **Build** | Implement task by task, test-first, small commits, open the pull request; debug systematically | Implementer | — |
+| **Build** | Implement task by task, test-first, small commits, open the pull request; debug systematically | Developer | — |
 | **Test** | Verify against the spec in a fresh context: acceptance tests, independent code review, security review; evidence in the PR | Reviewer | Test Engineer, Security Auditor |
 | **Release** | Deploy behind feature flags, staged rollout, rehearsed rollback, test alert fired in staging, release notes; runbook whenever the change alters operated behaviour (new endpoint, job, config or alert) | Release Engineer | — |
 | **Operate** | Monitor the change against the alerts and indicator defined in Specify (Operate monitors; it does not define), handle incidents, postmortems, retrospective on every path (M 16.1); new work returns to Discover | SRE | — |
@@ -56,7 +56,7 @@ Defined in `skills/agentic-sdlc/agents/<name>.md` (M 13.1); each file states wha
 | Agent | File | Kind | Stages | Never |
 |---|---|---|---|---|
 | **Planner** | `planner.md` | Core | Discover, Specify, Design | Writes production code |
-| **Implementer** | `implementer.md` | Core | Build | Verifies or approves its own work; weakens tests |
+| **Developer** | `developer.md` | Core | Build | Verifies or approves its own work; weakens tests |
 | **Reviewer** | `reviewer.md` | Core (independent, read-only) | Test | Fixes code; trusts the PR description |
 | **Architect** | `architect.md` | Specialist (called by Planner) | Design | Adds scope not in the spec |
 | **Test Engineer** | `test-engineer.md` | Specialist (called by Reviewer) | Test | Designs tests from the implementation instead of the spec |
@@ -105,7 +105,7 @@ Release notes · runbook (operated-behaviour change) · postmortem (SEV1/2) · r
 2. **Evidence before claims** — never say done/fixed/passing without command output bound to the current working-tree fingerprint (M 4.4); evidence from another fingerprint is stale and is re-run.
 3. **Humans approve, agents execute** — the four sign-offs are explicit, recorded with a content hash, checked by `approval-check` in CI and enforced by branch protection, CODEOWNERS and environment reviewers (M 10.4, M 10.5); without platform controls the PR carries `enforcement: prompt-only` and the doctor reports WARN.
 4. **Test first** — red → green → refactor; a bug fix starts with a failing regression test.
-5. **Independent verification** — the Implementer never verifies or approves its own work. No subagent → a separate labeled pass; the label `self-review` is mandatory in the PR.
+5. **Independent verification** — the Developer never verifies or approves its own work. No subagent → a separate labeled pass; the label `self-review` is mandatory in the PR.
 6. **Rollback always** — every spec states how to undo; Release rehearses it.
 7. **Sensitive data stays out** — no secrets, personal or health data in prompts, fixtures, logs, commits or examples.
 8. **Every requirement is proven** — AC-n → task → commit/test → PR evidence → release note → production indicator.
@@ -139,6 +139,7 @@ Traceability past the PR to production; Release and Operate covered by default; 
 | **D10** | Structure §1.1–1.6: 7 standard stages, 4 approvals, 8 agents named by function (option C, no human names), 3 paths, standard artifacts | 2026-11-20 |
 | D10a | Terminology change (2026-11-22, owner): stage Plan → Discover; approvals renamed Specify / Design / Test / Release sign-off; rule: each sign-off is named after the stage it closes | 2026-11-22 |
 | D10b | Role model (2026-11-24, owner): 13 functional agents (no personas) — Scrum Master (router; first named Delivery Lead), Analyst, Product Manager, UX Designer, Planner (Design only), Architect, Developer (renamed from Implementer), Test Engineer (one widened Tester role), Reviewer, Security Auditor (absorbs compliance on `regulated`), Tech Writer, Release Engineer, SRE; human sign-offs stay at 4; RACI in `references/governance.md`. Analysis `docs/research/roles/2026-11-22-role-analysis.md`; plan `docs/plans/2026-11-24-agentic-sdlc-role-model.md` | 2026-11-24 |
+| D12 | Stage skills vs modules (2026-11-24, owner chose "full plan, checkpoints automatic"): each `skills/agentic-sdlc/references/<module>.md` stays in place as the compact **stage contract** that the router and agents load (bounds, gates, formats, owners); the new stage skill (Phases B–D) is the **full workflow** and cites the module instead of moving it. Reason: a pure move would break ~125 cross-references and change the tree scored in round 2. Checkpoints 0–5 are run without stopping; the run stops before PR, tag and release (owner actions). Matrix: `docs/research/2026-11-24-mechanism-matrix.md` | 2026-11-24 |
 | **D11** | Launch audience: **developers in general** (healthcare IT is a secondary audience via the Business Plan, not the launch focus). Launch is planned as Phase H; its *how* (channels, content, calendar) is deliberately **not decided yet** and will be discussed with the owner after the v3.0.0 release. | 2026-11-22 |
 
 Open design questions to confirm at Checkpoint 1 (recommendations in brackets): Q1 small refactors inside TDD [allow; structural refactors become tasks] · Q2 file paths [none in spec.md; allowed in the `plan.md` task table] · Q3 debugging hypotheses [rank 3–5, test one at a time] · Q4 regression test exception [if no proper seam, record the missing seam as a finding] · Q5 user-only skills [strict descriptions, no extra frontmatter] · Q6 path selection [risk signals first, size second] · Q7 agent files [source in `skills/agentic-sdlc/agents/`; generating Claude Code plugin `agents/` in Phase F is a packaging decision — not part of the method; not scored] · Q8 acceptance-criteria format [Given/When/Then default, EARS accepted].
@@ -190,13 +191,13 @@ Reference repos (pinned commits): `obra/superpowers@22f0b46`, `mattpocock/skills
 | Discover | `brainstorming` | Align (0) + deepen (B) | Planner |
 | Specify | `spec-driven-development` | Align (0) + deepen (B) | Planner |
 | Specify | `grill-me` | Align (0) + deepen (B) | Planner |
-| Specify / Build | `codebase-modernization` | **New** (C) | Planner, Implementer |
+| Specify / Build | `codebase-modernization` | **New** (C) | Planner, Developer |
 | Specify / Test | `security-hardening` | **New** (D) | Security Auditor |
 | Design | `senior-solution-architect` | Align (0) + deepen (B) | Architect |
 | Design | `writing-plans` | Align (0) + deepen (B) | Planner |
-| Build | `executing-plans` | Major upgrade (C) | Implementer |
-| Build | `test-driven-development` | **New** (C) | Implementer |
-| Build | `systematic-debugging` | **New** (C) | Implementer |
+| Build | `executing-plans` | Major upgrade (C) | Developer |
+| Build | `test-driven-development` | **New** (C) | Developer |
+| Build | `systematic-debugging` | **New** (C) | Developer |
 | Test | `test-strategy` | **New** (D) | Test Engineer |
 | Test | `verification-gate` | **New** (D) | Reviewer |
 | Test | `multi-axis-code-review` | **New** (D) | Reviewer |
@@ -267,7 +268,7 @@ Commit per skill. **Checkpoint 2.**
 | Task | Skill | Mechanisms (architect report §2 IDs) and content |
 |---|---|---|
 | C.1 | `test-driven-development` (new) | M 3.1, 3.2 (promotes `references/tdd.md`): Iron law; fail for the right reason; writing good tests; mocking guidance; integration-first at real seams; bug-fix variant; mutation/"name the break" check; rationalization table |
-| C.2 | `executing-plans` (major) | M 6.1–6.6, 7.4, 8.1–8.8: Inline and subagent modes; prompts `implementer.md`, `task-reviewer.md` (spec compliance then quality), `re-review.md`; status vocabulary; bounded fix loop (5 rounds, escalation, breaker rulings); progress ledger copied into the PR at the end; preflight; resume; worktree/branch isolation; parallel only for file-disjoint ready tasks; commits `[Tn, AC-n]` |
+| C.2 | `executing-plans` (major) | M 6.1–6.6, 7.4, 8.1–8.8: Inline and subagent modes; prompts `developer.md`, `task-reviewer.md` (spec compliance then quality), `re-review.md`; status vocabulary; bounded fix loop (5 rounds, escalation, breaker rulings); progress ledger copied into the PR at the end; preflight; resume; worktree/branch isolation; parallel only for file-disjoint ready tasks; commits `[Tn, AC-n]` |
 | C.3 | `systematic-debugging` (new) | M 6.1, 6.2, 6.5: Tight red feedback loop first (HITL template); four phases; root-cause tracing; defense in depth; condition-based waiting; test-polluter bisection script; 3-failed-fixes escalation |
 | C.4 | `codebase-modernization` (new) | M 14.1, 14.4, 7.3: Inventory and dependency map; risk/value classification; retire/retain/upgrade/re-platform/migrate rubric; characterization tests; expand–contract and strangler; research with a question firewall and `path:line @ sha` citations; runbook template; no client data |
 

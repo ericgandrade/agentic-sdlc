@@ -1,0 +1,33 @@
+# Agentic SDLC — CODEOWNERS example (mechanism 10.5). Copy to .github/CODEOWNERS (GitHub) or to
+# CODEOWNERS / .gitlab/CODEOWNERS / docs/CODEOWNERS (GitLab) and replace the handles with real
+# teams (@org/team) or users that have write access. Procedure: the deployment-pipeline skill,
+# references/branch-protection.md.
+#
+# How it enforces the method:
+#   - With "Require review from Code Owners" (GitHub) or "Code owner approval" (GitLab), a change to
+#     a matched path cannot merge without an approving review from one listed owner.
+#   - One approval from ANY listed owner satisfies the rule. That a Product Owner approved the spec
+#     and a Tech Lead approved the plan is proved by the hash-bound rows that
+#     spec-lint --check-approval and plan-graph --check-approval read in CI.
+#   - The last matching line wins, so keep specific paths below general ones.
+
+# Default owner for everything not matched below (optional; remove to leave code unowned).
+# *                                    @maintainers
+
+# Specs, plans, acceptance tests and approval registers.
+specs/**                               @tech-leads @product-owners
+
+# The quality bar and the gates: changing them needs a Tech Lead.
+AGENTS.md                              @tech-leads
+CONSTRAINTS.md                         @tech-leads
+.agentic-sdlc/**                       @tech-leads
+.github/workflows/**                   @tech-leads
+.gitlab-ci.yml                         @tech-leads
+.gitlab/**                             @tech-leads
+
+# Protect this file itself.
+.github/CODEOWNERS                     @tech-leads
+CODEOWNERS                             @tech-leads
+
+# Release and operations records: the Release Owner group.
+docs/runbooks/**                       @release-owners

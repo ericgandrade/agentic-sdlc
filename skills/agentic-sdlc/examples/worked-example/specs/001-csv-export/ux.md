@@ -57,5 +57,7 @@ None.
 |---|---|---|
 | UX-1 | Screenshot UX-1 in PR #138 (head `1b8d74a`) | pass |
 | UX-2 | Screenshot UX-2 in PR #138 | pass |
+| UX-4 | Screenshot UX-4 in PR #138: copy "Export limit is 50,000 rows; narrow the filter" matches the state table | pass |
 | UX-5 | Screenshot UX-5 in PR #138 (endpoint stubbed to 500) | pass |
+| UX-6 | Screenshot UX-6 in PR #138: signed in without `reports:export`, no Export CSV button | pass |
 | A-1..A-4 | axe: 0 violations on the reports page; keyboard and VoiceOver notes in PR #138 | pass |

@@ -36,7 +36,7 @@ const BREAKERS = Object.freeze({
   B3: { name: 'build-test cap', target: 'Tech Lead', allowed: ['reroute', 'split', 'handover', 'drop'] },
   B4: { name: 'review-fix cap', target: 'Tech Lead', allowed: ['reroute', 'handover', 'drop'] },
   B5: { name: 'debug cap', target: 'Architect', allowed: ['reroute', 'split', 'handover', 'drop'] },
-  B6: { name: 'root cause outside Build', target: 'Tech Lead', allowed: ['reroute', 'handover'] },
+  B6: { name: 'root cause outside Build', target: 'Product Owner (spec cause) or Tech Lead', allowed: ['reroute', 'handover'] },
 });
 const CLOSED = new Set(['done', 'dropped', 'split', 'rerouted', 'handover']);
 const EVENT_TYPES = new Set(['start', 'preflight', 'resume', 'task', 'red', 'round', 'ruling', 'halt', 'check', 'finish']);

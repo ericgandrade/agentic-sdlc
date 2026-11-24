@@ -56,7 +56,7 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 | Planner | Approved spec, `ux.md`, threat model, AGENTS.md block, code map, ADRs | — |
 | Architect | Approved spec, ADRs, code map, relevant code | Developer chat history |
 | Developer | One plan task row, the files it lists, the spec ACs it serves, the DoD block | Other tasks' reasoning; review findings of other tasks |
-| Test Engineer | Approved spec, code at the base commit, test conventions | The implementation diff, the branch, the PR text |
+| Test Engineer | Approved spec, `ux.md`, code at the base commit, test conventions | The implementation diff, the branch, the PR text |
 | Reviewer lenses L1–L3 | Diff, spec, plan, evidence ledger | The Developer's reasoning; the PR prose as evidence |
 | Reviewer lens L4 | The diff only | Spec, plan, PR text |
 | Security Auditor | Spec, threat model, diff (Test stage) | Secrets, production data |

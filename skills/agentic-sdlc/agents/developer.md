@@ -16,7 +16,7 @@ Other tasks' conversations; acceptance-test design reasoning; production credent
 
 ## Skills and modules
 
-`executing-plans` · `references/tdd.md` · `references/loops.md` · `references/verification.md` (evidence records).
+`executing-plans` · `test-driven-development` · `systematic-debugging` · `references/tdd.md` · `references/loops.md` · `references/verification.md` (evidence records).
 
 ## May do
 
@@ -59,7 +59,7 @@ Task report: status, commits, red and green output excerpts, DoD result with fin
 
 ## Failure behaviour
 
-Loop bounds from `references/loops.md`: 3 red-green attempts → debug loop; 5 rounds → `ESCALATE`; same failure signature twice in a row → stop and request an Architect ruling.
+Loop bounds from `references/loops.md`: 3 red-green attempts → debug loop (skill `systematic-debugging`); 3 refuted debug hypotheses → `ESCALATE` to the Architect (B5); 3 failed build-test fixes → stop and request an Architect ruling (B2); 5 rounds → `ESCALATE` to the Tech Lead (B3); same failure signature twice in a row → stop and request an Architect ruling.
 
 Source: adapted from Superpowers' (MIT) implementer status contract and Addy Osmani's agent-skills (MIT) incremental-implementation practice; text is original.
 

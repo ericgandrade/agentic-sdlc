@@ -26,6 +26,10 @@ Files follow the code map: route tests under `server/test/routes/reports/` (modu
 
 Mocks: none. The integration tests run the Express app against the seeded test database container; the end-to-end test runs the built web app against the same container.
 
+UX states (`ux.md`): UX-3 → AT-1d (asserts the toast "Exported N rows"); UX-1, UX-2, UX-4 (copy "Export limit is 50,000 rows; narrow the filter"), UX-5 and UX-6 → UX Designer checks of the same IDs in `ux.md` §Test-stage checks. AT-4a and AT-3a cover the server side of UX-4 and UX-6.
+
+Non-functional: the spec constraint "p95 ≤ 3 s for 50,000 rows" is not an AC. It is a DoD `perf` check on staging recorded in the PR `## Verification` table, and the release alert watches it in production.
+
 ## Red at the base commit
 
 | Test ID | Command | Exit | Failure line (first assertion or error) |

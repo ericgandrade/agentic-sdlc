@@ -70,7 +70,7 @@ Commits on `9e1d4c2..1b8d74a`: `a11c0f3` (T1 AC-2) · `b22d1e4` (T2 AC-3) · `c3
 
 | Lens | Context | Checks performed | Findings raised | Status |
 |---|---|---|---|---|
-| L1 spec/tests | fresh subagent | 4 of 4 ACs implemented; no behaviour outside spec or non-goals (no customer fields); each AC test asserts the stated outcome; negative tests for AC-1..AC-4; new tests against `tdd.md` §Anti-patterns; Trace orphans | 2 (round 1) | ran |
+| L1 spec/tests | fresh subagent | 4 of 4 ACs implemented; no behaviour outside spec or non-goals (no customer fields); each AC test asserts the stated outcome; negative tests for AC-1..AC-4; new tests against `tdd.md` §3; Trace orphans | 2 (round 1) | ran |
 | L2 correctness/design | fresh subagent | empty, limit and error paths; route signature vs plan T3; no single-call-site abstraction; error handling and logging; no ADR required (plan: none); DoD output warnings | 3 (round 1) | ran |
 | L3 security | fresh subagent | `security.md` §Review checklist: 20 items · 17 PASS · 1 FAIL (S10) · 2 n/a (S13 no crypto, S19 no model input); no new dependency (plan `## Dependencies`: none) | 1 (round 1) | ran |
 | L4 context-free (diff only) | fresh subagent | hostile input in query params; memory and time at 50,000 rows; partial failure mid-stream; boundary values | 2 (round 1) | ran |
@@ -83,7 +83,7 @@ Round 1, stage 1: L1 returned F-3 and F-7 (no confirmed Critical) → stage 2 di
 |---|---|---|---|---|---|---|---|---|
 | F-1 | L3, L4 | confirmed | Critical | `server/src/routes/reports/export.ts:40-42` | code | `sec S10` — `Content-Disposition` filename built from the free-text `q` filter; a CR/LF in `q` injects response headers | fixed `f66b528` | Round 1: `curl -i ".../export?q=a%0d%0aX-Injected:1"` printed `X-Injected: 1`. Round 2: same request → header absent; filename is now `orders-YYYY-MM-DD.csv` |
 | F-2 | L2, L4 | confirmed | Important | `server/src/routes/reports/export.ts:55-68` | code | Whole CSV built as one string in memory for up to 50,000 rows | fixed `0a7c639` | Rows now streamed after a `COUNT(*)` check, so AC-4 still sends no partial file; AT-4a and AT-4b green on `b7e2a91c04d5` |
-| F-3 | L1 | confirmed | Important | `server/test/auth/permissions.test.ts:8-30` | test | Unit test mocks `UserRepository`, an internal collaborator (`tdd.md` §Anti-patterns: mocking what is not a process boundary) | fixed `1b8d74a` | Test now uses the seeded test database; `npx vitest run server/test/auth/permissions.test.ts` exit 0 |
+| F-3 | L1 | confirmed | Important | `server/test/auth/permissions.test.ts:8-30` | test | Unit test mocks `UserRepository`, an internal collaborator (`tdd.md` §3 Anti-pattern catalogue: mocking what is not a process boundary) | fixed `1b8d74a` | Test now uses the seeded test database; `npx vitest run server/test/auth/permissions.test.ts` exit 0 |
 | F-4 | L4 | not reproduced | — | `server/src/routes/reports/export.ts:47` | code | Suspected off-by-one: exactly 50,000 rows rejected | closed | AT-4b (exactly 50,000 rows) exit 0 at `e55a417` and at `1b8d74a` |
 | F-5 | L2 | declined to judge | — | `server/src/export/csv.ts:31` | spec | Totals use `.` as decimal separator; spreadsheet apps in comma-decimal locales open them as text | to human | Product decision: the spec fixes the format (AC-1: 2 decimals), not the locale → Review guide question 2 |
 | F-6 | L2 | confirmed | Minor | `web/src/reports/ExportButton.tsx:12` | code | Download handle named `d` | deferred #142 | Deferred list; no behaviour change |

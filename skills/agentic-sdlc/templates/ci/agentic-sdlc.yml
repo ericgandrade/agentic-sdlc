@@ -1,0 +1,272 @@
+# Agentic SDLC — CI gates for GitHub Actions (mechanisms 3.4, 10.4, 10.5).
+#
+# Copy to .github/workflows/agentic-sdlc.yml through a plan task whose Files list names it
+# (references/security.md S20). Procedure, branch protection and gate proofs:
+# the deployment-pipeline skill.
+#
+# Required status checks this workflow produces (names = job `name:` fields):
+#   agentic-sdlc/dod        every sdlc-dod command + the coverage floor
+#   agentic-sdlc/spec       spec-lint --check-approval on every spec the PR touches or names
+#   agentic-sdlc/approvals  plan-graph --check --check-approval on the same folders
+#                           (+ approval-check --pr once that script is vendored)
+#   agentic-sdlc/trace      trace-check once vendored; until then it reports a warning and passes,
+#                           so do NOT mark it required before the script exists
+#
+# Assumptions to adapt (search for "ADAPT"):
+#   - The method's scripts are vendored in .agentic-sdlc/bin/ by project-context (SDLC_BIN).
+#     Without vendoring, point SDLC_BIN at a checked-out copy of <skills>/agentic-sdlc/scripts.
+#   - The Definition of Done lives in AGENTS.md (DOD_FILE) as a fenced block:
+#         ```sdlc-dod
+#         lint: npm run lint
+#         typecheck: npm run typecheck
+#         test: npm test
+#         coverage: npm run coverage -- --json-summary
+#         coverage_min: 78.4
+#         ```
+#     A key without a command is written `<key>: n/a — <reason>` and is skipped with a notice.
+#   - On pull requests the sdlc-dod block is read from the BASE branch, so a PR cannot lower the
+#     bar it is judged by. Changes to the block take effect after merge and need CODEOWNERS review.
+#     The spec and approvals jobs likewise run the checker scripts from the BASE branch when they
+#     exist there. This workflow file itself runs from the PR head, so CODEOWNERS review of CI
+#     files (templates/CODEOWNERS) is the control against a PR that edits this file.
+#
+# Security: no secrets are used here; untrusted values (branch names, PR body) reach the shell
+# only through env variables, never through ${{ }} interpolation inside run scripts.
+
+name: agentic-sdlc
+
+on:
+  pull_request:
+  push:
+    branches: [main] # ADAPT: default branch name
+  # ADAPT: add `merge_group:` when the repository uses a merge queue.
+
+permissions:
+  contents: read
+
+concurrency:
+  group: agentic-sdlc-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SDLC_BIN: .agentic-sdlc/bin # ADAPT: or a checkout of <skills>/agentic-sdlc/scripts
+  DOD_FILE: AGENTS.md # ADAPT: CLAUDE.md when the block lives there
+  NODE_VERSION: "20"
+
+jobs:
+  dod:
+    name: agentic-sdlc/dod
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      EVENT_NAME: ${{ github.event_name }}
+      BASE_REF: ${{ github.base_ref }}
+      # ADAPT: path of the machine-readable coverage summary written by the `coverage` command.
+      # Istanbul/Vitest/Jest json-summary: total.lines.pct. Other tools: replace the floor step.
+      COVERAGE_SUMMARY: coverage/coverage-summary.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # ADAPT: install the project's dependencies (npm ci, pip install -r ..., mvn -B -q verify -DskipTests, ...).
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read the sdlc-dod block
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ] && git cat-file -e "origin/$BASE_REF:$DOD_FILE" 2>/dev/null; then
+            git show "origin/$BASE_REF:$DOD_FILE" > "$RUNNER_TEMP/dod-source.md"
+            echo "sdlc-dod read from base branch $BASE_REF"
+          else
+            cp "$DOD_FILE" "$RUNNER_TEMP/dod-source.md"
+            echo "::warning::sdlc-dod read from the checked-out tree (push event or first install)"
+          fi
+          awk '/^```sdlc-dod[[:space:]]*$/{f=1;next} f&&/^```/{exit} f' "$RUNNER_TEMP/dod-source.md" > "$RUNNER_TEMP/dod.txt"
+          if [ ! -s "$RUNNER_TEMP/dod.txt" ]; then
+            echo "::error::no sdlc-dod block in $DOD_FILE — run project-context setup"
+            exit 2
+          fi
+          cat "$RUNNER_TEMP/dod.txt"
+
+      # When scripts/dod-gate.mjs ships (later release), these two steps may be replaced by it,
+      # provided it still reads the block from the base branch.
+      - name: Run every Definition of Done command
+        run: |
+          set -euo pipefail
+          for key in lint typecheck test coverage; do
+            line=$(grep -E "^${key}:" "$RUNNER_TEMP/dod.txt" | head -n 1 || true)
+            if [ -z "$line" ]; then
+              echo "::error::sdlc-dod key '${key}' missing (write a command or '${key}: n/a — <reason>')"
+              exit 1
+            fi
+            cmd=$(printf '%s' "${line#*:}" | sed 's/^[[:space:]]*//')
+            case "$cmd" in
+              n/a*) echo "::notice::${key} skipped — ${cmd}"; continue ;;
+            esac
+            echo "::group::${key}: ${cmd}"
+            bash -c "$cmd"
+            echo "::endgroup::"
+          done
+
+      - name: Enforce coverage_min
+        run: |
+          set -euo pipefail
+          min=$(grep -E '^coverage_min:' "$RUNNER_TEMP/dod.txt" | head -n 1 | cut -d: -f2- | sed 's/^[[:space:]]*//' || true)
+          case "$min" in
+            ""|n/a*) echo "::notice::coverage_min not enforced — ${min:-missing}"; exit 0 ;;
+          esac
+          if [ ! -f "$COVERAGE_SUMMARY" ]; then
+            echo "::error::coverage summary $COVERAGE_SUMMARY not found; a floor without a measured value fails closed"
+            exit 1
+          fi
+          node -e '
+            const [file, min] = process.argv.slice(1);
+            const pct = Number(require(require("path").resolve(file)).total.lines.pct);
+            if (!Number.isFinite(pct)) { console.error("::error::unreadable coverage value"); process.exit(2); }
+            console.log(`coverage ${pct} vs coverage_min ${min}`);
+            process.exit(pct >= Number(min) ? 0 : 1);
+          ' "$COVERAGE_SUMMARY" "$min"
+
+  spec:
+    name: agentic-sdlc/spec
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EVENT_NAME: ${{ github.event_name }}
+      BASE_REF: ${{ github.base_ref }}
+      BEFORE_SHA: ${{ github.event.before }}
+      PR_BODY: ${{ github.event.pull_request.body }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Use the base branch checker scripts (a PR cannot edit the checker it is judged by)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          set -euo pipefail
+          if git cat-file -e "origin/$BASE_REF:$SDLC_BIN/spec-lint.mjs" 2>/dev/null; then
+            mkdir -p "$RUNNER_TEMP/base"
+            git archive "origin/$BASE_REF" "$SDLC_BIN" | tar -x -C "$RUNNER_TEMP/base"
+            echo "GATE_BIN=$RUNNER_TEMP/base/$SDLC_BIN" >> "$GITHUB_ENV"
+          else
+            echo "::warning::$SDLC_BIN not on $BASE_REF yet (first install): using the copy in this PR"
+          fi
+      - name: Collect spec folders (changed in this change, or named on the PR body Spec line)
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            range="origin/$BASE_REF...HEAD"
+          elif [ -n "${BEFORE_SHA:-}" ] && git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            range="$BEFORE_SHA...HEAD"
+          else
+            range="HEAD~1...HEAD"
+          fi
+          {
+            git diff --name-only "$range" -- specs | awk -F/ 'NF>=3 {print $1"/"$2}'
+            printf '%s\n' "${PR_BODY:-}" | grep -oE 'specs/[0-9]{3}-[a-z0-9-]+' || true
+          } | sort -u > "$RUNNER_TEMP/spec-dirs.txt"
+          echo "Spec folders to check:"; cat "$RUNNER_TEMP/spec-dirs.txt" || true
+      - name: spec-lint --check-approval
+        run: |
+          set -euo pipefail
+          status=0
+          while IFS= read -r dir; do
+            [ -n "$dir" ] || continue
+            if [ ! -f "$dir/spec.md" ]; then echo "::notice::$dir has no spec.md (deleted or Quick path)"; continue; fi
+            echo "::group::spec-lint $dir/spec.md"
+            node "${GATE_BIN:-$SDLC_BIN}/spec-lint.mjs" "$dir/spec.md" --check-approval || status=$?
+            echo "::endgroup::"
+          done < "$RUNNER_TEMP/spec-dirs.txt"
+          if [ ! -s "$RUNNER_TEMP/spec-dirs.txt" ]; then echo "No spec touched or named (Quick path or code-only change)."; fi
+          exit $status
+
+  approvals:
+    name: agentic-sdlc/approvals
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      EVENT_NAME: ${{ github.event_name }}
+      BASE_REF: ${{ github.base_ref }}
+      BEFORE_SHA: ${{ github.event.before }}
+      PR_BODY: ${{ github.event.pull_request.body }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Use the base branch checker scripts (a PR cannot edit the checker it is judged by)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          set -euo pipefail
+          if git cat-file -e "origin/$BASE_REF:$SDLC_BIN/spec-lint.mjs" 2>/dev/null; then
+            mkdir -p "$RUNNER_TEMP/base"
+            git archive "origin/$BASE_REF" "$SDLC_BIN" | tar -x -C "$RUNNER_TEMP/base"
+            echo "GATE_BIN=$RUNNER_TEMP/base/$SDLC_BIN" >> "$GITHUB_ENV"
+          else
+            echo "::warning::$SDLC_BIN not on $BASE_REF yet (first install): using the copy in this PR"
+          fi
+      - name: Collect spec folders
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            range="origin/$BASE_REF...HEAD"
+          elif [ -n "${BEFORE_SHA:-}" ] && git cat-file -e "${BEFORE_SHA}^{commit}" 2>/dev/null; then
+            range="$BEFORE_SHA...HEAD"
+          else
+            range="HEAD~1...HEAD"
+          fi
+          {
+            git diff --name-only "$range" -- specs | awk -F/ 'NF>=3 {print $1"/"$2}'
+            printf '%s\n' "${PR_BODY:-}" | grep -oE 'specs/[0-9]{3}-[a-z0-9-]+' || true
+          } | sort -u > "$RUNNER_TEMP/spec-dirs.txt"
+      - name: plan-graph --check --check-approval
+        run: |
+          set -euo pipefail
+          status=0
+          while IFS= read -r dir; do
+            [ -n "$dir" ] || continue
+            if [ ! -f "$dir/plan.md" ]; then echo "::notice::$dir has no plan.md yet"; continue; fi
+            echo "::group::plan-graph $dir/plan.md"
+            node "${GATE_BIN:-$SDLC_BIN}/plan-graph.mjs" "$dir/plan.md" --check --check-approval || status=$?
+            echo "::endgroup::"
+          done < "$RUNNER_TEMP/spec-dirs.txt"
+          exit $status
+      - name: approval-check --pr (when vendored)
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          set -euo pipefail
+          if [ -f "${GATE_BIN:-$SDLC_BIN}/approval-check.mjs" ]; then
+            node "${GATE_BIN:-$SDLC_BIN}/approval-check.mjs" --pr "$PR_NUMBER"
+          else
+            echo "::warning::approval-check not vendored: approver ≠ author is enforced only by branch protection and CODEOWNERS"
+          fi
+
+  trace:
+    name: agentic-sdlc/trace
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: trace-check (when vendored)
+        run: |
+          set -euo pipefail
+          if [ -f "$SDLC_BIN/trace-check.mjs" ]; then
+            node "$SDLC_BIN/trace-check.mjs"
+          else
+            echo "::warning::trace-check not vendored; fill the PR Trace table by hand (references/verification.md §Trace). Do not mark agentic-sdlc/trace required yet."
+          fi

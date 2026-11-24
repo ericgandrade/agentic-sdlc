@@ -34,6 +34,14 @@ DoD (`sdlc-dod`) and acceptance criteria are separate rows. A row counts only wi
 |---|---|---|---|---|---|---|
 | <AC-n or "none"> | <yes \| no> | <reason> | <check> | <role, person> | <date or event> | <W-n \| n/a (not Critical)> |
 
+### Loop ledger
+
+Rows from `run-ledger render` (or kept by hand on Quick), `references/loops.md` §3. "none" when every task passed first time.
+
+| Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |
+|---|---|---|---|---|---|---|---|
+| <date or "none"> | <Tn \| PR> | <loop> | <n> | <signature> | <cause> | <tried> | <pass \| fail> |
+
 <details><summary>Output excerpts (last ≤ 40 lines per command)</summary>
 
 ```text
@@ -65,6 +73,7 @@ Forward: every AC has ≥ 1 task and ≥ 1 fresh passing test. Backward: every t
 | L2 correctness/design | <context> | <checks> | <n> | <status> |
 | L3 security | <context \| n/a — Quick without risk trigger> | <checks from security.md §Review checklist> | <n> | <status> |
 | L4 context-free (diff only) | <context \| n/a — Quick> | <checks> | <n> | <status> |
+| explore (optional) | <Test Engineer charter \| n/a> | <charter areas, `test-strategy` exploratory charter> | <n> | <status> |
 
 ### Findings
 

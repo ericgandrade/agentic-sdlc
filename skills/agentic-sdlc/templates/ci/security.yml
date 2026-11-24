@@ -1,0 +1,137 @@
+# Agentic SDLC — security gate (template, mechanism 11.6)
+#
+# Copy to .github/workflows/security.yml and make both jobs required status checks in branch
+# protection, so a red check blocks merge (references/platforms.md §3). Two jobs:
+#   secret-scan      gitleaks over the commits the change adds; any finding → red.
+#   dependency-audit osv-scanner over every lockfile in the repository; any advisory with a CVSS score
+#                    ≥ 7.0 (high or critical) → red. Unscored advisories fail too unless FAIL_ON_UNSCORED
+#                    is "false". Also runs weekly, so advisories published after merge are found.
+# Local equivalents (paste their output as PR Verification rows `secret-scan` and `dep-audit`):
+#   gitleaks git --redact --log-opts="<base>..HEAD" .
+#   osv-scanner scan source --recursive .
+#
+# Supply-chain rules applied to this file itself (security.md §Review checklist S17):
+#   - the only third-party action is pinned by full commit SHA; update SHA and comment together;
+#   - scanner binaries are downloaded at a pinned version and checked against a pinned SHA-256
+#     (copy new values from the release's checksums file when upgrading);
+#   - the token is read-only and never persisted in the checkout;
+#   - event fields reach shell scripts through env variables, never through inline expressions.
+#
+# Waivers: an advisory that cannot be fixed yet is ignored only through osv-scanner.toml with a reason
+# and an expiry ≤ 30 days, mirrored by a waiver row (references/governance.md §Waivers):
+#   [[IgnoredVulns]]
+#   id = "GHSA-xxxx-xxxx-xxxx"
+#   effectiveUntil = 2026-12-24
+#   reason = "W3: not reachable — dev-only build tool; owner Tech Lead; follow-up #512"
+# A detected secret is never waived: rotate it first (references/security.md §Secrets).
+
+name: security
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * 1" # weekly: new advisories against an unchanged lockfile (SSDF RV.1)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  GITLEAKS_VERSION: "8.30.1"
+  GITLEAKS_SHA256: "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb"
+  OSV_SCANNER_VERSION: "2.7.1"
+  OSV_SCANNER_SHA256: "fb7dab19a8bd9bbe5c3189f09d4b7ee1820c9553a23bac202648a56efd2f6ee8"
+  FAIL_ON_UNSCORED: "true"
+
+jobs:
+  secret-scan:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out full history
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install gitleaks (pinned version, verified checksum)
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bin"
+          curl -sSfL -o "$RUNNER_TEMP/gitleaks.tar.gz" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_x64.tar.gz"
+          echo "${GITLEAKS_SHA256}  $RUNNER_TEMP/gitleaks.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/gitleaks.tar.gz" -C "$RUNNER_TEMP/bin" gitleaks
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Scan the commits this change adds
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PUSH_BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          set -euo pipefail
+          zero="0000000000000000000000000000000000000000"
+          range=""
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            range="${PR_BASE_SHA}..${PR_HEAD_SHA}"
+          elif [ "$EVENT_NAME" = "push" ] && [ -n "$PUSH_BEFORE_SHA" ] && [ "$PUSH_BEFORE_SHA" != "$zero" ]; then
+            range="${PUSH_BEFORE_SHA}..${GITHUB_SHA}"
+          fi
+          # Empty range (manual run, first push of a branch) scans the whole history.
+          # --redact keeps secret values out of the job log; the log names file, line and rule only.
+          gitleaks git --redact --no-banner --log-opts="${range}" .
+
+  dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Install osv-scanner (pinned version, verified checksum)
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bin"
+          curl -sSfL -o "$RUNNER_TEMP/bin/osv-scanner" \
+            "https://github.com/google/osv-scanner/releases/download/v${OSV_SCANNER_VERSION}/osv-scanner_linux_amd64"
+          echo "${OSV_SCANNER_SHA256}  $RUNNER_TEMP/bin/osv-scanner" | sha256sum -c -
+          chmod 0755 "$RUNNER_TEMP/bin/osv-scanner"
+          echo "$RUNNER_TEMP/bin" >> "$GITHUB_PATH"
+
+      - name: Audit lockfiles (fail on critical or high)
+        run: |
+          set -uo pipefail
+          osv-scanner scan source --recursive --format json . > "$RUNNER_TEMP/osv.json"
+          code=$?
+          case "$code" in
+            0)   echo "dep-audit: packages scanned, 0 known advisories"; exit 0 ;;
+            128) echo "dep-audit: n/a — no lockfile or manifest found"; exit 0 ;;
+            1)   ;;  # advisories found: rate them below
+            *)   echo "dep-audit: osv-scanner error (exit $code)"; exit "$code" ;;
+          esac
+          groups='[.results[]?.packages[]? | . as $p | .groups[]? | {sev: (.max_severity // ""), pkg: "\($p.package.ecosystem)/\($p.package.name)@\($p.package.version)", ids: (.ids | join(","))}]'
+          # One line per advisory group: CVSS score, package, advisory IDs.
+          jq -r "$groups | .[] | \"\(if .sev == \"\" then \"unscored\" else .sev end)\t\(.pkg)\t\(.ids)\"" "$RUNNER_TEMP/osv.json" | sort -rn
+          high=$(jq "$groups | map(select(.sev != \"\" and ((try (.sev | tonumber) catch 0) >= 7.0))) | length" "$RUNNER_TEMP/osv.json")
+          unscored=$(jq "$groups | map(select(.sev == \"\")) | length" "$RUNNER_TEMP/osv.json")
+          echo "dep-audit: ${high} critical/high, ${unscored} unscored"
+          if [ "$high" -gt 0 ]; then
+            echo "::error::${high} critical/high advisories — upgrade, replace or record a waiver (≤ 30 days)"
+            exit 1
+          fi
+          if [ "$unscored" -gt 0 ] && [ "$FAIL_ON_UNSCORED" = "true" ]; then
+            echo "::error::${unscored} advisories without a CVSS score — rate them by hand, then fix or waive"
+            exit 1
+          fi
+          echo "dep-audit: only medium/low advisories remain; list them in the PR as Minor findings"

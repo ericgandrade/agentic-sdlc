@@ -41,6 +41,8 @@ Review-fix rounds belong to the task whose code the finding names (`--task T3`) 
 | `env` | Tool missing, service down, flaky infrastructure | preflight (`scripts/preflight.mjs`) before the next round | none |
 | `unknown` | No evidence yet | Build, at most 1 round | 2nd `unknown` → B6 as `design` |
 
+Debug-loop rounds record the cause class of the hypothesis tested (`code`, `test` or `env`): a hypothesis always names a cause, so a refuted one is not `unknown`. The `unknown` count spans every loop of the task; using it for refuted hypotheses would fire B6 before B5.
+
 An `env` failure clears the preflight: `run-ledger` refuses the next task start until `preflight` passes again.
 
 ## 3. State carried across rounds (6.3)
@@ -49,7 +51,7 @@ An `env` failure clears the preflight: `run-ledger` refuses the next task start 
 |---|---|
 | **Artifact** | Run ledger events (`round`, `ruling`, `halt`); `plan.md` `## Loop ledger` table (`Date · Task · Loop · Round · Failure signature · Cause · Tried · Result`), excluded from the plan hash |
 | **Trigger** | Every round, pass or fail |
-| **Output** | `run-ledger render --run <id>` prints the table rows; copy them into `plan.md` at each task exit and into the PR |
+| **Output** | `run-ledger render --run <id>` prints the table rows; copy them into `plan.md` at each task exit and into the PR `### Loop ledger`. Quick path (no `plan.md`, run ledger optional): keep the rows by hand in the PR `### Loop ledger` |
 | **Failure behaviour** | A `--tried` already recorded for the task in the same loop → exit 1 ("already tried"); a failed round without `--signature`, `--cause` and `--tried` → exit 2 |
 
 **Failure signature** = first failing test name + first error line, with durations, line:column positions and memory addresses removed before comparison. Read the ledger before each round: the round number, the signatures seen and every approach tried. The ledger survives compaction; memory does not.

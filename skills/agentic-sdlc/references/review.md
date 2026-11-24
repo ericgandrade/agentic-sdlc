@@ -1,6 +1,6 @@
 # Review — Lenses, Triage and Receive Mode
 
-Load this file in the Test stage (Reviewer) and whenever an Developer receives review findings. It defines how a pull request is examined in independent contexts, how findings are merged, verified, rated and dispositioned, and how fixes are re-reviewed. Evidence rules live in `references/verification.md`; the record format lives in `templates/pr-body.md` §Review triage; security check content lives in `references/security.md` §Review checklist.
+Load this file in the Test stage (Reviewer) and whenever a Developer receives review findings. It defines how a pull request is examined in independent contexts, how findings are merged, verified, rated and dispositioned, and how fixes are re-reviewed. Evidence rules live in `references/verification.md`; the record format lives in `templates/pr-body.md` §Review triage; security check content lives in `references/security.md` §Review checklist.
 
 **Order.** Each review round runs in two stages:
 
@@ -23,7 +23,7 @@ Quick path: L1 + L2 (+ L3 with a risk trigger).
 Rules:
 
 1. One fresh context per lens. L2–L4 are dispatched in parallel when the platform runs concurrent subagents, else one after another. A lens context never receives another lens's findings or the Developer's reasoning.
-2. Each lens returns findings as `Ln-k · file:line-range · cause · statement · evidence` and its list of checks performed. A lens that reports zero findings still lists every check it performed.
+2. Each lens returns findings as `Ln-k · file:line-range · cause · statement · evidence · proposed: <severity>` and its list of checks performed. A lens that reports zero findings still lists every check it performed.
 3. A lens fails to run (error, timeout, context exhausted) → retry once in a new context. Second failure → record `lens not run` with the reason; that axis counts as `CANNOT_VERIFY`. A `lens not run` on L1 or L3 → NO-GO until the lens runs or a waiver is recorded (`references/governance.md` §Waivers).
 
 ## 2. Merge and dedup
@@ -49,7 +49,7 @@ Only `confirmed` findings get a severity:
 
 | Severity | Definition | Examples | Effect |
 |---|---|---|---|
-| **Critical** | An AC is violated, data is lost or corrupted, a security weakness is exploitable, a secret is exposed, or the DoD is red | Formula injection unescaped; permission check missing; totals rounded wrongly | Blocks Test and Release sign-off; never deferred |
+| **Critical** | An AC is violated, data is lost or corrupted, a security weakness is exploitable, a secret is exposed, or a DoD command fails (a coverage value below `coverage_min` alone is Important and may take an `accept-risk` waiver, `references/governance.md` §6) | Formula injection unescaped; permission check missing; totals rounded wrongly | Blocks Test and Release sign-off; never deferred |
 | **Important** | Correct today but fragile or misleading: missing negative test, test anti-pattern, design rule broken, ADR still `Proposed`, missing dependency note | Mocked internal collaborator; unbounded memory on a bounded input | Fixed, or deferred only with owner acceptance and a follow-up issue |
 | **Minor** | Readability or convention not enforced by a linter | Naming, comment wording | Deferred list, triaged at the end |
 
