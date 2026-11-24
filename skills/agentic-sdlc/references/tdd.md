@@ -35,7 +35,7 @@ A test name without `AC-n`, `CHAR-n` or a bug ID prints a concern; the Reviewer 
 3. **Mocks only at process boundaries:** network, clock, randomness, filesystem outside the test's temporary directory, third-party APIs, the browser `fetch`. More than 1 mocked collaborator in one unit test requires a one-line comment stating why a real collaborator is unusable. Never mock the module under test or a value object.
 4. **Simplicity:** no abstraction (interface, factory, base class, generic helper) without ≥ 2 current call sites in this change or the existing code. One call site → inline it.
 5. **Real data stays out.** Fixtures are synthetic; never copy a production record, token or customer name into a test.
-6. **Never weaken a check.** Deleting, skipping (`.skip`, `xit`, `@Ignore`), loosening an assertion or lowering `coverage_min` to reach green is an authority violation (`agents/developer.md` §Never); in unattended mode it is halt reason `authority`.
+6. **Never weaken a check.** Deleting, skipping (`.skip`, `xit`, `@Ignore`), loosening an assertion or lowering `coverage_min` to reach green is an authority violation and a Critical finding (`agents/developer.md` §Never); in unattended mode it is halt reason `authority`.
 
 ### Brownfield variant
 

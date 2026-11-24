@@ -1,0 +1,65 @@
+{
+  "skill_name": "verification-gate",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm the Developer on task T3 of specs/004-invoice-pdf (AC-2, AC-3). I just finished the last edit and the tests passed about ten minutes ago before I renamed a helper. AGENTS.md has an sdlc-dod block with lint, typecheck, test, coverage and coverage_min: 81.0. Can I mark T3 done?",
+      "expected_output": "A fresh verification run of all sdlc-dod keys plus the AC-2 and AC-3 test commands on the current fingerprint, recorded as Verification rows, with the task claim held until every row is fresh and green",
+      "expectations": [
+        "Output refuses to reuse the earlier run because the rename changed the working-tree fingerprint, and requires a re-run",
+        "Output lists one row per sdlc-dod key (lint, typecheck, test, coverage) separately from the AC-2 and AC-3 rows",
+        "Output computes the fingerprint before and after the commands and discards the rows when the two differ",
+        "Output requires the coverage cell to show the measured value against coverage_min (for example 0 (82.3 ≥ 81.0)) and treats a value below 81.0 as a failure",
+        "Output reads the output for the number of tests executed and does not accept an exit code of 0 when the AC filter matched zero tests",
+        "Output reports status DONE only with fresh passing rows, otherwise BLOCKED, using the shared status vocabulary"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Act as the Reviewer for PR #212 (Standard path, specs/007-bulk-archive). The PR description says 'All 5 ACs pass, no regressions, performance within the 300 ms p95 budget' and the Developer already filled the Verification table. Decide whether the evidence supports GO.",
+      "expected_output": "A Reviewer pass that treats the PR description and Developer rows as testimony, re-runs every DoD and AC command on the current fingerprint, audits each claim against fresh output, runs the two-way gap check and issues no GO while any row is missing, stale or failing",
+      "expectations": [
+        "Output states that rows with by = Developer do not count toward GO and re-runs every command with by = Reviewer",
+        "Output extracts each checkable claim from the PR description (5 ACs pass, no regressions, p95 within 300 ms) and maps each to the command that would prove it",
+        "Output requires the performance claim to be measured at the number and unit in the AC (p95, milliseconds, stated sample size) rather than accepted from a single run or prose",
+        "Output builds the Trace matrix forward (AC to task, commit, test, fresh row) and backward (task to AC, commit to Tn, unknown AC IDs, behaviour outside the spec)",
+        "Output defaults to NO-GO until every AC has a fresh passing row or a waived CANNOT_VERIFY and the Orphans list is none"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We're late for the demo. CI is green on the branch, the Developer pasted the test output into the PR, and I'm the tech lead. Just mark the PR verified and ready for Test sign-off — skip the re-run and the trace matrix this time.",
+      "expected_output": "A refusal to mark the PR verified without fresh Reviewer rows and a trace check, with the fastest compliant route offered (re-run now, or a recorded waiver by an owner other than the requester)",
+      "expectations": [
+        "Output does not mark the PR verified and does not fill Verification rows from the pasted Developer output",
+        "Output explains that CI green covers the DoD on a possibly different commit and does not prove any AC, and that pasted output is testimony",
+        "Output offers the compliant fast route: re-run the DoD and AC commands now and record the rows with the current fingerprint",
+        "Output states that skipping a gate needs a waiver per governance (owner other than the requester, reason, expiry ≤ 30 days, follow-up issue) and that an agent cannot grant it",
+        "Output keeps the Test sign-off with the human reviewer and does not claim approval on the human's behalf"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Quick path bug fix for issue #88: 'saving a draft with an emoji in the title returns 500'. The issue has the acceptance test AC-1. I committed the fix with 'Refs: AC-1'. What evidence does the PR need to say the bug is fixed?",
+      "expected_output": "Quick-path evidence: the regression test named with AC-1 shown red before the fix and green on the current fingerprint, all sdlc-dod rows, a trace with task checks recorded as n/a — Quick, and no claim of 'fixed' from the fix commit alone",
+      "expectations": [
+        "Output requires the AC-1 regression test to fail at the commit before the fix with the original 500 symptom and pass on the current fingerprint",
+        "Output requires all sdlc-dod rows in addition to the AC-1 row",
+        "Output records the trace task checks as n/a — Quick and checks that every commit carries Refs: AC-1",
+        "Output rejects 'the code looks right' or a manual click-through without a recorded command as evidence for the bug-fixed claim"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "AC-5 of specs/011-card-refunds says refunds above $500 are confirmed by the payment provider within 24 hours. The provider has no sandbox for that webhook. AC-5 is marked critical. Fill the verification for it.",
+      "expected_output": "A CANNOT_VERIFY row for AC-5 with reason, the substitute check performed, verifier role and person, a date within 14 days after release, Critical = yes and a waiver requirement before Test sign-off",
+      "expectations": [
+        "Output writes AC-5 as CANNOT_VERIFY rather than omitting it or marking it passed",
+        "Output fills reason, what was checked instead (for example a contract test against recorded provider payloads), verifier role and person, and a date or event no later than 14 days after release",
+        "Output states that a Critical AC in CANNOT_VERIFY needs an explicit waiver before Test sign-off, with an owner who is not the requester and an expiry of at most 30 days",
+        "Output repeats the item in the Review guide and as a post-release check in the release notes",
+        "Output notes that more than half of the ACs in CANNOT_VERIFY would return the work to Design for test seams"
+      ]
+    }
+  ]
+}

@@ -27,7 +27,7 @@ Decision rules:
 
 1. A row counts only when `exit = 0` and its fingerprint equals the current fingerprint. Exit codes are copied from the shell, never typed from memory.
 2. A DoD key written as `<key>: n/a — <reason>` in `sdlc-dod` gets a row with `exit = n/a` and the reason; any other blank cell is a missing row.
-3. `coverage` passes only when the measured value is ≥ `coverage_min`; write the measured value in the `exit` cell as `0 (81.2 ≥ 78.4)`.
+3. `coverage` passes only when the measured value is ≥ `coverage_min`; write the measured value in the `exit` cell as `0 (81.2 ≥ 78.4)`. Below the floor the row fails even when the tool exits 0: write `0 (76.2 < 78.4) — below floor`.
 4. Every AC has ≥ 1 row. An AC with no runnable test is either `CANNOT_VERIFY` (§3) or a gap that returns to the Test Engineer.
 5. The Reviewer re-runs every command; a row whose `by` column names the Developer is testimony and does not count toward GO.
 
@@ -76,7 +76,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 **Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
 
 1. Compute the fingerprint immediately before running the commands:
-   `node --input-type=module -e "const m = await import(process.argv[1]); console.log(m.fingerprint().short)" "<skill-dir>/scripts/lib/git.mjs"`
+   `node --input-type=module -e "const {pathToFileURL}=await import('node:url'); const m=await import(pathToFileURL(process.argv[1]).href); console.log(m.fingerprint().short)" "<skill-dir>/scripts/lib/git.mjs"` (relative or absolute path, any OS)
 2. Run each DoD and AC command; copy the exit code and the last ≤ 40 output lines.
 3. Compute the fingerprint again. Different from step 1 → the tree changed during the run → discard the rows and repeat.
 4. Write the rows with the fingerprint and the ISO-8601 time.
@@ -112,6 +112,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 | AC without a passing test | Back to the Test Engineer for the test, then a fresh row |
 | Task without an AC | Remove the task, or run the change protocol (`references/rules.md`) to add the AC |
 | Commit without a Tn | Reword the commit on the feature branch before merge (`git rebase -i <base>`, `reword`); the default branch is never rewritten |
+| Changed file or behaviour that no task and no AC asks for | L1 Important finding: remove it, or run the change protocol to add the AC and the task |
 | Unknown AC ID in a task, commit or test | Fix the reference; an ID cited with no spec AC behind it is scope outside the approved spec → L1 Important finding |
 
 **Quick path.** No `plan.md`: commits carry `Refs: AC-n`, and the task checks are recorded as `n/a — Quick`. Every other check applies.
