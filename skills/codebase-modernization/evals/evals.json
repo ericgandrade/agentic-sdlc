@@ -1,0 +1,70 @@
+{
+  "skill_name": "codebase-modernization",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We have a 9-year-old monolith: billing (PHP 7.2, no tests), reports (Python 3.6, 12% coverage), auth (Java 11, 70% coverage) and a nightly fax-export job nobody owns. Management wants a modernization roadmap. AGENTS.md has the AGENTIC-SDLC block and docs/codemap.md was verified 20 days ago. Where do we start?",
+      "expected_output": "An inventory and dependency map in docs/modernization/inventory.md built from the code map, value and risk scores per component, a disposition per component from the rubric with evidence, ADR proposals for non-retain dispositions, and a sequenced roadmap whose first item is a separate spec — with no code changed",
+      "expectations": [
+        "Output checks the preconditions (AGENTIC-SDLC block, code map verified within 90 days, baseline) and builds the inventory from docs/codemap.md rather than re-scanning from scratch",
+        "Output scores each component on value V (0-9) and risk K (0-12) with the evidence for each input (runtime support dates, advisories, coverage, commit counts, owner) rather than adjectives",
+        "Output assigns one disposition per component from retire, retain, rehost, upgrade, re-platform, refactor, migrate, for example upgrade or re-platform for billing on an end-of-life runtime and retire for the unowned fax job only after zero use is verified",
+        "Output records that dispositions other than retain become ADRs with status Proposed, accepted only at the Design sign-off, and that retiring a user-facing capability needs a Product Owner decision",
+        "Output sequences the roadmap so each item becomes its own scored work item (specs/NNN-slug/) and the high-value high-risk component starts with current-state research and characterization tests",
+        "Output does not modify production code and contains no real customer data in any example"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Spec 041-invoice-rounding is approved: AC-2 says invoices must round half-up to 2 decimals. The legacy calculateTotal() in billing/legacy/Invoice.php has no tests and is called from 3 places. Plan the change safely.",
+      "expected_output": "Current-state research with a question firewall and path:line @ sha citations, CHAR-n tests that pin today's behaviour (including the half-even rounding that AC-2 changes), a plan whose first commit per task pins behaviour, and an explicit rule for updating the CHAR test that AC-2 supersedes",
+      "expectations": [
+        "Output writes factual research questions (for example how is an invoice total rounded today, who calls calculateTotal) that do not mention the intended half-up change, and answers them with citations in the form path:line @ <12-hex sha>",
+        "Output defines CHAR-n tests that pin current behaviour through calculateTotal's public entry point, including the current half-even rounding, with names that start with the CHAR ID and synthetic inputs",
+        "Output proves each CHAR test can fail by mutating the pinned line once, pasting the red output and reverting, instead of treating the first-run pass as a failure",
+        "Output states that the CHAR test pinning half-even rounding changes only in the commit carrying AC-2 (Refs: Tn AC-2), with the reason in the commit body and the register row marked superseded by AC-2",
+        "Output places the CHAR tests as the first commit of the task that changes the code (pin, then AC-2 red, then green) and lists the CHAR tests separately in the PR",
+        "Output records the CHAR register in specs/041-invoice-rounding/current-state.md"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Rename the column customers.phone to customers.phone_e164 and convert the values. Just write one migration that renames and converts in place and ship it tonight — the CHAR tests are slowing us down, delete the two that fail after the change.",
+      "expected_output": "A refusal to delete the failing CHAR tests without an AC, a refusal of the in-place rename, an expand-contract sequence with separately deployable reversible steps, a separate irreversible contract step with its own Release sign-off, and a path re-score",
+      "expectations": [
+        "Output refuses to delete or edit the failing CHAR tests without an approved AC or spec revision and names it as weakening a check (Critical finding)",
+        "Output treats the failing CHAR tests as evidence that the change alters pinned behaviour and routes it to Specify for an AC that states the new behaviour",
+        "Output replaces the in-place rename with expand-contract: add phone_e164, dual-write, backfill in throttled batches, switch reads, then contract in a later deploy",
+        "Output marks the contract step (dropping customers.phone) as irreversible with its own PR, its own Release sign-off, a verified backup and restore command, after the bake period",
+        "Output re-scores the path with the schema/migration and personal data triggers (phone numbers identify a person) and routes to Full, never down",
+        "Output does not claim approval or deploy tonight without the Specify, Design and Release sign-offs"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Replace the legacy /api/v1/quotes endpoint (old pricing engine) with the new pricing service. Thousands of partner integrations call it. How do we cut over without breaking anyone?",
+      "expected_output": "A strangler design with a facade, flag-driven routing, a dual-run comparison with a numeric mismatch threshold, staged exposure matching the release stages, a migration runbook with cutover and rollback, and retirement only at verified zero use",
+      "expectations": [
+        "Output proposes a strangler facade in front of /api/v1/quotes that routes between old and new behind a feature flag defaulting to the old path",
+        "Output adds a dual-run (shadow) phase that compares old and new outputs on the same requests, logs only mismatch counts and hashes, and gates traffic shift on a numeric mismatch threshold written in the spec",
+        "Output stages exposure 1% then 10% then 100% with the release watch windows and a one-command rollback that routes back to the old engine",
+        "Output fills specs/NNN-slug/migration-runbook.md from the template with entry criteria, per-stage go and roll-back conditions, rehearsed rollback output and owners",
+        "Output treats the public API trigger in the path score and keeps the old engine until logs show zero calls for the window the spec states",
+        "Output pins current /api/v1/quotes responses with CHAR-n tests built from synthetic requests before routing any traffic"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Research how our order cancellation works today. Here's the plan: we're going to move cancellation into a new OrderLifecycle service, so focus your research on where that service should hook in.",
+      "expected_output": "A firewalled research run: the intent is stripped from the researcher brief, questions are factual, reads happen at one commit, every claim is cited and verified, and recommendations are excluded from the current-state document",
+      "expectations": [
+        "Output rewrites the request into factual questions (for example where does an order end, what touches order status, how is cancellation tested) and keeps the intended OrderLifecycle service out of the researcher brief",
+        "Output records the commit SHA and reads code at that commit (git show <sha>:<path>, git grep <pattern> <sha>)",
+        "Output excludes intent sources such as specs/, plans, tickets and PR text from the researcher's reading",
+        "Output cites every claim as path:line @ <sha> and runs a verification pass with verdicts verified, disputed, overturned or unverified",
+        "Output keeps recommendations out of current-state.md and hands design questions to the Architect",
+        "Output provides an inline fallback when the platform has no subagents: write the questions first, clear working notes, then research from the questions alone"
+      ]
+    }
+  ]
+}
