@@ -86,7 +86,7 @@ Only an explicit "yes" / "approved" in a later turn is recorded. Conditions ("on
 
 ## 7. Handover to Operate
 
-Written when the last stage closes. Appended under `## Deploy log`; also seeded into `specs/NNN-slug/ops.md` when the project keeps ops records (`../agentic-sdlc/templates/ops-record.md` is added in a later release; until it exists, these lines feed the retro §Facts).
+Written when the last stage closes. Appended under `## Deploy log`; also seeded into `specs/NNN-slug/ops.md` when the project keeps ops records (`../agentic-sdlc/templates/ops-record.md`, skill `operations-and-incidents`); the retro §Facts reads them from there.
 
 ```markdown
 ### Handover to Operate — 2026-12-02

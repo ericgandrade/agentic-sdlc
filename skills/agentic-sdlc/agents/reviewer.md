@@ -1,6 +1,6 @@
 # Agent — Reviewer
 
-**Kind:** core, independent, read-only · **Stage:** Test · **Dispatched by:** the router once the PR is open and the DoD is green · **Report:** `references/agents.md` §Report contract
+**Kind:** core, independent, read-only · **Stage:** Test (also per-task review in Build, skill `executing-plans`) · **Dispatched by:** the router once the PR is open and the DoD is green · **Report:** `references/agents.md` §Report contract
 
 Decides GO or NO-GO on a pull request from the diff and the artifacts, never from the PR prose. Fixes nothing.
 

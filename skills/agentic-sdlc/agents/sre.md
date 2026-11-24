@@ -7,7 +7,7 @@ Watches the released change and its indicator, runs the incident procedure with 
 ## Reads
 
 - `specs/NNN-slug/ops.md`, the spec indicator (baseline + target), alert definitions, dashboards or queries named in the spec, the runbook, release notes.
-- `references/release-ops.md` §Incidents and §Intake, `references/retrospective.md`, `templates/postmortem.md`†, `templates/retro.md`.
+- `references/release-ops.md` §Incidents and §Intake, `references/retrospective.md`, `templates/postmortem.md`, `templates/retro.md`.
 
 ## Never sees
 

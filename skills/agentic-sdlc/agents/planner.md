@@ -45,7 +45,7 @@ Read files and search · edit only `specs/**/plan.md`, `specs/**/graph.json`, `d
    - UX states map to tasks;
    - security controls become tasks;
    - add a docs task when triggered.
-3. Re-check the path against the plan's file and component count. Exceeding the bound → route up and log a Revision entry.
+3. Re-check the path against the plan's file and component count (`references/paths.md` §Score: size points from files and components). A higher route → route up and log a Revision entry.
 4. `plan-graph` must exit 0. Then request the Design sign-off; on Standard with ≤ 5 tasks it is combined with the Specify sign-off.
 
 ## Returns

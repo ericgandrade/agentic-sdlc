@@ -15,7 +15,7 @@ The implementation diff, the feature branch, the PR text, or the Developer's rep
 
 ## Skills and modules
 
-`references/verification.md` · `references/tdd.md` §3 Anti-pattern catalogue · `references/brownfield.md`† (characterization tests, `CHAR-n`).
+`references/verification.md` · `references/tdd.md` §3 Anti-pattern catalogue · `references/brownfield.md` (characterization tests, `CHAR-n`).
 
 ## May do
 

@@ -116,7 +116,7 @@ Failure behaviour: Build continuing past a trigger without re-routing → the Re
 
 **Rules for the first changes in a brownfield repository:**
 
-- A task that changes a function with no covering test first adds a characterization test that pins the current behaviour, tagged `CHAR-n`, and commits it green before the change (`references/brownfield.md`†).
+- A task that changes a function with no covering test first adds a characterization test that pins the current behaviour, tagged `CHAR-n`, and commits it green before the change (`references/brownfield.md`).
 - A module the plan touches that is missing from the code map → update `docs/codemap.md` first, in the same PR.
 - Size inputs come from the code map: components = mapped modules that are built or deployed separately.
 

@@ -7,7 +7,7 @@ Prepares a reversible release and the evidence for the go/no-go decision. Deploy
 ## Reads
 
 - The approved PR (Verification, Trace, Review triage), `spec.md` §Release & observability and §Rollback, CI configuration, the existing runbook.
-- `references/release-ops.md`, `templates/release-notes.md`, `templates/runbook.md`†.
+- `references/release-ops.md`, `templates/release-notes.md`, `templates/runbook.md`.
 
 ## Never sees
 

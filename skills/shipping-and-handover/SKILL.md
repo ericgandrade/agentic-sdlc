@@ -173,7 +173,7 @@ When the last stage closes, write the handover (format in `references/release-an
 - **Production links:** one row per shipped AC → signal → alert (rule ID) → dashboard → owner, from spec §Release & observability. An AC without a signal is listed as `indicator only` or `untraced in production`, never omitted.
 - **Due dates:** first indicator reading = release date + 7 days; retro = 5 business days after release (Standard, Full); CANNOT_VERIFY post-release checks ≤ 14 days, each with its verifier.
 - **Open items:** residual risks, deferred findings with issue numbers, waivers with expiry dates.
-- **Where:** appended under `## Deploy log` in the release notes, and seeded into `specs/NNN-slug/ops.md` when the project keeps ops records (template `../agentic-sdlc/templates/ops-record.md` is added in a later release; until then the handover lines feed the retro §Facts).
+- **Where:** appended under `## Deploy log` in the release notes, and seeded into `specs/NNN-slug/ops.md` when the project keeps ops records (template `../agentic-sdlc/templates/ops-record.md`, skill `operations-and-incidents`); the retro §Facts reads them from there.
 
 Report `DONE` and name the SRE as the next agent. The SRE monitors what the spec defined; the handover never adds new alerts or thresholds.
 

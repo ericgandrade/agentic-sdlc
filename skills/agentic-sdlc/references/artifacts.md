@@ -40,8 +40,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── runs/<id>/                     # run-ledger + preflight: ledger.jsonl, preflight.json, result.json
     ├── runs/preflight.json            # preflight without --run
     ├── evidence/ledger.jsonl          # † fingerprint-bound evidence records (evidence)
-    ├── loops.jsonl                    # † loop ledger, machine form (loop-ledger)
-    ├── metrics/history.jsonl          # † (metrics)
+        ├── metrics/history.jsonl          # † (metrics)
     └── doctor.json                    # † (doctor)
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
 ```
@@ -58,8 +57,12 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Issue with acceptance test | tracker; no tracker → `docs/issues/NNNN-slug.md` | — (Given/When/Then in the issue body) | Discover · Analyst | Quick | Reviewer lens L1 |
 | Out-of-scope record | `docs/out-of-scope/<slug>.md` | `issue-triage` skill, references/templates.md | Discover · Analyst; Product Owner decides | when a request is declined | duplicate search (`issue-triage`) |
 | `spec.md` | `specs/NNN-slug/` | `templates/spec.md` | Specify · Analyst | Standard, Full | `spec-lint` |
+| Capability map (epics) | epic issue body; no tracker → `docs/issues/NNNN-slug.md` | skill `spec-driven-development`, references/capability-map.md | Specify · Analyst; Product Owner orders | request splits into separately shippable capabilities | Specify sign-off on each child spec |
+| Modernization inventory | `docs/modernization/inventory.md` | skill `codebase-modernization` | Discover · Analyst with Architect | brownfield modernization | Tech Lead review of dispositions |
+| `current-state.md` + CHAR register | `specs/NNN-slug/` | `codebase-modernization` templates/current-state.md | Specify · Analyst, Test Engineer | brownfield change to untested code | characterization tests green before Build |
+| `migration-runbook.md` | `specs/NNN-slug/` | `codebase-modernization` templates/migration-runbook.md | Design · Release Engineer | data or platform migration | Release Owner sign-off |
 | Approval register `approvals.md` | `specs/NNN-slug/` | `references/governance.md` §3 | Specify, Design · Analyst, Planner | Standard, Full | `spec-lint --check-approval` (AP07) |
-| `threat-model.md` | `specs/NNN-slug/` | `templates/threat-model.md`† | Specify · Security Auditor | Full; risk-flagged Standard | `spec-lint`: TM01 error on Full, TM02 warning on risk-flagged Standard, TM03 high threat without AC |
+| `threat-model.md` | `specs/NNN-slug/` | `templates/threat-model.md` | Specify · Security Auditor | Full; risk-flagged Standard | `spec-lint`: TM01 error on Full, TM02 warning on risk-flagged Standard, TM03 high threat without AC |
 | PM brief | issue or intake record; `specs/NNN-slug/pm-brief.md` when no tracker | — (problem, evidence, outcome, indicator, priority, non-goals) | Discover · Product Manager | Product Manager trigger (`references/agents.md` §Triggers) | Analyst; Specify sign-off evidence |
 | `ux.md` | `specs/NNN-slug/` | `templates/ux.md` | Specify · UX Designer | a user-facing surface changes | Specify sign-off evidence; Test Engineer state mapping; UX checks at Test |
 | Impediment log `impediments.md` | `specs/NNN-slug/` | — (`IMP-n` · blocker · owner · raised · unblock condition · status) | any stage · Scrum Master | when an agent reports `BLOCKED` or `NEEDS_CONTEXT` | Scrum Master review every 2 business days |
@@ -75,9 +78,9 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Project config | `.agentic-sdlc/config.json` | — (`budgets` keys, `references/autonomous.md` §4) | Discover · `project-context` | when budgets differ from the defaults | `run-ledger start` |
 | Evidence ledger | `.agentic-sdlc/evidence/ledger.jsonl` | generated | Build, Test · `evidence record`† | all paths | `evidence check`† |
 | Release notes | release / `CHANGELOG.md` | `templates/release-notes.md` | Release · Release Engineer | production releases | release checklist |
-| Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md`† | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
-| Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md`† | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
-| Postmortem | `docs/postmortems/` | `templates/postmortem.md`† | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
+| Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md` | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
+| Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
+| Postmortem | `docs/postmortems/` | `templates/postmortem.md` | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
 | Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs`† overdue check |
 | Handoff | `specs/NNN-slug/handoff.md` | `references/phase-boundaries.md` §Handoff | any stage end | when context is cleared or work changes hands | Step 0 state detection |
 | `CONSTRAINTS.md` | project root | §CONSTRAINTS.md below | Discover · `project-context` | Full | Reviewer lens L2 |
@@ -99,18 +102,11 @@ The router Module Index and other files name the files below; they are added in 
 | `scripts/dod-gate.mjs`† | Definition of Done gate | Run every `sdlc-dod` command and paste each exit code; `preflight` runs the same commands as baseline-dod |
 | `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off row (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
-| `scripts/loop-ledger.mjs`† | Loop ledger, machine form | `run-ledger round` and `run-ledger render` (`references/loops.md`) |
 | `scripts/ext-check.mjs`† | Extension validation | No extensions are loaded until it exists |
 | `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
 | `references/faq.md`†, `upgrading.md`† | Troubleshooting; upgrades | `project-context audit`; re-run `project-context` setup |
-| `references/adoption.md`†, `brownfield.md`† | Team rollout; untested code | `project-context` and `templates/codemap.md`; characterization tests per `references/tdd.md` |
 | `references/extension-interface.md`† | Extensions | No extensions are loaded until it exists |
-| `references/standards-mapping.md`†, `ssdf-mapping.md`† | Standards and SSDF mapping | Control mapping in `references/security.md` and `references/governance.md` |
-| `templates/threat-model.md`† | Threat model | One table with `Threat`, `STRIDE`, `Rating`, `Mitigation` columns (`agents/security-auditor.md`) |
-| `templates/ops-record.md`† | Operate record `ops.md` | Indicator reading and incident count in the retro §Facts (`templates/retro.md`) |
-| `templates/postmortem.md`† | SEV1/SEV2 postmortem | Sections in `references/release-ops.md` §Incidents |
-| `templates/runbook.md`† | Runbook | Sections in `references/release-ops.md` §Runbook |
-| `templates/ci/agentic-sdlc.yml`†, `ci/gitlab-ci.yml`†, `ci/security.yml`†, `CODEOWNERS`† | CI and enforcement setup | Run the gates locally and paste the output; `references/platforms.md` §3 rows 5–6 |
+| `references/standards-mapping.md`† | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
 | `examples/paths/`†, `examples/extensions/`† | Path and extension examples | `references/paths.md` examples; `examples/worked-example/` |
 | `docs/guides/agentic-sdlc.md`† (skills repository) | Long-form guide, word budget checked by `budget-check --guide` | Run `budget-check` without `--guide` |
 
@@ -150,7 +146,7 @@ Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `te
 
 ## ADR
 
-Write an ADR when a decision is expensive to reverse (data model, public interface, framework, deployment topology) or when ≥ 2 options were seriously compared. Sections: `Status` (Proposed → Accepted at Design sign-off → Superseded by NNNN) · `Date` · `Related` (spec ID, AC-n) · `Context` · `Decision` · `Options considered` (option · pros · cons) · `Consequences` (one-way or two-way door). An ADR still `Proposed` after Design sign-off → Reviewer lens L2 Important finding.
+Write an ADR when a decision is expensive to reverse (data model, public interface, framework, deployment topology) or when ≥ 2 options were seriously compared. Sections: `Status` (Proposed → Accepted at Design sign-off → Superseded by NNNN, or Deprecated when the decision no longer applies) · `Date` · `Related` (spec ID, AC-n) · `Context` · `Decision` · `Options considered` (option · pros · cons) · `Consequences` (one-way or two-way door). An ADR still `Proposed` after Design sign-off → Reviewer lens L2 Important finding.
 
 ## CONSTRAINTS.md (Full path)
 

@@ -75,7 +75,7 @@ Baseline = the 7-day value of the same signal before stage 1, read from the spec
 
 ## Runbook (K4)
 
-**Trigger:** the change alters operated behaviour (new or changed endpoint, job, queue consumer, configuration key, flag or alert) on any path; always on Full. **Location:** `docs/runbooks/<service>.md` from `templates/runbook.md`†. On Quick and Standard, when the service has no runbook file, release notes §Runbook holds the runbook and becomes the source of the file at the next Full release.
+**Trigger:** the change alters operated behaviour (new or changed endpoint, job, queue consumer, configuration key, flag or alert) on any path; always on Full. **Location:** `docs/runbooks/<service>.md` from `templates/runbook.md`. On Quick and Standard, when the service has no runbook file, release notes §Runbook holds the runbook and becomes the source of the file at the next Full release.
 
 Minimum content (5 lines): alert name and threshold · first check (query or dashboard) · rollback command · verify command · escalation owner (role + channel). Plus `Last verified: YYYY-MM-DD` = last date the rollback or the first check was executed against staging or production.
 

@@ -133,17 +133,17 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `references/retrospective.md` | After Release; Quick batch due |
 | `references/faq.md`† | Status `UNKNOWN`; doctor† FAIL |
 | `references/upgrading.md`† | Skill version changed; doctor† schema WARN |
-| `references/adoption.md`† | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
-| `references/brownfield.md`† | Touching code without tests |
+| `references/adoption.md` | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
+| `references/brownfield.md` | Touching code without tests |
 | `references/extension-interface.md`† | Loading or writing an extension |
-| `references/standards-mapping.md`†, `references/ssdf-mapping.md`† | Audit export; regulated work |
+| `references/standards-mapping.md`†, skill `security-hardening` | Audit export; regulated work |
 | `templates/spec.md`, `ux.md`, `plan.md`, `acceptance-tests.md` | Specify; UX trigger; Design; acceptance-test design |
 | `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
-| `templates/codemap.md`, `threat-model.md`† | Brownfield adoption; risk-triggered spec |
-| `templates/ops-record.md`†, `postmortem.md`†, `runbook.md`† | Operate; SEV1/2 incident; operated-behaviour change |
-| `templates/ci/agentic-sdlc.yml`†, `ci/gitlab-ci.yml`†, `ci/security.yml`†, `CODEOWNERS`† | `project-context` CI and enforcement setup |
+| `templates/codemap.md`, `threat-model.md` | Brownfield adoption; risk-triggered spec |
+| `templates/ops-record.md`, `postmortem.md`, `runbook.md` | Operate; SEV1/2 incident; operated-behaviour change |
+| `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS` | `project-context` CI and enforcement setup |
 | `scripts/spec-lint.mjs`, `plan-graph.mjs` | Before Specify / Design sign-off; CI |
-| `scripts/preflight.mjs`, `run-ledger.mjs`, `loop-ledger.mjs`† | Build start; unattended runs; each loop round |
+| `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
 | `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs`† | Completion claims; before Test sign-off; CI |
 | `scripts/approval-check.mjs`†, `audit-export.mjs`† | CI on every PR; audit request |
 | `scripts/status.mjs`†, `doctor.mjs`†, `path-score.mjs`† | Step 0; setup check; Discover |

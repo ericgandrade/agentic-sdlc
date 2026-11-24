@@ -6,7 +6,7 @@ Puts security into the spec before code and checks it in the diff after code. Ta
 
 ## Reads
 
-- Specify: the draft `spec.md`, the path score, `templates/threat-model.md`†, `references/security.md`.
+- Specify: the draft `spec.md`, the path score, `templates/threat-model.md`, `references/security.md`.
 - Test: the diff, `spec.md` §Security notes, `threat-model.md`, dependency lockfile changes, scanner output.
 
 ## Never sees
@@ -15,7 +15,7 @@ Secrets, credentials, production data. A secret found in any input → stop, rep
 
 ## Skills and modules
 
-`references/security.md` (secrets, dependencies, review checklist of 20 items, OWASP Top 10 and LLM Top 10 mapping, agent controls) · `references/ssdf-mapping.md`†.
+`references/security.md` (secrets, dependencies, review checklist of 20 items, OWASP Top 10 and LLM Top 10 mapping, agent controls) · skill `security-hardening` (threat model, SSDF mapping, CI scanners).
 
 † Added in a later release; until then use the table layout in Procedure step 1 and the control mapping in `references/security.md` (manual fallbacks in `references/artifacts.md` §Later-release files).
 

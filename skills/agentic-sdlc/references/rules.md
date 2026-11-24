@@ -32,7 +32,7 @@ Trigger: any edit to `spec.md` content after approval, or a requirement change f
 2. Write the change request into the spec Revision log: what changed, why, who asked, date.
 3. Impact analysis: affected AC-n, tasks, tests, ADRs, rollback command, indicator, path score (re-score; route up when the score rises).
 4. Edit `spec.md` as Revision N+1; update `plan.md` tasks and `acceptance-tests.md`.
-5. Run `spec-lint`, then request Specify sign-off again; request Design sign-off again when any task, file set or dependency changed. Each new approval is a new row in `## Approvals` with rev N+1 and the new hash; earlier rows stay as history.
+5. Run `spec-lint`, then request Specify sign-off again; request Design sign-off again as well: it records the spec hash, so a new spec revision voids it even when no task, file set or dependency changed (`references/governance.md` §4, `plan-graph --check-approval`). Each new approval is a new row in `## Approvals` with rev N+1 and the new hash; earlier rows stay as history.
 6. Resume at the earliest affected stage. Commits made under the void approval stay on the branch and are re-verified.
 
 Failure: Build continuing with a void approval → `preflight` and `approval-check`† exit 1 → the run halts and the PR check is red.

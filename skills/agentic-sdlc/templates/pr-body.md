@@ -40,7 +40,7 @@ Rows from `run-ledger render` (or kept by hand on Quick), `references/loops.md` 
 
 | Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |
 |---|---|---|---|---|---|---|---|
-| <date or "none"> | <Tn \| PR> | <loop> | <n> | <signature> | <cause> | <tried> | <pass \| fail> |
+| <date or "none"> | <Tn \| PR> | <loop> | <n> | <signature> | <cause> | <tried> | <failed \| fixed \| escalated> |
 
 <details><summary>Output excerpts (last ≤ 40 lines per command)</summary>
 
