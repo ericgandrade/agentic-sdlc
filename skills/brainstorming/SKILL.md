@@ -75,7 +75,7 @@ Keep each option to two or three lines. Do not evaluate yet.
 
 ### Phase 5 — Write the brief and hand off
 
-Save the brief using the project's convention if one exists (e.g., `docs/plans/YYYY-MM-DD-<topic>-design.md`); otherwise `docs/agentic-sdlc/YYYY-MM-DD-<topic>/BRIEF.md`.
+Save the brief using the project's convention if one exists (e.g., `docs/plans/YYYY-MM-DD-<topic>-design.md`); otherwise in the issue, or `specs/NNN-slug/brief.md` once the item has a spec folder.
 
 ```markdown
 # BRIEF — <topic>

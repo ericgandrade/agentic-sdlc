@@ -31,8 +31,8 @@ Comprehensive authority for designing, reviewing, and documenting complex softwa
 
 ## What's New in v2.2
 
-- **Agentic SDLC DE stage** — inputs, outputs and CP3 behavior when invoked by the router
-- **ADR conventions** — `docs/adr/NNNN-<slug>.md`, status lifecycle, supersede instead of edit, links to SPEC and `AC-n`
+- **Agentic SDLC Design stage** — inputs, outputs and Design sign-off behavior when the router dispatches the Architect
+- **ADR conventions** — `docs/adr/NNNN-<slug>.md`, status lifecycle, supersede instead of edit, links to the spec and `AC-n`
 - Standard sections (Purpose, When to Use, Example Usage) added
 
 ## Influences
