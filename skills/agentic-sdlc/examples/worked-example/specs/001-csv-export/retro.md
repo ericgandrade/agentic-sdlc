@@ -4,7 +4,7 @@
 
 **Covers:** `specs/001-csv-export` · release `v2.14.0` · **Kind:** Standard
 **Trigger:** 100% rollout on 2026-12-01 · **Due:** 2026-12-08 · **Held:** 2026-12-08 · **Duration:** 14 min
-**Facilitator:** SRE on-call, reports team · R. Costa · **Participants:** Product Owner, L. Rocha · Tech Lead, D. Okafor · Release Owner, P. Nair · engineer and PR author, A. Mendes · **Facts drafted by:** SRE agent
+**Facilitator:** Scrum Master · R. Costa · **Participants:** Product Owner, L. Rocha · Tech Lead, D. Okafor · Release Owner, P. Nair · engineer and PR author, A. Mendes · **Facts drafted by:** Delivery Lead (router), production facts from the SRE agent
 
 ## Prior actions
 
@@ -35,7 +35,7 @@
 | # | Observation | Cause tag | Seen before (≤ 90 days) |
 |---|---|---|---|
 | C-1 | T2's unit test mocked `UserRepository` (F-3), although the pitfall from RA-20261113-2 was already in AGENTS.md | test-gap | `docs/retros/2026-11-13.md` C-2 (mocked `OrderRepository`) → 2 hits: automated control required |
-| C-2 | The `Content-Disposition` filename was built from the free-text filter `q` (F-1, header injection); the Implementer's own checks passed, lenses L3 and L4 caught it | security | none |
+| C-2 | The `Content-Disposition` filename was built from the free-text filter `q` (F-1, header injection); the Developer's own checks passed, lenses L3 and L4 caught it | security | none |
 
 ## Actions
 

@@ -12,6 +12,11 @@ Write down what must be true when the work is done — before any code exists �
 
 This skill runs the **Specify** stage of the Agentic SDLC (Discover → Specify → Design → Build → Test → Release → Operate) and ends in the **Specify sign-off** by the Product Owner. The artifact is `specs/NNN-slug/spec.md`, written from `../agentic-sdlc/templates/spec.md` and checked by `spec-lint`. Once approved, the spec revision and its 12-hex hash are the build baseline: every task in `plan.md`, every commit, test and piece of evidence traces back to its `AC-n` IDs, and any later edit voids the approval until it is renewed.
 
+In the method this skill is run by the **Analyst** (`../agentic-sdlc/agents/analyst.md`). Specialists join on their triggers (`../agentic-sdlc/references/agents.md` §Triggers):
+- the **UX Designer** writes `ux.md` before Step 4, so every screen state becomes an AC or a named pattern, linked under `## Experience`;
+- the **Product Manager** brief feeds Problem and Indicator, and its critique runs alongside Step 5;
+- the **Security Auditor** fills Security notes when R ≥ 1.
+
 Code without a spec is guessing; a spec without testable criteria is a wish.
 
 ## When to Use
@@ -117,7 +122,7 @@ IDs are unique and contiguous from `AC-1`. A criterion removed in a later revisi
 
 ### Step 5 — Independent critique and stop rule
 
-After the draft and before lint, dispatch a **fresh-context critic**: a subagent that receives only `spec.md`, the brief or summary it was built from and this checklist — never the drafting conversation. When the host has no subagents, run the checklist as an explicit self-review in a new message and label it `self-review`. The critic answers each item with pass or a finding:
+After the draft and before lint, dispatch a **fresh-context critic** (and, when triggered, the Product Manager critique: problem–AC fit, scope creep, indicator measurability): a subagent that receives only `spec.md`, the brief or summary it was built from and this checklist — never the drafting conversation. When the host has no subagents, run the checklist as an explicit self-review in a new message and label it `self-review`. The critic answers each item with pass or a finding:
 
 | # | Check |
 |---|---|

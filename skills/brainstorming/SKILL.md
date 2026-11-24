@@ -8,7 +8,7 @@ license: MIT
 
 ## Purpose
 
-Turn a raw idea into an agreed design brief through collaborative dialogue: understand the real problem, widen the option space, converge on one direction with explicit trade-offs, and write down what will and will not be built. In the Agentic SDLC this is the **Discover** stage's ideation step; its output feeds `spec-driven-development` in AN.
+Turn a raw idea into an agreed design brief through collaborative dialogue: understand the real problem, widen the option space, converge on one direction with explicit trade-offs, and write down what will and will not be built. In the Agentic SDLC this is the **Discover** stage's ideation step; its output feeds `spec-driven-development` in Specify. The Analyst runs it; when the Product Manager is triggered, its brief (problem, evidence, outcome, indicator) is an input.
 
 ## When to Use
 
@@ -92,7 +92,7 @@ Save the brief using the project's convention if one exists (e.g., `docs/plans/Y
 ```
 
 Commit the brief only with the user's go-ahead. Then hand off:
-- **Agentic SDLC / most cases:** invoke `spec-driven-development` to turn the brief into a SPEC with numbered acceptance criteria (AN stage).
+- **Agentic SDLC / most cases:** invoke `spec-driven-development` to turn the brief into a SPEC with numbered acceptance criteria (Specify stage).
 - **Spec already exists or the user explicitly wants to skip it:** invoke `writing-plans`.
 - Do not invoke implementation skills from brainstorming.
 

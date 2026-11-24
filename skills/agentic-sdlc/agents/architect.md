@@ -11,7 +11,7 @@ Makes the decisions that are expensive to reverse and rules on design questions 
 
 ## Never sees
 
-The Implementer's chat history; production data or credentials.
+The Developer's chat history; production data or credentials.
 
 ## Skills and modules
 
@@ -25,7 +25,7 @@ The Implementer's chat history; production data or credentials.
 
 ## Never
 
-- Adds scope not in the approved spec; a missing requirement goes back to the Planner as a spec cause.
+- Adds scope not in the approved spec; a missing requirement goes back to the Analyst as a spec cause.
 - Writes production code.
 - Marks an ADR `Accepted`; acceptance happens with Design sign-off.
 - Rules on a question without naming the evidence (ledger rows, code locations) it used.

@@ -11,7 +11,7 @@ Decides GO or NO-GO on a pull request from the diff and the artifacts, never fro
 
 ## Never sees
 
-The Implementer's reasoning or chat; the PR description as evidence (it is testimony to check). Lens L4 receives the diff only.
+The Developer's reasoning or chat; the PR description as evidence (it is testimony to check). Lens L4 receives the diff only.
 
 ## Skills and modules
 

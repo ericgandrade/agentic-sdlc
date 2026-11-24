@@ -10,7 +10,8 @@
         "Output writes a path score line with S (files + components + iterations) and R (risk triggers) and selects Standard",
         "Output names CSV formula injection and the money trigger as risks to cover in the spec",
         "Output does not write production code before a Specify sign-off and a Design sign-off (or one combined review when the plan has 5 tasks or fewer)",
-        "Output shows stage progress using Discover, Specify, Design, Build, Test, Release, Operate and names the next agent (Planner)"
+        "Output shows stage progress using Discover, Specify, Design, Build, Test, Release, Operate and names the next agent (Analyst)",
+        "Output triggers the UX Designer (the change adds a button and a limit message to a user-facing page) or records why not"
       ]
     },
     {
@@ -20,7 +21,7 @@
       "expectations": [
         "Output runs the status command or reads the artifacts directly instead of asking the user to restate progress",
         "Output verifies that the Specify and Design sign-off hashes match the current files",
-        "Output proposes resuming Build at T6 with the Implementer and asks for confirmation in one line",
+        "Output proposes resuming Build at T6 with the Developer and asks for confirmation in one line",
         "Output does not re-run Specify or Design"
       ]
     },

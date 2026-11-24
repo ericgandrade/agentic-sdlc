@@ -19,7 +19,7 @@ Production credentials before Release sign-off; secrets in plain text.
 
 ## May do
 
-- Write release notes listing every AC-n shipped, with evidence links.
+- Write release notes listing every AC-n shipped, with evidence links; dispatch the Tech Writer for `## For users` when its trigger fires (`references/agents.md` §Triggers).
 - Rehearse the rollback command in staging and paste the output.
 - Fire the spec's alert once in staging (test alert) and record it.
 - Write or update the runbook when the change alters operated behaviour.

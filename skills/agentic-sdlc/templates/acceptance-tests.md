@@ -2,7 +2,7 @@
 Agentic SDLC — acceptance tests. Rules: references/verification.md §2 (independent test design) and §3 (CANNOT_VERIFY).
 Written by the Test Engineer (agents/test-engineer.md) after Design sign-off, from the approved spec only,
 in a context that has never seen the implementation diff, the feature branch or the PR text.
-The Implementer never edits this file or the tests it lists. Delete these comments; keep every heading.
+The Developer never edits this file or the tests it lists. Delete these comments; keep every heading.
 -->
 
 # Acceptance tests — <NNN-slug>
@@ -14,7 +14,7 @@ The Implementer never edits this file or the tests it lists. Delete these commen
 
 ## Map
 
-One row per test; every AC has ≥ 1 row. `Critical` = yes when the AC's `Priority` in `spec.md` is `critical`. An AC that touches a risk trigger (auth, personal/health data, money, public API, schema/migration, irreversible, regulated) or a spec Security note but is marked `normal` → report it to the Planner before designing its tests.
+One row per test; every AC has ≥ 1 row. `Critical` = yes when the AC's `Priority` in `spec.md` is `critical`. An AC that touches a risk trigger (auth, personal/health data, money, public API, schema/migration, irreversible, regulated) or a spec Security note but is marked `normal` → report it to the Analyst before designing its tests. When `ux.md` exists, every state row `UX-n` maps to a test ID here, or to a UX Designer check named `UX-n` (rendered states that only a person can judge).
 
 | AC | Critical | Test ID | Test name (contains the AC ID) | Level | File | Failure it catches | Negative |
 |---|---|---|---|---|---|---|---|

@@ -68,7 +68,7 @@ Slice the work into **tracer-bullet vertical slices**:
 
 - Each slice cuts a narrow, complete path through every layer it needs (schema, API, UI, tests), never one horizontal layer.
 - Each slice is verifiable on its own by at least one test named after its AC.
-- Each slice fits one fresh context: the Implementer receives only its table row, its `### Tn` subsection, the AC text and the listed files.
+- Each slice fits one fresh context: the Developer receives only its table row, its `### Tn` subsection, the AC text and the listed files.
 
 **Wide refactors** (one mechanical change that breaks many call sites) are the one exception to vertical slicing. Sequence them **expand → migrate → contract**: expand adds the new form beside the old; each migrate batch moves a set of callers and is blocked by expand, keeping the build green; contract removes the old form and is blocked by every migrate batch.
 
@@ -100,6 +100,8 @@ Show the table to the user and ask whether granularity and blocking edges are ri
 6. **Commit** — conventional message with the trailer `Refs: Tn AC-n` (one line, every AC the task serves). `executing-plans`, `trace-check`† and `plan-graph --from-git` read this trailer.
 
 Each step is one action of 2–5 minutes. Non-code tasks (docs, configuration, infrastructure) still get a verification command with an expected result (`terraform plan`, a validator, a dry run). Never write "add validation" without what is validated, the rule and the error returned.
+
+Add a docs task when the Tech Writer trigger fires; when `ux.md` exists, map each state row to the task that builds it (`../agentic-sdlc/references/agents.md` §Triggers).
 
 **Impact (mechanism 7.5).** Fill `## Impact` from the code map, one row per module touched:
 

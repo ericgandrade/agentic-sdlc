@@ -145,7 +145,7 @@ test('approval check fails without an explicit yes, a register, or a later-turn 
 });
 
 test('waivers: recording one keeps the hash; bounds, owner and expiry are checked', () => {
-  const valid = WAIVER_ROW('accept-risk | DoD coverage 77.9 < 78.4 | Important | Generated client excluded next sprint | Implementer (agent) | Tech Lead · J. Park | 2026-11-24 | 2026-12-08 | #418');
+  const valid = WAIVER_ROW('accept-risk | DoD coverage 77.9 < 78.4 | Important | Generated client excluded next sprint | Developer (agent) | Tech Lead · J. Park | 2026-11-24 | 2026-12-08 | #418');
   assert.equal(lint(valid).hash, lint(SPEC).hash);
   assert.deepEqual(rules(lint(valid, { checkApproval: true })), []);
 
@@ -154,14 +154,14 @@ test('waivers: recording one keeps the hash; bounds, owner and expiry are checke
   const solo = WAIVER_ROW('defer | lint | Minor | follow-up next sprint | Tech Lead | self · 1-person team | 2026-11-24 | 2026-12-01 | #419');
   assert.ok(!rules(lint(solo)).includes('WV02'));
 
-  const critical = WAIVER_ROW('accept-risk | review finding F1 | Critical | ship today | Implementer | Tech Lead | 2026-11-24 | 2026-11-30 | #420');
+  const critical = WAIVER_ROW('accept-risk | review finding F1 | Critical | ship today | Developer | Tech Lead | 2026-11-24 | 2026-11-30 | #420');
   assert.ok(rules(lint(critical)).includes('WV03'));
   const tooLong = WAIVER_ROW('emergency | Specify sign-off | Critical | incident INC-7 | SRE | Release Owner | 2026-11-24 | 2026-12-10 | INC-7');
   assert.ok(rules(lint(tooLong)).includes('WV04'));
-  const noFollowUp = WAIVER_ROW('defer | lint | Minor | later | Implementer | Tech Lead | 2026-11-24 | 2026-12-01 | later');
+  const noFollowUp = WAIVER_ROW('defer | lint | Minor | later | Developer | Tech Lead | 2026-11-24 | 2026-12-01 | later');
   assert.ok(rules(lint(noFollowUp)).includes('WV01'));
 
-  const expired = WAIVER_ROW('accept-risk | DoD coverage | Important | known gap | Implementer | Tech Lead | 2026-11-01 | 2026-11-15 | #421');
+  const expired = WAIVER_ROW('accept-risk | DoD coverage | Important | known gap | Developer | Tech Lead | 2026-11-01 | 2026-11-15 | #421');
   assert.ok(rules(lint(expired, { checkApproval: true })).includes('WV05'));
   assert.ok(rules(lint(expired), 'warn').includes('WV05'));
   assert.ok(!rules(lint(expired)).includes('WV05'));

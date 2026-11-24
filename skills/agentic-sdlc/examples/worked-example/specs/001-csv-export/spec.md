@@ -28,6 +28,10 @@ Finance analysts copy order rows from the reports page into spreadsheets by hand
 - As a finance analyst, I want to export the rows of my current report filter as a CSV file, so that I can reconcile order totals in a spreadsheet without copying 100 rows per page.
 - As a report viewer without the export permission, I want the page to show no export control, so that I am not offered an action that fails.
 
+## Experience
+
+`ux.md` rev 1 — surfaces: the Export CSV button, the limit message and the downloaded file name on the reports page. States UX-1..UX-6 map to AC-1, AC-3, AC-4, or to the UI kit pattern named in their row.
+
 ## Acceptance criteria
 
 | ID | Criterion | Priority |
@@ -97,7 +101,7 @@ None.
 
 | Sign-off | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
-| Specify + Design (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan.md rev 1 (5 tasks) with plan-graph exit 0 | Export error alert untested until staging (release checklist) | approved |
+| Specify + Design (combined) | 1 | 6b4c7f329c93 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; PM brief (#412); ux.md rev 1; plan.md rev 1 (5 tasks) with plan-graph exit 0 | Export error alert untested until staging (release checklist) | approved |
 
 ### Waivers
 

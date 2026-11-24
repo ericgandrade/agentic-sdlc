@@ -10,7 +10,7 @@ license: MIT
 
 Stress-test a plan, design or idea through relentless questioning until every branch of the decision tree is resolved and nothing is silently assumed. The agent finds the facts; the human makes the decisions.
 
-Inside a repository, run in **docs mode**: resolved vocabulary goes into `GLOSSARY.md` and hard-to-reverse decisions become ADRs, so the interview leaves a durable trail. In the Agentic SDLC this is a **Discover and Specify** tool: the closing summary is the raw material for `spec-driven-development`, which turns it into `specs/NNN-slug/spec.md`.
+Inside a repository, run in **docs mode**: resolved vocabulary goes into `GLOSSARY.md` and hard-to-reverse decisions become ADRs, so the interview leaves a durable trail. In the Agentic SDLC this is a **Discover and Specify** tool: the closing summary is the raw material for `spec-driven-development`, which turns it into `specs/NNN-slug/spec.md`. In the method, the Analyst uses it for requirements and the Product Manager for the product critique.
 
 ## When to Use
 

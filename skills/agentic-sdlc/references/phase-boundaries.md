@@ -23,7 +23,7 @@ Load this file at every stage end, when the platform reports high context use, a
 
 ## Decision order
 
-1. Reasoning exists only in this conversation → write it into the proper artifact (spec Revision log, ADR, plan task, loop ledger) **first**, then go to step 2. Continue only when the next stage is the same agent within the same stage group (Discover → Specify → Design for the Planner).
+1. Reasoning exists only in this conversation → write it into the proper artifact (spec Revision log, ADR, plan task, loop ledger) **first**, then go to step 2. Continue only when the next stage is the same agent within the same stage group (Discover → Specify for the Analyst).
 2. Next unit self-contained → **Delegate**.
 3. Everything in artifacts → **Clear**.
 4. Moving to another tool, machine or person → **Hand off**.
@@ -35,9 +35,10 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 
 | Transition | Default | Reason |
 |---|---|---|
-| Discover → Specify → Design | Continue (Planner) | One line of reasoning from intent to plan; written to `spec.md` and `plan.md` as it goes |
+| Discover → Specify | Continue (Analyst) | One line of reasoning from request to requirements; written to `spec.md` as it goes |
+| Specify sign-off → Design | Clear; dispatch the Planner with the approved spec | The plan is checked against the spec by a context that did not write it (Standard may continue when one agent context is all the host allows) |
 | Design → Build | Clear; delegate each task | `plan.md` task rows are self-contained by design |
-| Build task → Build task | Delegate (fresh Implementer per task) | Fresh context per task prevents drift |
+| Build task → Build task | Delegate (fresh Developer per task) | Fresh context per task prevents drift |
 | Design sign-off → acceptance tests | Delegate to the Test Engineer | The test designer never sees the implementation diff |
 | Build → Test | Delegate each review lens (Reviewer) | Reviewers start without the author's reasoning |
 | Test → Release | Continue (Release Engineer reads the approved PR) | Release uses the evidence and approval just produced |
@@ -48,13 +49,18 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 
 | Agent | Receives | Never receives |
 |---|---|---|
-| Planner | Request, AGENTS.md block, code map, prior specs | — |
-| Architect | Approved spec, ADRs, code map, relevant code | Implementer chat history |
-| Implementer | One plan task row, the files it lists, the spec ACs it serves, the DoD block | Other tasks' reasoning; review findings of other tasks |
+| Delivery Lead | Status output, artifact headers, approvals, ledgers | Implementation detail |
+| Analyst | Request, AGENTS.md block, code map, prior specs, PM brief, `ux.md` | — |
+| Product Manager | Request, intake record, tracker history, analytics excerpts | Production data, the implementation |
+| UX Designer | Draft spec, PM brief, existing UI/CLI at the base commit | The implementation diff (Test checks are black-box) |
+| Planner | Approved spec, `ux.md`, threat model, AGENTS.md block, code map, ADRs | — |
+| Architect | Approved spec, ADRs, code map, relevant code | Developer chat history |
+| Developer | One plan task row, the files it lists, the spec ACs it serves, the DoD block | Other tasks' reasoning; review findings of other tasks |
 | Test Engineer | Approved spec, code at the base commit, test conventions | The implementation diff, the branch, the PR text |
-| Reviewer lenses L1–L3 | Diff, spec, plan, evidence ledger | The Implementer's reasoning; the PR prose as evidence |
+| Reviewer lenses L1–L3 | Diff, spec, plan, evidence ledger | The Developer's reasoning; the PR prose as evidence |
 | Reviewer lens L4 | The diff only | Spec, plan, PR text |
 | Security Auditor | Spec, threat model, diff (Test stage) | Secrets, production data |
+| Tech Writer | Approved spec, `ux.md` copy, plan docs task, public-surface diff | Secrets, production data |
 | Release Engineer | Approved PR, spec rollback and observability, CI config | Production credentials before Release sign-off |
 | SRE | Ops record, runbook, alerts, spec indicator | Credentials beyond the on-call engineer's grant |
 

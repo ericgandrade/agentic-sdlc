@@ -18,6 +18,14 @@ user-facing CHANGELOG text.
 
 <1–3 user-facing lines. No internal IDs except the spec ID.>
 
+## For users
+
+<!-- Written by the Tech Writer (agents/tech-writer.md) when triggered; otherwise the Release Engineer writes "none — no user-visible change". -->
+
+| What changes | Who is affected | Action required | Docs |
+|---|---|---|---|
+| <behavior in user terms> | <users or roles> | <none, or the step with a link to the migration guide> | <docs page link> |
+
 ## Shipped acceptance criteria
 
 | AC | Title | Critical | Evidence (PR Verification row) | Fingerprint | Result |

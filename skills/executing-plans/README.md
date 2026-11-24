@@ -27,7 +27,7 @@ Executes an approved implementation plan task by task — test-first, with bound
 - **Test-first per task** — red output pasted and recorded before green (`agentic-sdlc/references/tdd.md`)
 - **Run ledger and bounded loops** — `run-ledger.mjs` records every round; red-green 3, build-test 5, review-fix 3, debug 3; exit 3 escalates to a named role (`references/loops.md`)
 - **Preflight** — `preflight.mjs` checks clean tree, branch, tools, approval hashes and a green baseline DoD
-- **Inline and subagent dispatch** — one fresh Implementer per task; status vocabulary `DONE` · `DONE_WITH_CONCERNS` · `BLOCKED` · `NEEDS_CONTEXT` · `CANNOT_VERIFY`
+- **Inline and subagent dispatch** — one fresh Developer per task; status vocabulary `DONE` · `DONE_WITH_CONCERNS` · `BLOCKED` · `NEEDS_CONTEXT` · `CANNOT_VERIFY`
 - **Unattended mode** — worktree isolation, 10-reason halt list, budgets, result `DONE` / `BLOCKED` / `NEEDS_HUMAN` (`references/autonomous.md`)
 - **No external skill dependencies** — branch setup and finishing are part of the workflow; works prompt-only when Node is absent
 

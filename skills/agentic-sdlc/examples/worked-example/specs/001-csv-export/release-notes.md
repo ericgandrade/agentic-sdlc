@@ -2,13 +2,19 @@
 
 <!-- Worked example (synthetic). Written from templates/release-notes.md; rules in references/release-ops.md. Times use the team's local offset (-03:00). -->
 
-**Spec:** `specs/001-csv-export/spec.md` rev 1 · hash `2aef8f23fc84` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
+**Spec:** `specs/001-csv-export/spec.md` rev 1 · hash `6b4c7f329c93` · **PR:** #138 (head `1b8d74a`) · **Path:** Standard
 **Release commit:** `5d2e8b0` (merge of PR #138, 2026-11-27T11:30:00-03:00; tree identical to head `1b8d74a`, fingerprint `b7e2a91c04d5`) · **Tag:** `v2.14.0` (pushed only after Release sign-off) · **Planned date:** 2026-11-30
 **Release Engineer:** Release Engineer agent (fresh subagent) · **Release Owner:** Release Owner, P. Nair
 
 ## Summary
 
 The reports page has an **Export CSV** button that downloads the rows of the current filter (order ID, order date, order total) in the on-screen sort order. Exports are limited to 50,000 rows and require the `reports:export` permission; users without it see no button.
+
+## For users
+
+| What changes | Who is affected | Action required | Docs |
+|---|---|---|---|
+| Reports page has an **Export CSV** button for the current filter (≤ 50,000 rows) | Finance analysts holding `reports:export` | none | `docs/reports/export.md` (existing Reports help page, export section added) |
 
 ## Shipped acceptance criteria
 

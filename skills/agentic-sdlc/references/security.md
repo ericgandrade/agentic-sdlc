@@ -8,6 +8,7 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 | §Secrets | 11.3 | Every commit and PR, all paths | PR Verification row `secret-scan` |
 | §Dependencies | 11.3, rule 10 | A new, upgraded or removed dependency | `plan.md` `## Dependencies` note; PR row `dep-audit` |
 | §Review checklist | 11.2 | Lens L3: every Standard/Full PR; any Quick PR with a risk trigger | PR Review triage rows tagged `sec` |
+| §Compliance | role model D3 | Risk trigger `regulated` | `spec.md` §Security notes obligations table; PR rows tagged `comp` |
 
 ## Data classification
 
@@ -42,7 +43,7 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 
 1. No secret in code, tests, fixtures, snapshots, logs, prompts, commit messages, PR text or examples. Configuration reads secrets from the environment or a secret manager; no hard-coded fallback values.
 2. `.env` and key files are git-ignored; `git ls-files | grep -E '(^|/)\.env($|\.)|\.pem$|id_rsa'` returns nothing.
-3. Before the PR opens, the Implementer runs the secret scan and records it as a PR Verification row `secret-scan`: `gitleaks git --redact` (gitleaks ≥ 8.19; `gitleaks detect --redact` before) or the project's scanner. Scanner absent → this fallback must print 0 lines (exit 1 from grep = clean):
+3. Before the PR opens, the Developer runs the secret scan and records it as a PR Verification row `secret-scan`: `gitleaks git --redact` (gitleaks ≥ 8.19; `gitleaks detect --redact` before) or the project's scanner. Scanner absent → this fallback must print 0 lines (exit 1 from grep = clean):
 
    ```bash
    git diff <base>...HEAD | grep -nEi "AKIA[0-9A-Z]{16}|-----BEGIN [A-Z ]*PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{36}|xox[baprs]-[A-Za-z0-9-]+|(api[_-]?key|secret|token|passw(or)?d)[\"' ]*[:=] *[\"'][^\"']{8,}"
@@ -98,6 +99,17 @@ Scope: one row per new or upgraded direct dependency; no new dependency → the 
 **Output.** One PR Review triage row per FAIL, tagged `sec` with the item ID (`sec S10`), severity, file:line and cause; plus one summary line: `L3 security: 20 items · <n> PASS · <n> FAIL · <n> n/a`.
 
 **Failure behaviour.** A required L3 not run, or a PASS without evidence → `lens not run`, counted as `CANNOT_VERIFY` → PR NO-GO. An open Critical `sec` finding blocks Test and Release sign-off; an Important one needs a fix or owner acceptance with a follow-up issue.
+
+## Compliance
+
+Trigger: the `regulated` risk trigger (`references/paths.md` §Score). The Security Auditor takes the compliance role; no separate agent.
+
+1. **Specify.** List each obligation that applies: the regulation or contract clause, the requirement in one line, and the control that meets it. Record it in `spec.md` §Security notes as `| Obligation | Clause | Control | AC-n or task | Evidence |`. An obligation without a control → an open question deferred to the Product Owner, or a new AC.
+2. **Design.** Each control becomes a plan task or an AC that names its test. The data retention, audit-log and access-review requirements are written as AC.
+3. **Test.** For each row: check the evidence (a test ID, a log sample, a configuration diff). Record one PR Review triage row per gap, tagged `comp`. Gaps use the `sec` severity scale.
+4. **Release.** The release notes' `## Residual risks` lists every obligation that has a waiver. Audit export: `references/standards-mapping.md`†.
+
+The Security Auditor reports the obligations checked and the gaps it found. It never states that a change is "compliant"; that is the decision of the named compliance owner, recorded with the Release sign-off when the contract requires one.
 
 ## Sources
 

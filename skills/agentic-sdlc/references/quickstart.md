@@ -24,7 +24,7 @@ On an existing codebase it runs adopt mode first and also writes `docs/codemap.m
 
 Issue #142: "The date column on the orders page shows UTC instead of the user's time zone."
 
-Ask: "Fix issue #142 with the Agentic SDLC." The Planner scores it (`references/paths.md` §2):
+Ask: "Fix issue #142 with the Agentic SDLC." The Analyst scores it (`references/paths.md` §2):
 
 - Files: 2 (date formatter, its test) → 1 · Components: 1 (web) → 1 · Iterations: 1 → 1 · **S = 3 → Quick**
 - Risk triggers: none · **R = 0 → Quick**
@@ -33,7 +33,7 @@ It writes the score line as the first line of the issue: `Path: Quick · S=3 · 
 
 ## Step 3 — Discover: acceptance test in the issue
 
-On the Quick path the issue is the spec. The Planner adds one acceptance criterion in Given/When/Then form:
+On the Quick path the issue is the spec. The Analyst adds one acceptance criterion in Given/When/Then form:
 
 > **AC-1** Given a user whose profile time zone is `America/Sao_Paulo`, when the orders page shows an order created at `2026-03-01T02:30:00Z`, then the date column reads `2026-02-28 23:30`.
 
@@ -41,7 +41,7 @@ No code is written until this line exists in the issue.
 
 ## Step 4 — Build: red
 
-The Implementer writes a regression test whose name carries the AC ID, runs it and pastes the failing output into the PR draft:
+The Developer writes a regression test whose name carries the AC ID, runs it and pastes the failing output into the PR draft:
 
 ```
 ✗ AC-1 formats order dates in the profile time zone
@@ -52,7 +52,7 @@ A new test that passes on its first run proves nothing: delete it and write one 
 
 ## Step 5 — Build: green and Definition of Done
 
-The Implementer changes the formatter to use the profile time zone, re-runs the test (green) and then every `sdlc-dod` command. It commits with the trailer `Refs: AC-1` (Quick items have no plan tasks). Touching a fourth file or meeting a risk trigger stops the work: re-score, route up to Standard and log the change (`references/paths.md` §4).
+The Developer changes the formatter to use the profile time zone, re-runs the test (green) and then every `sdlc-dod` command. It commits with the trailer `Refs: AC-1` (Quick items have no plan tasks). Touching a fourth file or meeting a risk trigger stops the work: re-score, route up to Standard and log the change (`references/paths.md` §4).
 
 ## Step 6 — Open the PR with evidence
 
@@ -67,7 +67,7 @@ The fingerprint comes from `scripts/lib/git.mjs` (or, without Node, the 12-hex H
 
 ## Step 7 — Test: independent review
 
-The Reviewer runs in a fresh context with the issue, the diff and the evidence, never the Implementer's reasoning. Quick-path lenses: **L1** (does the change meet AC-1?) and **L2** (correctness and code quality). Each finding is verified before it is listed and triaged as Critical, Important or Minor. The verdict defaults to NO-GO until AC-1 has fresh evidence and no Critical finding is open. On a platform without subagents the same pass runs in the session and is labelled `self-review` in the PR.
+The Reviewer runs in a fresh context with the issue, the diff and the evidence, never the Developer's reasoning. Quick-path lenses: **L1** (does the change meet AC-1?) and **L2** (correctness and code quality). Each finding is verified before it is listed and triaged as Critical, Important or Minor. The verdict defaults to NO-GO until AC-1 has fresh evidence and no Critical finding is open. On a platform without subagents the same pass runs in the session and is labelled `self-review` in the PR.
 
 ## Step 8 — Test sign-off
 

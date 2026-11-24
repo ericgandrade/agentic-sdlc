@@ -159,4 +159,4 @@ none — CSV writing is about 40 lines in `server/src/export/csv.ts`; no package
 
 | Sign-off | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Specify + Design (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0 (W1 T1 T2 · W2 T3 · W3 T4 T5, 1 file conflict); spec-lint exit 0; critique 12/12 | Export error alert untested until staging (release checklist) | approved |
+| Specify + Design (combined) | 1 | 4da2f0c5aea8 | 1 | 6b4c7f329c93 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0 (W1 T1 T2 · W2 T3 · W3 T4 T5, 1 file conflict); spec-lint exit 0; critique 12/12 | Export error alert untested until staging (release checklist) | approved |

@@ -1,16 +1,18 @@
 # agentic-sdlc
 
-Router for the **Agentic SDLC**: a method that follows the standard software development life cycle with AI agents. **7 stages, 4 human sign-offs, 8 agents named by function, 3 paths sized by risk**, one rule — every requirement is proven.
+Router for the **Agentic SDLC**: a method that follows the standard software development life cycle with AI agents. **7 stages, 4 human sign-offs, 13 agents named by function, 3 paths sized by risk**, one rule — every requirement is proven.
 
 | Stage | Lead agent (helpers) | Human sign-off |
 |---|---|---|
-| **Discover** | Planner | — (intake decision when a duplicate or prior rejection is found) |
-| **Specify** | Planner (Security Auditor) | **Specify sign-off** — Product Owner |
+| **Discover** | Analyst (Product Manager) | — (intake decision when a duplicate or prior rejection is found) |
+| **Specify** | Analyst (Product Manager, UX Designer, Security Auditor) | **Specify sign-off** — Product Owner |
 | **Design** | Planner (Architect) | **Design sign-off** — Tech Lead |
-| **Build** | Implementer | — (bounded loops: 3 red-green attempts, 5 rounds per task) |
-| **Test** | Reviewer (Test Engineer, Security Auditor) | **Test sign-off** — human reviewer (engineer) |
-| **Release** | Release Engineer | **Release sign-off** — Release Owner |
-| **Operate** | SRE | On-call engineer owns incidents |
+| **Build** | Developer (Tech Writer) | — (bounded loops: 3 red-green attempts, 5 rounds per task) |
+| **Test** | Reviewer (Test Engineer, Security Auditor, UX Designer) | **Test sign-off** — human reviewer (engineer) |
+| **Release** | Release Engineer (Tech Writer) | **Release sign-off** — Release Owner |
+| **Operate** | SRE (Product Manager) | On-call engineer owns incidents |
+
+The router acts as **Delivery Lead** (the Scrum Master function) on every stage. Specialists in parentheses join only when their trigger fires, so a Quick bug fix uses four roles. Roles, triggers and RACI: `references/agents.md`, `references/governance.md` §RACI.
 
 Operate feeds incidents, alert trends, indicator misses and retro actions back into Discover. Acceptance-criterion IDs (`AC-n`) trace `spec.md` → plan task → commit trailer → test → fingerprint-bound evidence → PR → release notes → production record.
 
@@ -37,7 +39,7 @@ S = files + components + iterations (each scored 1–3); R = number of risk trig
 - `references/rules.md` — 12 non-negotiable rules with checks and failure behaviour, status vocabulary, change protocol, red-flag table.
 - `references/artifacts.md` — artifact index: project layout, template per artifact, required paths, validators, AGENTS.md block with `sdlc-dod`.
 - `references/phase-boundaries.md` — hand-off triggers, context hygiene per agent, resume procedure, `handoff.md` format.
-- `references/agents.md` + `agents/*.md` — the eight agent briefs: reads, never sees, skills, may do, never, tools, returns, status.
+- `references/agents.md` + `agents/*.md` — the 13 agent briefs (core roles + specialists on triggers): reads, never sees, skills, may do, never, tools, returns, status.
 - `scripts/lib/` — shared Markdown, git and CLI helpers for the method's checks (Node ≥ 18, no dependencies); `scripts/test/` — `node --test` suite.
 - `examples/worked-example/` — the CSV-export Standard-path example used as test fixtures.
 - `evals/` — behaviour scenarios and trigger queries.
@@ -70,6 +72,11 @@ The Agentic SDLC keeps the strongest idea of the classic V-model — every defin
 
 All text is original; mechanism IDs and precedents are listed in `docs/research/gap-closure/architect-report.md`.
 
+## What's New in 2.1.0
+
+- Role model: 13 functional agents. New roles: Analyst, Product Manager, UX Designer (`ux.md`: journeys, state table, accessibility), Tech Writer and Delivery Lead (the Scrum Master function, played by the router). Implementer is renamed Developer; the Planner now owns Design only; the Test Engineer covers UX states and non-functional AC; the Security Auditor maps compliance when `regulated`.
+- Human roles + RACI per stage; the 4 sign-offs are unchanged. Analysis: `docs/research/roles/2026-11-22-role-analysis.md`.
+
 ## What's New in 2.0.0
 
 - Rewritten in the D10 vocabulary: 7 stages, 4 sign-offs, 8 agents, 3 paths. Stage codes and numbered checkpoints are gone.
@@ -81,10 +88,10 @@ All text is original; mechanism IDs and precedents are listed in `docs/research/
 
 | Field | Value |
 |-------|-------|
-| Version | 2.0.0 |
+| Version | 2.1.0 |
 | Author | Eric Andrade |
 | Created | 2026-11-19 |
-| Updated | 2026-11-22 |
+| Updated | 2026-11-24 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | orchestration |
 | Tags | agentic-sdlc, sdlc, spec-driven, ai-agents, human-in-the-loop, traceability, workflow, router |

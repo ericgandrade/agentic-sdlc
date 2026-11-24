@@ -18,9 +18,9 @@ What each claim needs:
 
 | Claim | By | DoD rows | AC rows |
 |---|---|---|---|
-| Task Tn done | Implementer | All `sdlc-dod` keys | The ACs listed on the task row in `plan.md` |
-| PR ready for review | Implementer | All `sdlc-dod` keys | Every AC of the spec (Quick: every AC in the issue) |
-| GO verdict | Reviewer (re-runs; never copies the Implementer's rows) | All `sdlc-dod` keys | Every AC, plus every acceptance test in `acceptance-tests.md` |
+| Task Tn done | Developer | All `sdlc-dod` keys | The ACs listed on the task row in `plan.md` |
+| PR ready for review | Developer | All `sdlc-dod` keys | Every AC of the spec (Quick: every AC in the issue) |
+| GO verdict | Reviewer (re-runs; never copies the Developer's rows) | All `sdlc-dod` keys | Every AC, plus every acceptance test in `acceptance-tests.md` |
 | Release GO | Release Engineer | All `sdlc-dod` keys on the release commit | Every AC on the release commit's fingerprint, plus the rollback rehearsal (`references/release-ops.md` §Go/no-go) |
 
 Decision rules:
@@ -29,7 +29,7 @@ Decision rules:
 2. A DoD key written as `<key>: n/a — <reason>` in `sdlc-dod` gets a row with `exit = n/a` and the reason; any other blank cell is a missing row.
 3. `coverage` passes only when the measured value is ≥ `coverage_min`; write the measured value in the `exit` cell as `0 (81.2 ≥ 78.4)`.
 4. Every AC has ≥ 1 row. An AC with no runnable test is either `CANNOT_VERIFY` (§3) or a gap that returns to the Test Engineer.
-5. The Reviewer re-runs every command; a row whose `by` column names the Implementer is testimony and does not count toward GO.
+5. The Reviewer re-runs every command; a row whose `by` column names the Developer is testimony and does not count toward GO.
 
 ## 2. Independent test design
 
@@ -49,9 +49,9 @@ Procedure:
 4. Run each test at the base commit. It must fail; a test that passes at the base proves nothing → rewrite it before Build starts.
 5. In the Test stage, run every acceptance test at the PR head and add its row to `## Verification`.
 
-The Implementer never edits a test listed in `acceptance-tests.md`. An acceptance test that disagrees with the implementation is a finding for the Reviewer, routed by cause (spec, design or code), never a test to relax.
+The Developer never edits a test listed in `acceptance-tests.md`. An acceptance test that disagrees with the implementation is a finding for the Reviewer, routed by cause (spec, design or code), never a test to relax.
 
-**Verdict source.** The Reviewer judges from the diff, the artifacts and commands it re-ran. The PR description and the Implementer's report are claims to check, never evidence.
+**Verdict source.** The Reviewer judges from the diff, the artifacts and commands it re-ran. The PR description and the Developer's report are claims to check, never evidence.
 
 **Fallback without subagents.** Run the test design in a separate pass that starts from a cleared context loaded with only the spec and the base-commit code. Write `designed by: self-review` in the acceptance-tests header; the label is mandatory in the PR `## Verification` and `## Review guide` sections. On the Full path, a self-review test design is presented to the second human reviewer as a review-guide question.
 
@@ -125,7 +125,7 @@ The left column quotes rationalizations; the quoted words are what to catch, not
 | Thought | Reality |
 |---|---|
 | "The tests passed earlier" | Earlier is a different fingerprint. Re-run. |
-| "The Implementer pasted the output already" | Testimony. The Reviewer re-runs every command. |
+| "The Developer pasted the output already" | Testimony. The Reviewer re-runs every command. |
 | "It cannot be tested locally, so skip the row" | Write a `CANNOT_VERIFY` row: reason, verifier, date. |
 | "CI is green, that covers the ACs" | CI runs the DoD. Each AC needs its own test row. |
 | "Only a comment changed since the run" | Any change moves the fingerprint. Re-run. |

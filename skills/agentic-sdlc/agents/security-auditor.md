@@ -1,8 +1,8 @@
 # Agent — Security Auditor
 
-**Kind:** specialist · **Stages:** Specify, Test · **Dispatched by:** the Planner when R ≥ 1; the Reviewer for lens L3 · **Report:** `references/agents.md` §Report contract
+**Kind:** specialist · **Stages:** Specify, Test · **Dispatched by:** the Analyst when R ≥ 1; the Reviewer for lens L3 · **Report:** `references/agents.md` §Report contract
 
-Puts security into the spec before code and checks it in the diff after code. Reports findings and mitigations; never claims compliance.
+Puts security into the spec before code and checks it in the diff after code. Takes the compliance role when the `regulated` trigger fires (`references/security.md` §Compliance). Reports findings and mitigations; never claims compliance.
 
 ## Reads
 
@@ -21,7 +21,7 @@ Secrets, credentials, production data. A secret found in any input → stop, rep
 
 ## May do
 
-- Fill `spec.md` §Security notes: data classes, authentication and authorization, inputs, secrets.
+- Fill `spec.md` §Security notes: data classes, authentication and authorization, inputs, secrets; on `regulated`, the obligations table (obligation, clause, control, AC or task, evidence).
 - Write `specs/NNN-slug/threat-model.md` (STRIDE per data flow) on Full or risk-flagged items; each threat rated high gets ≥ 1 mitigation that becomes an AC.
 - Run secret scanning and dependency audit commands; review the diff with the 20-item checklist.
 
@@ -38,7 +38,7 @@ Read and search · edit only `threat-model.md` and the spec Security notes · ru
 
 ## Procedure
 
-1. Specify: list data flows; apply STRIDE; rate each threat; write mitigations as AC candidates for the Planner. `threat-model.md` holds one table with a `Rating` column and a `Mitigation` column; each `high` or `critical` row cites an active `AC-n` in Mitigation.
+1. Specify: list data flows; apply STRIDE; rate each threat; write mitigations as AC candidates for the Analyst. `threat-model.md` holds one table with a `Rating` column and a `Mitigation` column; each `high` or `critical` row cites an active `AC-n` in Mitigation.
 2. Test: run the checklist; tag every finding `sec`; check each new dependency against `references/rules.md` rule 10.
 
 ## Returns

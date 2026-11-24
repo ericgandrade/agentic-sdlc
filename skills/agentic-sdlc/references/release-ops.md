@@ -33,7 +33,7 @@ Required fields (Standard and Full):
 
 ## Release checklist (12.2)
 
-**Artifact:** release notes from `templates/release-notes.md`, written by the Release Engineer. **Trigger:** the PR is approved and merged and the change reaches production. Every item is answered `true` or `false` with evidence pasted or linked; prose claims without output count as `false`.
+**Artifact:** release notes from `templates/release-notes.md`, written by the Release Engineer; `## For users` by the Tech Writer when triggered. **Trigger:** the PR is approved and merged and the change reaches production. Every item is answered `true` or `false` with evidence pasted or linked; prose claims without output count as `false`.
 
 | # | Item | Evidence required | Applies to |
 |---|---|---|---|

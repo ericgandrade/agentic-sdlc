@@ -1,6 +1,6 @@
 # Review — Lenses, Triage and Receive Mode
 
-Load this file in the Test stage (Reviewer) and whenever an Implementer receives review findings. It defines how a pull request is examined in independent contexts, how findings are merged, verified, rated and dispositioned, and how fixes are re-reviewed. Evidence rules live in `references/verification.md`; the record format lives in `templates/pr-body.md` §Review triage; security check content lives in `references/security.md` §Review checklist.
+Load this file in the Test stage (Reviewer) and whenever an Developer receives review findings. It defines how a pull request is examined in independent contexts, how findings are merged, verified, rated and dispositioned, and how fixes are re-reviewed. Evidence rules live in `references/verification.md`; the record format lives in `templates/pr-body.md` §Review triage; security check content lives in `references/security.md` §Review checklist.
 
 **Order.** Each review round runs in two stages:
 
@@ -22,7 +22,7 @@ Quick path: L1 + L2 (+ L3 with a risk trigger).
 
 Rules:
 
-1. One fresh context per lens. L2–L4 are dispatched in parallel when the platform runs concurrent subagents, else one after another. A lens context never receives another lens's findings or the Implementer's reasoning.
+1. One fresh context per lens. L2–L4 are dispatched in parallel when the platform runs concurrent subagents, else one after another. A lens context never receives another lens's findings or the Developer's reasoning.
 2. Each lens returns findings as `Ln-k · file:line-range · cause · statement · evidence` and its list of checks performed. A lens that reports zero findings still lists every check it performed.
 3. A lens fails to run (error, timeout, context exhausted) → retry once in a new context. Second failure → record `lens not run` with the reason; that axis counts as `CANNOT_VERIFY`. A `lens not run` on L1 or L3 → NO-GO until the lens runs or a waiver is recorded (`references/governance.md` §Waivers).
 
@@ -60,11 +60,11 @@ Tie-break: when two severities fit, take the higher one. For an L3 finding, the 
 - **Default NO-GO.** GO requires all of: every AC has a fresh passing row or a waived `CANNOT_VERIFY` (`references/verification.md`); the Trace has no orphans; 0 open Critical findings (each Critical is `fixed`, or `rejected` with the human reviewer's ruling recorded); every other confirmed finding has a disposition (an Important `deferred` only with owner acceptance); every required lens ran or is waived.
 - **No bare approval.** "LGTM", "looks good" or GO is written only together with the list of checks performed per lens. A GO without that list is treated as NO-GO.
 - **No praise filler.** The triage holds findings, checks and evidence. Statements about effort or quality of the author do not appear.
-- **Never fix.** The Reviewer reports; the Implementer fixes. A Reviewer that edits code becomes an author and is replaced by a fresh Reviewer for that round.
+- **Never fix.** The Reviewer reports; the Developer fixes. A Reviewer that edits code becomes an author and is replaced by a fresh Reviewer for that round.
 
-## 5. Receive mode — implementer side
+## 5. Receive mode — developer side
 
-Trigger: the Implementer receives the merged, confirmed findings. Procedure for each finding, in severity order:
+Trigger: the Developer receives the merged, confirmed findings. Procedure for each finding, in severity order:
 
 1. Read the cited code and re-run the cited command before acting. Agreement without this check is forbidden, and so is a reply of agreement written before the check.
 2. Decide and record one disposition:
@@ -80,7 +80,7 @@ Trigger: the Implementer receives the merged, confirmed findings. Procedure for 
 
 ## 6. Scoped re-review
 
-Trigger: the Implementer reports fixes for a round.
+Trigger: the Developer reports fixes for a round.
 
 1. Input: `git diff <reviewed-sha>..HEAD` plus every finding marked `fixed`.
 2. Re-run each lens that raised a fixed finding, on the delta only, and L1 on any changed test. L4 receives the delta only.
@@ -91,7 +91,7 @@ Trigger: the Implementer reports fixes for a round.
 
 ## 7. Independence and the self-review fallback
 
-The Reviewer and every lens run in contexts that did not author the change (separate subagent, separate session, or a human). The Implementer never reviews its own diff.
+The Reviewer and every lens run in contexts that did not author the change (separate subagent, separate session, or a human). The Developer never reviews its own diff.
 
 No subagents on the platform → run each lens as a separate pass from a cleared context loaded with only that lens's inputs (§1). Mark each such lens row and finding `self-review`; the label is mandatory in `## Verification`, `## Review triage` and `## Review guide`. On the Full path, the second human reviewer reads the self-review lenses as review-guide items and records their own check.
 

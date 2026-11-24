@@ -44,7 +44,7 @@ Rules (checked by plan-graph, exit 1 on any violation):
 ## Task details
 
 <!--
-One subsection per task row. The Implementer receives only its row, its subsection, the AC text it
+One subsection per task row. The Developer receives only its row, its subsection, the AC text it
 serves and the files it lists, so each subsection is self-contained. Interface signatures are fixed
 here, before any code (references/tdd.md). Steps are 2–5 minutes each.
 -->

@@ -1,6 +1,6 @@
 # Agentic SDLC — Retrospective
 
-Load after a Release, after a merge with no release, or when a Quick batch is due. The retro is part of the default cycle on every path: it turns one cycle's evidence into owned actions that change a file the next cycle reads. Facilitator: the SRE agent drafts the facts; a named human runs the meeting and records the decisions. Template: `templates/retro.md`.
+Load after a Release, after a merge with no release, or when a Quick batch is due. The retro is part of the default cycle on every path: it turns one cycle's evidence into owned actions that change a file the next cycle reads. Facilitator: the Delivery Lead (`agents/delivery-lead.md`) drafts the agenda and facts, with production facts from the SRE; a named human (Scrum Master or Tech Lead) runs the meeting and records the decisions. Template: `templates/retro.md`.
 
 ## When a retro is due (16.1, K3)
 

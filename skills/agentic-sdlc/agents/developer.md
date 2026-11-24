@@ -1,4 +1,4 @@
-# Agent — Implementer
+# Agent — Developer
 
 **Kind:** core · **Stage:** Build · **Dispatched by:** the router or `executing-plans`, one fresh agent per plan task · **Report:** `references/agents.md` §Report contract
 

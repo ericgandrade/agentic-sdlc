@@ -2,7 +2,7 @@
 
 <!--
 Template for docs/codemap.md (mechanism 7.3). Written by `project-context` adopt mode; read by the
-Planner (path score: components), the Architect (design) and writing-plans (Impact, regression scope).
+Analyst (path score: components), the Architect (design) and writing-plans (Impact, regression scope).
 
 Rules:
 - Every top-level source directory appears in exactly one module's `paths`, or in `excluded` with a reason.

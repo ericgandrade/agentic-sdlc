@@ -6,7 +6,7 @@ Load this file in Discover for every work item and in Build whenever a task touc
 
 | Step | Action | Record |
 |---|---|---|
-| 1 | The Planner collects the three size inputs and checks the seven risk triggers (§2) from the request, the code map (`docs/codemap.md`) and the code | — |
+| 1 | The Analyst collects the three size inputs and checks the seven risk triggers (§2) from the request, the code map (`docs/codemap.md`) and the code | — |
 | 2 | Compute S and R, look up the size route and the risk route | — |
 | 3 | **Path = the higher of the two routes.** Risk overrides size: a one-file change with a Full-forcing trigger is Full | — |
 | 4 | Write the score line before any other artifact | Quick: first line of the issue body. Standard/Full: header of `specs/NNN-slug/spec.md` |
@@ -79,7 +79,7 @@ Failure behaviour: an approval missing for the current path → status `BLOCKED`
 
 ### Triggers
 
-Checked by the Implementer at each Build task start and before each commit, and by the Reviewer when the PR opens:
+Checked by the Developer at each Build task start and before each commit, and by the Reviewer when the PR opens:
 
 | Trigger | Detection | Bound |
 |---|---|---|

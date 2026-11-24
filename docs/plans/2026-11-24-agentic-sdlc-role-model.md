@@ -4,6 +4,8 @@
 
 **Goal:** expand the agent model from 8 to 13 functional roles, so the method covers every role the benchmark methods define (Analyst, Product Manager, UX Designer, Tech Writer, Scrum Master function), while keeping the Quick path light.
 
+**Status:** done 2026-11-24. T1–T9 complete; verification: 123/123 tests, validators OK, budget-check PASS (router 2196/2200), spec-lint and plan-graph `--check-approval` PASS on the worked example (new spec hash `6b4c7f329c93`, the plan hash is unchanged), vocabulary grep clean outside the historical records.
+
 **Inputs:** `docs/research/roles/2026-11-22-role-analysis.md` (§5 target model, §6 change list).
 
 **Owner decisions (2026-11-24):**

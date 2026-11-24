@@ -17,7 +17,8 @@ spec-lint --check-approval cross-checks the spec.md row against this register.
 > Product Owner and Tech Lead: combined review (Standard path, plan has 5 tasks).
 > - `specs/001-csv-export/spec.md` rev 1, hash in spec.md ## Approvals; `spec-lint` exit 0, 0 warnings except the threat-model notice for the money trigger.
 > - `specs/001-csv-export/plan.md` rev 1, built on that spec hash; `plan-graph` exit 0.
-> - Critique: fresh-context, 12/12, 3 findings fixed, 0 open.
+> - Critique: fresh-context, 12/12, 3 findings fixed, 0 open; Product Manager critique: 0 open.
+> - `ux.md` rev 1 (UX Designer): 6 states, 4 accessibility requirements; every state mapped to an AC or a UI kit pattern.
 > - Residual risk: the export error alert is untested until the staging test alert (release checklist).
 >
 > Product Owner: approve spec rev 1 as the build baseline? Tech Lead: approve plan rev 1? Reply "yes" or list changes.

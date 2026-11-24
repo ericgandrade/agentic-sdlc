@@ -1,4 +1,4 @@
-**Spec:** `specs/001-csv-export/spec.md` rev 1 · sha256 `2aef8f23fc84` · **Plan:** rev 1 · sha256 `4da2f0c5aea8`
+**Spec:** `specs/001-csv-export/spec.md` rev 1 · sha256 `6b4c7f329c93` · **Plan:** rev 1 · sha256 `4da2f0c5aea8`
 **Path:** Standard · S=5 · R=1 (money) · **Enforcement:** branch-protection
 **Base:** `main` @ `9e1d4c2` · **Head:** `1b8d74a` · **Current fingerprint:** `b7e2a91c04d5`
 
@@ -21,6 +21,7 @@ DoD (`sdlc-dod`) and acceptance criteria are separate rows. A row counts only wi
 | AC-2 | AT-2a, AT-2b `AC-2 text cells starting with = + - @ are prefixed with an apostrophe` (+1) | `npx vitest run server/test/export/csv.test.ts -t "AC-2"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:18-03:00 | Reviewer |
 | AC-3 | AT-3a, AT-3b `AC-3 a user without reports:export gets 403 and no file` (+1) | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-3"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:25-03:00 | Reviewer |
 | AC-4 | AT-4a, AT-4b `AC-4 more than 50,000 matching rows returns 422 and no partial file` (+1) | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 | Reviewer |
+| Docs | Reports help page, export section (`docs/reports/export.md`) | `npm run docs:build && npm run docs:links` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:20-03:00 | Reviewer |
 
 ### CANNOT_VERIFY
 
@@ -86,7 +87,7 @@ Round 1, stage 1: L1 returned F-3 and F-7 (no confirmed Critical) → stage 2 di
 | F-4 | L4 | not reproduced | — | `server/src/routes/reports/export.ts:47` | code | Suspected off-by-one: exactly 50,000 rows rejected | closed | AT-4b (exactly 50,000 rows) exit 0 at `e55a417` and at `1b8d74a` |
 | F-5 | L2 | declined to judge | — | `server/src/export/csv.ts:31` | spec | Totals use `.` as decimal separator; spreadsheet apps in comma-decimal locales open them as text | to human | Product decision: the spec fixes the format (AC-1: 2 decimals), not the locale → Review guide question 2 |
 | F-6 | L2 | confirmed | Minor | `web/src/reports/ExportButton.tsx:12` | code | Download handle named `d` | deferred #142 | Deferred list; no behaviour change |
-| F-7 | L1 | confirmed | Important | `server/src/export/csv.ts:8` | spec | Column order is fixed, not the order displayed on the page | rejected: spec text | Spec AC-1 (rev 1): "the columns order ID, order date (ISO 8601) and order total"; plan T4 fixes that order. Implementer re-ran AT-1b: exit 0 |
+| F-7 | L1 | confirmed | Important | `server/src/export/csv.ts:8` | spec | Column order is fixed, not the order displayed on the page | rejected: spec text | Spec AC-1 (rev 1): "the columns order ID, order date (ISO 8601) and order total"; plan T4 fixes that order. Developer re-ran AT-1b: exit 0 |
 
 ### Rounds
 

@@ -8,7 +8,7 @@ license: MIT
 
 ## Purpose
 
-Run software delivery through the standard life cycle with AI agents: **7 stages** (Discover → Specify → Design → Build → Test → Release → Operate), **4 human sign-offs** (Specify, Design, Test, Release), **8 agents** named by function (Planner, Implementer, Reviewer, Architect, Test Engineer, Security Auditor, Release Engineer, SRE) and **3 paths** sized by a scored rubric (Quick, Standard, Full). Agents execute; named humans approve. Operate feeds the next Discover.
+Run software delivery through the standard life cycle with AI agents: **7 stages** (Discover → Specify → Design → Build → Test → Release → Operate), **4 human sign-offs** (Specify, Design, Test, Release), **13 agents** named by function; specialists run only on their triggers (`references/agents.md`) and **3 paths** sized by a scored rubric (Quick, Standard, Full). Agents execute; named humans approve. Operate feeds the next Discover.
 
 **Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review; the Release sign-off is the `## Approval` section of the release notes.
 
@@ -40,17 +40,17 @@ Run the status command once, first match wins:
 | # | State (first match from the top) | Detected by | Next step |
 |---|---|---|---|
 | 1 | No AGENTS.md block | No `<!-- AGENTIC-SDLC:BEGIN -->` in AGENTS.md or CLAUDE.md | Run `project-context` setup (adopt mode on an existing codebase) |
-| 2 | No spec | Request present, no `specs/*/spec.md` for it, path not Quick | Discover: score the path, then Specify with the Planner |
+| 2 | No spec | Request present, no `specs/*/spec.md` for it, path not Quick | Discover: score the path, then Specify with the Analyst |
 | 3 | Spec unapproved | `## Approvals` empty or hash ≠ current spec hash | Run `spec-lint`; request Specify sign-off |
 | 4 | Plan missing | Valid Specify sign-off, no `plan.md` | Design with the Planner (+ Architect) |
 | 5 | Plan unapproved | `plan.md` approval missing or hash void | Run `plan-graph`; request Design sign-off |
-| 6 | Tasks open | Tasks in `plan.md` without a commit carrying their Tn | Build the next unblocked task (Implementer) |
+| 6 | Tasks open | Tasks in `plan.md` without a commit carrying their Tn | Build the next unblocked task (Developer) |
 | 7 | PR without evidence | PR open; Verification rows missing or stale | Test: Test Engineer + Reviewer |
 | 8 | Released without retro | Release notes exist; no retro record within 5 business days | Retro (`references/retrospective.md`) |
 | 9 | Retro actions open | Retro action without `done` or `dropped: <reason>` | Work the oldest action as a Discover item |
 | — | Nothing open | None of the above | Ask for the next request |
 
-Unparsable artifact → state `UNKNOWN`, recommend `project-context audit` and `references/faq.md`†; the status script† exits 2. Confirm a resume in one line before acting: `Spec rev 2 approved, plan approved, T1–T5 committed. Resume Build at T6?`
+Unparsable artifact → state `UNKNOWN`, recommend `project-context audit` and `references/faq.md`†; the status script† exits 2. Confirm a resume in one line before acting (Example 4).
 
 When the user names a stage, check its entry condition (`references/lifecycle.md` §1) and report each missing prerequisite. Never skip one silently.
 
@@ -76,12 +76,12 @@ Dispatch the lead agent with its file from `agents/` and only the inputs it list
 
 | Stage | Lead agent (helpers) | Load | Exit record |
 |---|---|---|---|
-| Discover | Planner | `references/paths.md` | Score line, intake record |
-| Specify | Planner (Security Auditor when R ≥ 1) | `templates/spec.md`, `references/governance.md` | `spec.md`, `spec-lint` exit 0 |
+| Discover | Analyst (Product Manager) | `references/paths.md` | Score line, intake record |
+| Specify | Analyst (Product Manager, UX Designer, Security Auditor) | `templates/spec.md`, `references/governance.md` | `spec.md`, `spec-lint` exit 0 |
 | Design | Planner (Architect) | `templates/plan.md` | `plan.md`, `graph.json`, ADRs |
-| Build | Implementer, one per task | `references/tdd.md`, `references/loops.md` | Commits `Refs: Tn AC-n`, DoD green, PR |
-| Test | Reviewer (Test Engineer, Security Auditor) | `references/verification.md`, `references/review.md` | PR Verification, Trace, Review triage; GO/NO-GO |
-| Release | Release Engineer | `references/release-ops.md` | Release notes, rehearsal output |
+| Build | Developer, one per task (Tech Writer: docs task) | `references/tdd.md`, `references/loops.md` | Commits `Refs: Tn AC-n`, DoD green, PR |
+| Test | Reviewer (Test Engineer, Security Auditor, UX Designer) | `references/verification.md`, `references/review.md` | PR Verification, Trace, Review triage; GO/NO-GO |
+| Release | Release Engineer (Tech Writer) | `references/release-ops.md` | Release notes, rehearsal output |
 | Operate | SRE | `references/release-ops.md`, `references/retrospective.md` | `ops.md`, postmortems, retro |
 
 Stage skills: `project-context` (Discover), `brainstorming` and `grill-me` (Discover/Specify), `spec-driven-development` (Specify), `senior-solution-architect` and `writing-plans` (Design), `executing-plans` (Build).
@@ -99,7 +99,7 @@ Red-green 3 attempts → debug loop. Build-test 5 rounds per task, review 3 roun
 
 ### Step 5 — Show progress
 
-Print the position at every stage transition:
+The router acts as Delivery Lead (`agents/delivery-lead.md`). Print the position at every stage transition:
 
 ```
 Agentic SDLC · Standard · specs/001-csv-export
@@ -137,7 +137,7 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `references/brownfield.md`† | Touching code without tests |
 | `references/extension-interface.md`† | Loading or writing an extension |
 | `references/standards-mapping.md`†, `references/ssdf-mapping.md`† | Audit export; regulated work |
-| `templates/spec.md`, `plan.md`, `acceptance-tests.md` | Specify; Design; acceptance-test design |
+| `templates/spec.md`, `ux.md`, `plan.md`, `acceptance-tests.md` | Specify; UX trigger; Design; acceptance-test design |
 | `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
 | `templates/codemap.md`, `threat-model.md`† | Brownfield adoption; risk-triggered spec |
 | `templates/ops-record.md`†, `postmortem.md`†, `runbook.md`† | Operate; SEV1/2 incident; operated-behaviour change |
@@ -158,7 +158,7 @@ Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` 
 
 - **NEVER** write production code before valid Specify and Design sign-offs (Standard/Full) or an acceptance test in the issue (Quick).
 - **NEVER** treat silence, enthusiasm or "whatever you think" as approval. Ask, end the turn, record the exact words.
-- **NEVER** let the Implementer verify, test the acceptance criteria of, or approve its own work.
+- **NEVER** let the Developer verify, test the acceptance criteria of, or approve its own work.
 - **NEVER** run a loop past its bound; at the bound, escalate.
 - **NEVER** push to the default branch, merge, deploy, tag or access secrets without a human decision; in unattended mode, never push.
 - **NEVER** route a path down silently or weaken a test, threshold or `coverage_min` to get green.

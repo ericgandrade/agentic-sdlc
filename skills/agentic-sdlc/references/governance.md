@@ -24,6 +24,23 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 | Human reviewer | Test sign-off after reading Verification, Trace and Review triage | Approves a PR they authored |
 | Release Owner | Go/no-go, rollout, rollback; Release sign-off | Approves without the rehearsal output |
 | Waiver owner | The accepted risk until the expiry date | Owns a waiver they requested (except §6.3) |
+| On-call engineer | Destructive production actions the SRE drafts | Runs an action the SRE has not drafted and logged |
+| UX Lead *(optional)* | Consulted on `ux.md` on Full; may be the Product Owner's delegate for UX questions | Signs off in place of the Product Owner |
+| Scrum Master *(optional human Delivery Lead)* | Runs the retro meeting; removes impediments outside the repository | Approves, waives or sets scope |
+
+### RACI per stage
+
+R = does the work (agents) · A = accountable, holds the sign-off (one human) · C = consulted · I = informed. Agent roles: `references/agents.md`. Specialists appear only when their trigger fires.
+
+| Stage | R | A | C | I |
+|---|---|---|---|---|
+| Discover | Analyst, Product Manager | Product Owner | Delivery Lead | Tech Lead |
+| Specify | Analyst (spec), UX Designer (`ux.md`), Security Auditor (security notes, compliance) | Product Owner — Specify sign-off | Product Manager (critique), UX Lead, Tech Lead | Test Engineer |
+| Design | Planner, Architect | Tech Lead — Design sign-off | UX Designer, Security Auditor | Product Owner |
+| Build | Developer, Tech Writer (docs task) | Tech Lead | Architect (escalations) | Delivery Lead |
+| Test | Reviewer, Test Engineer, Security Auditor (L3), UX Designer (UX checks) | Human reviewer — Test sign-off | Tech Lead | Product Owner |
+| Release | Release Engineer, Tech Writer (user section) | Release Owner — Release sign-off | SRE | Product Owner |
+| Operate | SRE, Product Manager (indicator) | On-call engineer | Delivery Lead (retro) | Everyone on the item |
 
 ## 2. Approval procedure (10.1)
 
@@ -31,7 +48,7 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 
 1. **Pre-check.** Run the artifact's check. Exit ≠ 0 → no request; fix or report `BLOCKED`.
 2. **Hash.** `node .agentic-sdlc/bin/spec-lint.mjs --hash specs/NNN-slug/spec.md` prints the hash to record.
-3. **Request.** Present, in one message: artifact path, rev, hash, the evidence reviewed (lint output, critique summary, test output), the residual risks, and one question naming the role: `Product Owner: approve spec.md rev 1 (hash 2aef8f23fc84) as the build baseline? Reply "yes" or list changes.`
+3. **Request.** Present, in one message: artifact path, rev, hash, the evidence reviewed (lint output, critique summary, test output), the residual risks, and one question naming the role: `Product Owner: approve spec.md rev 1 (hash 6b4c7f329c93) as the build baseline? Reply "yes" or list changes.`
 4. **Log the request** as a new row in `approvals.md` with `Requested at` (UTC, minute precision) and the asked role.
 5. **End the turn.** No further tool call, no work on the next stage.
 6. **Read the reply in a later turn.** Count it as approval only when it contains an explicit `yes`, `approve` or `approved` and names nothing to change. Record the decision:
@@ -52,13 +69,13 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 
 | Sign-off | Rev | Hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|
-| Specify + Design (combined) | 1 | 2aef8f23fc84 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan-graph exit 0 (plan rev 1) | Export error alert untested until staging | approved |
+| Specify + Design (combined) | 1 | 6b4c7f329c93 | 2026-11-23 14:40 | Product Owner | L. Rocha | "Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint exit 0; critique 12/12; plan-graph exit 0 (plan rev 1) | Export error alert untested until staging | approved |
 
 `plan.md` binds the plan and the spec it was built on, so it replaces `Rev`/`Hash` with `Plan rev`, `Plan hash`, `Spec rev` and `Spec hash` (`templates/plan.md`):
 
 | Sign-off | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Specify + Design (combined) | 1 | 4da2f0c5aea8 | 1 | 2aef8f23fc84 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0; critique 12/12 | Export error alert untested until staging | approved |
+| Specify + Design (combined) | 1 | 4da2f0c5aea8 | 1 | 6b4c7f329c93 | 2026-11-23 15:10 | Tech Lead | D. Okafor | "Approved. Plan rev 1, five tasks, go." | plan-graph exit 0; spec-lint exit 0; critique 12/12 | Export error alert untested until staging | approved |
 
 Parsers: `spec-lint --check-approval` reads the spec form; `plan-graph --check-approval` requires the plan form's columns (`Sign-off`, `Plan rev`, `Plan hash`, `Spec hash`, `Role`, `Person`, `Exact words`, `Decision`) and exits 1 with `APPROVAL_COLUMNS` otherwise; `preflight` and `run-ledger start` accept both forms (named hash columns, or the hash in the row text of the spec form).
 
@@ -113,7 +130,7 @@ Table `### Waivers` inside `## Approvals` of the affected spec (so recording it 
 
 | ID | Kind | Gate waived | Severity | Reason | Requester | Owner | Granted | Expires | Follow-up |
 |---|---|---|---|---|---|---|---|---|---|
-| W1 | accept-risk | DoD coverage 77.9 < 78.4 | Important | Generated client excluded next sprint | Implementer (agent) | Tech Lead · J. Park | 2026-11-24 | 2026-12-08 | #418 |
+| W1 | accept-risk | DoD coverage 77.9 < 78.4 | Important | Generated client excluded next sprint | Developer (agent) | Tech Lead · J. Park | 2026-11-24 | 2026-12-08 | #418 |
 
 Rules (`spec-lint` rules WV01–WV05): kind is one of the three; gate and reason non-empty; owner ≠ requester; expiry ≥ granted and within the kind's maximum; follow-up is `#n`, `KEY-n` or a URL. The owner gives the waiver with the same explicit-yes procedure as an approval (§2).
 

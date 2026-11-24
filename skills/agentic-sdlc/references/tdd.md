@@ -1,6 +1,6 @@
 # Agentic SDLC — Test-Driven Build (TDD)
 
-Loaded by `executing-plans` and the Implementer for **each Build task** (mechanisms 3.1, 3.2). The Reviewer loads §3 for lens L1. Loop bounds and escalation live in `references/loops.md`; evidence records in `references/verification.md` §4.
+Loaded by `executing-plans` and the Developer for **each Build task** (mechanisms 3.1, 3.2). The Reviewer loads §3 for lens L1. Loop bounds and escalation live in `references/loops.md`; evidence records in `references/verification.md` §4.
 
 ## 1. The cycle per task (3.1)
 
@@ -35,7 +35,7 @@ A test name without `AC-n`, `CHAR-n` or a bug ID prints a concern; the Reviewer 
 3. **Mocks only at process boundaries:** network, clock, randomness, filesystem outside the test's temporary directory, third-party APIs, the browser `fetch`. More than 1 mocked collaborator in one unit test requires a one-line comment stating why a real collaborator is unusable. Never mock the module under test or a value object.
 4. **Simplicity:** no abstraction (interface, factory, base class, generic helper) without ≥ 2 current call sites in this change or the existing code. One call site → inline it.
 5. **Real data stays out.** Fixtures are synthetic; never copy a production record, token or customer name into a test.
-6. **Never weaken a check.** Deleting, skipping (`.skip`, `xit`, `@Ignore`), loosening an assertion or lowering `coverage_min` to reach green is an authority violation (`agents/implementer.md` §Never); in unattended mode it is halt reason `authority`.
+6. **Never weaken a check.** Deleting, skipping (`.skip`, `xit`, `@Ignore`), loosening an assertion or lowering `coverage_min` to reach green is an authority violation (`agents/developer.md` §Never); in unattended mode it is halt reason `authority`.
 
 ### Brownfield variant
 
@@ -55,7 +55,7 @@ Code without tests: write a characterization test `CHAR-n` that pins the current
 | Element | Rule |
 |---|---|
 | **Artifact** | This table; findings in the PR `## Review triage` |
-| **Trigger** | Loaded with §1 by the Implementer; Reviewer lens L1 checks every new or changed test against it |
+| **Trigger** | Loaded with §1 by the Developer; Reviewer lens L1 checks every new or changed test against it |
 | **Output** | One triage row per match: anti-pattern number, test name, file:line, fix |
 | **Failure behaviour** | A new test matching any row → **Important** finding; a match that hides a failing AC (the test cannot fail) → **Critical** |
 

@@ -1,7 +1,7 @@
 <!--
 Agentic SDLC — pull request body. Rules: references/verification.md (Verification, Trace),
 references/review.md (Review triage), references/governance.md (Waivers).
-The Implementer fills Summary and its own Verification rows when opening the PR.
+The Developer fills Summary and its own Verification rows when opening the PR.
 The Reviewer re-runs every command and fills Verification (by: Reviewer), Trace, Review triage and Review guide.
 Delete these comments; keep every heading. A section with nothing to report says "none" — never leave it blank.
 Without a PR host, this file is committed as specs/NNN-slug/review.md with the same sections.
@@ -21,11 +21,12 @@ DoD (`sdlc-dod`) and acceptance criteria are separate rows. A row counts only wi
 
 | ID | Test | Command | Exit | Fingerprint | Time (ISO-8601) | By |
 |---|---|---|---|---|---|---|
-| DoD:lint | — | `<command>` | <0> | `<12 hex>` | <time> | <Reviewer \| Implementer \| self-review> |
+| DoD:lint | — | `<command>` | <0> | `<12 hex>` | <time> | <Reviewer \| Developer \| self-review> |
 | DoD:typecheck | — | `<command>` | <0 \| n/a — reason> | `<12 hex>` | <time> | <by> |
 | DoD:test | — | `<command>` | <0> | `<12 hex>` | <time> | <by> |
 | DoD:coverage | — | `<command>` | <0 (measured ≥ coverage_min)> | `<12 hex>` | <time> | <by> |
 | AC-1 | `<test id>` <test name> | `<command>` | <0> | `<12 hex>` | <time> | <by> |
+| Docs | <pages changed, or n/a — no user-visible change> | `<docs build + link check>` | <0 or n/a> | `<12 hex>` | <time> | <Tech Writer or Developer> |
 
 ### CANNOT_VERIFY
 

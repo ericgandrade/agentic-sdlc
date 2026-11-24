@@ -142,7 +142,7 @@ coverage_min: <baseline %>
 | Missing tool | `<key>: n/a — <reason>` (for example `typecheck: n/a — plain JavaScript`) |
 | Verification | Every command runs once at setup and exits 0 on the baseline commit, or is listed in `Baseline: … red:` |
 | `coverage_min` | The coverage measured at adoption, one decimal. Never lowered; a higher measured value at a later refresh becomes the new floor |
-| Consumers | `dod-gate`† before the PR opens and as CI check `agentic-sdlc/dod`; the Implementer before any completion claim; `preflight` (baseline-dod); the doctor† |
+| Consumers | `dod-gate`† before the PR opens and as CI check `agentic-sdlc/dod`; the Developer before any completion claim; `preflight` (baseline-dod); the doctor† |
 
 Failure behaviour: the block is not written without the `sdlc-dod` fence. A missing fence later → `preflight` and `run-ledger start` exit 2 (`dod-gate`† exit 2 and doctor† FAIL). A request to lower `coverage_min` or delete a DoD key → refuse; the only route is a waiver with an owner ≠ requester and an expiry ≤ 30 days.
 

@@ -44,6 +44,16 @@ stops the work item, so a spec only carries "n/a — <reason>" or "prior rejecti
 
 - As a {{user}}, I want {{capability}}, so that {{outcome}}.
 
+## Experience
+
+<!--
+UX Designer trigger (references/agents.md §Triggers): the change touches a user-facing surface.
+Triggered → link ux.md and list its surfaces; every UX-n state row maps to an AC below.
+Not triggered → "n/a — no user-facing surface".
+-->
+
+{{`ux.md` rev 1 — surfaces: …}} or {{n/a — no user-facing surface}}
+
 ## Acceptance criteria
 
 <!--
