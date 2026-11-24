@@ -278,4 +278,4 @@ There are no upstream roles, no tester and no release roles.
 - **D1 — Rename Implementer → Developer?** Recommended: yes, for familiarity. The mechanical cost is moderate.
 - **D2 — Tester: one role or two?** Recommended: one Test Engineer, widened with NFR/state coverage and an exploratory pass on Full. The alternative is Test Designer + QA Verifier (Agile V style), which adds a hand-off.
 - **D3 — Compliance:** absorb into the Security Auditor on the `regulated` trigger (recommended), or a dedicated Compliance Auditor agent.
-- **D4 — Delivery Lead:** the router plays it, with its own brief (recommended), or a separate subagent.
+- **D4 — Delivery Lead** (renamed **Scrum Master** 2026-11-24; "Tech Lead" rejected because it is the human Design approver): the router plays it, with its own brief (recommended), or a separate subagent.

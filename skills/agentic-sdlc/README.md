@@ -12,7 +12,7 @@ Router for the **Agentic SDLC**: a method that follows the standard software dev
 | **Release** | Release Engineer (Tech Writer) | **Release sign-off** — Release Owner |
 | **Operate** | SRE (Product Manager) | On-call engineer owns incidents |
 
-The router acts as **Delivery Lead** (the Scrum Master function) on every stage. Specialists in parentheses join only when their trigger fires, so a Quick bug fix uses four roles. Roles, triggers and RACI: `references/agents.md`, `references/governance.md` §RACI.
+The router acts as **Scrum Master** on every stage. Specialists in parentheses join only when their trigger fires, so a Quick bug fix uses four roles. Roles, triggers and RACI: `references/agents.md`, `references/governance.md` §RACI.
 
 Operate feeds incidents, alert trends, indicator misses and retro actions back into Discover. Acceptance-criterion IDs (`AC-n`) trace `spec.md` → plan task → commit trailer → test → fingerprint-bound evidence → PR → release notes → production record.
 
@@ -74,7 +74,7 @@ All text is original; mechanism IDs and precedents are listed in `docs/research/
 
 ## What's New in 2.1.0
 
-- Role model: 13 functional agents. New roles: Analyst, Product Manager, UX Designer (`ux.md`: journeys, state table, accessibility), Tech Writer and Delivery Lead (the Scrum Master function, played by the router). Implementer is renamed Developer; the Planner now owns Design only; the Test Engineer covers UX states and non-functional AC; the Security Auditor maps compliance when `regulated`.
+- Role model: 13 functional agents. New roles: Analyst, Product Manager, UX Designer (`ux.md`: journeys, state table, accessibility), Tech Writer and Scrum Master (played by the router). Implementer is renamed Developer; the Planner now owns Design only; the Test Engineer covers UX states and non-functional AC; the Security Auditor maps compliance when `regulated`.
 - Human roles + RACI per stage; the 4 sign-offs are unchanged. Analysis: `docs/research/roles/2026-11-22-role-analysis.md`.
 
 ## What's New in 2.0.0

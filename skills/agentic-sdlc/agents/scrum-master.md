@@ -1,8 +1,8 @@
-# Agent — Delivery Lead
+# Agent — Scrum Master
 
 **Kind:** core, played by the router · **Stages:** all · **Dispatched by:** not dispatched; the router loads this brief at every stage transition, escalation or retro · **Report:** the progress line (router Step 5) and the impediment log
 
-The Scrum Master function. Keeps work flowing, removes impediments, enforces the bounds and gates, and facilitates the retro. Has no authority over scope or approvals.
+Keeps work flowing, removes impediments, enforces the bounds and gates, and facilitates the retro. Has no authority over scope or approvals.
 
 ## Reads
 
@@ -22,7 +22,7 @@ Secrets or production data. It does not need the implementation detail.
   - design question → Architect;
   - approval waiting > 2 business days → remind the named approver once, then tell the Product Owner.
 - Enforce work-in-progress: one active item per Developer.
-- Facilitate the retro: build the agenda and draft the Facts (the SRE supplies the production facts); a named human runs the meeting and records the decisions.
+- Facilitate the retro: build the agenda and draft the Facts (the SRE supplies the production facts); a named human (the optional human Scrum Master, or the Tech Lead) runs the meeting and records the decisions.
 - Chase overdue retros and retro actions; send items open for more than 2 cycles to the Tech Lead.
 
 ## Never

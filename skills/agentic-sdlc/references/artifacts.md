@@ -61,7 +61,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | `threat-model.md` | `specs/NNN-slug/` | `templates/threat-model.md`† | Specify · Security Auditor | Full; risk-flagged Standard | `spec-lint`: TM01 error on Full, TM02 warning on risk-flagged Standard, TM03 high threat without AC |
 | PM brief | issue or intake record; `specs/NNN-slug/pm-brief.md` when no tracker | — (problem, evidence, outcome, indicator, priority, non-goals) | Discover · Product Manager | Product Manager trigger (`references/agents.md` §Triggers) | Analyst; Specify sign-off evidence |
 | `ux.md` | `specs/NNN-slug/` | `templates/ux.md` | Specify · UX Designer | a user-facing surface changes | Specify sign-off evidence; Test Engineer state mapping; UX checks at Test |
-| Impediment log `impediments.md` | `specs/NNN-slug/` | — (`IMP-n` · blocker · owner · raised · unblock condition · status) | any stage · Delivery Lead | when an agent reports `BLOCKED` or `NEEDS_CONTEXT` | Delivery Lead review every 2 business days |
+| Impediment log `impediments.md` | `specs/NNN-slug/` | — (`IMP-n` · blocker · owner · raised · unblock condition · status) | any stage · Scrum Master | when an agent reports `BLOCKED` or `NEEDS_CONTEXT` | Scrum Master review every 2 business days |
 | ADR | `docs/adr/NNNN-slug.md` | §ADR below | Design · Architect | Full; Standard when a decision is expensive to reverse | Reviewer lens L2 |
 | `plan.md` | `specs/NNN-slug/` | `templates/plan.md` | Design · Planner | Standard, Full | `plan-graph` |
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
@@ -77,7 +77,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md`† | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
 | Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md`† | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
 | Postmortem | `docs/postmortems/` | `templates/postmortem.md`† | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
-| Retro record | `docs/retros/` | `templates/retro.md` | Operate · Delivery Lead + SRE | all paths (Quick batched) | `status.mjs`† overdue check |
+| Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs`† overdue check |
 | Handoff | `specs/NNN-slug/handoff.md` | `references/phase-boundaries.md` §Handoff | any stage end | when context is cleared or work changes hands | Step 0 state detection |
 | `CONSTRAINTS.md` | project root | §CONSTRAINTS.md below | Discover · `project-context` | Full | Reviewer lens L2 |
 | `GLOSSARY.md` | project root | — (term · definition · source) | Specify · `grill-me` | when Specify defines ≥ 1 domain term | Reviewer lens L1 |

@@ -4,7 +4,7 @@ Thirteen agents, named by function. Each agent file in `agents/` is a self-conta
 
 | Agent | File | Kind | Stages | Dispatched by | Tool profile | Returns |
 |---|---|---|---|---|---|---|
-| **Delivery Lead** (Scrum Master function) | `agents/delivery-lead.md` | Core, played by the router | All | — (router loads it at transitions) | read · edit `impediments.md`, retro drafts · run `status` | progress line, impediment log, escalations, retro draft |
+| **Scrum Master** | `agents/scrum-master.md` | Core, played by the router | All | — (router loads it at transitions) | read · edit `impediments.md`, retro drafts · run `status` | progress line, impediment log, escalations, retro draft |
 | **Analyst** | `agents/analyst.md` | Core | Discover, Specify (Quick: score + issue acceptance test) | Router | read · edit `spec.md`, `GLOSSARY.md`, codemap · run `spec-lint` | path score, intake record, `spec.md`, Specify sign-off request |
 | **Product Manager** | `agents/product-manager.md` | Specialist | Discover, Specify (critique), Operate (indicator) | Analyst; SRE | read · comment on the issue | PM brief (problem, outcome, indicator, priority), spec critique |
 | **UX Designer** | `agents/ux-designer.md` | Specialist | Specify, Design (consulted), Test (UX checks) | Analyst; Reviewer | read · edit `ux.md` · run accessibility scanners | `ux.md` (journeys, state table, copy, accessibility), UX findings |
@@ -35,7 +35,7 @@ Thirteen agents, named by function. Each agent file in `agents/` is a self-conta
 
 | Path | Agents |
 |---|---|
-| Quick | Delivery Lead (router), Analyst (path score + acceptance test in the issue), Developer, Reviewer; + Release Engineer when production deploys; specialists only on their triggers |
+| Quick | Scrum Master (router), Analyst (path score + acceptance test in the issue), Developer, Reviewer; + Release Engineer when production deploys; specialists only on their triggers |
 | Standard | + Analyst, Planner, Test Engineer, SRE; Product Manager, UX Designer, Security Auditor, Tech Writer, Architect on their triggers |
 | Full | All 13; Architect, Product Manager and Tech Writer always |
 

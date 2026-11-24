@@ -4,7 +4,7 @@
 
 **Covers:** `specs/001-csv-export` · release `v2.14.0` · **Kind:** Standard
 **Trigger:** 100% rollout on 2026-12-01 · **Due:** 2026-12-08 · **Held:** 2026-12-08 · **Duration:** 14 min
-**Facilitator:** Scrum Master · R. Costa · **Participants:** Product Owner, L. Rocha · Tech Lead, D. Okafor · Release Owner, P. Nair · engineer and PR author, A. Mendes · **Facts drafted by:** Delivery Lead (router), production facts from the SRE agent
+**Facilitator:** Scrum Master (human) · R. Costa · **Participants:** Product Owner, L. Rocha · Tech Lead, D. Okafor · Release Owner, P. Nair · engineer and PR author, A. Mendes · **Facts drafted by:** Scrum Master agent (router), production facts from the SRE agent
 
 ## Prior actions
 

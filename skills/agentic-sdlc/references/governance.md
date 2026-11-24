@@ -26,7 +26,7 @@ Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3)
 | Waiver owner | The accepted risk until the expiry date | Owns a waiver they requested (except §6.3) |
 | On-call engineer | Destructive production actions the SRE drafts | Runs an action the SRE has not drafted and logged |
 | UX Lead *(optional)* | Consulted on `ux.md` on Full; may be the Product Owner's delegate for UX questions | Signs off in place of the Product Owner |
-| Scrum Master *(optional human Delivery Lead)* | Runs the retro meeting; removes impediments outside the repository | Approves, waives or sets scope |
+| Scrum Master *(optional human)* | Runs the retro meeting; removes impediments outside the repository | Approves, waives or sets scope |
 
 ### RACI per stage
 
@@ -34,13 +34,13 @@ R = does the work (agents) · A = accountable, holds the sign-off (one human) ·
 
 | Stage | R | A | C | I |
 |---|---|---|---|---|
-| Discover | Analyst, Product Manager | Product Owner | Delivery Lead | Tech Lead |
+| Discover | Analyst, Product Manager | Product Owner | Scrum Master | Tech Lead |
 | Specify | Analyst (spec), UX Designer (`ux.md`), Security Auditor (security notes, compliance) | Product Owner — Specify sign-off | Product Manager (critique), UX Lead, Tech Lead | Test Engineer |
 | Design | Planner, Architect | Tech Lead — Design sign-off | UX Designer, Security Auditor | Product Owner |
-| Build | Developer, Tech Writer (docs task) | Tech Lead | Architect (escalations) | Delivery Lead |
+| Build | Developer, Tech Writer (docs task) | Tech Lead | Architect (escalations) | Scrum Master |
 | Test | Reviewer, Test Engineer, Security Auditor (L3), UX Designer (UX checks) | Human reviewer — Test sign-off | Tech Lead | Product Owner |
 | Release | Release Engineer, Tech Writer (user section) | Release Owner — Release sign-off | SRE | Product Owner |
-| Operate | SRE, Product Manager (indicator) | On-call engineer | Delivery Lead (retro) | Everyone on the item |
+| Operate | SRE, Product Manager (indicator) | On-call engineer | Scrum Master (retro) | Everyone on the item |
 
 ## 2. Approval procedure (10.1)
 

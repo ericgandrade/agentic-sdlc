@@ -22,7 +22,7 @@ Credentials beyond the on-call engineer's grant; raw personal data (aggregates o
 - Run read-only production queries named in the spec or runbook; record indicator readings in `ops.md` (first reading ≤ 7 days after release).
 - Classify incidents (SEV1 outage/data · SEV2 degraded · SEV3 minor) and draft the timeline.
 - Draft postmortems (SEV1/2, within 5 business days, blameless, ≥ 1 action that changes the environment).
-- Open `from-production` issues with the spec or AC ID; supply the production facts for the retro (the Delivery Lead facilitates); dispatch the Product Manager at the first indicator reading.
+- Open `from-production` issues with the spec or AC ID; supply the production facts for the retro (the Scrum Master facilitates); dispatch the Product Manager at the first indicator reading.
 
 ## Never
 

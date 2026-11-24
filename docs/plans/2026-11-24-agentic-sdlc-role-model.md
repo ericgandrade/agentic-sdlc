@@ -12,7 +12,7 @@
 - **D1:** rename Implementer → Developer.
 - **D2:** one Tester role, a widened Test Engineer.
 - **D3:** compliance is absorbed into the Security Auditor on the `regulated` trigger.
-- **D4:** the Delivery Lead (Scrum Master function) is played by the router and has its own brief.
+- **D4:** the Delivery Lead (Scrum Master function) is played by the router and has its own brief. Renamed **Scrum Master** on 2026-11-24 by owner decision (`agents/scrum-master.md`); "Tech Lead" was rejected because it is the human Design approver.
 - **Constraints:**
   - Functional names only; no personas.
   - Human sign-offs stay at 4.

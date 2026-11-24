@@ -49,7 +49,7 @@ Failure behaviour: a decision found in chat but not in an artifact after a Clear
 
 | Agent | Receives | Never receives |
 |---|---|---|
-| Delivery Lead | Status output, artifact headers, approvals, ledgers | Implementation detail |
+| Scrum Master | Status output, artifact headers, approvals, ledgers | Implementation detail |
 | Analyst | Request, AGENTS.md block, code map, prior specs, PM brief, `ux.md` | — |
 | Product Manager | Request, intake record, tracker history, analytics excerpts | Production data, the implementation |
 | UX Designer | Draft spec, PM brief, existing UI/CLI at the base commit | The implementation diff (Test checks are black-box) |

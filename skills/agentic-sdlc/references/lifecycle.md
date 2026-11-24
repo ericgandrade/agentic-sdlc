@@ -11,7 +11,7 @@ Build      Developer (Tech Writer)                 commits + PR (DoD green)     
 Test       Reviewer (Test Eng., Sec. Aud., UX)     PR Verification/Trace/Triage       Test sign-off     · human reviewer (engineer)
 Release    Release Engineer (Tech Writer)          release notes + rollback rehearsal Release sign-off  · Release Owner
 Operate    SRE (Product Manager)                   ops record, postmortems, retro     On-call engineer owns incidents
-All        Delivery Lead (the router)              progress line, impediments, retro  —
+All        Scrum Master (the router)               progress line, impediments, retro  —
    └──────── incidents, indicator misses, retro actions → new items in Discover ────┘
 ```
 

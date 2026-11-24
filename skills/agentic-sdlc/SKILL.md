@@ -99,7 +99,7 @@ Red-green 3 attempts → debug loop. Build-test 5 rounds per task, review 3 roun
 
 ### Step 5 — Show progress
 
-The router acts as Delivery Lead (`agents/delivery-lead.md`). Print the position at every stage transition:
+The router acts as Scrum Master (`agents/scrum-master.md`). Print the position at every stage transition:
 
 ```
 Agentic SDLC · Standard · specs/001-csv-export
