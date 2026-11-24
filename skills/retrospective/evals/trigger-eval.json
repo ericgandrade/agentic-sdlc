@@ -1,0 +1,26 @@
+{
+  "skill_name": "retrospective",
+  "description": "Triggers when a cycle closes and its lessons must become owned changes: a retro is due or overdue after a release reaches 100% or a merge with no release, a Quick batch reaches 10 items or 14 days, retro facts or an agenda must be drafted, prior retro actions must be reviewed, an indicator reading must be compared with its baseline for the outcome decision, an epic needs a cross-item view, or a repeated agent mistake must become a check or an AGENTS.md pitfall through a retro action",
+  "queries": [
+    { "id": 1, "query": "specs/007-invoice-reminders reached 100% rollout yesterday. Prepare the retro.", "should_trigger": true },
+    { "id": 2, "query": "We have merged 10 Quick fixes since the last batch retro. What now?", "should_trigger": true },
+    { "id": 3, "query": "Draft the Facts table for the retro: lead time, loop rounds, review findings, reverts, indicator, incidents", "should_trigger": true },
+    { "id": 4, "query": "The release checklist says R9 is false because a retro is overdue. Help me run it today.", "should_trigger": true },
+    { "id": 5, "query": "The first indicator reading for the CSV export is in. Compare it with the baseline and tell the Product Owner whether the outcome is met.", "should_trigger": true },
+    { "id": 6, "query": "Our epic spans specs 012 to 015. Give me the aggregate view across all four items before the Full retro.", "should_trigger": true },
+    { "id": 7, "query": "Agents keep mocking the repository layer in tests even though AGENTS.md says not to. It happened again this cycle. Turn that into a retro action that actually sticks.", "should_trigger": true },
+    { "id": 8, "query": "Review the open actions from the last two retros and tell me which are done, which are stale and which need the Tech Lead", "should_trigger": true },
+    { "id": 9, "query": "Write the agenda for a 15-minute retro and keep it blameless", "should_trigger": true },
+    { "id": 10, "query": "Is the retro record docs/retros/2026-12-08.md valid? Check the actions and the recurrence rule.", "should_trigger": true },
+    { "id": 11, "query": "Our change failure rate was above 15% in the last two retros. What should the retro decide?", "should_trigger": true },
+    { "id": 12, "query": "Write the postmortem for last night's SEV2 on the export endpoint", "should_trigger": false },
+    { "id": 13, "query": "Add a pitfall line to the AGENTS.md block: the agent ran pytest outside the virtualenv", "should_trigger": false },
+    { "id": 14, "query": "Triage this from-production issue: alert fired four times this week without an incident", "should_trigger": false },
+    { "id": 15, "query": "Prepare the release notes and the go/no-go for v2.15.0", "should_trigger": false },
+    { "id": 16, "query": "Review PR #212 across correctness, security and spec lenses", "should_trigger": false },
+    { "id": 17, "query": "Can I mark T4 done? The tests passed before my last rename.", "should_trigger": false },
+    { "id": 18, "query": "The export test fails intermittently on CI. Find the root cause.", "should_trigger": false },
+    { "id": 19, "query": "Break the approved spec into tasks with dependencies in plan.md", "should_trigger": false },
+    { "id": 20, "query": "Set up the AGENTS.md block and the sdlc-dod Definition of Done for this new repository", "should_trigger": false }
+  ]
+}
