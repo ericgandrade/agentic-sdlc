@@ -1,0 +1,22 @@
+{
+  "skill_name": "operations-and-incidents",
+  "description": "Triggers for Operate-stage work: watching released changes, SLOs and error budgets from the spec, alert triage, incident response, blameless postmortems, DORA metrics and from-production intake",
+  "queries": [
+    {"id": 1, "query": "The checkout alert just fired at 8% errors over 15 minutes, what do we do first?", "should_trigger": true},
+    {"id": 2, "query": "Write the blameless postmortem for yesterday's SEV2 outage on the reports service", "should_trigger": true},
+    {"id": 3, "query": "Release v2.14.0 closed two days ago; do the 7-day indicator reading and open ops.md", "should_trigger": true},
+    {"id": 4, "query": "Derive SLOs and an error budget for the export feature from what the spec already says", "should_trigger": true},
+    {"id": 5, "query": "Compute deployment frequency, lead time, change failure rate and MTTR for the last 30 days", "should_trigger": true},
+    {"id": 6, "query": "This alert pages every night and clears on its own — what should we do about it?", "should_trigger": true},
+    {"id": 7, "query": "A customer says exports are returning someone else's data. How severe is this and who runs the incident?", "should_trigger": true},
+    {"id": 8, "query": "We're at 10% rollout; read the dashboards and tell me whether to advance, hold or roll back", "should_trigger": true},
+    {"id": 9, "query": "Turn the postmortem action items into from-production issues linked to the spec and AC", "should_trigger": true},
+    {"id": 10, "query": "Define the signal, alert threshold and rollback command for the new export feature in the spec", "should_trigger": false},
+    {"id": 11, "query": "Prepare the release notes and ask the Release Owner for sign-off on v2.15.0", "should_trigger": false},
+    {"id": 12, "query": "Set up the CI pipeline with quality gates and environment approvals", "should_trigger": false},
+    {"id": 13, "query": "This unit test fails intermittently; find the root cause in the code", "should_trigger": false},
+    {"id": 14, "query": "Facilitate our sprint retrospective and record the actions with owners", "should_trigger": false},
+    {"id": 15, "query": "Triage this new feature request and score its path", "should_trigger": false},
+    {"id": 16, "query": "Review this pull request for security issues before merge", "should_trigger": false}
+  ]
+}

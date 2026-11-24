@@ -90,8 +90,9 @@ Minimum content (5 lines): alert name and threshold · first check (query or das
 | SEV1 | Outage, data loss or exposure, security breach | 15 min | required, ≤ 5 business days |
 | SEV2 | Degraded feature, threshold breach, rollback executed | 1 h | required, ≤ 5 business days |
 | SEV3 | Minor defect with a workaround | next business day | not required; issue only |
+| SEV4 | Not an incident: near miss or self-clearing alert | next business day | not required; one line in the ops record |
 
-First three actions: (1) acknowledge and name the incident owner; (2) run the runbook first check and record the reading with time; (3) when the runbook or the release notes name a rollback, propose it to the on-call engineer, who executes it. **Record:** `docs/postmortems/YYYY-MM-DD-<slug>.md` from `templates/postmortem.md`† (timeline, impact, causes without naming a person as a cause, ≥ 1 action that changes the environment, owner per action), tagged with the spec ID and AC-n. **Failure behaviour:** postmortem past 5 business days → `status.mjs`† lists it as the next step; incident with an unknown AC → linked to the spec ID and labelled `untraced-requirement`.
+First three actions: (1) acknowledge and name the incident owner; (2) run the runbook first check and record the reading with time; (3) when the runbook or the release notes name a rollback, propose it to the on-call engineer, who executes it. **Record:** `docs/postmortems/YYYY-MM-DD-<slug>.md` from `templates/postmortem.md` (timeline, impact, causes without naming a person as a cause, ≥ 1 action that changes the environment, owner per action), tagged with the spec ID and AC-n. **Failure behaviour:** postmortem past 5 business days → `status.mjs`† lists it as the next step; incident with an unknown AC → linked to the spec ID and labelled `untraced-requirement`.
 
 ## Intake from production (12.5)
 

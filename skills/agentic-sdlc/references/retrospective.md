@@ -45,7 +45,7 @@ An action counts only when it has all five fields:
 
 | Field | Rule |
 |---|---|
-| ID | `RA-YYYYMMDD-n` (retro date + sequence) |
+| ID | `RA-YYYYMMDD-n` (retro date + sequence); open postmortem actions keep their `PA-YYYYMMDD-n` ID and are reviewed in the same table |
 | Action | One verb phrase describing the change |
 | Owner | Role + person; one owner |
 | Target file | The file the action changes: AGENTS.md block (pitfalls or `sdlc-dod`), a checklist in a reference override, a skill override, a test, a CI check or a script |

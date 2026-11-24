@@ -4,7 +4,7 @@ Location: docs/retros/YYYY-MM-DD.md (second on the same date: YYYY-MM-DD-2.md).
 Due: Standard/Full ≤ 5 business days after Release reaches 100% (or after merge with no release);
 Quick batch at 10 merged items or 14 days, whichever comes first.
 Timebox: ≤ 15 min (Standard, Quick batch) · ≤ 45 min (Full).
-The SRE agent drafts §Facts from the artifacts; a named human records decisions and owns actions.
+The Scrum Master agent drafts §Facts from the artifacts, with production facts from the SRE (templates/ops-record.md); a named human records decisions and owns actions.
 A section with nothing to report says "none — <reason>"; never leave it blank. Keep every heading.
 -->
 
