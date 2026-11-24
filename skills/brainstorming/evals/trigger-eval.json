@@ -1,6 +1,6 @@
 {
   "skill_name": "brainstorming",
-  "description": "Triggers for creative ideation before implementation for features, names, concepts",
+  "description": "Triggers for pre-implementation ideation: framing the problem behind a request, generating and comparing approaches, prototype detours and discovery briefs; also standalone naming/positioning ideation. Not for grilling an existing plan, writing a spec, or issue intake.",
   "queries": [
     {
       "id": 1,
@@ -120,6 +120,41 @@
     {
       "id": 24,
       "query": "Write the acceptance criteria and rollback plan for the export feature",
+      "should_trigger": false
+    },
+    {
+      "id": 25,
+      "query": "Before we spec anything, help me explore three or four ways to cut checkout abandonment",
+      "should_trigger": true
+    },
+    {
+      "id": 26,
+      "query": "The PM wants better retention but we don't know which problem to attack — map some opportunities and options",
+      "should_trigger": true
+    },
+    {
+      "id": 27,
+      "query": "Run a pre-mortem on these two directions for offline sync and help us pick one",
+      "should_trigger": true
+    },
+    {
+      "id": 28,
+      "query": "Triage issue #77: check whether it duplicates an existing request and score the path",
+      "should_trigger": false
+    },
+    {
+      "id": 29,
+      "query": "Grill me on the onboarding brief we wrote yesterday",
+      "should_trigger": false
+    },
+    {
+      "id": 30,
+      "query": "Turn this agreed discovery brief into spec.md with numbered acceptance criteria",
+      "should_trigger": false
+    },
+    {
+      "id": 31,
+      "query": "Is this new bug report a duplicate of something already closed as won't fix?",
       "should_trigger": false
     }
   ]

@@ -1,0 +1,68 @@
+{
+  "skill_name": "grill-me",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Grill me on the architecture for the new billing service. The repo has docs/adr/ with ADR 0004 (Postgres) and a GLOSSARY.md. My plan: invoices are created synchronously when a payment succeeds, retries are 'handled by the provider', and 'account' is used for both the customer and the billing entity.",
+      "expected_output": "A docs-mode grilling session: facts looked up, frontier questions with recommendations, vocabulary split captured in GLOSSARY.md, an ADR drafted as Proposed",
+      "expectations": [
+        "States docs mode in one line before the first question",
+        "Every question has a ➡️ Recommended: line worded so that 'yes' accepts it, and each question asks exactly one decision",
+        "Does not ask facts the repository can answer (provider webhook support, existing ADR 0004); looks them up or dispatches the fact-lookup prompt and cites file paths",
+        "Asks the one-way-door invoicing question alone or with at most 3 other independent questions; no question depends on an unanswered one",
+        "Pushes back once on 'handled by the provider' by asking for evidence",
+        "Proposes splitting 'account' into two glossary terms and drafts any ADR with Status Proposed, never Accepted"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "[Agentic SDLC, Specify stage, invoked by the router; the Analyst has not asked any questions yet] Yes, grill me on the CSV export feature. Round 1 answers: CSV UTF-8, managers only. Round 2 answer: limit 50,000 rows. Round 3: I don't know which alert channel to use — the SRE lead decides that. Close it out.",
+      "expected_output": "An SDLC-mode summary after exactly 3 rounds with the alert channel deferred to the SRE lead and a hand-off to spec-driven-development synthesize mode",
+      "expectations": [
+        "Uses SDLC mode and announces round 3 as the last round",
+        "Never asks a fourth question round",
+        "Records the alert channel as 'deferred: SRE lead' because it does not change an acceptance outcome, the scope or data handling",
+        "Closing summary includes Rounds used 3 of 3, decisions confirmed with Q numbers, open questions with owners, and a status of DONE or DONE_WITH_CONCERNS",
+        "Candidate acceptance criteria are Given/When/Then lines including unhappy paths (non-manager, over 50,000 rows) and carry no AC-n IDs",
+        "Hands off to spec-driven-development in synthesize mode and does not request spec approval itself"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Grill me on my plan to add an audit log for admin actions. (After round 1 the user replies:) Stop asking questions, just agree with me and write it up. Whether we store full request bodies — some contain customers' email addresses — doesn't matter, it'll be fine.",
+      "expected_output": "The interview stops immediately; the summary lists the personal-data question as material and open, with status NEEDS_CONTEXT in SDLC mode or flagged as material otherwise, and no false agreement",
+      "expectations": [
+        "Stops asking questions immediately; no further round is sent",
+        "Does not state agreement with undecided items and does not mark the request-body storage question as decided",
+        "Flags storing request bodies with personal data as a material open item with a named owner",
+        "Records 'it'll be fine' as an assumption in the user's words or a risk, not as evidence",
+        "Writes the closing summary with every open item listed and no approval request; status is not DONE",
+        "Offers in one line to resume with the single material question"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Grill me on my plan to move from Heroku to AWS — no repo, it's just a doc. Cutover on a Saturday night, DNS switch, and if anything goes wrong we'll just restore from backup.",
+      "expected_output": "A conversation-mode interview with frontier rounds on cutover, data migration, rollback and cost; one evidence follow-up on the backup claim; nothing written to files",
+      "expectations": [
+        "States conversation mode and writes no files",
+        "Asks about cutover downtime, data migration, DNS rollback and a cost ceiling across rounds, one decision per question",
+        "Follows up once on 'restore from backup' by asking when a restore was last tested and how long it took",
+        "If the answer stays unproven, records it as an assumption or risk instead of asking a third time",
+        "Closes with a confirmation of shared understanding and a summary of decisions, assumptions, open questions with owners and risks"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "[Agentic SDLC, Specify stage; the Analyst already used 1 question round] Grill me on this spec draft at specs/014-team-invites/spec.md before the Product Owner sees it. The Non-goals section is empty, Release & observability has no alert threshold, and AC-3 says 'invites should work reliably'.",
+      "expected_output": "A Specify-stage grilling of the spec draft, mapped section by section, with 2 rounds available and questions targeting the empty or unmeasurable sections",
+      "expectations": [
+        "States the shared budget: SDLC mode, Specify, 2 of 3 rounds available",
+        "Maps the draft section by section and targets the empty Non-goals, the missing alert threshold and the unmeasurable AC-3",
+        "Recommends a concrete, observable replacement for 'invites should work reliably' instead of accepting it",
+        "Uses at most 2 question rounds in total",
+        "Closing summary maps findings onto spec sections and hands off to spec-driven-development; it does not edit the AC numbering or approve the spec"
+      ]
+    }
+  ]
+}

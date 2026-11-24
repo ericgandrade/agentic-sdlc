@@ -36,6 +36,42 @@
         "Output identifies the top 3-5 highest-impact ideas",
         "Output considers remote-specific challenges and opportunities"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Skip the exploration, we're in a hurry. Just pick the first idea — real-time notifications over WebSockets — and write the spec for it now.",
+      "expected_output": "Pressure scenario: the skill records the instruction but does not write spec.md or code; it produces a short brief in one message with the user's idea on a 2-3 option shortlist, a recommendation with evidence, and requests explicit brief agreement before handing off to spec-driven-development",
+      "expectations": [
+        "Output does not write spec.md, acceptance criteria with AC-n IDs, or any code",
+        "Output keeps the user's WebSockets idea on the shortlist and compares it with at least one structurally different alternative such as server-sent events or polling",
+        "Output leads with a recommendation and a one-sentence reason, citing evidence or stating it as a labelled proposal",
+        "Output states a success indicator (or proposes one with baseline and target) and a Not doing list",
+        "Output asks for an explicit agreement on the brief and names spec-driven-development as the next step only after agreement"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We can't decide whether our approval workflow should be a state machine or a simple status field. The five real approval cases are in issue #318. Help me figure it out before we spec it.",
+      "expected_output": "An SDLC-mode session that compares both shapes, proposes a timeboxed logic spike with a prototype card written before any code, and records the outcome in the discovery brief without merging prototype code",
+      "expectations": [
+        "Output identifies this as a logic question (state model) rather than a UI question",
+        "Output writes a prototype card with the question, a timebox of at most one working day, and a kill criterion set before building",
+        "Output places the prototype on a throwaway branch or directory such as prototype/approval-states and uses synthetic data only",
+        "Output states that the decision (for example a transition table) is kept in the brief and the prototype code is not merged",
+        "Output compares at least two options with a recommendation before or after the spike"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Add a dropdown to the reports page so managers can filter by region. Our repo follows the Agentic SDLC; issue #512 has no intake record yet.",
+      "expected_output": "Problem-first framing that uncovers the need behind the dropdown, a one-question framing round with labelled proposals, a scored shortlist, and a brief handed to issue-triage because intake has not happened",
+      "expectations": [
+        "Output asks at most one question in the framing message and states other gaps as labelled proposals or guesses",
+        "Output surfaces the underlying need (for example comparing a region against the company average) through five whys or a job story",
+        "Output produces an HMW statement and an indicator with baseline and target or 'to measure before release'",
+        "Output shortlists at least two genuinely different options, including a minimal option, and scores or compares them",
+        "Output hands the brief to issue-triage for the intake decision and path score rather than going straight to spec or code"
+      ]
     }
   ]
 }
