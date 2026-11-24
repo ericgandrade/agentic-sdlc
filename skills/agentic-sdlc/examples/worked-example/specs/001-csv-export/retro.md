@@ -22,7 +22,7 @@
 | Review findings Critical / Important / Minor | 1 / 3 / 1 (F-1 / F-2, F-3, F-7 / F-6); F-7 rejected on spec text | PR #138 Review triage |
 | Critical found after Test sign-off | 0 | postmortems, issues |
 | Reverts or hotfixes ≤ 7 days after release | 0 (window 2026-11-30 → 2026-12-07, closed) | `git log -E -i --since=2026-11-30 --until=2026-12-07 --grep='^Revert\|hotfix'` |
-| Indicator: first reading vs target | 1 ticket tagged `export-request` from 2026-11-30 to 2026-12-07 vs target ≤ 4 tickets/month (baseline 14/month) → on track | help-desk tag count, read 2026-12-07 |
+| Indicator: first reading vs target | 1 ticket tagged `export-request` from 2026-11-30 to 2026-12-07 vs target ≤ 4 tickets/month (baseline 14/month) → met (partial: 1 week of the 4-week window) | help-desk tag count, read 2026-12-07 |
 | Incidents since release (SEV) | 0 | `docs/postmortems/` |
 
 ## Keep

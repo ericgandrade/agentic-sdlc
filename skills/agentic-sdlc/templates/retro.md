@@ -32,7 +32,10 @@ A section with nothing to report says "none — <reason>"; never leave it blank.
 | Critical found after Test sign-off | <n> | postmortems, issues |
 | Reverts or hotfixes ≤ 7 days after release | <n> | `git log` |
 | Indicator: first reading vs target | <reading> vs <target> | `ops.md` |
-| Incidents since release (SEV) | <n (SEVn)> | `docs/postmortems/` |
+| Incidents since release (SEV1–SEV3) | <n (SEVn)> | `docs/postmortems/` |
+| Outcome decision (Product Owner) | <accepted \| accepted with follow-ups #n \| hold \| not accepted> (skill `retrospective`) | indicator verdict, `ops.md` |
+
+<!-- Epic view (optional): one extra row per epic, `Epic <name>: <n of m specs released · indicator verdict>`. -->
 
 ## Keep
 

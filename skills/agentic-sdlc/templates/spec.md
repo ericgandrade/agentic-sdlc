@@ -26,7 +26,7 @@ hash = approved). Writing "Approved" into the body would change the hash it is m
 <!--
 Size and Risk follow references/paths.md §Score.
 Size: files (≤ 3 → 1, 4–15 → 2, > 15 → 3) + components (1/2/≥ 3 → 1/2/3) + iterations (1/2/≥ 3 → 1/2/3).
-Risk triggers: auth, personal data, health data, money, public API, schema/migration, irreversible, regulated.
+Risk triggers: auth, personal/health data (one trigger), money, public API, schema/migration, irreversible, regulated.
 spec-lint recomputes the route: Path lower than max(size route, risk route) → exit 1 (never route down).
 Intake records the Discover-stage duplicate search (references/lifecycle.md §Intake decision). A duplicate
 stops the work item, so a spec only carries "n/a — <reason>" or "prior rejection #n — <why it differs>".

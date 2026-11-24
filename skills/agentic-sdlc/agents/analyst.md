@@ -66,6 +66,6 @@ Path score line · intake record · `spec.md` rev N + hash · approval request t
 
 - Score inputs missing → path Standard, recorded as `default: inputs missing`.
 - Material ambiguity still unanswered after 3 rounds → record the item as `deferred: <owner>`, or report `NEEDS_CONTEXT`; send no approval request.
-- A duplicate is found → link it, set the intake decision to `duplicate` and stop.
+- A duplicate is found → link it, propose the intake decision `duplicate` to the Product Owner and stop.
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.

@@ -55,7 +55,8 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Artifact | Location | Template | Created in · by | Required on | Validated by |
 |---|---|---|---|---|---|
 | AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor`† |
-| Issue with acceptance test | tracker | — (Given/When/Then in the issue body) | Discover · Analyst | Quick | Reviewer lens L1 |
+| Issue with acceptance test | tracker; no tracker → `docs/issues/NNNN-slug.md` | — (Given/When/Then in the issue body) | Discover · Analyst | Quick | Reviewer lens L1 |
+| Out-of-scope record | `docs/out-of-scope/<slug>.md` | `issue-triage` skill, references/templates.md | Discover · Analyst; Product Owner decides | when a request is declined | duplicate search (`issue-triage`) |
 | `spec.md` | `specs/NNN-slug/` | `templates/spec.md` | Specify · Analyst | Standard, Full | `spec-lint` |
 | Approval register `approvals.md` | `specs/NNN-slug/` | `references/governance.md` §3 | Specify, Design · Analyst, Planner | Standard, Full | `spec-lint --check-approval` (AP07) |
 | `threat-model.md` | `specs/NNN-slug/` | `templates/threat-model.md`† | Specify · Security Auditor | Full; risk-flagged Standard | `spec-lint`: TM01 error on Full, TM02 warning on risk-flagged Standard, TM03 high threat without AC |

@@ -16,7 +16,7 @@ Load after a Release, after a merge with no release, or when a Quick batch is du
 
 ## Procedure
 
-**Inputs** (read directly, never from memory): `plan.md` loop ledger, PR Review triage, release notes, `specs/NNN-slug/ops.md`, postmortems since the last retro, open actions from earlier retros, `git log` of the item.
+**Inputs** (read directly, never from memory): `plan.md` loop ledger, PR Review triage, release notes, `specs/NNN-slug/ops.md` (its §Delivery facts are the source for DORA figures), postmortems and open `PA-` actions since the last retro, open actions from earlier retros, `git log` of the item.
 
 | Step | Minutes (Standard / Quick) | Work | Output section |
 |---|---|---|---|
@@ -37,7 +37,9 @@ At the timebox, stop; topics not reached go to the next retro's agenda under `Ca
 | Review findings by severity; Critical found after Test sign-off | PR Review triage; postmortems |
 | Reverts or hotfixes ≤ 7 days after release | `git log -E -i --since=<release date> --grep='^Revert\|hotfix'` |
 | Indicator: first reading vs target | `ops.md` |
-| Incidents (SEV) since release | `docs/postmortems/` |
+| Incidents (SEV1–SEV3) since release; SEV4 is not an incident | `docs/postmortems/` |
+
+**Trends.** Change failure rate above 15% at two retros in a row, or lead time above 1.5 × the median of the last 3 retros → one Change item is mandatory and its action targets the cause.
 
 ## Action rule
 

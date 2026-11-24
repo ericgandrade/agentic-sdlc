@@ -22,7 +22,7 @@
 
 | Stage | What happens | Lead agent | Helpers |
 |---|---|---|---|
-| **Discover** | Take in the request; check duplicates and prior rejections; classify (bug, task, story, epic); size and choose the path; set the goal and the indicator to measure | Planner | — |
+| **Discover** | Take in the request; check duplicates and prior rejections; classify (bug, task, story, epic); size and choose the path; set the goal and the indicator to measure | Analyst, Product Manager | — |
 | **Specify** | Write `spec.md`: user stories, acceptance criteria (Given/When/Then), non-goals, constraints, security notes, indicator, and §Release & observability (signal, numeric alert threshold, dashboard, owner, rollout, rollback command — required by `spec-lint`, M 12.1) | Planner | Security Auditor |
 | **Design** | ADRs for real decisions; `plan.md` with approach and the `## Tasks` table (thin vertical slices with dependencies, M 7.1) — tasks live in `plan.md` on every path | Planner | Architect |
 | **Build** | Implement task by task, test-first, small commits, open the pull request; debug systematically | Developer | — |
@@ -186,7 +186,7 @@ Reference repos (pinned commits): `obra/superpowers@22f0b46`, `mattpocock/skills
 | Stage | Skill | Status | Used by agent |
 |---|---|---|---|
 | Router | `agentic-sdlc` | Rewrite (Phase 0) + deepen (B) | all |
-| Discover | `issue-triage` | **New** (B) | Planner |
+| Discover | `issue-triage` | **New** (B) | Analyst, Product Manager |
 | Discover | `project-context` | Align (0) + deepen (B) | Planner |
 | Discover | `brainstorming` | Align (0) + deepen (B) | Planner |
 | Specify | `spec-driven-development` | Align (0) + deepen (B) | Planner |
@@ -204,7 +204,7 @@ Reference repos (pinned commits): `obra/superpowers@22f0b46`, `mattpocock/skills
 | Release | `deployment-pipeline` | **New** (D) | Release Engineer |
 | Release | `shipping-and-handover` | **New** (D) | Release Engineer |
 | Operate | `operations-and-incidents` | **New** (D) | SRE |
-| Operate | `retrospective` | **New** (D) | SRE, Planner |
+| Operate | `retrospective` | **New** (D) | Scrum Master, SRE, Product Manager |
 | — | `agent-skill-orchestrator` | Minor update (E) | — |
 
 ---
