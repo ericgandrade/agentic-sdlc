@@ -1,0 +1,1 @@
+globalThis.golfRan = true;

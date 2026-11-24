@@ -1,0 +1,24 @@
+{
+  "skill_name": "systematic-debugging",
+  "description": "Triggers for finding and proving the root cause of a failing, flaky or order-dependent test, build or runtime bug before fixing it, within the bounded debug loop",
+  "queries": [
+    {"id": 1, "query": "This test keeps failing and I don't know why — debug it properly before changing anything", "should_trigger": true},
+    {"id": 2, "query": "run-ledger says 3 failed red-green attempts, switch to the debug loop for T4", "should_trigger": true},
+    {"id": 3, "query": "My test passes alone but fails when the whole suite runs — which test is polluting it?", "should_trigger": true},
+    {"id": 4, "query": "The checkout test is flaky in CI, fails about one in five runs. Find the real cause", "should_trigger": true},
+    {"id": 5, "query": "A from-production issue landed in Build after the rollback: the invoice total is off by one cent for some customers", "should_trigger": true},
+    {"id": 6, "query": "I fixed the null pointer yesterday but the error came back in a different place", "should_trigger": true},
+    {"id": 7, "query": "Build fails only on the CI runner, works on my laptop — help me track it down", "should_trigger": true},
+    {"id": 8, "query": "I can only reproduce this login bug by clicking through the staging UI; write me a reproduction script I can run step by step", "should_trigger": true},
+    {"id": 9, "query": "Three of my hypotheses for this bug were refuted, what do I do now?", "should_trigger": true},
+    {"id": 10, "query": "Bisect the test suite to find which file leaves state behind and breaks tests/report.test.ts", "should_trigger": true},
+    {"id": 11, "query": "Implement AC-3 of the export spec test-first with red-green-refactor", "should_trigger": false},
+    {"id": 12, "query": "Execute the next tasks in plan.md in order and open a PR when done", "should_trigger": false},
+    {"id": 13, "query": "Run the DoD and give me fresh evidence that T6 is really done", "should_trigger": false},
+    {"id": 14, "query": "Review this pull request for correctness, security and readability", "should_trigger": false},
+    {"id": 15, "query": "Production is down after the deploy — open an incident and decide whether to roll back", "should_trigger": false},
+    {"id": 16, "query": "Write a spec with acceptance criteria for the new refund flow", "should_trigger": false},
+    {"id": 17, "query": "This legacy billing module has no tests at all; add characterization tests before we refactor it", "should_trigger": false},
+    {"id": 18, "query": "Design the architecture for a multi-tenant event pipeline", "should_trigger": false}
+  ]
+}
