@@ -24,6 +24,18 @@
         "Output generates a structured plan covering all four requested areas",
         "Output waits for approval before executing the plan"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Add CSV export to the orders page of our Node app: users pick a date range and download their orders. It needs tests, a PR and a release to production next week. Plan how to do this with the skills I have installed (agentic-sdlc and its stage skills are installed).",
+      "expected_output": "A plan whose Option 1 is the agentic-sdlc router as the single entry point, with the expected path, stages and human sign-offs, and a loose skill chain as Option 2",
+      "expectations": [
+        "Option 1 names agentic-sdlc as the single entry point rather than a hand-ordered list of stage skills",
+        "The plan states the expected path (Standard for a feature of this size) is chosen by the router's path score",
+        "The plan lists the human sign-offs: Product Owner, Tech Lead, human reviewer, Release Owner",
+        "Option 2 offers a lighter chain such as brainstorming, writing-plans, executing-plans and a review skill",
+        "The plan asks for approval before any execution"
+      ]
     }
   ]
 }

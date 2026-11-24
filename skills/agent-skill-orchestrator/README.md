@@ -380,6 +380,10 @@ MIT License - See [LICENSE](../../LICENSE)
 
 ## Version History
 
+### v2.2.0 (2026-11-25)
+- Step 2.5: software-delivery requests get the `agentic-sdlc` router as Option 1 when installed; single-stage requests go straight to the stage skill
+- New eval scenario for an end-to-end feature request
+
 ### v2.0.0 (2026-03-06)
 - Added Progress Tracking gauge bars to SKILL.md
 - Added evals/evals.json and evals/trigger-eval.json
@@ -406,10 +410,10 @@ MIT License - See [LICENSE](../../LICENSE)
 
 | Field | Value |
 |-------|-------|
-| Version | 2.1.0 |
+| Version | 2.2.0 |
 | Author | Eric Andrade |
 | Created | 2026-02-07 |
-| Updated | 2026-03-19 |
+| Updated | 2026-11-25 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | orchestration |
 | Tags | orchestration, planning, strategy, intelligent-matching, platform-agnostic |

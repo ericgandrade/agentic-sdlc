@@ -152,6 +152,19 @@ resources = invokeSkill("agent-skill-discovery")
 
 Total score = 0–100. Filter out resources below 40. Group into tiers: high confidence (≥80), medium (60–79), low (40–59).
 
+### Step 2.5: Software-Delivery Method Check
+
+**Objective:** Propose one end-to-end method instead of a loose chain of skills when the request is software delivery.
+
+**Detect** a software-delivery request: build, fix or change a feature, bug, API, service or migration in a code repository, with code expected to ship (task type development, complexity moderate or complex, or any mention of spec, plan, tests, PR, release or deploy).
+
+**When `agentic-sdlc` is among the discovered resources**, make it the primary strategy:
+- Option 1 names the `agentic-sdlc` router as the single entry point. It selects the path (Quick, Standard, Full) from its path score and dispatches the stage skills itself (Discover → Specify → Design → Build → Test → Release → Operate). Do not sequence the stage skills by hand in this case; list the stages the router is expected to run and the human sign-offs it will ask for (Product Owner, Tech Lead, human reviewer, Release Owner).
+- Option 2 is the loose chain for teams that decline the method: for example `brainstorming` → `writing-plans` → `executing-plans` → `multi-axis-code-review`.
+- A single-stage request (only debug a failing test, only review a PR, only write a spec) goes straight to that stage skill (`systematic-debugging`, `multi-axis-code-review`, `spec-driven-development`) and does not start the full method.
+
+**When `agentic-sdlc` is not installed**, keep the normal plan and add one Notes line: "For end-to-end delivery with approvals, install the `agentic-sdlc` bundle (`npx claude-superskills`, bundle `agentic-sdlc`)."
+
 ### Step 3: Generate Execution Plan
 
 **Objective:** Create strategic execution plans with alternatives.
@@ -395,6 +408,7 @@ Display progress during execution:
 - ✅ Handle missing resources gracefully (suggest alternatives or abort)
 - ✅ Report progress during execution (if Step 6 is reached)
 - ✅ Explain reasoning for each resource selection
+- ✅ Propose the `agentic-sdlc` router as Option 1 for multi-stage software-delivery requests when it is installed (Step 2.5)
 
 ### **ORCHESTRATION PRINCIPLES:**
 
