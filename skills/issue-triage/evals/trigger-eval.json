@@ -1,0 +1,22 @@
+{
+  "skill_name": "issue-triage",
+  "description": "Triggers for intake of a new request, issue, production signal or retro action: duplicate and prior-rejection search, intake decision, classification, path score, readiness and needs-info",
+  "queries": [
+    { "id": 1, "query": "Triage issue #412 before anyone works on it", "should_trigger": true },
+    { "id": 2, "query": "Has someone already asked for bulk invoice download? Check open and closed issues and anything we rejected", "should_trigger": true },
+    { "id": 3, "query": "Is this report a bug or a feature request, and which path does it get — Quick, Standard or Full?", "should_trigger": true },
+    { "id": 4, "query": "Go through the untriaged issues in the backlog, oldest first", "should_trigger": true },
+    { "id": 5, "query": "The SRE opened a from-production issue for the export indicator miss — take it into Discover", "should_trigger": true },
+    { "id": 6, "query": "A customer emailed asking for SSO login; log it properly and tell me if it's ready to spec", "should_trigger": true },
+    { "id": 7, "query": "This issue just says 'it crashes' — write a reply asking the reporter for what we need", "should_trigger": true },
+    { "id": 8, "query": "We decided not to support offline mode; record that so nobody re-proposes it every six months", "should_trigger": true },
+    { "id": 9, "query": "Pick up the open retro action RA-20261120-2 as the next work item", "should_trigger": true },
+    { "id": 10, "query": "Write the spec with acceptance criteria for the CSV export we agreed on", "should_trigger": false },
+    { "id": 11, "query": "I have a vague idea to help managers see team workload — let's explore options", "should_trigger": false },
+    { "id": 12, "query": "Find the root cause of the flaky timeout in the export worker test", "should_trigger": false },
+    { "id": 13, "query": "Production is down — run the incident and draft the postmortem", "should_trigger": false },
+    { "id": 14, "query": "Run the retrospective for release v2.4 and record the actions", "should_trigger": false },
+    { "id": 15, "query": "Set up the AGENTS.md block and code map for this existing repository", "should_trigger": false },
+    { "id": 16, "query": "Break the approved spec into plan.md tasks with dependencies", "should_trigger": false }
+  ]
+}

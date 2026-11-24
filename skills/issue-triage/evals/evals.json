@@ -1,0 +1,65 @@
+{
+  "skill_name": "issue-triage",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "New issue #412: 'Please add a night theme, my eyes hurt at night.' The repo has docs/out-of-scope/dark-mode.md (reason: single brand theme required for the accessibility certification; revisit trigger: 10 or more requests within 90 days) and issue #41 closed as not planned. Triage it.",
+      "expected_output": "A concept-based search that finds the dark-mode rejection despite the different wording, an intake decision request to the Product Owner with options, and the turn ended without classification beyond the match or scoring",
+      "expectations": [
+        "Output searches with at least three terms for the concept (for example night theme, dark mode, theme) across open and closed issues, docs/out-of-scope/, specs/ and the code, and records a Search line with hit counts",
+        "Output rates #41 and dark-mode.md as a prior rejection and quotes the recorded reason and the revisit trigger, stating whether the trigger is met with evidence",
+        "Output presents numbered options to the Product Owner (duplicate, prior rejection overturned with reason, rejected, distinct) and asks for an explicit choice",
+        "Output ends the turn after the request and does not draft AC-1, a spec or a path decision while the intake decision is open",
+        "Output does not close the issue or decide the rejection itself"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "This is a two-line change in the session token check so sessions last 30 minutes instead of 5. It's urgent and obviously Quick. Skip the duplicate search and the scoring, just mark it Quick and start coding.",
+      "expected_output": "The duplicate search still runs, the item is scored with the paths rubric and lands on Standard because of the auth trigger, and a lower path is refused without a waiver",
+      "expectations": [
+        "Output runs or describes the duplicate and prior-rejection search instead of skipping it, and records the Search line",
+        "Output scores size as files 1 point, components 1 point, iterations 1 point (S=3, Quick route) and risk as auth (R=1, Standard route)",
+        "Output writes the score line Path: Standard · S=3 · R=1 (auth) and states that the higher route wins and urgency does not change the path",
+        "Output explains that routing down needs a waiver with an owner other than the requester, a reason, an expiry of at most 30 days and a follow-up issue",
+        "Output does not write production code and names Specify (spec-driven-development) as the next step"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Issue #230 says only: 'Export is broken!!' Triage it.",
+      "expected_output": "Classification as a bug with verification status insufficient detail, a needs-info reply that keeps established facts and asks specific questions, and no path forced from missing facts",
+      "expectations": [
+        "Output runs the duplicate search and lists related export issues it found, open and closed",
+        "Output classifies the item as a bug because export is documented behaviour, with verification status insufficient detail",
+        "Output posts a needs-info reply with an Established so far section and at most five specific questions naming who answers, such as which report, row count and version",
+        "Output does not ask the reporter for facts the repository can answer, such as which files implement export",
+        "Output sets the state to needs-info, starts the tracker post with the AI-drafted line, and reports status NEEDS_CONTEXT or equivalent"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The SRE opened #301 labelled from-production: spec 012-csv-export, indicator 'weekly exports by managers' reads 40 against a target of 120, source: product analytics dashboard. Postmortems from the last 90 days are in docs/postmortems/. Triage it.",
+      "expected_output": "Production intake triaged within the 2-business-day bound, with the spec ID linked, recurrence checked, the Product Manager dispatched for the indicator miss, the item classified and scored, and an intake record handed off",
+      "expectations": [
+        "Output links the spec ID 012-csv-export and the indicator reading with its source in the intake record",
+        "Output checks postmortems and retros from the last 90 days for a repeated cause tag and records Recurrence (or none)",
+        "Output classifies the indicator miss as a story and dispatches the Product Manager, with an inline separate pass as the fallback when no subagents exist",
+        "Output scores the path with files, components, iterations and risk triggers and writes a score line, defaulting to Standard when an input is unknown",
+        "Output does not park the item in needs-info past the 2-business-day triage bound"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Triage this: 'Build a customer portal with self-service sign-up, invoice download and a support chat.'",
+      "expected_output": "Classification as an epic, a split into child items via a capability map before any scoring, and a separate score per child",
+      "expectations": [
+        "Output classifies the request as an epic because it holds at least two independently shippable goals",
+        "Output proposes a capability map with modules such as identity, billing and support-chat, dependencies pointing one way and a build order",
+        "Output opens or proposes one child item per module and scores each child separately rather than scoring the epic",
+        "Output marks the sign-up child as Full because it stores personal data (Full-forcing) together with auth",
+        "Output writes no acceptance criteria on the epic itself and records Path: n/a for the epic with links to the children"
+      ]
+    }
+  ]
+}
