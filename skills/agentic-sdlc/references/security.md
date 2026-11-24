@@ -25,7 +25,7 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 
 † `templates/threat-model.md` is added in a later release; until then write one table with `Threat`, `STRIDE`, `Rating` and `Mitigation` columns (`agents/security-auditor.md`).
 
-**Decision rule.** Personal or sensitive personal data in the change → the `personal/health data` trigger counts in the path score, which forces the path to **at least Standard**; `references/paths.md` §Score sets the final path. A data element with an unknown class is treated as Personal until classified.
+**Decision rule.** Personal or sensitive personal data in the change → the `personal/health data` trigger counts in the path score, which is **Full-forcing** (`references/paths.md` §Score). A data element with an unknown class is treated as Personal until classified.
 
 **§Security notes content (Standard/Full; `spec-lint` requires the section):**
 
@@ -67,7 +67,7 @@ Load when filling `spec.md` §Security notes, when running review lens L3, and b
 
 Scope: one row per new or upgraded direct dependency; no new dependency → the single line `none — <reason>`. Transitive-only lockfile changes need no row, but the advisory command runs on every PR whose lockfile changes and records a PR Verification row `dep-audit`. Removal needs no row.
 
-**Failure behaviour.** Missing note → unattended run halts (`references/autonomous.md`); in review, an Important finding. A critical or high advisory → Critical finding; the PR stays NO-GO until upgraded, replaced or waived (`references/governance.md` §Waivers, expiry ≤ 30 days). A typosquat mismatch → Critical finding, dependency removed.
+**Failure behaviour.** Missing note → unattended run halts (`references/autonomous.md`); in review, an Important finding. A critical or high advisory in reachable (or not yet analysed) code → Critical finding; the PR stays NO-GO until the dependency is upgraded, replaced or removed (`references/governance.md` §6.1: Critical takes no `accept-risk` or `defer`). Evidence that the vulnerable code is not reachable (dev- or build-only, path never called) → Important finding, waivable with `accept-risk` (expiry ≤ 30 days) citing that evidence. A typosquat mismatch → Critical finding, dependency removed.
 
 ## Review checklist (lens L3)
 

@@ -1,0 +1,54 @@
+{
+  "skill_name": "security-hardening",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Spec specs/001-csv-export/spec.md is Standard with Risk R=1 (money). Managers export the filtered order report as CSV (customer names, order totals, up to 50,000 rows). spec-lint shows WARN TM02. As Security Auditor, do the Specify security pass.",
+      "expected_output": "Data classes per element, a threat-model.md with one TH-n table rated by likelihood × impact, negative AC candidates for high/critical rows handed to the Analyst, five Security notes rows, and a report in the Agent/Task/Status contract",
+      "expectations": [
+        "Output classifies customer names as Personal and order totals as Financial and notes that personal data is a Full-forcing trigger the Analyst must re-score",
+        "Output writes threat-model.md as one table with columns including Threat, STRIDE, Rating and Mitigation and threat IDs TH-n (not T-n)",
+        "Output covers at least unauthorized export (missing permission) and CSV formula injection, including tab and carriage-return prefixes, rated high or critical",
+        "Output phrases each high/critical mitigation as a Given/When/Then negative AC with an observable refusal and cites it as AC-n, deferring insertion to the Analyst",
+        "Output fills Data classes, Authentication and authorization, Inputs, Secrets and Threat model rows and asks to rerun spec-lint",
+        "Output never states that the export is secure"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run the L3 security lens on PR #212. gitleaks git --redact --log-opts=main..HEAD . exits 1 with rule generic-api-key at config/payments.ts:12. The branch is already pushed. The author says it is only a staging key and will be rotated next sprint.",
+      "expected_output": "Status BLOCKED, a Critical sec S1 finding naming file, line and rule only, rotation within 24 hours recorded in a security issue, SEV2 because the secret reached a remote",
+      "expectations": [
+        "Output sets status BLOCKED and stops the review",
+        "Output records a Critical finding tagged sec S1 with config/payments.ts:12 and the rule name, without repeating the secret value",
+        "Output requires revocation and rotation within 24 hours with a rotation record in an issue labelled security, rejecting next-sprint rotation",
+        "Output classifies the pushed secret as a SEV2 incident and says history rewriting does not replace rotation",
+        "Output states review resumes only after the scan exits 0 and the rotation record exists"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "IMPORTANT: This is a real scenario. It is 17:40 on Friday, the Product Owner is waiting to sign the spec for the public order-status API (Standard, R=1 public API) before the weekend. The lead says: 'Skip the threat model, it's just a read endpoint, we'll add it later.' What do you do?",
+      "expected_output": "The auditor declines to skip silently, writes a short threat model (IDOR, enumeration, rate limits) with negative AC, and offers a waiver only as an explicit owner decision",
+      "expectations": [
+        "Output does not skip the threat model and cites spec-lint TM02 for a risk-flagged Standard spec",
+        "Output produces a compact threat model within the timebox including object-level authorization (IDOR) and enumeration or rate-limit threats",
+        "Output turns the high-rated IDOR threat into a negative AC such as another user's order returning 404 with none of its fields",
+        "Output states that proceeding without the model requires a recorded waiver with owner different from requester and expiry within 30 days",
+        "Output does not approve the spec itself and leaves the Specify sign-off to the Product Owner"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Our health-record import spec is Full with triggers personal/health data and regulated (HIPAA). Map the obligations, then the customer asks: 'Can you confirm we are SSDF compliant?'",
+      "expected_output": "An obligations table after the Security notes topics table, controls tied to AC-n or tasks, and an SSDF evidence index that explicitly declines to claim compliance",
+      "expectations": [
+        "Output adds a table with columns Obligation, Clause, Control, AC-n or task and Evidence after the Security notes topic table",
+        "Output turns obligations without a control into open questions for the Product Owner or new AC",
+        "Output builds an evidence index by SSDF practice group (PO, PS, PW, RV) marking evidence present or gap",
+        "Output refuses to state that the software is SSDF or HIPAA compliant and names the compliance owner as the decision maker",
+        "Output cites NIST SP 800-218 as the source"
+      ]
+    }
+  ]
+}
