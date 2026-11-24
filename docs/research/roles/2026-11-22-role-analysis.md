@@ -1,6 +1,6 @@
 # Role Analysis — Agentic SDLC vs. Benchmark Methods
 
-**Date:** 2026-11-22 · **Requested by:** owner ("it must have all the roles — Analyst, Developer, UX, Tester, Scrum…") · **Status:** analysis + recommendation; implementation pending owner decisions (§7).
+**Date:** 2026-11-22 · **Requested by:** owner ("it must have all the roles — Analyst, Developer, UX, Tester, Scrum…") · **Status:** decided 2026-11-24 (D1 yes, D2 one role, D3 absorb, D4 router); implementation per `docs/plans/2026-11-24-agentic-sdlc-role-model.md`.
 
 **Owner constraints:**
 - Use functional role names only.
