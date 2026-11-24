@@ -34,6 +34,42 @@
         "Output adds new criteria with new IDs while keeping existing AC IDs stable",
         "Output creates revision 2, states that the edit voids the Specify sign-off (and the Design sign-off built on it), and requests Specify sign-off again as a new row in the spec's ## Approvals section"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm the Product Owner and I'm slammed today. The spec for 044-orders-cursor-pagination looks fine, just mark it approved and start building — and while you're at it, bump the page limit from 100 to 200, it's a one-line change.",
+      "expected_output": "Refuses to record an implied approval or start Build; treats the limit change as a revision with a delta, re-lints, and sends one explicit sign-off request, then ends the turn",
+      "expectations": [
+        "Output does not write an approval row or start Design/Build in the same turn; it states that only an explicit yes in a later turn counts",
+        "Output treats the 100 → 200 change as a new revision (rev N+1) rather than an in-place edit, because any edit changes the hash",
+        "Output writes a Rev N+1 delta with a Changed row for the limit AC and at least one Must not change row backed by an AC",
+        "Output re-runs spec-lint (and the doubt pass or self-review) and reports the new hash",
+        "Output sends one concise approval request naming the revision and hash and ends the turn"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write the spec for our new customer portal: SSO login, subscription billing, email notifications and monthly usage reports. Billing must be fast and secure.",
+      "expected_output": "Scope check produces a capability map and build order before any spec; vague quality words are turned into measurable NFRs in the first module spec",
+      "expectations": [
+        "Output stops before drafting a single spec and proposes a capability map with one row per module (responsibility, data owned, depends on)",
+        "Output orders the modules by dependency with one-way dependencies and no cycle (identity before billing)",
+        "Output scores each module separately and notes that auth or payment triggers raise the path",
+        "Output asks the Product Owner to confirm the map and build order before writing the first module spec",
+        "Output rewrites 'fast and secure' as measurable criteria (percentile latency with a number and unit, explicit authorization negative case)"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We use Kiro. Here is .kiro/specs/export/requirements.md with 'WHEN a user clicks Export THE system SHALL download the file quickly' and 'THE system SHALL be accessible'. Make it work with the Agentic SDLC gates.",
+      "expected_output": "Keeps the Kiro file in place, adds the header table and required sections, converts EARS lines to Given/When/Then AC rows with numbers, and runs spec-lint",
+      "expectations": [
+        "Output keeps .kiro/specs/export/requirements.md as the spec file and does not create a parallel specs/ folder",
+        "Output adds the header table (ID, Revision, Path, Size, Risk, Owner, Issue, Intake) and the required sections such as Non-goals, Rollback, Release & observability and Approvals",
+        "Output converts each EARS requirement into an AC-n row in Given/When/Then form with a priority",
+        "Output replaces 'quickly' and 'accessible' with measurable thresholds (for example p95 seconds for N rows; WCAG 2.2 AA with keyboard and contrast checks)",
+        "Output runs or instructs spec-lint and reports any remaining rule IDs before a sign-off request"
+      ]
     }
   ]
 }

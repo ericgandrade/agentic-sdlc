@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: This skill should be used when the user needs a written specification before code — turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered acceptance criteria, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint; revising an approved spec through the change protocol; or splitting a large initiative into module specs (the Specify stage and Specify sign-off of the Agentic SDLC).
+description: This skill should be used when the user needs a written specification before code — turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered testable acceptance criteria, measurable non-functional requirements, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint and a doubt pass; revising an approved spec with a delta that states what must not change; splitting an epic into a capability map of module specs; or importing Spec Kit, Kiro, OpenSpec or AI-DLC specs (the Specify stage and Specify sign-off of the Agentic SDLC).
 license: MIT
 ---
 
@@ -8,27 +8,39 @@ license: MIT
 
 ## Purpose
 
-Write down what must be true when the work is done — before any code exists — so the human and the agents share one source of truth. The spec states the problem, numbered acceptance criteria (`AC-n`), non-goals, constraints, security notes, the rollback, how the change is released and observed, and the indicator that shows it worked.
+Agentic SDLC · Specify stage. Agents: **Product Manager** (problem, stories, indicator), **Analyst** (acceptance criteria, doubt pass, lint), **UX Designer** (`ux.md` when a user-facing surface changes). The **Product Owner** signs off — a human, never an agent.
 
-This skill runs the **Specify** stage of the Agentic SDLC (Discover → Specify → Design → Build → Test → Release → Operate) and ends in the **Specify sign-off** by the Product Owner. The artifact is `specs/NNN-slug/spec.md`, written from `../agentic-sdlc/templates/spec.md` and checked by `spec-lint`. Once approved, the spec revision and its 12-hex hash are the build baseline: every task in `plan.md`, every commit, test and piece of evidence traces back to its `AC-n` IDs, and any later edit voids the approval until it is renewed.
+Write down what must be true when the work is done — before any code exists — so humans and agents share one source of truth: the problem, numbered acceptance criteria (`AC-n`), non-goals, constraints, security notes, the rollback, release and observability, and the indicator that shows it worked.
 
-In the method this skill is run by the **Analyst** (`../agentic-sdlc/agents/analyst.md`). Specialists join on their triggers (`../agentic-sdlc/references/agents.md` §Triggers):
-- the **UX Designer** writes `ux.md` before Step 4, so every screen state becomes an AC or a named pattern, linked under `## Experience`;
-- the **Product Manager** brief feeds Problem and Indicator, and its critique runs alongside Step 5;
-- the **Security Auditor** fills Security notes when R ≥ 1.
+The artifact is `specs/NNN-slug/spec.md`, written from `../agentic-sdlc/templates/spec.md` and checked by `spec-lint`. Once approved, the spec revision and its 12-hex hash are the build baseline: every task in `plan.md`, every commit, test and piece of evidence traces back to its `AC-n` IDs (`../agentic-sdlc/references/lifecycle.md` § 4), and any later edit voids the approval until it is renewed (`../agentic-sdlc/references/governance.md` § 4).
+
+Role briefs: `../agentic-sdlc/agents/analyst.md`, `product-manager.md` (its critique — problem–AC fit, scope creep, indicator measurability — runs alongside Step 6), `ux-designer.md` (`ux.md` before ACs are final). The Security Auditor fills Security notes when R ≥ 1 and writes `threat-model.md` on Full or risk-flagged items (`../agentic-sdlc/references/agents.md` § Triggers).
 
 Code without a spec is guessing; a spec without testable criteria is a wish.
 
 ## When to Use
 
-- A Standard or Full path work item (path score in `../agentic-sdlc/references/paths.md`) is about to be built and no approved spec exists
-- A brainstorming brief or a grill-me summary needs to become buildable requirements
+- A Standard or Full work item (score in `../agentic-sdlc/references/paths.md` § 2) is about to be built and no approved spec exists
+- A brainstorming brief, Product Manager brief or grill-me summary must become buildable requirements
 - Requirements are scattered across a conversation, tickets or meeting notes
-- An existing spec must be checked before the Specify sign-off request
-- An approved spec must change (requirement change, defect in the spec, re-scored path)
-- One request bundles several independently shippable capabilities
+- Acceptance criteria or quality words ("fast", "secure") must become testable
+- A spec must be checked before the Specify sign-off request
+- An approved spec must change (requirement change, spec defect, re-scored path)
+- An epic bundles several independently shippable capabilities
+- The repository already holds Spec Kit, Kiro, OpenSpec or AI-DLC specs that must join the method
 
-Not for Quick path work (score S ≤ 4 and R = 0): agree one acceptance test in the issue instead and go straight to Build. Escalate to this skill when a Quick item turns out to need more (`paths.md` §Escalate).
+**When not to use.** Quick path work (S ≤ 4 and R = 0) has no `spec.md`: agree 1–3 acceptance criteria and the rollback line in the issue and go to Build; escalate here when a Quick item grows (`paths.md` § 4). Neighbors:
+
+| Need | Skill |
+|---|---|
+| Explore options before the problem is settled | `brainstorming` |
+| Stress-test a design or plan by interview | `grill-me` |
+| Classify, de-duplicate and score an incoming item (Discover) | `issue-triage` |
+| Record an expensive-to-reverse decision (ADR) | `senior-solution-architect` |
+| Turn an approved spec into tasks (Design) | `writing-plans` |
+| Design the acceptance tests from the approved spec | `test-strategy` |
+| Threat model, secrets, dependency review | `security-hardening` |
+| Set up `GLOSSARY.md`, `CONSTRAINTS.md`, vendored scripts | `project-context` |
 
 ## Workflow
 
@@ -39,29 +51,32 @@ Not for Quick path work (score S ≤ 4 and R = 0): agree one acceptance test in 
 | **create** | Little written input; a short interview is required | Approved spec |
 | **synthesize** | The conversation, brief or grill-me summary already holds the answers — no re-interview | Approved spec |
 | **validate** | A spec exists and must be checked before approval | Findings table |
-| **revise** | An approved spec must change | Revision N+1, re-approved |
+| **revise** | A spec must change after a sign-off request or approval | Revision N+1, re-approved |
 
-Discover before asking. Read the issue (path score line and intake record from the Discover stage), the brainstorming brief or grill-me summary, `GLOSSARY.md`, `CONSTRAINTS.md` (Full path), ADRs in `docs/adr/`, the code map `docs/codemap.md` and the code the change touches. List `specs/` to pick the next number: `NNN` is the highest existing number plus one, three digits; `slug` is two to four kebab-case words.
+Discover before asking. Read the issue (score line, intake record), the Product Manager brief, the brainstorming brief or grill-me summary, `GLOSSARY.md`, `CONSTRAINTS.md` (Full), ADRs in `docs/adr/`, `docs/codemap.md` and the code the change touches. List `specs/` to pick the next number: `NNN` is the highest existing number plus one, three digits; `slug` is two to four kebab-case words.
 
-If the project already uses a spec system (GitHub Spec Kit `specs/*/spec.md`, OpenSpec `openspec/changes/*/proposal.md`, Kiro `.kiro/specs/*/requirements.md`), keep its location and file name, and add the template's header table and sections to that file so `spec-lint` applies to it.
+Look for an existing spec convention: `specs/*/spec.md` (Spec Kit), `.kiro/specs/*/requirements.md` (Kiro), `openspec/changes/*/proposal.md` (OpenSpec), `aidlc-docs/` (AI-DLC). With exactly one found, keep its location and file names and add this template's header table and sections so `spec-lint` applies; never create a parallel `specs/` tree. With two or more, ask which is authoritative. Mapping tables: `references/format-mapping.md`.
 
-### Step 1 — Scope check
+### Step 1 — Confirm the path
 
-When the request bundles capabilities that have their own users or data and ship and verify separately (identity, billing, notifications), propose a **capability map** before any spec:
+Copy the score from Discover into the header: `Size | S=5 · files 2 + components 2 + iterations 1` and `Risk | R=1 · money` (or `R=0 · none`). Re-score when the content says otherwise: personal or health data, `irreversible`, or R ≥ 2 force Full; the path is the higher of the size route and the risk route. Never route down; `spec-lint` H05 rejects a path below the score.
+
+### Step 2 — Scope check and capability map
+
+When the request bundles capabilities with their own users or data that ship and verify separately — or the draft passes 5 stories or 15 active ACs — stop and build a **capability map** before any spec:
 
 ```markdown
-| Module | Responsibility | Depends on |
-|---|---|---|
-| identity | Accounts, sessions, SSO | — |
-| billing | Plans, invoices, payments | identity |
-Build order: identity → billing
+| Module | Responsibility | Consumers | Data owned | Depends on | Spec | Path |
+|---|---|---|---|---|---|---|
+| identity | Accounts, sessions, SSO | all modules | accounts, sessions | — | 014-identity | Full |
+| billing | Plans, invoices, payments | account owner | invoices | identity | pending | Full |
 ```
 
-Module IDs are stable kebab-case names; dependencies point one way. Get the map approved, then write one spec per module in build order (`specs/014-identity/`, `specs/015-billing/`). Each module gets its own path score. Single-capability requests skip this step.
+Stable kebab-case IDs, one owner per data element, one-way dependencies, one spec per module scored separately and written in build order. Present the map and build order to the Product Owner with one question and end the turn. Slicing rules: `references/capability-map.md`.
 
-### Step 2 — Surface assumptions first
+### Step 3 — Surface assumptions and ask
 
-Before drafting, list the assumptions being made and invite correction:
+Before drafting, list the assumptions and invite correction:
 
 ```
 ASSUMPTIONS:
@@ -71,170 +86,193 @@ ASSUMPTIONS:
 → Correct any of these now.
 ```
 
-Never fill an ambiguity silently. An unstated assumption is the most expensive kind of misunderstanding. In create mode, ask the interview questions one round at a time, at most four independent questions per round, each with a recommended answer.
+Never fill an ambiguity silently; a behavior the brief does not mention is a question or a non-goal, not permission. Ask one round at a time, at most **4 independent questions per round, each with a recommended answer**. An inferred assumption that changes an AC outcome is a question.
 
-### Step 3 — Draft spec.md from the template
+### Step 4 — Draft spec.md from the template
 
-Copy `../agentic-sdlc/templates/spec.md` to `specs/NNN-slug/spec.md` and replace every `{{...}}` placeholder. Delete no section. The header table carries ID, Revision (starts at 1), Path, Size and Risk exactly as scored in Discover (`S=5 · files 2 + components 2 + iterations 1`, `R=1 · money`), Owner, Issue and the Intake decision (`n/a — <reason>` or `prior rejection #n — <why this differs>`).
+Copy `../agentic-sdlc/templates/spec.md` to `specs/NNN-slug/spec.md` and replace every `{{...}}` placeholder (P01). Delete no section. The header carries ID, Revision (starts at 1), Path, Size, Risk, Owner, Issue and Intake (`n/a — <reason>` or `prior rejection #n — <why this differs>`).
 
 Required sections, in template order:
 
-1. **Problem** — who is affected, what fails today, and the evidence (ticket count, time lost, error rate)
+1. **Problem** — who is affected, what fails today, the evidence (tickets, time lost, error rate)
 2. **Users** — each actor with the permission or role that matters
 3. **Stories** — "As a …, I want …, so that …"
-4. **Acceptance criteria** — table `ID · Criterion · Priority`, `AC-1..n`, priority `critical` or `normal` (Step 4)
-5. **Non-goals** — at least one bullet; carry over the brief's "Not doing" list
-6. **Constraints** — *Always* / *Ask first* / *Never*, plus numeric limits (latency, size, volume)
-7. **Security notes** — data classes, authentication and authorization, inputs, secrets; the Security Auditor fills or reviews this section when R ≥ 1
-8. **Rollback** — the command, a verify command with its expected output, and what happens to data written while the change was live
-9. **Release & observability** — signal tied to `AC-n`, alert with a numeric threshold and window plus the channel, dashboard or saved query, owner, rollout (flag default off, or staged percentages), rollback command
-10. **Indicator** — name, baseline with a number and the date measured, numeric target, method, first reading date
-11. **Open questions** — `None.` or each item marked `deferred: <owner>`
-12. **Revision log** — one row per revision, with the critique result (Step 5)
-13. **Approvals** — empty until the Specify sign-off; holds the `### Waivers` table
+4. **Experience** — `ux.md` rev N with its state count, or `n/a — <reason>`
+5. **Acceptance criteria** — table `ID · Criterion · Priority` (Step 5)
+6. **Non-goals** — at least one bullet; carry over the brief's "Not doing" list and name sibling module specs
+7. **Constraints** — *Always* / *Ask first* / *Never*, plus numeric limits
+8. **Security notes** — data classes, authentication and authorization, inputs, secrets; when `regulated` applies, the obligations table `| Obligation | Clause | Control | AC-n or task | Evidence |` follows (`../agentic-sdlc/references/security.md` § Compliance)
+9. **Rollback** — command, verify command with expected output, decision for data written while live
+10. **Release & observability** — signal tied to `AC-n`, alert with comparator, number, window and channel, dashboard or query, owner, rollout (flag default off, or ≥ 2 percentage stages), rollback command
+11. **Indicator** — numeric baseline with date, numeric target, method, first reading; add a counter-metric when the target could be met by harming something else
+12. **Open questions** — `None.` or each item ending `deferred: <owner>`
+13. **Revision log** — one row per revision with the critique result; a `### Rev N delta` table from rev 2 on
+14. **Approvals** — empty until the Specify sign-off; holds the `### Waivers` table
 
-Never write a status ("Draft", "Approved") into the body. Status is derived from `## Approvals`: a valid row whose hash equals the current hash means approved. Writing a status would change the hash it records.
+Never write a status ("Draft", "Approved") into the body: status is derived from `## Approvals`, and writing one would change the hash it records. Keep within the word budget: 1,500 words on Standard, 3,000 on Full (comments, Revision log, Approvals and Open questions excluded).
 
-Keep the spec inside its word budget: 1,500 words on Standard, 3,000 on Full (comments, Revision log, Approvals and Open questions excluded). A Standard spec usually fits on one screen.
+### Step 5 — Write acceptance criteria and NFRs that can be proven
 
-### Step 4 — Write acceptance criteria that can be proven
-
-Each `AC-n` must be:
-
-- **Observable** — behaviour or output someone can see or measure, not implementation ("uses Redis" is a design decision, not a criterion)
-- **Testable** — a test or a command shows pass or fail without interpretation
-- **Single** — one behaviour per criterion; split "and" statements
-- **Bounded** — states the limits: sizes, roles, timeouts, error cases
-- **Formatted** — `Given …, when …, then …`, or a measurable statement with a number and a unit (`p95 ≤ 3 s for 50,000 rows`)
-
-Cover the unhappy paths, not just the happy one: invalid input, missing permissions, empty states, concurrency, partial failure, limits. Add non-functional criteria when they decide acceptance (p95 latency, accessibility level, data retention). Mark `critical` the criteria whose failure loses data, money or access control; the release gate and the acceptance tests treat them first.
-
-Replace vague words with numbers in the same sentence. `spec-lint` flags terms such as *fast*, *scalable*, *user-friendly*, *robust*, *reliable*, *efficient*, *intuitive*, *large*, *many* unless a number with a unit follows in that sentence.
+Each `AC-n` is **observable**, **testable**, **single**, **bounded**, **formatted** (Given/When/Then, or a measurable statement with a number and a unit — AC03), **design-free** and **prioritized** (`critical` when failure loses data, money, access control or a legal obligation; otherwise `normal`). IDs run `AC-1..n` without gaps; a removed criterion keeps its row as `Retired in rev N: <reason>` with priority `—`; IDs are never reused or renumbered.
 
 ```
-| AC-1 | Given a finance analyst viewing a report filtered to N rows (1 ≤ N ≤ 50,000), when they click Export CSV, then the file holds exactly N data rows with the columns order ID, order date and order total. | critical |
-| AC-2 | Given a cell value starting with =, +, - or @, when the CSV is written, then the value is prefixed with a single quote. | critical |
-| AC-3 | Given a user without reports:export, when they open the report, then no Export button is shown and GET /api/reports/export returns 403. | critical |
-| AC-4 | Given a filter matching more than 50,000 rows, when Export CSV is clicked, then the user sees the limit message and no file is produced. | normal |
+| AC-3 | Given a cursor issued to partner key A, when partner key B sends it, then the API returns HTTP 400 with error code `invalid_cursor` and no orders. | critical |
+| AC-5 | Given 250,000 earlier orders, when a page of 200 is requested on staging, then p95 latency over 1,000 requests is ≤ 600 ms. | normal |
 ```
 
-IDs are unique and contiguous from `AC-1`. A criterion removed in a later revision keeps its row and ID with the text `Retired in rev N: <reason>`; IDs are never reused.
+Run the unhappy-path checklist on every story — permission, invalid input, limit + 1, empty state, concurrency, dependency failure, retry, time zones, data lifecycle — and turn each hit into an AC or a non-goal. EARS sentences are welcome as a drafting form; convert them to Given/When/Then unless they already carry a number and a unit. Twelve good/bad pairs and the EARS conversion table: `references/ac-rubric.md`.
 
-### Step 5 — Independent critique and stop rule
+Turn every quality word into a number. Each NFR is metric + comparator + number + unit + condition + method, placed where it is enforced: a Test-time threshold is an AC, a builder rule is a Constraint, a production threshold is an Alert, a business outcome is the Indicator, an accessibility check is a `ux.md` row. `spec-lint` V01 flags 30 vague terms (*fast*, *scalable*, *robust*, *user-friendly*, *large*, *many*, *gracefully* …) unless a number with a unit sits in the same sentence. Catalog by category (performance, capacity, reliability, security, privacy, accessibility, observability, compliance, compatibility): `references/nfr-catalog.md`.
 
-After the draft and before lint, dispatch a **fresh-context critic** (and, when triggered, the Product Manager critique: problem–AC fit, scope creep, indicator measurability): a subagent that receives only `spec.md`, the brief or summary it was built from and this checklist — never the drafting conversation. When the host has no subagents, run the checklist as an explicit self-review in a new message and label it `self-review`. The critic answers each item with pass or a finding:
+When `ux.md` exists, every state row maps to an AC, to `pattern: <component>`, or to `proposed` — and every proposed state becomes an AC or a non-goal before Step 6 ends.
+
+### Step 6 — Doubt pass, critique and stop rule
+
+Dispatch a **fresh-context challenger** with `prompts/doubt-pass.md`: a subagent that receives only `spec.md`, the brief it was built from, `ux.md` and `threat-model.md` when present, and the checklist — never the drafting conversation. When the host has no subagents, clear working notes and run the prompt inline as a separate pass labelled `self-review` (`../agentic-sdlc/references/platforms.md` § 3). The challenger reads with three lenses — ambiguity, contradiction and gap, testability — plus a delta lens in revise mode, and answers each checklist item:
 
 | # | Check |
 |---|---|
 | 1 | Would two engineers build different things that both satisfy every `AC-n`? |
 | 2 | Is each criterion observable and decided by a test or command without interpretation? |
-| 3 | Does each criterion state one behaviour, with its bounds (size, role, timeout, error)? |
+| 3 | Does each criterion state one behavior, with its bounds (size, role, timeout, error)? |
 | 4 | Are invalid input, missing permission, empty state, limits, concurrency and partial failure covered? |
 | 5 | Is any criterion a design decision in disguise? |
 | 6 | Do the non-goals block the nearest scope creep? |
-| 7 | Are the data classes named, personal data excluded or protected, and all four security notes filled? |
+| 7 | Are the data classes named, personal data excluded or protected, all four security notes filled, and every high or critical threat mitigated by an active AC? |
 | 8 | Is the rollback executable as written, with a verify command and a decision for data written while live? |
 | 9 | Does release & observability name a signal per critical `AC-n`, a numeric alert with a window, an owner and a rollout? |
 | 10 | Is the indicator measurable with tools that exist today, with a real baseline? |
 | 11 | Is every vague word quantified and every number given a unit? |
 | 12 | Does the path score match the content, and is every open question answered or deferred with an owner? |
 
-**Material ambiguity** is a finding whose answer changes an AC outcome, the scope or the handling of data. On a material ambiguity, **STOP**: ask the Product Owner (or the owner named in the brief) in one round, with a recommended answer per question. Non-material findings are fixed directly in the draft.
+Severity: **Critical** blocks the request (lint error, untestable critical AC, contradiction between ACs, a brief requirement silently dropped); **Important** is fixed in this revision (two readings, missing negative case on a critical AC, unmeasured quality claim); **Minor** is wording. **Material** = Critical or Important — any finding whose answer changes an AC outcome, the scope or the handling of data.
 
-**Stop rule.** At most **3 question rounds** per Specify pass. After the third round, each item still open becomes an Open questions entry `deferred: <owner>` when the build proceeds safely without it, or the stage ends with status `NEEDS_CONTEXT` (naming the missing input) and no approval request is made. An unanswered material ambiguity is never deferred silently.
+On a material ambiguity, **STOP**: ask the Product Owner (or the owner named in the brief) in one round, with a recommended answer per question. Fix non-material findings directly. Re-run the doubt pass on the changed text.
 
-Record the result in the Revision log row of the current revision, Critique column: `fresh-context · 12/12 · 3 fixed, 0 open` or `self-review · 12/12 · 2 fixed, 1 deferred`. `spec-lint` rejects a current revision without a critique entry of this form.
+**Stop rule.** At most **3 question rounds** and 3 doubt cycles per Specify pass. After the third, each open item becomes an Open questions entry `deferred: <owner>` when the build proceeds safely without it, or the stage ends `NEEDS_CONTEXT` (naming the missing input) and no approval request is made. An unanswered material ambiguity is never deferred silently.
 
-### Step 6 — Lint
+Record the result in the current Revision log row, Critique column: `fresh-context · 12/12 · 3 fixed (<short list>), 0 open` or `self-review · 12/12 · 2 fixed, 1 deferred`. `spec-lint` REV03 rejects a current revision without it.
 
-Run `spec-lint` and fix every error before any approval request:
+### Step 7 — Lint
 
 ```bash
-node .agentic-sdlc/bin/spec-lint.mjs specs/NNN-slug/spec.md              # vendored copy (project-context)
-node <agentic-sdlc skill dir>/scripts/spec-lint.mjs specs/NNN-slug/spec.md  # when nothing is vendored
+node .agentic-sdlc/bin/spec-lint.mjs specs/NNN-slug/spec.md                # vendored copy (project-context)
+node skills/agentic-sdlc/scripts/spec-lint.mjs specs/NNN-slug/spec.md      # this repository
+node ../agentic-sdlc/scripts/spec-lint.mjs specs/NNN-slug/spec.md          # from an installed skill folder
 ```
 
 | Exit | Meaning | Next action |
 |---|---|---|
-| 0 | All rules pass (warnings listed) | Proceed to the approval request; carry warnings into Residual risks |
+| 0 | All rules pass (warnings listed) | Proceed to the request; carry warnings into Residual risks |
 | 1 | Rule failures, each with a rule ID and line | Fix, re-run; never request approval on exit 1 |
 | 2 | File missing or not built from the template | Start from `templates/spec.md` |
 
-The rules cover the header and routing (a path lower than the score is an error — never route down), placeholders, required sections, AC numbering and form, non-goals, security notes, rollback, release and observability (numeric alert threshold, AC-tagged signal, flag or staged rollout, rollback command), indicator, open questions, revision log and critique, vague terms, word budget, threat model presence (required on Full; a warning on Standard with a risk trigger) and waivers.
+Rule families: header and routing (H), placeholders (P), sections (S), ACs (AC), non-goals, security notes, rollback, release and observability (OBS), indicator, open questions, revision log (REV), vague terms (V01), word budget, threat model (TM01 Full without `threat-model.md`; TM02 warning on risk-flagged Standard; TM03 high threat without an active AC), waivers (WV) and approvals (AP, with `--check-approval`). Without Node, apply the rules by hand from the template comments and paste the result into the request (`../agentic-sdlc/references/platforms.md` § 4).
 
-Without Node, apply the same rules by hand from the template comments and paste the checklist result into the request (`../agentic-sdlc/references/platforms.md` §4).
+### Step 8 — Specify sign-off
 
-### Step 7 — Specify sign-off
-
-Follow `../agentic-sdlc/references/governance.md` §2 exactly:
+Follow `../agentic-sdlc/references/governance.md` § 2 exactly:
 
 1. Print the hash: `spec-lint --hash specs/NNN-slug/spec.md`.
-2. Present one message: path, revision, hash, the lint result, the critique summary, the residual risks, and one question to the named role — `Product Owner: approve spec.md rev 1 (hash 2aef8f23fc84) as the build baseline? Reply "yes" or list changes.`
-3. Log the request in `specs/NNN-slug/approvals.md` (Requested at, Asked role).
+2. Present one message: path, revision, hash, lint result, critique summary, `ux.md` and `threat-model.md` revisions, residual risks, and one question to the named role — `Product Owner: approve spec.md rev 1 (hash 2aef8f23fc84) as the build baseline? Reply "yes" or list changes.`
+3. Log the request in `specs/NNN-slug/approvals.md` (Requested at in UTC, Asked role).
 4. **End the turn.** Do not start Design in the same turn.
-5. In a later turn, count only an explicit `yes` / `approve` / `approved` that lists no changes. "Sounds good" about something else, silence, "whatever you think" or an agent statement is never approval. A reply that mixes yes with changes is a rejection: apply the changes as a new revision and ask again.
+5. In a later turn, count only an explicit `yes` / `approve` / `approved` that lists no changes. Silence, "sounds good" about something else, "whatever is best" or an agent statement is never approval. A yes mixed with changes is a rejection: apply the changes as a new revision and ask again.
 6. Record the row in `## Approvals` (Sign-off, Rev, Hash, Date, Role, Person, Exact words, Evidence reviewed, Residual risks, Decision) and complete the register row (Answered at, Exact words).
 7. Confirm with `spec-lint --check-approval specs/NNN-slug/spec.md` (exit 0).
 
-**Combined review (Standard path, plan with ≤ 5 tasks).** Fix the spec hash first, hand off to `writing-plans` for `plan.md`, then send one request covering both artifacts. Record the row `Specify + Design (combined)` in each artifact and one register row per artifact. On the Full path the Specify and Design sign-offs are separate requests (`paths.md` §3).
+**Combined review (Standard, plan with ≤ 5 tasks).** Fix the spec hash first, hand off to `writing-plans` for `plan.md`, then send one request covering both artifacts; record `Specify + Design (combined)` in each artifact and one register row per artifact. On Full the four sign-offs are separate (`../agentic-sdlc/references/lifecycle.md` § 3).
 
-Hand off: `senior-solution-architect` when a decision is expensive to reverse (ADR), then `writing-plans` (Design stage).
+Hand off: `senior-solution-architect` when a decision is expensive to reverse, `test-strategy` for acceptance tests, then `writing-plans` (Design).
 
 ### Validate mode
 
-Run Steps 4, 5 and 6 against an existing spec and report a findings table — section, rule ID or checklist item, issue, severity (`Critical` / `Important` / `Minor`), concrete fix. Do not rewrite the spec without the owner's approval of the findings.
+Run Steps 5, 6 and 7 against an existing spec and report a findings table — section, rule ID or checklist item, issue, severity, concrete fix (a rewritten AC, a number, a missing negative case). Do not rewrite the spec without the owner's approval of the findings.
 
-### Revise mode — revision hash and re-open rule
+### Revise mode — delta spec
 
-Any edit to the hashed content of an approved spec — an AC, a non-goal, the rollback, the alert threshold, a typo — changes its hash and **voids** the approval. `spec-lint --check-approval` then exits 1 with `AP04`, so `preflight` stops Build and the CI check `agentic-sdlc/spec` turns red. Run the change protocol (`../agentic-sdlc/references/rules.md` §Change protocol):
+Any edit to hashed content after approval — an AC, a non-goal, the rollback, the alert threshold, a comment, a typo — changes the hash and **voids** the approval (`--check-approval` → AP04, so `preflight` stops Build). Run the change protocol (`../agentic-sdlc/references/rules.md` § Change protocol):
 
-1. Stop the current Build task at the next green test run.
-2. Write the change request as a new Revision log row: what changed, why, who asked, date.
-3. Analyse the impact on `AC-n`, tasks, tests, ADRs, rollback, indicator and the path score; route up when the score rises.
-4. Edit the spec as revision N+1: bump the header Revision, retire (never delete or renumber) removed criteria, add new IDs after the last one.
-5. Run the critique (Step 5) on the changed sections and `spec-lint` (Step 6).
-6. Request Specify sign-off again (Step 7); the new row carries rev N+1 and the new hash, and earlier rows stay as history. A void Specify sign-off also voids the Design sign-off built on that spec hash: request Design sign-off again when any task, file set or dependency changed.
+1. Stop the current Build task at its next green test run.
+2. Add a Revision log row: what changed, why, who asked, date.
+3. Write `### Rev N+1 delta` under the Revision log: rows **Added**, **Changed**, **Removed** and at least one **Must not change** (a behavior the change could break, backed by an active or new regression AC), plus an Impact line (AC-n, tasks, tests, ADRs, rollback, alert, indicator, path re-score).
+4. Edit the body as revision N+1: bump Revision, retire removed criteria, add new IDs after the last one.
+5. Re-run the doubt pass with the delta lens, then `spec-lint`.
+6. Request Specify sign-off again; the new row carries rev N+1 and the new hash, earlier rows stay. A void Specify sign-off also voids the Design sign-off built on that hash (`governance.md` § 4).
+7. Resume at the earliest affected stage.
 
-Recording an approval or a waiver does not change the hash: the `## Approvals` section and its `### Waivers` subsection are excluded from it.
+A new requirement after release is not a revision: open a new Discover item and a new spec that cites the old ID. Recording an approval or a waiver does not change the hash. Delta format, approval states and anti-patterns: `references/revise-mode.md`.
+
+## Anti-rationalization
+
+The left column quotes thoughts to catch, not guidance.
+
+| Thought | Reality |
+|---|---|
+| "The PO is busy; approval is implied" | No explicit yes in a later turn, no approval. Ask, end the turn, wait. |
+| "It's only a typo in an approved spec" | The hash changed; the approval is void. Rev N+1 with a one-row delta. |
+| "The happy path is enough for now" | Permission, invalid input, limits and failure are where defects live. Cover them or list them as non-goals. |
+| "'Fast' is obvious to everyone" | Two engineers will pick two numbers. Write percentile, load, data set and unit. |
+| "The brief didn't forbid it, so it's in" | Silence is not permission. Ask, or write a non-goal. |
+| "I'll critique my own draft in the same breath" | Same-context review confirms its own assumptions. Fresh context, or a labelled `self-review` pass after clearing notes. |
+| "This epic fits in one spec" | Over 5 stories or 15 ACs means it does not. Map the capabilities first. |
+| "The Kiro EARS file is already a spec" | Without the header, AC IDs and Approvals no gate can check it. Map it, then lint. |
+| "Renumbering keeps the table tidy" | Tasks, commits and tests cite the IDs. Retire; never renumber. |
+| "One more question round will settle it" | The bound is 3. Defer with an owner or report `NEEDS_CONTEXT`. |
 
 ## Critical Rules
 
-- **NEVER** start or allow Build before a valid Specify sign-off on the Standard and Full paths; `spec-lint --check-approval` exit 0 is the evidence.
+- **NEVER** start or allow Build before a valid Specify sign-off on Standard and Full; `spec-lint --check-approval` exit 0 is the evidence.
 - **NEVER** request approval on `spec-lint` exit 1, or count a reply given in the same turn as the request.
 - **NEVER** fill an ambiguity silently; a material ambiguity stops the draft until it is answered or deferred with an owner.
-- **NEVER** run more than 3 question rounds per Specify pass; then defer with an owner or report `NEEDS_CONTEXT`.
-- **NEVER** edit an approved spec without a new revision and a new approval request.
+- **NEVER** run more than 3 question rounds or 3 doubt cycles per Specify pass.
+- **NEVER** edit an approved spec without a new revision, a delta with a Must-not-change row, and a new approval request.
 - **NEVER** write implementation details as acceptance criteria, or a status line into the spec body.
 - **NEVER** route down: the header path is at least the scored path.
+- **NEVER** create a parallel `specs/` tree next to an existing spec convention.
 - **ALWAYS** number criteria `AC-n`, contiguous and stable; retire, never reuse, removed IDs.
-- **ALWAYS** fill Release & observability with a numeric alert threshold, an AC-tagged signal and an executable rollback command.
-- **ALWAYS** cover unhappy paths and permissions in the criteria.
-- **ALWAYS** keep real personal, health or client data out of the spec and its examples.
-- **ALWAYS** keep an existing spec system's location and add the template's header and sections to it.
+- **ALWAYS** express every quality requirement as a number with a unit, in the section where it is enforced.
+- **ALWAYS** fill Release & observability with an AC-tagged signal, a numeric alert with a window and an executable rollback command.
+- **ALWAYS** keep real personal, health or client data out of specs, examples and fixtures.
 
 ## Example Usage
 
-**1. Synthesize from a grill-me summary**
+**1. Synthesize from a grill-me summary (Standard)**
 > "We agreed the export design in grill-me — write the spec."
 
-Synthesize mode, no re-interview. Lists three assumptions, drafts `specs/001-csv-export/spec.md` with AC-1..AC-4 (filtered rows, formula-injection escaping, 403 without permission, 50,000-row limit), rollback by `flagctl set reports.csvExport off --env prod` with a verify command, alert "error rate > 2% over 15 min → #reports-oncall", indicator "export tickets 14/month → ≤ 4/month". The fresh-context critic fixes three items; `spec-lint` exits 0 with one threat-model warning for the money trigger. The plan has five tasks, so one combined Specify + Design request goes out and the turn ends. The Product Owner's "Yes — approved" arrives in the next turn and is recorded with the hash. Full worked example: `../agentic-sdlc/examples/worked-example/specs/001-csv-export/`.
+Synthesize mode, no re-interview. Lists three assumptions, drafts `specs/001-csv-export/spec.md` with AC-1..AC-4 (filtered rows, formula-injection escaping, 403 without permission, 50,000-row limit), a flag rollback with a verify command and the indicator "export tickets 14/month → ≤ 4/month". The doubt pass fixes three items; `spec-lint` exits 0. The plan has five tasks, so one combined request goes out and the turn ends; the Product Owner's "Yes — approved" arrives next turn and is recorded with the hash. Worked example: `../agentic-sdlc/examples/worked-example/specs/001-csv-export/`.
 
-**2. Create with a stop on ambiguity**
-> "Write a spec for password reset via email."
+**2. Bug fix routed up by risk**
+> "Users get logged out after 5 minutes; fix the session timeout."
 
-Round 1 asks token lifetime, rate limit and session handling, each with a recommendation. The critic flags "what happens to active sessions after reset" as material (it changes AC-5's outcome); round 2 settles it. The email provider's sender domain stays unanswered after round 3 and is recorded as `deferred: Tech Lead`, since the build proceeds safely without it.
+Scores S=3 (Quick on size) but R=1 · auth, so the path is Standard and a short spec is written. AC-1/AC-2 pin 29 and 31 minutes; AC-4 is a regression pin — the 12-hour absolute limit must not change. The Security Auditor's threat model clears TM02. See `examples/031-session-idle-timeout/`.
 
-**3. Large initiative**
-> "Spec the new customer portal: login, billing, notifications and usage reports."
+**3. Requirement change after approval (revise mode)**
+> "Partner 977 wants 200-row pages, and drop total_count — it's too slow."
 
-The scope check produces a capability map with four modules and a build order. After the map is approved, `specs/014-identity/spec.md` is written first and scored Full (R=2: auth, personal data), so `threat-model.md` is required before lint passes.
+Writes Revision log row 2 and a `### Rev 2 delta`: Changed AC-2 and AC-5, Removed AC-6 (retired, not deleted), Added AC-7 `has_more`, and three Must-not-change rows (offset compatibility AC-4, key-bound cursor AC-3, response envelope). `--check-approval` reports AP04 until the Product Owner approves rev 2 in a later turn; the combined Design sign-off is requested again. See `examples/044-orders-cursor-pagination/`.
 
-**4. Validate before approval**
-> "Check this spec before we approve it."
+**4. Regulated personal-data feature (Full)**
+> "Let EU customers download all their data themselves (GDPR Art. 15)."
 
-`spec-lint` exits 1: `V01` "fast" unquantified in AC-2, `OBS03` alert "errors are high" has no threshold, `OQ01` an open question without an owner. The checklist adds item 8: the rollback drops a column without a data decision. Reports four findings with concrete rewrites and leaves the spec unchanged.
+R=2 · personal data, regulated → Full. The NFR catalog turns "secure and timely" into ACs: password re-entry, owner-only download, 7-day deletion with HTTP 410, 30-day deadline alert, audit events without content, WCAG 2.2 AA. Security notes carry a five-row obligations table; `threat-model.md` maps every high threat to an AC; an open question about inferred segments is deferred to the DPO. See `examples/052-account-data-export/`.
 
-**5. Requirement change after approval**
-> "Product now wants an XLSX export too."
+**5. Epic, then validate an imported Kiro spec**
+> "Spec the customer portal: login, billing, notifications, usage reports — we already have `.kiro/specs/billing/requirements.md`."
 
-Revise mode. Writes the change request in the Revision log, re-scores (still Standard), retires nothing, adds AC-5 and AC-6, bumps Revision to 2, re-runs the critique and `spec-lint`. `--check-approval` reports `AP04` until the Product Owner approves rev 2; the Design sign-off is requested again because two tasks change.
+The scope check builds a four-module capability map; the Product Owner confirms the order. Kiro is the one existing convention, so `requirements.md` stays in place: validate mode reports the missing header table (H01–H06), missing sections (S01) and four EARS lines without units (AC03); the import adds the header, AC table and Approvals, and `spec-lint` exits 0 before the billing sign-off request.
+
+## References
+
+| File | Load when |
+|---|---|
+| `references/ac-rubric.md` | Writing or critiquing ACs (Step 5), converting EARS, or fixing AC01–AC04 and V01 findings |
+| `references/nfr-catalog.md` | A story implies speed, load, uptime, privacy, accessibility, audit or compliance, or checklist item 11 fails |
+| `references/capability-map.md` | The scope check finds an epic: ≥ 2 independent subsystems, > 5 stories or > 15 ACs |
+| `references/revise-mode.md` | A spec changes after a sign-off request or approval, or a re-score moves the path |
+| `references/format-mapping.md` | The repository holds Spec Kit, Kiro, OpenSpec, AI-DLC or BMad specs, or a spec must be exported |
+| `prompts/doubt-pass.md` | Step 6 critique, on every draft and every revision |
+| `examples/README.md` | Before a first spec in a new domain: three lint-clean specs (Quick-size bug fix, Standard API at rev 2, Full regulated) |
+| `../agentic-sdlc/templates/spec.md`, `ux.md`, `threat-model.md` | Step 4 drafting |
+| `../agentic-sdlc/references/governance.md`, `rules.md` | Sign-off, hash, change protocol |
+| `../agentic-sdlc/scripts/spec-lint.mjs` | Step 7, and the rule text behind any lint code |
