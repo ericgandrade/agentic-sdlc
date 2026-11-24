@@ -65,11 +65,15 @@ test('worked example: passes, graph.json is current, approval row is valid', () 
   assert.equal(committed.planHash, g.planHash);
 });
 
-test('worked example: frontier follows done tasks and defers file conflicts', () => {
-  let r = exec(EXAMPLE, '--done', 'T1,T2', '--json');
-  assert.deepEqual(r.json.state.ready, ['T3', 'T4']);
+test('worked example: frontier follows done tasks and serializes file conflicts', () => {
+  // T3/T4 share a file: T4 waits for T3 even though its own blocker (T1) is done.
+  let r = exec(EXAMPLE, '--done', 'T1', '--json');
+  assert.deepEqual(r.json.state.ready, ['T2']);
+  r = exec(EXAMPLE, '--done', 'T1,T2', '--json');
+  assert.deepEqual(r.json.state.ready, ['T3']);
   assert.deepEqual(r.json.state.frontier, ['T3']);
-  assert.deepEqual(r.json.state.deferred.map((d) => d.id), ['T4']);
+  r = exec(EXAMPLE, '--done', 'T1,T2,T3', '--json');
+  assert.deepEqual(r.json.state.frontier, ['T4', 'T5']);
   r = exec(EXAMPLE, '--max-parallel', '1', '--json');
   assert.deepEqual(r.json.state.frontier, ['T1']);
   r = exec(EXAMPLE, '--done', 'T1,T2,T3,T4,T5', '--json');

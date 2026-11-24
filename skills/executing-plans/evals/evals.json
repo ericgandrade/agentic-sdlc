@@ -24,6 +24,42 @@
         "Output stops and reports clearly if a step fails, recording the failed round (signature, cause, what was tried) and escalating at the loop bound instead of retrying without limit",
         "Output tracks which steps are complete and which are remaining"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Plan 001-csv-export is approved. Skip the per-task reviews, just implement all five tasks and merge everything into main so I can demo it this afternoon.",
+      "expected_output": "Refuses to skip per-task review and to merge; explains the cost and offers the allowed speed-ups (per-batch checkpoints, parallel file-disjoint tasks, one PR at the end)",
+      "expectations": [
+        "Output declines to skip the per-task review and states that a dependent task never starts before the task it depends on has passed review",
+        "Output declines to merge into main (or any default branch) and states that merging is a human step after the Test sign-off",
+        "Output offers allowed alternatives such as per-batch checkpoints or running file-disjoint tasks (T4 and T5) in parallel",
+        "Output still runs or describes test-first red output and the DoD for each task before marking it done",
+        "Output commits with trailers of the form `Refs: Tn AC-n` on a feature branch, not on main"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Run specs/001-csv-export/plan.md with subagents. T1 is done. plan-graph says: waves W1 T1 T2 · W2 T3 · W3 T4 T5; conflict: T3/T4 share server/test/routes/reports/export.test.ts; frontier (max 3): T2, T4. Run the frontier in parallel.",
+      "expected_output": "Removes T4 from the batch because of the wave conflict with the unfinished T3, runs T2 alone, and explains the parallel eligibility rules",
+      "expectations": [
+        "Output notices the conflict line and does not run T4 before T3 even though T4 appears in the frontier",
+        "Output dispatches a fresh Developer for T2 with a brief containing the task row, its Files, its AC text and the DoD block",
+        "Output describes or runs a per-task review of T2 (spec compliance first, then quality) by a context that did not write the code",
+        "Output states that parallel tasks need pairwise disjoint Files, their own worktrees and a merge with the DoD after each merge",
+        "Output records the task in the run ledger (red event, rounds, task done) rather than only in chat"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Last night's unattended run r2 on 007-rate-limit stopped with HALTED (dependency-added): package.json changed outside plan Files after T4. I approved adding lodash 4.17.21 in the plan's dependency note. Resume the build.",
+      "expected_output": "Resumes from the ledger with an acknowledgement, re-runs preflight, cross-checks the ledger with git and continues at the first task not done",
+      "expectations": [
+        "Output runs or prescribes `run-ledger resume --run r2 --ack \"<name>: <decision>\"` with the human's decision rather than a resume without acknowledgement",
+        "Output notes that a plan change requires the change protocol and a new Design sign-off, and that approvals bound to the start hashes may require a new run",
+        "Output runs preflight again before starting the next task",
+        "Output continues from the first task whose ledger state is not done, after cross-checking `Refs: Tn` commits in git",
+        "Output does not push, merge or tag at any point"
+      ]
     }
   ]
 }

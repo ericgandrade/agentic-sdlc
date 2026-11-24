@@ -306,12 +306,14 @@ export function analyze(plan, { specAcs = null } = {}) {
   return { errors, warnings, graph };
 }
 
-// Ready tasks (all blockers done) and the dispatchable frontier: ready tasks with pairwise
+// Ready tasks (all blockers and earlier file-conflict tasks done) and the dispatchable frontier: ready tasks with pairwise
 // disjoint Files, in (wave, ID) order, at most maxParallel.
 export function frontier(graph, done, maxParallel = LIMITS.maxParallel) {
   const doneSet = new Set(done);
+  // A file-conflict edge serializes its two tasks in wave order: the later task waits for the earlier one.
+  const conflictPreds = (id) => (graph.edges || []).filter((e) => e.type === 'file-conflict' && e.to === id).map((e) => e.from);
   const ready = graph.nodes
-    .filter((n) => !doneSet.has(n.id) && n.blockedBy.every((d) => doneSet.has(d)))
+    .filter((n) => !doneSet.has(n.id) && n.blockedBy.every((d) => doneSet.has(d)) && conflictPreds(n.id).every((d) => doneSet.has(d)))
     .sort((a, b) => a.wave - b.wave || byId(a.id, b.id));
   const picked = [];
   const deferred = [];
