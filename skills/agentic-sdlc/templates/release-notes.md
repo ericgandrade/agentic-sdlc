@@ -128,4 +128,4 @@ exit <code> · <ISO-8601 time>
 
 | Stage | Start (ISO) | End (ISO) | Command | Error rate | p95 | Alert | Decision |
 |---|---|---|---|---|---|---|---|
-| <n> | <time> | <time> | `<command>` | <value> | <value> | <silent \| fired> | <advance \| rolled back + incident #n \| closed> |
+| <n> | <time> | <time> | `<command>` | <value> | <value> | <silent \| fired> | <advance \| hold (watch extended, reason) \| rolled back + incident #n \| closed> |

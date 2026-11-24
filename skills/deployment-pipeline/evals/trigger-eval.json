@@ -1,0 +1,22 @@
+{
+  "skill_name": "deployment-pipeline",
+  "description": "Triggers for setting up CI quality gates, branch protection and environment approvals that enforce the Agentic SDLC sign-offs, proving gates block bad changes, rehearsing rollbacks and deciding advance/hold/roll back during a staged rollout",
+  "queries": [
+    {"id": 1, "query": "Set up GitHub Actions so our Definition of Done runs on every PR and blocks the merge", "should_trigger": true},
+    {"id": 2, "query": "Configure branch protection and CODEOWNERS so spec approvals are actually enforced", "should_trigger": true},
+    {"id": 3, "query": "Add a production environment that needs the release owner's approval before deploying", "should_trigger": true},
+    {"id": 4, "query": "Prove our CI gates really block a bad change before we claim enforcement", "should_trigger": true},
+    {"id": 5, "query": "Rehearse the rollback in staging for this release and time it", "should_trigger": true},
+    {"id": 6, "query": "Stage 1 has been live 30 minutes, should we advance to 10%, hold or roll back?", "should_trigger": true},
+    {"id": 7, "query": "Pick canary or blue-green for this rollout and set the thresholds", "should_trigger": true},
+    {"id": 8, "query": "Port the agentic-sdlc gates to our GitLab pipeline with merge request approvals", "should_trigger": true},
+    {"id": 9, "query": "Our coverage floor isn't enforced in CI, wire it into the pipeline", "should_trigger": true},
+    {"id": 10, "query": "Write the release notes and ask the release owner for sign-off", "should_trigger": false},
+    {"id": 11, "query": "Set up AGENTS.md and record our lint and test commands for the project", "should_trigger": false},
+    {"id": 12, "query": "Run the Definition of Done and show me evidence before I mark this task done", "should_trigger": false},
+    {"id": 13, "query": "Production is throwing 500s after the deploy, triage the incident", "should_trigger": false},
+    {"id": 14, "query": "Write the spec with acceptance criteria and a rollback command for the CSV export", "should_trigger": false},
+    {"id": 15, "query": "Add secret scanning and dependency audit to the threat model for this change", "should_trigger": false},
+    {"id": 16, "query": "Review this pull request for correctness and security issues", "should_trigger": false}
+  ]
+}

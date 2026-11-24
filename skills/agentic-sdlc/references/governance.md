@@ -146,7 +146,7 @@ The owner is written `self · 1-person team`; the decision is taken in a later s
 |---|---|---|
 | Approval gate before Build | `preflight` runs `spec-lint --check-approval` and `plan-graph --check-approval` | Build start on a missing or void approval (exit 1) |
 | CI check `agentic-sdlc/spec` | `spec-lint --check-approval` on every PR that changes `specs/**` or code under a spec | Merge, when the check is required |
-| Branch protection | ≥ 1 approving review; dismiss stale reviews; required checks `agentic-sdlc/{dod,spec,trace,approvals}` | Merge without Test sign-off or with a red check |
+| Branch protection | ≥ 1 approving review; dismiss stale reviews; required checks `agentic-sdlc/{dod,spec,approvals}` (`trace` once `trace-check`† ships; until then the Reviewer checks the PR Trace section) | Merge without Test sign-off or with a red check |
 | CODEOWNERS | `specs/** @tech-leads @product-owners` | Spec or plan edits without an owner's review |
 | Environment reviewers | GitHub `production` environment with the Release Owner as required reviewer | Deploy without Release sign-off |
 
