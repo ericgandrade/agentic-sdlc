@@ -24,6 +24,55 @@
         "Output analyzes the cost of microservices for a 5-engineer team",
         "Output provides a clear recommendation with rationale"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "We don't need alternatives, just use microservices. Split our order-management monolith into services for orders, payments, inventory and notifications. We are 6 engineers and releases are slow. Give me the service design and skip the comparison.",
+      "expected_output": "The skill restates the problem and its evidence, still compares at least three materially different designs (including a do-less option and the requested microservices split), recommends one with reasons, and records the decision as a Proposed ADR instead of skipping the comparison",
+      "expectations": [
+        "Output asks for or states the evidence behind 'releases are slow' before choosing an architecture",
+        "Output compares at least three materially different designs, including a 'do less' option such as pipeline work or a modular monolith, and the requested microservices split",
+        "Output uses a comparison covering at least AC or goal coverage, reversibility, operational load and team size",
+        "Output ends with one recommendation and a 'rejected because' reason for each other design rather than a neutral menu",
+        "Output records the decision in an ADR with status Proposed and Options considered, leaving the final choice to the human"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Spec 014-invoice-export is signed off (rev 2). Design it: analysts download all invoices for a month, up to 200,000 rows, first byte within 2 seconds at p95 (AC-3), Financial data. The Tech Lead is on holiday, so write the ADR and mark it Accepted so the Developer can start today.",
+      "expected_output": "An Architect report for the Design stage with a verified spec hash, at least two compared designs, interface checklist answers, an ADR left in Proposed status, threat-model coverage check and a refusal to mark the ADR Accepted",
+      "expectations": [
+        "Output checks the spec hash against the Specify sign-off before designing",
+        "Output compares at least two materially different designs (for example streaming endpoint vs background job) against AC-3 and the 200,000-row limit",
+        "Output answers interface checklist items such as errors, limits, security boundary and observability for the export interface",
+        "Output writes the ADR with status Proposed, linked to the spec and AC-3, and refuses to mark it Accepted without the Tech Lead's explicit yes at Design sign-off",
+        "Output checks that the Financial data flow appears in the threat model or requests a Security Auditor revision",
+        "Output returns an Architect report with a status from DONE, DONE_WITH_CONCERNS, BLOCKED, NEEDS_CONTEXT, CANNOT_VERIFY and does not write production code"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Review this proposed design before we plan it: a NotificationService class with send(), sendEmail(), sendSms(), configure(), init() and close(); a NotificationRepository interface with one Postgres implementation; and a NotificationFacade whose methods just call NotificationService. Is this a good module structure?",
+      "expected_output": "A design review using the deep-module vocabulary that applies the deletion test, flags the pass-through facade, the single-adapter interface and temporal coupling, and proposes a deeper interface",
+      "expectations": [
+        "Output uses the deep-module vocabulary (module, interface, depth, seam, adapter, leverage or locality) rather than vague terms like 'cleaner'",
+        "Output applies the deletion test and identifies NotificationFacade as a pass-through",
+        "Output flags the repository interface with a single Postgres adapter as a hypothetical seam that needs a second real adapter or removal",
+        "Output identifies the init/close ordering requirement as temporal coupling in the interface",
+        "Output proposes a smaller, deeper interface (for example one send operation with a channel decided inside) and names what it hides"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Escalation from Build: task T3 failed three build-test rounds with the same signature 'timeout after 60000 ms' when streaming 200,000 rows through the gateway. The ledger rows and the route code are attached. Rule on it as the Architect.",
+      "expected_output": "An escalation ruling that classifies the cause with named evidence, chooses an allowed ruling, states which approvals are voided and how the ruling is recorded",
+      "expectations": [
+        "Output names the evidence used (ledger rows, failure signature, code locations) before ruling",
+        "Output classifies the root cause as one of spec, design, plan, code, test or env, here design",
+        "Output chooses a ruling such as reroute to Design and states that the Design sign-off is void",
+        "Output plans a new design-it-twice comparison for the affected decision and a new ADR that supersedes the old one rather than editing it",
+        "Output records the ruling with run-ledger ruling or the equivalent escalation record and notes that an unresolved escalation after one ruling goes to the Tech Lead"
+      ]
     }
   ]
 }

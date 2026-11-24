@@ -111,6 +111,16 @@
       "id": 22,
       "query": "Write the acceptance criteria for the reporting feature",
       "should_trigger": false
+    },
+    {
+      "id": 23,
+      "query": "plan-graph fails with UNCOVERED_AC and CYCLE on our plan.md \u2014 fix the task table and get it ready for Design sign-off",
+      "should_trigger": true
+    },
+    {
+      "id": 24,
+      "query": "The plan is approved \u2014 run plan-graph --from-git, pick the next ready task and implement it",
+      "should_trigger": false
     }
   ]
 }

@@ -1,0 +1,206 @@
+{
+  "schema": 1,
+  "path": "Standard",
+  "planHash": "aa691d17e1a9",
+  "review": "separate",
+  "taskCount": 6,
+  "acs": [
+    "AC-1",
+    "AC-2",
+    "AC-3",
+    "AC-4",
+    "AC-5"
+  ],
+  "nodes": [
+    {
+      "id": "T1",
+      "title": "Attach the resolved API key ID to each request",
+      "acs": [
+        "AC-1"
+      ],
+      "blockedBy": [],
+      "files": [
+        "src/middleware/api-key.ts",
+        "src/routes/v1/index.ts",
+        "test/middleware/api-key.test.ts"
+      ],
+      "sizeHours": 2,
+      "wave": 1
+    },
+    {
+      "id": "T2",
+      "title": "Refuse request 101 in a window with 429 and Retry-After",
+      "acs": [
+        "AC-1",
+        "AC-4"
+      ],
+      "blockedBy": [
+        "T1"
+      ],
+      "files": [
+        "src/limits/counter-store.ts",
+        "src/middleware/rate-limit.ts",
+        "src/config/schema.ts",
+        "src/server.ts",
+        "test/middleware/rate-limit.test.ts"
+      ],
+      "sizeHours": 4,
+      "wave": 2
+    },
+    {
+      "id": "T3",
+      "title": "Report the limit and the remaining requests in response headers",
+      "acs": [
+        "AC-2"
+      ],
+      "blockedBy": [
+        "T2"
+      ],
+      "files": [
+        "src/middleware/rate-limit.ts",
+        "test/middleware/rate-limit.test.ts"
+      ],
+      "sizeHours": 2,
+      "wave": 3
+    },
+    {
+      "id": "T4",
+      "title": "Count requests in Redis and fail open when Redis is unreachable",
+      "acs": [
+        "AC-4"
+      ],
+      "blockedBy": [
+        "T2"
+      ],
+      "files": [
+        "src/limits/redis-store.ts",
+        "test/limits/redis-store.test.ts",
+        "src/metrics/registry.ts",
+        "src/server.ts"
+      ],
+      "sizeHours": 4,
+      "wave": 3
+    },
+    {
+      "id": "T5",
+      "title": "Exempt configured key IDs from the limit",
+      "acs": [
+        "AC-3"
+      ],
+      "blockedBy": [
+        "T2"
+      ],
+      "files": [
+        "src/middleware/rate-limit.ts",
+        "test/middleware/rate-limit.test.ts",
+        "src/config/schema.ts",
+        "test/config/schema.test.ts",
+        "src/server.ts"
+      ],
+      "sizeHours": 2,
+      "wave": 4
+    },
+    {
+      "id": "T6",
+      "title": "Document the limit, the headers and the 429 response",
+      "acs": [
+        "AC-5"
+      ],
+      "blockedBy": [
+        "T3"
+      ],
+      "files": [
+        "docs/api/rate-limits.md",
+        "docs/api/errors.md"
+      ],
+      "sizeHours": 1,
+      "wave": 4
+    }
+  ],
+  "edges": [
+    {
+      "from": "T1",
+      "to": "T2",
+      "type": "blocks"
+    },
+    {
+      "from": "T2",
+      "to": "T3",
+      "type": "blocks"
+    },
+    {
+      "from": "T2",
+      "to": "T4",
+      "type": "blocks"
+    },
+    {
+      "from": "T2",
+      "to": "T5",
+      "type": "blocks"
+    },
+    {
+      "from": "T3",
+      "to": "T6",
+      "type": "blocks"
+    },
+    {
+      "from": "T3",
+      "to": "T5",
+      "type": "file-conflict",
+      "files": [
+        "src/middleware/rate-limit.ts",
+        "test/middleware/rate-limit.test.ts"
+      ]
+    },
+    {
+      "from": "T4",
+      "to": "T5",
+      "type": "file-conflict",
+      "files": [
+        "src/server.ts"
+      ]
+    }
+  ],
+  "waves": [
+    [
+      "T1"
+    ],
+    [
+      "T2"
+    ],
+    [
+      "T3",
+      "T4"
+    ],
+    [
+      "T5",
+      "T6"
+    ]
+  ],
+  "conflicts": [
+    {
+      "tasks": [
+        "T3",
+        "T5"
+      ],
+      "files": [
+        "src/middleware/rate-limit.ts",
+        "test/middleware/rate-limit.test.ts"
+      ],
+      "resolution": "T5 runs in wave 4, after T3 (wave 3)"
+    },
+    {
+      "tasks": [
+        "T4",
+        "T5"
+      ],
+      "files": [
+        "src/server.ts"
+      ],
+      "resolution": "T5 runs in wave 4, after T4 (wave 3)"
+    }
+  ],
+  "initialFrontier": [
+    "T1"
+  ]
+}

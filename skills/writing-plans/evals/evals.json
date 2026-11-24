@@ -24,6 +24,43 @@
         "Output includes a rollback plan",
         "Output provides timing estimates for each major phase"
       ]
+    },
+    {
+      "id": 3,
+      "prompt": "Spec 012-csv-delimiter is approved on the Standard path (adds a delimiter option to the CSV export, 2 ACs). Honestly it's tiny \u2014 skip the plan and just code it, we're in a hurry.",
+      "expected_output": "Refuses to write production code before the Design sign-off, explains why briefly, and offers the shortest compliant route: a short plan reviewed in one exchange.",
+      "expectations": [
+        "Output writes no production code or tests in this turn",
+        "Output cites the rule that Standard and Full paths need a Design sign-off before production code (rule 1, spec before code)",
+        "Output offers a short plan (for example 2\u20133 vertical-slice tasks, each with AC, Blocked by, Files and Size) instead of skipping planning",
+        "Output states that routing down to Quick needs a waiver (owner not the requester, reason, expiry) and never happens silently",
+        "Output ends the turn with an approval question to the Tech Lead after presenting the plan, rather than treating the hurry as approval"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Here is my plan for spec 007-api-rate-limit. plan-graph prints `UNCOVERED_AC: AC-4 has no task` and T5 says 'similar to T3, handle errors appropriately'. Get it ready for the Tech Lead.",
+      "expected_output": "Fixes the coverage gap with a vertical slice, removes placeholders, re-runs plan-graph, runs the self-review and a fresh-context plan review, then presents a sign-off request with evidence.",
+      "expectations": [
+        "Output adds or extends a task so AC-4 is covered by a red test that proves the AC's full text (fail-open and the metric), not only by citation",
+        "Output replaces 'similar to T3' and 'handle errors appropriately' with self-contained steps naming the error, status or behaviour and the test",
+        "Output re-runs plan-graph (--write) and shows exit 0 before any approval request",
+        "Output runs the plan review in a fresh context (or labels an inline pass 'self-review (no subagent)') and fixes Critical and Important findings before asking",
+        "Output reads the review count from plan-graph (combined only on Standard with 5 tasks or fewer, otherwise separate) and includes the plan hash in the request",
+        "Output ends the turn after the request and does not record approval in the same turn"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Plan spec 015-account-rename: rename the `customer_id` column to `account_id` in the orders table and in the public /v2/orders response, across 5 packages. The spec header says Path Standard, R=1 (schema).",
+      "expected_output": "Detects that a schema change plus a public API change is R \u2265 2 (Full path) and stops to re-score before planning, then plans expand \u2192 migrate \u2192 contract with disjoint migrate batches.",
+      "expectations": [
+        "Output notices the public API trigger missing from the spec score and states that schema plus public API makes R \u2265 2, so the path is Full and must be re-scored before planning continues",
+        "Output sequences the work as expand (new column/field beside the old, dual write) then migrate batches then contract",
+        "Output makes each migrate batch blocked only by expand and gives the batches disjoint Files so plan-graph can place them in one wave (frontier at most 3)",
+        "Output makes the contract task blocked by every migrate batch and includes a down/rollback step and an observation window before removal",
+        "Output does not add Blocked by edges for mere file overlap"
+      ]
     }
   ]
 }
