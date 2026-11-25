@@ -22,7 +22,8 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
 │   ├── codemap.md                     # module → paths → depends_on → tests
 │   ├── postmortems/YYYY-MM-DD-<slug>.md
 │   ├── runbooks/<service>.md
-│   └── retros/YYYY-MM-DD.md
+│   ├── retros/YYYY-MM-DD.md
+│   └── reviews/<issue>.md             # Quick review record without a PR host
 ├── specs/NNN-<slug>/                  # one folder per Standard/Full work item
 │   ├── spec.md                        # AC-n, non-goals, security notes, release & observability, approvals
 │   ├── approvals.md                   # approval register: requests, answers, exact words (read by spec-lint)
@@ -32,6 +33,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
 │   ├── acceptance-tests.md            # AC-n → test id, designed from the spec only
 │   ├── run-ledger.jsonl               # run ledger archived by run-ledger finish
 │   ├── handoff.md                     # stage hand-off / resume pointer
+│   ├── review.md                      # review record without a PR host (pr-body sections, Test sign-off)
 │   ├── trace.md                       # † written by trace-check
 │   └── ops.md                         # † indicator readings and incidents after release
 └── .agentic-sdlc/
@@ -73,7 +75,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
 | `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor`† (age ≤ 90 days, every top-level dir mapped) |
 | `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check`† |
-| PR body | pull request | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`†, `trace-check`† |
+| PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`†, `trace-check`† |
 | Run ledger | `.agentic-sdlc/runs/<id>/ledger.jsonl`; archived to `specs/NNN-slug/run-ledger.jsonl` | generated | Build · `run-ledger start` … `finish` | every `executing-plans` run | `run-ledger status`, `check` |
 | Preflight record | `.agentic-sdlc/runs/<id>/preflight.json` | generated | Build · `preflight` | every `executing-plans` run | `preflight` exit code |
 | Run worktree | `../<repo>-sdlc-<id>` on `sdlc/NNN-<id>` | generated | Build · `run-ledger start --mode unattended` | unattended runs | `preflight` (isolation) |
@@ -102,7 +104,7 @@ The router Module Index and other files name the files below; they are added in 
 | `scripts/evidence.mjs`† | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
 | `scripts/trace-check.mjs`† | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
 | `scripts/dod-gate.mjs`† | Definition of Done gate | Run every `sdlc-dod` command and paste each exit code; `preflight` runs the same commands as baseline-dod |
-| `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off row (`references/governance.md`) |
+| `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
 | `scripts/ext-check.mjs`† | Extension validation | No extensions are loaded until it exists |
 | `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |

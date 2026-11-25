@@ -4,13 +4,13 @@ Load this file for any approval request, any approval record, any waiver, and th
 
 ## 1. The four sign-offs and their owners
 
-**Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review; the Release sign-off is the `## Approval` section of the release notes. Each sign-off is named after the stage it closes.
+**Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review (no PR host: the `## Test sign-off` row of the review record, `templates/pr-body.md`); the Release sign-off is the `## Approval` section of the release notes. Each sign-off is named after the stage it closes.
 
 | Sign-off | Owner role (decides) | Artifact | Bound to | Binding record | Deterministic check |
 |---|---|---|---|---|---|
 | **Specify** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
 | **Design** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
-| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host | branch protection; `approval-check --pr`† (10.4) |
+| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr`† (10.4) |
 | **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
 
 Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3). Quick-path items have no `specs/` folder.

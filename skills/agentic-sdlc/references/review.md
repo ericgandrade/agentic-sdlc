@@ -97,7 +97,7 @@ The Reviewer and every lens run in contexts that did not author the change (sepa
 
 No subagents on the platform → run each lens as a separate pass from a cleared context loaded with only that lens's inputs (§1). Mark each such lens row and finding `self-review`; the label is mandatory in `## Verification`, `## Review triage` and `## Review guide`. On the Full path, the second human reviewer reads the self-review lenses as review-guide items and records their own check.
 
-Without a PR host, the review record is `specs/NNN-slug/review.md` on the feature branch, with the same sections.
+Without a PR host, the review record is `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) on the feature branch, with the same sections; the Test sign-off is its `## Test sign-off` row (`templates/pr-body.md`).
 
 ## Red flags
 
