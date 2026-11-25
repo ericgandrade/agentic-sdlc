@@ -1,6 +1,6 @@
 ---
 name: issue-triage
-description: This skill should be used when a new request, bug report, tracker issue, production signal or retro action needs intake before any spec or code — searching open and closed issues and out-of-scope records for duplicates and prior rejections by domain concept, getting the Product Owner's intake decision, classifying the item as bug, task, story or epic, scoring the Quick, Standard or Full path, checking readiness, and writing the intake record, a needs-info reply or an out-of-scope record (the Discover stage of the Agentic SDLC).
+description: This skill should be used when a new request, bug report, tracker issue, production signal or retro action needs intake before any spec or code — searching open and closed issues and out-of-scope records for duplicates and prior rejections by domain concept, getting the Product Owner's intake decision, classifying the item as bug, task, story or epic, scoring the Quick, Standard or Full path, checking readiness, and writing the intake record, a needs-info reply or an out-of-scope record (the Discover stage of the Agentic SDLC). Not for exploring solution options (use brainstorming), writing the spec (use spec-driven-development), or running a live incident (use operations-and-incidents).
 license: MIT
 ---
 

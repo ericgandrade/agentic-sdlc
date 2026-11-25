@@ -1,6 +1,6 @@
 ---
 name: test-driven-development
-description: This skill should be used when implementing a plan task, feature slice or bug fix test-first — writing the failing test before production code, proving it fails for the right reason, writing the minimal code, refactoring under green, choosing mocks and seams, writing a reproduce-first regression test, or checking that each test would catch a real break (the Build stage of the Agentic SDLC).
+description: This skill should be used when implementing a plan task, feature slice or bug fix test-first — writing the failing test before production code, proving it fails for the right reason, writing the minimal code, refactoring under green, choosing mocks and seams, writing a reproduce-first regression test, pinning untested code with a characterization test before changing it inside a task, or checking that each test would catch a real break (the Build stage of the Agentic SDLC). One task at a time; not for running a whole plan (use executing-plans), acceptance tests designed from the spec (use test-strategy), a failure whose cause is unproven (use systematic-debugging), or characterization tests for a legacy migration (use codebase-modernization).
 license: MIT
 ---
 

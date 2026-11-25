@@ -21,6 +21,11 @@
     { "id": 17, "query": "Can I mark T4 done? The tests passed before my last rename.", "should_trigger": false },
     { "id": 18, "query": "The export test fails intermittently on CI. Find the root cause.", "should_trigger": false },
     { "id": 19, "query": "Break the approved spec into tasks with dependencies in plan.md", "should_trigger": false },
-    { "id": 20, "query": "Set up the AGENTS.md block and the sdlc-dod Definition of Done for this new repository", "should_trigger": false }
+    { "id": 20, "query": "Set up the AGENTS.md block and the sdlc-dod Definition of Done for this new repository", "should_trigger": false },
+    {
+      "id": 21,
+      "query": "Take the 7-day indicator reading for the CSV export and record it in ops.md",
+      "should_trigger": false
+    }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "skill_name": "test-strategy",
-  "description": "This skill should be used when acceptance tests must be designed from an approved spec and ux.md in a context that has not seen the implementation — mapping each AC-n to a test level and cases, covering UX states, accessibility and non-functional thresholds, proving every test red at the base commit, then running them at the PR head with a verification-gap check and, on the Full path, a time-boxed exploratory session (acceptance-test design after Design sign-off and the Test stage of the Agentic SDLC).",
+  "description": "This skill should be used when acceptance tests must be designed from an approved spec and ux.md in a context that has not seen the implementation — mapping each AC-n to a test level and cases, covering UX states, accessibility and non-functional thresholds, proving every test red at the base commit, then running them at the PR head with a verification-gap check and, on the Full path, a time-boxed exploratory session (acceptance-test design after Design sign-off and the Test stage of the Agentic SDLC). Not for unit tests written test-first inside a task (use test-driven-development) or filling and auditing the PR Verification table (use verification-gate).",
   "queries": [
     { "id": 1, "query": "Design sign-off is done for specs/003-search-filters — write acceptance-tests.md from the spec before Build starts", "should_trigger": true },
     { "id": 2, "query": "Which test level should each acceptance criterion get — unit, integration or end-to-end?", "should_trigger": true },
@@ -19,6 +19,11 @@
     { "id": 15, "query": "Build a threat model with abuse cases for the payment webhook", "should_trigger": false },
     { "id": 16, "query": "This integration test fails randomly in CI about one run in five — find the root cause", "should_trigger": false },
     { "id": 17, "query": "Set up the CI pipeline gates and branch protection for the Test and Release sign-offs", "should_trigger": false },
-    { "id": 18, "query": "Break the approved spec into plan tasks with dependencies for Design sign-off", "should_trigger": false }
+    { "id": 18, "query": "Break the approved spec into plan tasks with dependencies for Design sign-off", "should_trigger": false },
+    {
+      "id": 19,
+      "query": "Mutate the function I just changed and check that each of my new unit tests fails",
+      "should_trigger": false
+    }
   ]
 }

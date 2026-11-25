@@ -1,6 +1,6 @@
 ---
 name: retrospective
-description: This skill should be used when a delivery cycle closes and its lessons must become owned changes — a retro is due or overdue after a release reaches 100% or a merge with no release, a Quick batch reaches 10 items or 14 days, retro facts or an agenda must be drafted, prior retro actions must be checked, an indicator reading must be judged against its baseline and target, an epic needs a cross-item view, or a repeated agent mistake must become an automated check or an AGENTS.md pitfall (the Operate stage of the Agentic SDLC).
+description: This skill should be used when a delivery cycle closes and its lessons must become owned changes — a retro is due or overdue after a release reaches 100% or a merge with no release, a Quick batch reaches 10 items or 14 days, retro facts or an agenda must be drafted, prior retro actions must be checked, an indicator reading must be judged against its baseline and target, an epic needs a cross-item view, or an agent mistake that recurs across cycles must become an automated check or an AGENTS.md pitfall (the Operate stage of the Agentic SDLC). Not for postmortems, incidents or taking production readings (use operations-and-incidents), or logging a single agent mistake on the spot (use project-context).
 license: MIT
 ---
 

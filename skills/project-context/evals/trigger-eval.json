@@ -101,6 +101,11 @@
       "id": 20,
       "query": "Run the retrospective for last sprint and pick improvement actions",
       "should_trigger": false
+    },
+    {
+      "id": 21,
+      "query": "The agent mocked the repository layer again for the third cycle in a row; turn it into an owned retro action with an automated check",
+      "should_trigger": false
     }
   ]
 }

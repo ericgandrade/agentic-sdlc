@@ -1,6 +1,6 @@
 ---
 name: verification-gate
-description: This skill should be used when anyone is about to claim work is done, fixed, passing, ready for review or ready to release, when the PR Verification and Trace sections must be filled or audited, when a PR description or agent report must be checked as testimony, or when the sdlc-dod Definition of Done must be enforced (the Test stage of the Agentic SDLC, and the evidence rule for every stage).
+description: This skill should be used when anyone is about to claim work is done, fixed, passing, ready for review or ready to release, when the PR Verification and Trace sections must be filled or audited, when a PR description or agent report must be checked as testimony, or when the sdlc-dod Definition of Done must be run against a change (the Test stage of the Agentic SDLC, and the evidence rule for every stage). Not for designing tests (use test-strategy), the multi-lens review verdict (use multi-axis-code-review), writing the sdlc-dod block (use project-context), or wiring it into CI (use deployment-pipeline).
 license: MIT
 ---
 

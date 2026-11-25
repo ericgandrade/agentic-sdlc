@@ -17,6 +17,7 @@
     {"id": 13, "query": "This unit test fails intermittently; find the root cause in the code", "should_trigger": false},
     {"id": 14, "query": "Facilitate our sprint retrospective and record the actions with owners", "should_trigger": false},
     {"id": 15, "query": "Triage this new feature request and score its path", "should_trigger": false},
-    {"id": 16, "query": "Review this pull request for security issues before merge", "should_trigger": false}
+    {"id": 16, "query": "Review this pull request for security issues before merge", "should_trigger": false},
+    {"id": 17, "query": "Stage 2 watch window is over; make the advance or roll back call and log it in the Deploy log", "should_trigger": false}
   ]
 }

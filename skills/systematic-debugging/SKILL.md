@@ -1,6 +1,6 @@
 ---
 name: systematic-debugging
-description: This skill should be used when a test, build or runtime behaviour fails and the cause is not yet proven — after 3 failed red-green attempts, for a failing or flaky test, a test that passes alone but fails in the full suite, a bug report or production defect that reaches Build, or a fix that did not hold; it builds a tight red loop first, ranks 3–5 falsifiable hypotheses, tests them one at a time within the bound of 3 refuted hypotheses, proves the root cause with a regression test, and escalates to the Architect at the bound (the Build stage of the Agentic SDLC, also entered from Test and Operate).
+description: This skill should be used when a test, build or runtime behaviour fails and the cause is not yet proven — after 3 failed red-green attempts, for a failing or flaky test, a test that passes alone but fails in the full suite, a bug report or production defect that reaches Build, or a fix that did not hold; it builds a tight red loop first, ranks 3–5 falsifiable hypotheses, tests them one at a time within the bound of 3 refuted hypotheses, proves the root cause with a regression test, and escalates to the Architect at the bound (the Build stage of the Agentic SDLC, also entered from Test and Operate). Not for running a production incident or deciding a rollback (use operations-and-incidents), or test-first work whose cause is already known (use test-driven-development).
 license: MIT
 ---
 

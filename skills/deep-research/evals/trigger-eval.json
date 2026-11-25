@@ -27,6 +27,8 @@
     {"id": 19, "query": "Create a resume for a software engineering role", "should_trigger": false},
     {"id": 20, "query": "Help me prepare for my upcoming presentation", "should_trigger": false},
     {"id": 25, "query": "Give me a quick answer: what is RAG?", "should_trigger": false},
-    {"id": 26, "query": "Rewrite this paragraph with citations I already have", "should_trigger": false}
+    {"id": 26, "query": "Rewrite this paragraph with citations I already have", "should_trigger": false},
+    {"id": 27, "query": "Research how invoice rounding works in this codebase and cite file and line for every claim", "should_trigger": false},
+    {"id": 28, "query": "Rank the top US PhD programs in Computer Science for my profile and budget", "should_trigger": false}
   ]
 }

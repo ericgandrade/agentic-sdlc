@@ -1,6 +1,6 @@
 {
   "skill_name": "executing-plans",
-  "description": "This skill should be used when an approved plan (specs/NNN-slug/plan.md or docs/plans/*.md) must be executed or an interrupted Build run resumed — test-first tasks via fresh Developer subagents or inline, per-task spec-then-quality review, bounded fix loops with escalation rulings, a run ledger copied into the PR, preflight, worktree isolation, file-disjoint parallel tasks and unattended runs (the Build stage of the Agentic SDLC).",
+  "description": "This skill should be used when an approved plan (specs/NNN-slug/plan.md or docs/plans/*.md) must be executed or an interrupted Build run resumed — test-first tasks via fresh Developer subagents or inline, per-task spec-then-quality review, bounded fix loops with escalation rulings, a run ledger copied into the PR, preflight, worktree isolation, file-disjoint parallel tasks and unattended runs (the Build stage of the Agentic SDLC). Not for one test-first task on its own (use test-driven-development), writing the plan (use writing-plans), or a failure whose cause is unknown (use systematic-debugging).",
   "queries": [
     {
       "id": 1,
@@ -49,7 +49,7 @@
     },
     {
       "id": 10,
-      "query": "I have a written spec — execute it step by step, stopping if anything fails",
+      "query": "I have an approved plan.md — execute it task by task, stopping if anything fails",
       "should_trigger": true
     },
     {

@@ -1,6 +1,6 @@
 ---
 name: test-strategy
-description: This skill should be used when acceptance tests must be designed from an approved spec and ux.md in a context that has not seen the implementation — mapping each AC-n to a test level and cases, covering UX states, accessibility and non-functional thresholds, proving every test red at the base commit, then running them at the PR head with a verification-gap check and, on the Full path, a time-boxed exploratory session (acceptance-test design after Design sign-off and the Test stage of the Agentic SDLC).
+description: This skill should be used when acceptance tests must be designed from an approved spec and ux.md in a context that has not seen the implementation — mapping each AC-n to a test level and cases, covering UX states, accessibility and non-functional thresholds, proving every test red at the base commit, then running them at the PR head with a verification-gap check and, on the Full path, a time-boxed exploratory session (acceptance-test design after Design sign-off and the Test stage of the Agentic SDLC). Not for unit tests written test-first inside a task (use test-driven-development) or filling and auditing the PR Verification table (use verification-gate).
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: shipping-and-handover
-description: This skill should be used when a development branch is finished and must be shipped or handed over — running the pre-ship checklist, opening the pull request with fingerprint-bound evidence, a before/after pair, a one-way or two-way door call and the rollback line, choosing merge, PR, keep or discard with explicit confirmation, checking docs drift, writing release notes and the runbook, and handing a release to Operate (the end of the Build stage and the Release stage of the Agentic SDLC).
+description: This skill should be used when a development branch is finished and must be shipped or handed over — running the pre-ship checklist, opening the pull request with fingerprint-bound evidence, a before/after pair, a one-way or two-way door call and the rollback line, choosing merge, PR, keep or discard with explicit confirmation, checking docs drift, writing release notes and the runbook, and handing a release to Operate (the end of the Build stage and the Release stage of the Agentic SDLC). Not for producing or auditing test evidence (use verification-gate), CI gates, rollout stages or rollback rehearsal (use deployment-pipeline), or incidents and postmortems (use operations-and-incidents).
 license: MIT
 ---
 

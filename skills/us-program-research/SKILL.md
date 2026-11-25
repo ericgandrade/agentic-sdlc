@@ -1,6 +1,6 @@
 ---
 name: us-program-research
-description: This skill should be used when the user needs structured research and ranking of US academic programs (PhD, Master
+description: This skill should be used when the user needs structured research, comparison and ranking of US academic programs (PhD, master and bachelor programs, including MBA and law) with credential gap analysis, cost and funding fit, admission requirements and an actionable application plan. Not for general web or market research (use deep-research) or writing application essays and CVs.
 license: MIT
 ---
 

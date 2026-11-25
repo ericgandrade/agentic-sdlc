@@ -1,6 +1,6 @@
 ---
 name: deployment-pipeline
-description: This skill should be used when a project needs CI/CD gates that enforce the Agentic SDLC — discovering the existing pipeline, mapping the sdlc-dod Definition of Done and the spec-lint/plan-graph approval checks to required CI jobs, setting branch protection, CODEOWNERS and production environment reviewers so the Test and Release sign-offs cannot be bypassed, proving each gate blocks a bad change, choosing a deployment strategy, rehearsing the rollback in staging, and deciding advance, hold or roll back at each rollout stage (the Release stage of the Agentic SDLC).
+description: This skill should be used when a project needs CI/CD gates that enforce the Agentic SDLC — discovering the existing pipeline, mapping the sdlc-dod Definition of Done and the spec-lint/plan-graph approval checks to required CI jobs, setting branch protection, CODEOWNERS and production environment reviewers so the Test and Release sign-offs cannot be bypassed, proving each gate blocks a bad change, choosing a deployment strategy, rehearsing the rollback in staging, and deciding advance, hold or roll back at each rollout stage (the Release stage of the Agentic SDLC). Not for the PR, release notes, runbook or hand-over (use shipping-and-handover), writing the sdlc-dod block (use project-context), or watching production after rollout and running incidents (use operations-and-incidents).
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: security-hardening
-description: This skill should be used when a change needs security designed into its spec and checked in its diff — classifying data, writing a five-minute STRIDE threat model whose abuse cases become negative acceptance criteria, filling spec Security notes, mapping regulated obligations, applying hardening, secret, dependency and AI-use data rules during Build, or running the 20-item security review lens L3 with secret and dependency scanners (the Specify and Test stages of the Agentic SDLC).
+description: This skill should be used when a change needs security designed into its spec and checked in its diff — classifying data, writing a five-minute STRIDE threat model whose abuse cases become negative acceptance criteria, filling spec Security notes, mapping regulated obligations, applying hardening, secret, dependency and AI-use data rules during Build, or running the 20-item security review lens L3 with secret and dependency scanners (the Specify and Test stages of the Agentic SDLC). Not for the full multi-lens GO or NO-GO review (use multi-axis-code-review), CI gates and branch protection (use deployment-pipeline), or a generic vulnerability pass over pending changes with no spec (the built-in security-review).
 license: MIT
 ---
 

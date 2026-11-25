@@ -101,6 +101,11 @@
       "id": 18,
       "query": "Execute the plan in docs/plans/2026-05-10-scripts-cleanup.md",
       "should_trigger": false
+    },
+    {
+      "id": 21,
+      "query": "Pick the best combination of skills and agents to plan my job search",
+      "should_trigger": false
     }
   ]
 }

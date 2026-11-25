@@ -171,6 +171,11 @@
       "id": 34,
       "query": "Generate docs/codemap.md and the AGENTS.md block for this repository",
       "should_trigger": false
+    },
+    {
+      "id": 35,
+      "query": "Before we spec anything, brainstorm a few ways to cut checkout abandonment",
+      "should_trigger": false
     }
   ]
 }

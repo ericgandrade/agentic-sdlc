@@ -156,6 +156,11 @@
       "id": 31,
       "query": "Is this new bug report a duplicate of something already closed as won't fix?",
       "should_trigger": false
+    },
+    {
+      "id": 32,
+      "query": "The spec is approved; give me two materially different designs for the notification module and record the choice as an ADR",
+      "should_trigger": false
     }
   ]
 }

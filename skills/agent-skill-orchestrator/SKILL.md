@@ -1,6 +1,6 @@
 ---
 name: agent-skill-orchestrator
-description: This skill should be used when the user needs to solve a complex task and wants a detailed execution plan using the best available resources. Analyzes user requirements, discovers available plugins/agents/skills/MCPs, performs intelligent matching with confidence scoring, and creates strategic execution plans with alternatives. Works across all AI CLI platforms.
+description: This skill should be used when the user needs to solve a complex task and wants a detailed execution plan using the best available resources. Analyzes user requirements, discovers available plugins/agents/skills/MCPs, performs intelligent matching with confidence scoring, and creates strategic execution plans with alternatives. Works across all AI CLI platforms. Not for running software delivery through the Agentic SDLC stages (use agentic-sdlc), writing an implementation plan from a spec (use writing-plans), or only listing installed resources (use agent-skill-discovery).
 license: MIT
 ---
 

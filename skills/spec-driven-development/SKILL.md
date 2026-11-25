@@ -1,6 +1,6 @@
 ---
 name: spec-driven-development
-description: This skill should be used when the user needs a written specification before code — turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered testable acceptance criteria, measurable non-functional requirements, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint and a doubt pass; revising an approved spec with a delta that states what must not change; splitting an epic into a capability map of module specs; or importing Spec Kit, Kiro, OpenSpec or AI-DLC specs (the Specify stage and Specify sign-off of the Agentic SDLC).
+description: This skill should be used when the user needs a written specification before code — turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered testable acceptance criteria, measurable non-functional requirements, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint and a doubt pass; revising an approved spec with a delta that states what must not change; splitting an epic into a capability map of module specs; or importing Spec Kit, Kiro, OpenSpec or AI-DLC specs (the Specify stage and Specify sign-off of the Agentic SDLC). Not for exploring options before the problem is agreed (use brainstorming), the threat model (use security-hardening), plan tasks (use writing-plans), or deciding where a change re-enters the cycle (use agentic-sdlc).
 license: MIT
 ---
 

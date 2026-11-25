@@ -21,6 +21,8 @@
     {"id": 17, "query": "Explain the OSI model", "should_trigger": false},
     {"id": 18, "query": "Generate a brainstorm for product features", "should_trigger": false},
     {"id": 19, "query": "Help me understand my equity offer", "should_trigger": false},
-    {"id": 20, "query": "Create a SQL query for my database", "should_trigger": false}
+    {"id": 20, "query": "Create a SQL query for my database", "should_trigger": false},
+    {"id": 21, "query": "Which Agentic SDLC stage comes next for specs/004-payments-refactor?", "should_trigger": false},
+    {"id": 22, "query": "Break the approved spec into plan.md tasks with dependencies", "should_trigger": false}
   ]
 }

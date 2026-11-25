@@ -14,7 +14,7 @@
     },
     {
       "id": 3,
-      "query": "Create a written spec and plan for adding multi-tenancy to our SaaS app",
+      "query": "The multi-tenancy spec is approved — break it into an implementation plan with tasks for our SaaS app",
       "should_trigger": true
     },
     {
@@ -120,6 +120,16 @@
     {
       "id": 24,
       "query": "The plan is approved \u2014 run plan-graph --from-git, pick the next ready task and implement it",
+      "should_trigger": false
+    },
+    {
+      "id": 25,
+      "query": "Inventory the legacy monolith and decide which components to retire, upgrade or migrate first",
+      "should_trigger": false
+    },
+    {
+      "id": 26,
+      "query": "Create an execution plan that picks the best available skills and agents for my product launch",
       "should_trigger": false
     }
   ]

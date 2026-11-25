@@ -1,6 +1,6 @@
 ---
 name: agentic-sdlc
-description: This skill should be used when the user wants to run software work end to end through the Agentic SDLC (Discover, Specify, Design, Build, Test, Release, Operate) with AI agents and four human sign-offs — starting a feature, bug fix or modernization the disciplined way, asking which stage or step comes next, resuming from specs/ artifacts, choosing the Quick, Standard or Full path, or handling a requirement change after Specify sign-off.
+description: This skill should be used when the user wants to run software work end to end through the Agentic SDLC (Discover, Specify, Design, Build, Test, Release, Operate) with AI agents and four human sign-offs — starting a feature, bug fix or modernization the disciplined way, asking which stage or step comes next, resuming from specs/ artifacts, choosing the Quick, Standard or Full path, or handling a requirement change after Specify sign-off (deciding where it re-enters). It hands each stage to its stage skill and is not for one stage task asked on its own, such as writing a spec, writing or executing a plan, implementing or debugging a task, or reviewing a PR (use that stage skill), nor for non-software multi-skill plans (use agent-skill-orchestrator).
 license: MIT
 ---
 

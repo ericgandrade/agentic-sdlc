@@ -18,6 +18,11 @@
     { "id": 14, "query": "Write the spec with acceptance criteria for the CSV export", "should_trigger": false },
     { "id": 15, "query": "Implement task T3 test-first from the approved plan", "should_trigger": false },
     { "id": 16, "query": "Write the release notes and decide whether to merge or keep the branch", "should_trigger": false },
-    { "id": 17, "query": "Explain what this regex in utils.ts does", "should_trigger": false }
+    { "id": 17, "query": "Explain what this regex in utils.ts does", "should_trigger": false },
+    {
+      "id": 18,
+      "query": "Run only security lens L3 with gitleaks and npm audit on this diff",
+      "should_trigger": false
+    }
   ]
 }

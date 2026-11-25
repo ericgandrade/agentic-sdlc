@@ -18,6 +18,7 @@
     {"id": 14, "query": "Confirm the feature is done: run the DoD and record fingerprinted evidence in the PR", "should_trigger": false},
     {"id": 15, "query": "Break the approved spec into tasks with interface signatures and file paths", "should_trigger": false},
     {"id": 16, "query": "Write the spec with acceptance criteria for password reset", "should_trigger": false},
-    {"id": 17, "query": "Plan the migration of the legacy monolith with a strangler pattern", "should_trigger": false}
+    {"id": 17, "query": "Plan the migration of the legacy monolith with a strangler pattern", "should_trigger": false},
+    {"id": 18, "query": "Write golden-master characterization tests for the whole legacy billing module before the strangler migration starts", "should_trigger": false}
   ]
 }

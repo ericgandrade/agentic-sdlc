@@ -1,6 +1,6 @@
 ---
 name: project-context
-description: This skill should be used when the user wants to set up, adopt, refresh or audit a repository's agent instructions (the AGENTIC-SDLC block in AGENTS.md with its required sdlc-dod Definition of Done), enter an existing codebase before the first change, map the code, vendor the gate scripts into .agentic-sdlc/bin with VERSION and SHA256SUMS, write CONSTRAINTS.md or GLOSSARY.md, keep the adoption ledger, prepare CI enforcement inputs, or record an agent mistake so it is not repeated (the Discover stage of the Agentic SDLC).
+description: This skill should be used when the user wants to set up, adopt, refresh or audit a repository's agent instructions (the AGENTIC-SDLC block in AGENTS.md with its required sdlc-dod Definition of Done), enter an existing codebase before the first change, map the code, vendor the gate scripts into .agentic-sdlc/bin with VERSION and SHA256SUMS, write CONSTRAINTS.md or GLOSSARY.md, keep the adoption ledger, prepare CI enforcement inputs, or record an agent mistake as an AGENTS.md pitfall so it is not repeated (the Discover stage of the Agentic SDLC). Not for inventorying or migrating legacy code (use codebase-modernization), wiring CI jobs or branch protection (use deployment-pipeline), turning a recurring mistake into a retro action (use retrospective), or listing installed skills (use agent-skill-discovery).
 license: MIT
 ---
 

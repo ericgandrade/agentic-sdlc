@@ -1,6 +1,6 @@
 ---
 name: multi-axis-code-review
-description: This skill should be used when a pull request or branch diff needs an independent review against its approved spec and plan — running spec-compliance, correctness, design and simplicity, security and context-free adversarial lenses in fresh contexts, verifying every finding before a GO or NO-GO verdict, routing defects to the stage that caused them, receiving review findings as the author, re-reviewing fixes within the 3-round bound, or preparing the Test sign-off (the Test stage of the Agentic SDLC).
+description: This skill should be used when a pull request or branch diff needs an independent review against its approved spec and plan — running spec-compliance, correctness, design and simplicity, security and context-free adversarial lenses in fresh contexts, verifying every finding before a GO or NO-GO verdict, routing defects to the stage that caused them, receiving review findings as the author, re-reviewing fixes within the 3-round bound, or preparing the Test sign-off (the Test stage of the Agentic SDLC); its security lens L3 comes from security-hardening. Not for a quick generic review of a diff with no spec or plan (a plain code review such as the built-in code-review), a security-only review (use security-hardening), or checking that test evidence is fresh (use verification-gate).
 license: MIT
 ---
 

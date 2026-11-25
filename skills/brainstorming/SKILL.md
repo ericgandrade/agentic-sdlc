@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: This skill should be used when the user needs pre-implementation ideation before a spec or code — framing the real problem behind a request, generating and comparing genuinely different approaches with named techniques, scoring them, auditing assumptions, running a throwaway UI or logic prototype when paper cannot settle a question, and agreeing a discovery brief that feeds the spec; also for standalone ideation such as names, positioning or programs (the Discover stage of the Agentic SDLC).
+description: This skill should be used when the user needs pre-implementation ideation before a spec or code — framing the real problem behind a request, generating and comparing genuinely different approaches with named techniques, scoring them, auditing assumptions, running a throwaway UI or logic prototype when paper cannot settle a question, and agreeing a discovery brief that feeds the spec; also for standalone ideation such as names, positioning or programs (the Discover stage of the Agentic SDLC). Not for intake, duplicate search or path scoring of a new request (use issue-triage), comparing technical designs for an approved spec (use senior-solution-architect), or writing the spec itself (use spec-driven-development).
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: writing-plans
-description: This skill should be used when an approved spec or a set of requirements exists and multi-step work has not started — it turns acceptance criteria into specs/NNN-slug/plan.md with vertical-slice tasks, a plan-graph-validated task graph (graph.json), an impact section from the code map, a self-review, a fresh-context plan review, an AC-to-task coverage check and a Design sign-off request (the Design stage of the Agentic SDLC).
+description: This skill should be used when an approved spec or a set of requirements exists and multi-step work has not started — it turns acceptance criteria into specs/NNN-slug/plan.md with vertical-slice tasks, a plan-graph-validated task graph (graph.json), an impact section from the code map, a self-review, a fresh-context plan review, an AC-to-task coverage check and a Design sign-off request (the Design stage of the Agentic SDLC). Not for choosing a legacy migration strategy or order (use codebase-modernization, whose slices it turns into tasks), comparing architectures (use senior-solution-architect), picking which skills or agents to use (use agent-skill-orchestrator), or executing the plan (use executing-plans).
 license: MIT
 ---
 

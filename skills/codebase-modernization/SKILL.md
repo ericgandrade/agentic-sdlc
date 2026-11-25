@@ -1,6 +1,6 @@
 ---
 name: codebase-modernization
-description: This skill should be used when the user needs to change or modernize existing code safely — inventorying a legacy codebase and its dependencies, scoring components by value and risk, deciding to retire, retain, rehost, upgrade, re-platform, refactor or migrate, researching how the code works today with cited evidence, pinning current behaviour with characterization tests (CHAR-n) before touching untested code, designing expand-contract schema changes or a strangler cutover, slicing the migration into plan tasks, or writing a migration runbook (the Specify and Design stages of the Agentic SDLC on brownfield code).
+description: This skill should be used when the user needs to change or modernize existing code safely — inventorying a legacy codebase and its dependencies, scoring components by value and risk, deciding to retire, retain, rehost, upgrade, re-platform, refactor or migrate, researching how the code works today with cited evidence, pinning current behaviour with characterization tests (CHAR-n) before touching untested code, designing expand-contract schema changes or a strangler cutover, slicing the migration into ordered slices for writing-plans, or writing a migration runbook (the Specify and Design stages of the Agentic SDLC on brownfield code). Not for first entry into a repository or its code map (use project-context), designing a new system (use senior-solution-architect), or web research (use deep-research).
 license: MIT
 ---
 

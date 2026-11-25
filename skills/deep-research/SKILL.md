@@ -1,6 +1,6 @@
 ---
 name: deep-research
-description: This skill should be used when the user needs deep, multi-step web research with source synthesis, citations, skeptical evidence evaluation, confidence/gap analysis, and optional dense/frontier research using parallel agents.
+description: This skill should be used when the user needs deep, multi-step web research with source synthesis, citations, skeptical evidence evaluation, confidence/gap analysis, and optional dense/frontier research using parallel agents. Not for researching how code in the current repository works (use codebase-modernization), deciding a system architecture (use senior-solution-architect), ranking US academic programs (use us-program-research), or reading one given URL (use webpage-reader).
 license: MIT
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: operations-and-incidents
-description: This skill should be used when a released change must be watched in production, an alert fires, an incident is reported or must be classified, a blameless postmortem is due, SLOs and error budgets must be derived from the spec, DORA delivery metrics must be computed, or production learning must become new from-production issues (the Operate stage of the Agentic SDLC).
+description: This skill should be used when a released change must be watched in production, the Release Engineer asks for a rollout-stage signal reading, the first indicator reading is due, an alert fires, an incident is reported or must be classified, a blameless postmortem is due, SLOs and error budgets must be derived from the spec, DORA delivery metrics must be computed, or production learning must become new from-production issues (the Operate stage of the Agentic SDLC). Not for owning the rollout decision, deploy log or rollback (use deployment-pipeline), a code-level root cause (use systematic-debugging), the team retro or the outcome verdict on an indicator (use retrospective), or intake of the issues it opens (use issue-triage).
 license: MIT
 ---
 
