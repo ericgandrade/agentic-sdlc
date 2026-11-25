@@ -34,7 +34,7 @@ PR, tag, release, `gh repo edit` and the Claude Desktop upload are owner actions
 ## Next steps
 
 1. Fix the E.3 findings: 1 Critical and 14 Important (table in the report, section 4). Suggested order:
-   1. **F18** (Critical): red acceptance tests on the branch make the preflight baseline red, so Standard and Full Build cannot start as documented.
+   1. ~~**F18** (Critical)~~: fixed on this branch (docs only: tests live on `at/NNN-slug` until green). Not yet re-dogfooded.
    2. **F10, F27**: the fingerprint goes stale on record-only commits. Check what `8c5d014` already excludes.
    3. **F21, F22**: artifact commits fail Trace; review-fix rounds are refused after `run-ledger finish`.
    4. **F16, F25**: library or package profile. `8c5d014` added `n/a` for Alert and Rollout, so F16 may be partly closed.

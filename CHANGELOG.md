@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [3.0.0] - 2026-11-25
 
+### Fixed
+- Red acceptance tests no longer block Standard and Full Build: they live on `at/NNN-slug` and join the feature branch in the Test stage, once green (dogfood finding F18).
+
 ### Breaking Changes
 - **`executing-plans` v4.0.0** replaces the v2 batch-and-checkpoint flow. Each plan task runs in a fresh context, test-first (red output recorded before green), with a fresh reviewer per task, a run ledger, bounded loops (red-green 3, build-test 5, review-fix 3, debug 3) and a `preflight` check. Parallel execution is limited to file-disjoint tasks. The ledger is copied into the PR. Agents report one status: `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT` or `CANNOT_VERIFY`.
 - **`writing-plans` v3.2.0** now produces a task graph (`| ID | Title | AC | Blocked by | Files | Size |`) that `plan-graph` validates. Inside the Agentic SDLC, plans live at `specs/NNN-slug/plan.md` and need a hash-bound Design sign-off; standalone plans stay in `docs/plans/`.

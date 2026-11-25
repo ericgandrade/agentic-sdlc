@@ -41,7 +41,7 @@ Read and search at the base commit · edit only `acceptance-tests.md` and accept
 1. For each AC-n: choose the lowest level that observes the outcome; state the failure the test catches.
 2. Add ≥ 1 negative test for every AC that handles input, permissions or limits.
 3. Write the tests; run them at the base commit; they must fail (the feature does not exist yet). A test that passes at the base proves nothing → rewrite it.
-4. Hand the files over: the Developer commits them unchanged as the first commit of the feature branch (`test: add acceptance tests for <NNN-slug>`, trailer `Refs: AC-1 … AC-n`) and never edits them afterwards.
+4. Hand the files over: they are committed unchanged on `at/NNN-slug`, off the feature branch until Test (`references/verification.md` §2); the Developer never edits them.
 5. In Test: run them at the PR head; record command, exit code and fingerprint.
 
 ## Returns

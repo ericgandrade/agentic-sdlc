@@ -61,7 +61,7 @@ The capability probe decides at runtime; this table is the expected default. A p
 
 | # | Missing capability | Fallback procedure | Record | Failure behaviour |
 |---|---|---|---|---|
-| 1 | Subagents | Run each agent as a separate labelled pass in the same session, loading only that agent's file and listed inputs. The Test Engineer writes `acceptance-tests.md` from the spec **before** Build starts and commits it, so the tests are fixed before any diff exists | Every check of the author's own work is labelled `self-review` in the PR Verification and Review triage sections | Missing `self-review` label on a same-session check → Reviewer Important finding; PR verdict NO-GO |
+| 1 | Subagents | Run each agent as a separate labelled pass in the same session, loading only that agent's file and listed inputs. The Test Engineer writes `acceptance-tests.md` from the spec **before** Build starts and commits it on `at/NNN-slug` (`verification.md` §2), so the tests are fixed before any diff exists | Every check of the author's own work is labelled `self-review` in the PR Verification and Review triage sections | Missing `self-review` label on a same-session check → Reviewer Important finding; PR verdict NO-GO |
 | 2 | Shell | The agent writes the exact commands; the human runs them and pastes the output | Verification rows marked `run-by: human` | No pasted output → status `CANNOT_VERIFY`; no completion claim |
 | 3 | Node ≥ 18 | Markdown-only path (§4) | Block `node: absent`; PR banner `Enforcement: prompt-only` | Doctor† reports WARN once Node is present; the vendored scripts stay unused until then |
 | 4 | git | None: commit trailers, fingerprints and approval binding need git | — | Router status `BLOCKED`, next step `git init` and a first commit |

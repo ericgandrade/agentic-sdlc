@@ -112,14 +112,14 @@ Run each test at the base commit in a worktree. Each must fail, and fail for the
 2. Run the design-time pass of `references/verification-gap-lens.md` (untested AC, weak oracle, stale) and fix every gap.
 3. Fill the four Coverage check lines in the template: every AC has ≥ 1 row; every input/permission/limit AC has a negative row; every `UX-n` and `A-n` maps to a test or UX Designer check; every test cites an AC (backward trace — no orphan tests).
 4. Write `specs/<NNN-slug>/acceptance-tests.md`. Leave `## Green at the PR head` empty.
-5. Return the report contract (below). In `Next`, name how the test files reach the feature branch before the first Build task; the Test Engineer edits files but never pushes.
+5. Return the report contract (below). In `Next`, ask for the test files to be committed on `at/<NNN-slug>`, cut from the base commit and kept off the feature branch during Build (`../agentic-sdlc/references/verification.md` §2); red tests on the feature branch fail the preflight baseline. The Test Engineer edits files but never pushes.
 
 ### Step 9 — Test stage: run at the PR head
 
 Dispatch `prompts/test-runner.md` (fresh subagent, or a separate pass after clearing working notes). The runner:
 
 1. Re-computes the spec hash. Different from the header → the rows of changed ACs are void; re-design them (Steps 1–8) before running.
-2. Checks out the PR head in a separate worktree used only to execute commands; never opens `git diff`, production source on the branch or the PR text.
+2. Checks out the PR head in a separate worktree used only to execute commands (before `at/<NNN-slug>` is merged: the feature-branch head with it merged in that worktree; merge it into the feature branch only when green); never opens `git diff`, production source on the branch or the PR text.
 3. Computes the fingerprint (`../agentic-sdlc/references/verification.md` §4), runs every Map command, recomputes the fingerprint; a change discards the run.
 4. Records per command: test IDs, command, exit code, fingerprint, ISO-8601 time, the last ≤ 40 output lines.
 5. Counts executed tests by name. A Map test missing from the output is a "not run" gap even when the exit code is 0.
