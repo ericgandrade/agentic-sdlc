@@ -30,7 +30,7 @@ PR, tag, release, `gh repo edit` and the Claude Desktop upload are owner actions
 | Phases 0, A–D (13 agents, stage skills) | Done | git history |
 | E.1 trigger-collision audit | Done | `docs/research/2026-11-25-trigger-audit.md` |
 | E.2 orchestrator proposes the method | Done | `1ecfca0` |
-| E.3 dogfood | Report written; F18 (Critical) fixed; Important: 9 of 14 fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
+| E.3 dogfood | Report written; F18 (Critical) fixed; Important: 11 of 14 fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
 | E.4 clarity test | Done; G-9, G-10, G-12, G-14, G-15 left open (Minor) | `docs/research/2026-11-25-clarity-test.md` |
 | E.5 live trigger evals | Inconclusive (harness), re-run needed | `docs/research/2026-11-25-eval-check.md` |
 | Phase F docs, `bundles.json` packaging fix | Done | `68ab211` |
@@ -51,11 +51,13 @@ Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25
 | F25 | Fixed (docs) | `release-ops.md` §Package or library profile; release-notes template, `shipping-and-handover` Step 8 and the Release Engineer brief point to it |
 | F09, F11 | Fixed (docs) | templates by `8c5d014`; `review.md`, `governance.md` and `artifacts.md` (table and tree) now name the no-host review record and its `## Test sign-off` row |
 | F14 | Fixed (docs) | `paths.md` public-API trigger covers a library's exported symbols, with an example |
-| F04, F05, F19, F23, F08 | Open | |
+| F04 | Fixed | preflight `coverage-floor` check reads `coverage/coverage-summary.json` and fails below `coverage_min` (SKIP for other formats); test in `preflight.test.mjs` |
+| F05 | Fixed (docs) | `dod-block.md`: no bare directory for `node --test`, c8 with a glob, and a dependency-free `scripts/coverage.mjs` (checked on Node 24) |
+| F19, F23, F08 | Open | |
 
 ## Verified at `eb7a3a6` (tests and budget; the script checks below ran at `8c5d014`)
 
-- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 124 pass, 0 fail.
+- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 124 pass, 0 fail (125 after F04).
 - `node skills/agentic-sdlc/scripts/budget-check.mjs`: PASS (`agents/test-engineer.md` warns, 572/600).
 - `./scripts/build-skills.sh`: OK.
 - `check-doc-consistency.sh` and `verify-version-sync.sh` fail **only** on `cli-installer/README.md`, which already says 3.0.0 while the other files say 2.0.8. `release.js` resolves this.

@@ -57,7 +57,26 @@ coverage_min: 78.4
 
 Jest: `npx jest --coverage --coverageReporters=json-summary`. pnpm: replace `npx` with `pnpm exec`. Both write `coverage/coverage-summary.json`, so the CI floor step works unchanged.
 
-Plain `node --test` (no test framework): `coverage: npx c8 --reporter=json-summary --reporter=text-summary node --test` writes the same file. Without a dev dependency allowed, write `coverage: n/a — no coverage tool` and `coverage_min: n/a — no coverage tool` until one is added (rule 7).
+Plain `node --test` (no test framework): pass files or a quoted glob, never a bare directory (`node --test test/` fails on Node 22: the directory is read as a file). `coverage: npx c8 --reporter=json-summary --reporter=text-summary node --test 'test/**/*.test.mjs'` writes the same file.
+
+Node built-in runner without dependencies (Node ≥ 22): copy the script below to `scripts/coverage.mjs` and use `coverage: node scripts/coverage.mjs`. It runs the tests with the built-in coverage, writes lcov, and converts the line totals to `coverage/coverage-summary.json`.
+
+```js
+// scripts/coverage.mjs — node:test coverage → coverage/coverage-summary.json (json-summary shape)
+import { spawnSync } from 'node:child_process';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+mkdirSync('coverage', { recursive: true });
+const r = spawnSync(process.execPath, ['--test', '--experimental-test-coverage', '--test-reporter=spec', '--test-reporter-destination=stdout',
+  '--test-reporter=lcov', '--test-reporter-destination=coverage/lcov.info', 'test/**/*.test.mjs'], { stdio: 'inherit' });
+if (r.status !== 0) process.exit(r.status ?? 1);
+const lcov = readFileSync('coverage/lcov.info', 'utf8');
+const sum = (k) => [...lcov.matchAll(new RegExp(`^${k}:(\\d+)$`, 'gm'))].reduce((a, m) => a + Number(m[1]), 0);
+const total = sum('LF'), covered = sum('LH'), pct = total ? Math.round((covered / total) * 10000) / 100 : 100;
+writeFileSync('coverage/coverage-summary.json', JSON.stringify({ total: { lines: { total, covered, pct } } }) + '\n');
+console.log(`lines ${pct}% (${covered}/${total})`);
+```
+
+Without Node ≥ 22 and without a dev dependency allowed, write `coverage: n/a — no coverage tool` and `coverage_min: n/a — no coverage tool` until one is added (rule 7).
 
 **Python (uv, Ruff, mypy, pytest-cov)**
 
@@ -131,7 +150,7 @@ grep -vE '^(lint|typecheck|test|coverage|coverage_min):|^#|^$' .dod-check.txt &&
 rm .dod-check.txt
 ```
 
-No output means the CI parser accepts the block. Then run each command once and record exit code and duration. With Node ≥ 18 on a clean feature branch, `node .agentic-sdlc/bin/preflight.mjs` runs the same check end to end (`baseline-dod` row).
+No output means the CI parser accepts the block. Then run each command once and record exit code and duration. With Node ≥ 18 on a clean feature branch, `node .agentic-sdlc/bin/preflight.mjs` runs the same check end to end (`baseline-dod` row) and compares the floor (`coverage-floor` row): it reads `coverage/coverage-summary.json` `total.lines.pct`, the CI reader, and fails below `coverage_min`. Other summary formats (Go, .NET, JaCoCo, coverage.py) → `coverage-floor` SKIP; CI compares the floor.
 
 ## 6. Measuring and raising the floor
 

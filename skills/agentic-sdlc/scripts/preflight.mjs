@@ -3,7 +3,7 @@
 // Dependency-free Node >= 18. Exit codes: 0 every check passed · 1 a check failed (run not started) · 2 input missing.
 
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { EXIT, InputError, parseArgs, report, run } from './lib/cli.mjs';
@@ -33,6 +33,7 @@ Checks (each PASS, FAIL or SKIP):
   approvals     Specify and Design sign-offs bind the current hashes (plan without ## Approvals: SKIP when attended)
   ledger        the run ledger parses (with --run)
   baseline-dod  every command of the AGENTS.md sdlc-dod block exits 0 before any change (SKIP after an earlier FAIL)
+  coverage-floor  coverage/coverage-summary.json total.lines.pct ≥ coverage_min (SKIP when not written)
 
 Unattended mode requires --run and a plan (from --plan or the run ledger).
 Writes .agentic-sdlc/runs/<id>/preflight.json (or .agentic-sdlc/runs/preflight.json without --run) and appends a
@@ -73,6 +74,21 @@ function resolves(prog, root) {
 function tail(text, n = TAIL_LINES) {
   const lines = String(text || '').replace(/\r\n?/g, '\n').replace(/\n+$/, '').split('\n');
   return lines.slice(-n);
+}
+
+// Same reader as the CI floor step: json-summary total.lines.pct (Istanbul, c8, Vitest, Jest).
+// Other formats (Go, .NET, JaCoCo, coverage.py) are compared by CI only → SKIP.
+export const COVERAGE_SUMMARY = 'coverage/coverage-summary.json';
+function coverageFloor(root, entries, dodResults) {
+  const min = Number(entries.coverage_min);
+  if (entries.coverage_min === undefined || /^n\/a\b/i.test(entries.coverage_min) || !Number.isFinite(min)) return check('coverage-floor', 'SKIP', 'no numeric coverage_min');
+  if (!dodResults.some((d) => d.key === 'coverage' || d.key === 'test')) return check('coverage-floor', 'SKIP', 'no coverage or test command ran');
+  const file = join(root, COVERAGE_SUMMARY);
+  if (!existsSync(file)) return check('coverage-floor', 'SKIP', `${COVERAGE_SUMMARY} not written (non json-summary format: CI compares the floor)`);
+  let pct;
+  try { pct = Number(JSON.parse(readFileSync(file, 'utf8')).total.lines.pct); } catch { pct = NaN; }
+  if (!Number.isFinite(pct)) return check('coverage-floor', 'FAIL', `${COVERAGE_SUMMARY} has no numeric total.lines.pct`);
+  return check('coverage-floor', pct >= min ? 'PASS' : 'FAIL', `line coverage ${pct}% ${pct >= min ? '≥' : '<'} coverage_min ${min}`);
 }
 
 export function runPreflight({ cwd = process.cwd(), runId = null, plan = null, mode = 'attended', timeoutMin = DEFAULT_TIMEOUT_MIN } = {}) {
@@ -169,6 +185,7 @@ export function runPreflight({ cwd = process.cwd(), runId = null, plan = null, m
     const red = dodResults.filter((d) => d.exit !== 0);
     checks.push(check('baseline-dod', red.length ? 'FAIL' : 'PASS',
       red.length ? `red baseline: ${red.map((d) => `${d.key} (exit ${d.exit})`).join(', ')} — fix or record the baseline before any change` : `${dodResults.length} command(s) green`));
+    if (!red.length) checks.push(coverageFloor(root, dod.entries, dodResults));
   }
 
   const ok = checks.every((c) => c.status !== 'FAIL');

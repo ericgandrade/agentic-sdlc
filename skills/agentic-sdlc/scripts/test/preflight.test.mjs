@@ -108,6 +108,23 @@ test('a red baseline fails with the last output lines', () => {
   assert.match(r.out, /FAIL AC-1 greets by name/);
 });
 
+test('coverage below coverage_min fails the coverage-floor check; no json-summary is a SKIP (F04)', () => {
+  assert.equal(statusOf(preflight(project(), '--plan', PLAN, '--json'), 'coverage-floor'), 'SKIP', 'fixture writes no summary');
+  for (const [pct, want] of [[50, 'FAIL'], [91.2, 'PASS']]) {
+    const dir = project();
+    const agents = readFileSync(join(dir, 'AGENTS.md'), 'utf8')
+      .replace('coverage_min: 0', 'coverage: node tools/cov.mjs\ncoverage_min: 78.4');
+    write(dir, 'AGENTS.md', agents);
+    write(dir, 'tools/cov.mjs', `import { mkdirSync, writeFileSync } from 'node:fs';\nmkdirSync('coverage', { recursive: true });\nwriteFileSync('coverage/coverage-summary.json', JSON.stringify({ total: { lines: { pct: ${pct} } } }));\n`);
+    write(dir, '.gitignore', 'coverage/\n');
+    commit(dir, 'coverage');
+    const r = preflight(dir, '--plan', PLAN, '--json');
+    assert.equal(statusOf(r, 'coverage-floor'), want, r.out);
+    assert.equal(r.code, want === 'FAIL' ? 1 : 0);
+    assert.match(json(r).checks.find((c) => c.id === 'coverage-floor').detail, new RegExp(`${pct}% .* 78\\.4`));
+  }
+});
+
 test('a missing sdlc-dod block exits 2', () => {
   const dir = project();
   cpSync(join(FIX, 'preflight', 'AGENTS-no-dod.md'), join(dir, 'AGENTS.md'));
