@@ -1,10 +1,12 @@
 # 🤖 Claude Superskills v2.0.8
 
-Scale AI-assisted engineering with a reusable skill platform that turns ad-hoc prompting into standardized, high-impact workflows. Install once and deliver consistent planning, research, orchestration, and content automation across your entire multi-tool AI stack.
+Scale AI-assisted engineering with a reusable skill platform that turns ad-hoc prompting into standardized, high-impact workflows. Install once and deliver consistent software delivery, planning, research, orchestration, and content automation across your entire multi-tool AI stack.
+
+**New: the [Agentic SDLC](#-agentic-sdlc)** — a 20-skill method that takes a change from issue to production with AI agents and named human sign-offs.
 
 ![Version](https://img.shields.io/badge/version-2.0.8-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
-![Skills](https://img.shields.io/badge/skills-18-brightgreen.svg)
+![Skills](https://img.shields.io/badge/skills-33-brightgreen.svg)
 ![Platforms](https://img.shields.io/badge/platforms-8-orange.svg)
 
 ## 🚀 Quick Install
@@ -28,6 +30,7 @@ npm install -g claude-superskills
 
 # With bundles
 npx claude-superskills --bundle essential -y
+npx claude-superskills --bundle agentic-sdlc -y
 ```
 
 **Local install (no npm/npx required):**
@@ -55,6 +58,35 @@ See [Installation Guide](docs/INSTALLATION.md) for all methods and troubleshooti
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/uninstall.sh | bash
 ```
+
+## 🔁 Agentic SDLC
+
+The **Agentic SDLC** follows the standard software development life cycle with AI agents: **7 stages, 4 human sign-offs, 13 agents named by function and 3 paths (Quick, Standard, Full) chosen by a path score.** Agents execute; named humans approve. One rule ties the cycle together: every requirement is proven, from the spec to production.
+
+```mermaid
+flowchart LR
+  D[Discover] --> S[Specify] -->|Specify sign-off: Product Owner| G[Design] -->|Design sign-off: Tech Lead| B[Build] --> T[Test] -->|Test sign-off: human reviewer| R[Release] -->|Release sign-off: Release Owner| O[Operate]
+  O -->|incidents, indicator misses, retro actions| D
+```
+
+| Stage | Lead agent | Skills | Human sign-off |
+|-------|------------|--------|----------------|
+| **Discover** | Analyst | `issue-triage`, `project-context`, `brainstorming` | — |
+| **Specify** | Analyst | `spec-driven-development`, `grill-me` (+ `codebase-modernization` for brownfield, `security-hardening` for the threat model) | Product Owner |
+| **Design** | Planner | `senior-solution-architect`, `writing-plans` | Tech Lead |
+| **Build** | Developer | `executing-plans`, `test-driven-development`, `systematic-debugging` | — |
+| **Test** | Reviewer | `test-strategy`, `verification-gate`, `multi-axis-code-review`, `security-hardening` | human reviewer |
+| **Release** | Release Engineer | `deployment-pipeline`, `shipping-and-handover` | Release Owner |
+| **Operate** | SRE | `operations-and-incidents`, `retrospective` | — |
+
+The router skill `agentic-sdlc` plays the **Scrum Master**: it reads the repository state, picks the path and hands each stage to the right agent and skill. The 13 agents are Scrum Master, Analyst, Product Manager, UX Designer, Planner, Architect, Developer, Test Engineer, Reviewer, Security Auditor, Tech Writer, Release Engineer and SRE. Every agent report ends with one status (`DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT`, `CANNOT_VERIFY`), and every fix loop is bounded.
+
+```bash
+# Install the 20 Agentic SDLC skills
+npx claude-superskills --bundle agentic-sdlc -y
+```
+
+Then ask your agent: *"Use agentic-sdlc to fix issue #42"*. First run: [Quickstart](skills/agentic-sdlc/references/quickstart.md) (one Quick-path bug fix end to end). Reference: [Agentic SDLC Guide](docs/guides/agentic-sdlc.md) (stages, sign-offs, agents, paths, artifacts, standards mapping, coming from Spec Kit / Kiro / AI-DLC / BMad). Worked example: [`skills/agentic-sdlc/examples/worked-example/`](skills/agentic-sdlc/examples/worked-example/).
 
 ## 🔌 Claude Code Plugin (Native)
 
@@ -160,22 +192,37 @@ Important:
 
 ---
 
-### Once installed — all 18 skills under the `claude-superskills:` namespace
+### Once installed — all 33 skills under the `claude-superskills:` namespace
 
 ```
-/claude-superskills:skill-creator
-/claude-superskills:prompt-engineer
+/claude-superskills:agentic-sdlc
+/claude-superskills:issue-triage
+/claude-superskills:project-context
 /claude-superskills:brainstorming
+/claude-superskills:spec-driven-development
+/claude-superskills:grill-me
+/claude-superskills:codebase-modernization
+/claude-superskills:security-hardening
+/claude-superskills:senior-solution-architect
 /claude-superskills:writing-plans
 /claude-superskills:executing-plans
-/claude-superskills:grill-me
+/claude-superskills:test-driven-development
+/claude-superskills:systematic-debugging
+/claude-superskills:test-strategy
+/claude-superskills:verification-gate
+/claude-superskills:multi-axis-code-review
+/claude-superskills:deployment-pipeline
+/claude-superskills:shipping-and-handover
+/claude-superskills:operations-and-incidents
+/claude-superskills:retrospective
+/claude-superskills:skill-creator
+/claude-superskills:prompt-engineer
+/claude-superskills:agent-skill-discovery
+/claude-superskills:agent-skill-orchestrator
 /claude-superskills:mckinsey-strategist
 /claude-superskills:deep-research
 /claude-superskills:us-program-research
 /claude-superskills:webpage-reader
-/claude-superskills:senior-solution-architect
-/claude-superskills:agent-skill-discovery
-/claude-superskills:agent-skill-orchestrator
 /claude-superskills:youtube-summarizer
 /claude-superskills:audio-transcriber
 /claude-superskills:pptx-translator
@@ -187,7 +234,8 @@ Important:
 
 ## ✨ Features
 
-- **18 Universal Skills** - Work on all platforms
+- **33 Universal Skills** - Work on all platforms
+- **Agentic SDLC** - 20-skill method from Discover to Operate with human sign-offs, bounded loops and evidence-based verification
 - **Zero-Config Install** - Run once, works everywhere
 - **Curated Bundles** - Install exactly what you need
 - **Smart Search** - Find skills by keyword
@@ -198,11 +246,35 @@ Important:
 
 ## 📦 Available Skills
 
+### 🔁 Agentic SDLC
+| Skill | Version | Stage | Purpose |
+|-------|---------|-------|---------|
+| **agentic-sdlc** | v2.1.0 | Router | Scrum Master router: detects state, scores the path (Quick, Standard, Full), hands each stage to its agent and skills, enforces the 4 human sign-offs |
+| **issue-triage** | v1.0.0 | Discover | Turns an incoming item into a decision-ready intake record: duplicate search, classification, path score, indicator |
+| **project-context** | v1.2.0 | Discover | Verified starting context for every agent session: commands, `sdlc-dod` Definition of Done, code map, conventions, pitfalls |
+| **brainstorming** | v3.1.0 | Discover | Pre-implementation design clarification before any spec or code |
+| **spec-driven-development** | v2.1.0 | Specify | Writes `specs/NNN-slug/spec.md` with numbered acceptance criteria, non-goals, security notes, rollback and indicator |
+| **grill-me** | v2.2.0 | Specify | Relentless Socratic interview to stress-test a spec, plan or design |
+| **codebase-modernization** | v1.0.0 | Specify, Design | Brownfield work: inventory, dependency map, characterization tests and safe migration slices |
+| **security-hardening** | v1.0.0 | Specify, Test | Data classification, STRIDE threat model, secure-build guidance and security review |
+| **senior-solution-architect** | v2.3.0 | Design | C4 modeling, ADRs and system reviews |
+| **writing-plans** | v3.2.0 | Design | `plan.md` task graph of vertical slices with dependencies and files, validated by `plan-graph` |
+| **executing-plans** | v4.0.0 | Build | Executes plan tasks one per fresh context, test-first, with per-task review and a run ledger |
+| **test-driven-development** | v1.0.0 | Build | Red-green-refactor under the iron law: no production code before a failing test |
+| **systematic-debugging** | v1.0.0 | Build | Proven root cause inside a bounded debug loop of falsifiable hypotheses |
+| **test-strategy** | v1.0.0 | Test | Acceptance tests designed from the spec by a context that never saw the implementation |
+| **verification-gate** | v1.0.0 | Test | Turns completion claims into fresh, fingerprinted evidence |
+| **multi-axis-code-review** | v1.0.0 | Test | Independent review on five axes through four fresh-context lenses, with Critical/Important/Minor triage |
+| **deployment-pipeline** | v1.0.0 | Release | Makes CI enforce the Definition of Done and approval checks; staged rollout and rehearsed rollback |
+| **shipping-and-handover** | v1.0.0 | Release | Pre-ship checklist, PR body with evidence, release notes and runbook handover |
+| **operations-and-incidents** | v1.0.0 | Operate | Ops record, SLIs and SLOs from the spec, release watch, incidents and postmortems |
+| **retrospective** | v1.0.0 | Operate | Evidence-based retro record with owned actions; feeds new work back to Discover |
+
 ### 🔍 Discovery & Orchestration
 | Skill | Version | Purpose |
 |-------|---------|---------|
 | **agent-skill-discovery** | v2.1.0 | Scan installed resources and current repository resources (agents, skills, MCPs) |
-| **agent-skill-orchestrator** | v2.1.0 | Intelligent task planning with automatic prompt optimization and resource matching |
+| **agent-skill-orchestrator** | v2.2.0 | Intelligent task planning with resource matching; proposes the Agentic SDLC router for software-delivery requests |
 
 ### 🛠️ Development & Automation
 | Skill | Version | Purpose |
@@ -210,24 +282,15 @@ Important:
 | **skill-creator** | v2.1.0 | Automate skill creation with guided workflow |
 | **prompt-engineer** | v2.0.0 | Optimize prompts using 11 frameworks (RTF, RISEN, Chain of Thought, etc.) |
 
-### 🧭 Planning & Execution
+### 🧭 Strategy
 | Skill | Version | Purpose |
 |-------|---------|---------|
-| **brainstorming** | v2.0.0 | Mandatory pre-implementation design clarification workflow |
-| **writing-plans** | v2.0.0 | Build detailed, actionable implementation plans before coding |
-| **executing-plans** | v2.0.0 | Execute plans in batches with checkpoints and review gates |
-| **grill-me** | v1.0.0 | Relentless Socratic interview to stress-test any plan or design |
 | **mckinsey-strategist** | v2.1.0 | Senior strategy consulting with SWOT, VRIO, 7S and First Principles analysis |
-
-### 🏛️ Software Architecture
-| Skill | Version | Purpose |
-|-------|---------|---------|
-| **senior-solution-architect** | v2.1.0 | Unified authority for C4 modeling, ADRs, and system reviews |
 
 ### 🔬 Research & Analysis
 | Skill | Version | Purpose |
 |-------|---------|---------|
-| **deep-research** | v2.2.0 | Dense multi-step research workflow with sub-question decomposition, parallel agents, frontier-model recommendation, evidence ledger, citations, and confidence/gap analysis |
+| **deep-research** | v2.3.0 | Dense multi-step research workflow with sub-question decomposition, parallel agents, frontier-model recommendation, evidence ledger, citations, and confidence/gap analysis |
 | **us-program-research** | v2.0.0 | Structured US academic program research, ranking, and application action-plan generation |
 | **webpage-reader** | v1.0.0 | Extract clean Markdown from any URL using the Defuddle CLI. Supports metadata-only mode, batch URLs, and saving output to file |
 
@@ -245,6 +308,9 @@ Important:
 ```bash
 # Essential Skills (recommended for beginners)
 npx claude-superskills --bundle essential -y
+
+# Agentic SDLC (router + 19 stage skills, Discover → Operate)
+npx claude-superskills --bundle agentic-sdlc -y
 
 # Content Creation (video & audio)
 npx claude-superskills --bundle content -y
@@ -286,6 +352,16 @@ claude  # or: gh copilot, gemini, opencode, codex
 > "Plan how to build a REST API with authentication"
 
 # Output: Detailed strategy using best available resources with confidence scores
+```
+
+### Agentic SDLC Workflow
+
+```bash
+claude  # or: gh copilot, gemini, opencode, codex, cursor
+> "Use agentic-sdlc to fix issue #42"
+
+# The router scores the path, runs Discover → Specify → Design → Build → Test,
+# stops at each human sign-off and proves every acceptance criterion with fresh evidence
 ```
 
 ### Other Use Cases
@@ -337,6 +413,7 @@ These skills follow the universal `SKILL.md` format and work with any AI coding 
 ## 📚 Documentation
 
 - **[Getting Started](docs/guides/getting-started.md)** - First-time user guide
+- **[Agentic SDLC Guide](docs/guides/agentic-sdlc.md)** - Stages, sign-offs, agents, paths, artifacts, standards mapping
 - **[Skill Anatomy](docs/guides/skill-anatomy.md)** - How skills work
 - **[Bundles Guide](docs/bundles/bundles.md)** - Curated collections
 - **[Quality Standards](docs/guides/quality-standards.md)** - Best practices
@@ -408,14 +485,15 @@ MIT - See [LICENSE](./LICENSE) for details.
 
 Choose a bundle that fits your workflow:
 
-- **[Essential](docs/bundles/bundles.md#-essential-bundle)** - skill-creator, prompt-engineer, agent-skill-discovery, agent-skill-orchestrator
-- **[Planning](docs/bundles/bundles.md#-planning--execution-bundle)** - brainstorming, writing-plans, executing-plans, grill-me, mckinsey-strategist, agent-skill-orchestrator
-- **[Research](docs/bundles/bundles.md#-research--analysis-bundle)** - deep-research, us-program-research, agent-skill-discovery, prompt-engineer
-- **[Content](docs/bundles/bundles.md#-content-creation-bundle)** - youtube-summarizer, audio-transcriber, pptx-translator, document-converter, storytelling-expert
-- **[Orchestration](docs/bundles/bundles.md#-orchestration-bundle)** - agent-skill-discovery, agent-skill-orchestrator
-- **[All](docs/bundles/bundles.md#-all-skills-bundle)** - Complete 18-skill toolkit
+- **[Essential](docs/bundles/bundles.md#essential)** - agentic-sdlc, skill-creator, prompt-engineer, agent-skill-discovery, agent-skill-orchestrator, brainstorming, writing-plans, executing-plans, grill-me
+- **[Agentic SDLC](docs/bundles/bundles.md#agentic-sdlc)** - router + 19 stage skills, Discover → Operate
+- **[Planning](docs/bundles/bundles.md#planning)** - brainstorming, spec-driven-development, project-context, writing-plans, executing-plans, grill-me, agent-skill-orchestrator
+- **[Research](docs/bundles/bundles.md#research)** - deep-research, us-program-research, senior-solution-architect, webpage-reader, prompt-engineer
+- **[Content](docs/bundles/bundles.md#content)** - youtube-summarizer, audio-transcriber, pptx-translator, document-converter, storytelling-expert
+- **[Orchestration](docs/bundles/bundles.md#orchestration)** - agent-skill-discovery, agent-skill-orchestrator
+- **[All](docs/bundles/bundles.md#all)** - Complete 33-skill toolkit
 
-See [detailed comparison](docs/bundles/bundles.md#-bundle-comparison).
+See [detailed comparison](docs/bundles/bundles.md#bundle-comparison).
 
 ## 🛠️ Advanced Usage
 
@@ -427,7 +505,7 @@ See [detailed comparison](docs/bundles/bundles.md#-bundle-comparison).
 
 | Package | Skills | Focus | Install |
 |---------|--------|-------|---------|
-| **claude-superskills** | 18 | Core: orchestration, planning, research & content | `npx claude-superskills` |
+| **claude-superskills** | 33 | Core: Agentic SDLC, orchestration, planning, research & content | `npx claude-superskills` |
 | [obsidian-superskills](https://github.com/ericgandrade/obsidian-superskills) | 6 | Obsidian knowledge management | `npx obsidian-superskills` |
 | [career-superskills](https://github.com/ericgandrade/career-superskills) | 20 | Job search & career development | `npx career-superskills` |
 | [product-superskills](https://github.com/ericgandrade/product-superskills) | 8 | Product management & GTM strategy | `npx product-superskills` |

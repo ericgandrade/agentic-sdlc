@@ -1,7 +1,7 @@
 {
   "name": "claude-superskills",
   "version": "2.0.8",
-  "description": "55 Reusable AI CLI skills for GitHub Copilot, Claude Code, and 6 more AI platforms",
+  "description": "33 reusable AI skills for GitHub Copilot, Claude Code, and 6 more AI platforms, including the Agentic SDLC: 20 skills from Discover to Operate with human sign-offs",
   "main": "lib/index.js",
   "bin": {
     "claude-superskills": "bin/cli.js"
@@ -16,6 +16,7 @@
     "generate-catalog": "cd .. && python3 scripts/generate-catalog.py",
     "generate-all": "npm run build && npm run generate-index && npm run generate-catalog",
     "prepublishOnly": "npm run build && npm test",
+    "prepack": "cp ../bundles.json ./bundles.json",
     "version": "git add -A"
   },
   "keywords": [
@@ -28,7 +29,12 @@
     "prompt-engineering",
     "github-copilot",
     "claude-code",
-    "openai-codex"
+    "openai-codex",
+    "agentic-sdlc",
+    "sdlc",
+    "spec-driven-development",
+    "tdd",
+    "code-review"
   ],
   "author": "Eric Andrade",
   "license": "MIT",
@@ -38,7 +44,8 @@
   "files": [
     "bin/",
     "lib/",
-    "README.md"
+    "README.md",
+    "bundles.json"
   ],
   "dependencies": {
     "adm-zip": "^0.5.16",

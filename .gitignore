@@ -33,6 +33,7 @@ antigravity-awesome-skills/
 
 # NPM bundled skills (no longer shipped with the package)
 cli-installer/skills/
+cli-installer/bundles.json
 
 # Local working files (presentations, media, output artifacts)
 output/

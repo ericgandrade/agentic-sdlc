@@ -6,6 +6,57 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [3.0.0] - 2026-11-25
+
+### Breaking Changes
+- **`executing-plans` v4.0.0** replaces the v2 batch-and-checkpoint flow. Each plan task runs in a fresh context, test-first (red output recorded before green), with a fresh reviewer per task, a run ledger, bounded loops (red-green 3, build-test 5, review-fix 3, debug 3) and a `preflight` check. Parallel execution is limited to file-disjoint tasks. The ledger is copied into the PR. Agents report one status: `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT` or `CANNOT_VERIFY`.
+- **`writing-plans` v3.2.0** now produces a task graph (`| ID | Title | AC | Blocked by | Files | Size |`) that `plan-graph` validates. Inside the Agentic SDLC, plans live at `specs/NNN-slug/plan.md` and need a hash-bound Design sign-off; standalone plans stay in `docs/plans/`.
+- **Approval vocabulary.** Review checkpoints in `brainstorming`, `grill-me`, `writing-plans`, `executing-plans` and `senior-solution-architect` are now the four named human sign-offs: Specify (Product Owner), Design (Tech Lead), Test (human reviewer) and Release (Release Owner). Each one is recorded with a revision and hash, and it voids when the file is edited.
+
+### Added
+- **Agentic SDLC** — a 20-skill method that follows the software development life cycle with AI agents. It has 7 stages (Discover, Specify, Design, Build, Test, Release, Operate), 4 human sign-offs and 3 paths (Quick, Standard, Full) chosen by a path score. One rule runs through it: every requirement is proven.
+  - **`agentic-sdlc` v2.1.0** — the router, which plays the Scrum Master. It contains:
+    - 13 functional agent briefs: Scrum Master, Analyst, Product Manager, UX Designer, Planner, Architect, Developer, Test Engineer, Reviewer, Security Auditor, Tech Writer, Release Engineer and SRE.
+    - Reference modules for lifecycle, governance (RACI), paths, loops, review, verification, security, release and operations, retrospective, brownfield, autonomous runs, platforms and adoption.
+    - Artifact templates: spec, ux, plan, acceptance tests, PR body, release notes, runbook, ops record, postmortem, retro, threat model, code map, CI and CODEOWNERS.
+    - Dependency-free Node ≥ 18 scripts with `node --test` suites: `spec-lint`, `plan-graph`, `preflight`, `run-ledger` and `budget-check`.
+    - A worked example that carries one change through every stage and doubles as the scripts' test fixture.
+    - A Quickstart that runs one Quick-path bug fix end to end.
+  - **New stage skills (v1.0.0):**
+    - Discover: `issue-triage`.
+    - Specify and Design (brownfield): `codebase-modernization`.
+    - Specify and Test: `security-hardening` (STRIDE threat model, with a NIST SSDF practice mapping).
+    - Build: `test-driven-development`, `systematic-debugging`.
+    - Test: `test-strategy`, `verification-gate`, `multi-axis-code-review`.
+    - Release: `deployment-pipeline`, `shipping-and-handover`.
+    - Operate: `operations-and-incidents`, `retrospective`.
+  - **New foundation skills:**
+    - `project-context` v1.2.0: verified agent context, the `sdlc-dod` Definition of Done, code map and adoption ledger.
+    - `spec-driven-development` v2.1.0: `spec.md` with `AC-n` acceptance criteria, an AC rubric, an NFR catalog, revise mode, a doubt pass and format mapping for Spec Kit, Kiro, OpenSpec, AI-DLC and BMad.
+- **`agentic-sdlc` bundle** (20 skills, in Discover → Operate order): `npx claude-superskills --bundle agentic-sdlc -y`.
+- **`docs/guides/agentic-sdlc.md`** — reference guide covering stages, sign-offs, agents, paths and artifacts. Its appendices map the method to IEC 62304, ISO/IEC/IEEE 12207 and NIST SSDF (work products only, with no compliance claims) and cover moving over from Spec Kit, Kiro, AI-DLC and BMad.
+- **`THIRD_PARTY_NOTICES.md`** — credits for Superpowers, Matt Pocock's skills, Addy Osmani's agent-skills and the BMad Method (all MIT). It also lists Spec Kit, AWS AI-DLC, OpenSpec and Kiro, whose ideas and folder conventions are mapped but whose text is not reused.
+
+### Changed
+- Skill count goes from 18 to **33**.
+- Deepened to the Agentic SDLC standard:
+  - `brainstorming` v3.1.0: techniques catalog, kill criteria, assumption audit, round budget.
+  - `grill-me` v2.2.0: question bank, glossary and ADR capture, closing summary contract.
+  - `senior-solution-architect` v2.3.0: design it twice, deep modules, ADR lifecycle, escalation rulings.
+  - `writing-plans` v3.2.0: 12-check self-review, two-way coverage check, fresh-context plan review.
+- **`agent-skill-orchestrator` v2.2.0** proposes the `agentic-sdlc` router as the first option for software-delivery requests.
+- **Bundles:**
+  - `essential` (9) now includes the `agentic-sdlc` router.
+  - `planning` (7) adds `spec-driven-development` and `project-context`.
+  - `all` now has 33 skills.
+  - `docs/bundles/bundles.md` was rewritten to match `bundles.json`.
+- README, CLAUDE.md, the installer README, the getting-started and skill-anatomy guides, npm and marketplace metadata now describe the 33 skills and the Agentic SDLC.
+
+### Fixed
+- **`plan-graph`** — a file-conflict edge now holds the later task back until the earlier one is done, so a frontier never dispatches two tasks that share a file.
+
+---
+
 ## [2.0.8] - 2026-05-11
 
 ### Added

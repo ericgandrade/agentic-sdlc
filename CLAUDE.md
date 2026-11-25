@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **claude-superskills** is a reusable AI skills library for **8 AI platforms**: GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI. Skills are Markdown-based workflow specifications (`SKILL.md`) that teach AI agents how to perform specific tasks.
 
-- **npm package**: `claude-superskills` (v2.0.8) — `npx claude-superskills` — **18 skills**
+- **npm package**: `claude-superskills` (v2.0.8) — `npx claude-superskills` — **33 skills**, including the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`)
 - **Claude Code plugin**: `claude --plugin-dir ./claude-superskills` — native plugin, no npm needed
 - **GitHub**: `https://github.com/ericgandrade/claude-superskills`
 - **Old package** `cli-ai-skills` is deprecated, redirects to this one
@@ -69,22 +69,45 @@ claude-superskills/
 │   ├── plugin.json           # Plugin metadata (name, version, description, author...)
 │   └── marketplace.json      # Marketplace catalog — lists plugin + GitHub source
 │
-├── skills/                    # SINGLE SOURCE OF TRUTH for all 18 skills
+├── skills/                    # SINGLE SOURCE OF TRUTH for all 33 skills
 │   ├── agent-skill-discovery/
 │   ├── agent-skill-orchestrator/
+│   ├── agentic-sdlc/
+│   │   ├── SKILL.md          # Agentic SDLC router (Scrum Master): state, path, dispatch, sign-offs
+│   │   ├── agents/           # 13 agent briefs (scrum-master, analyst, product-manager, ux-designer, planner,
+│   │   │                     #   architect, developer, test-engineer, reviewer, security-auditor,
+│   │   │                     #   tech-writer, release-engineer, sre)
+│   │   ├── references/       # stage contracts: lifecycle, paths, governance, loops, quickstart, adoption…
+│   │   ├── templates/        # spec, plan, acceptance-tests, pr-body, release-notes, runbook, retro, ci/…
+│   │   ├── scripts/          # spec-lint, plan-graph, preflight, run-ledger, budget-check (.mjs) + lib/ + test/
+│   │   └── examples/         # worked-example/ (CSV export, Standard path; script test fixtures)
 │   ├── audio-transcriber/
 │   ├── brainstorming/
+│   ├── codebase-modernization/
 │   ├── deep-research/
+│   ├── deployment-pipeline/
 │   ├── document-converter/
 │   ├── executing-plans/
 │   ├── grill-me/
+│   ├── issue-triage/
 │   ├── mckinsey-strategist/
+│   ├── multi-axis-code-review/
+│   ├── operations-and-incidents/
 │   ├── pptx-translator/
+│   ├── project-context/
 │   ├── prompt-engineer/
+│   ├── retrospective/
+│   ├── security-hardening/
 │   ├── senior-solution-architect/
+│   ├── shipping-and-handover/
 │   ├── skill-creator/
+│   ├── spec-driven-development/
 │   ├── storytelling-expert/
+│   ├── systematic-debugging/
+│   ├── test-driven-development/
+│   ├── test-strategy/
 │   ├── us-program-research/
+│   ├── verification-gate/
 │   ├── webpage-reader/
 │   ├── writing-plans/
 │   └── youtube-summarizer/
@@ -150,6 +173,7 @@ claude-superskills/
 └── docs/
     ├── INSTALLATION.md            # Full installation guide (all methods)
     ├── guides/
+    │   ├── agentic-sdlc.md            # Agentic SDLC reference guide (≤ 2,500 words)
     │   ├── getting-started.md
     │   ├── skill-anatomy.md
     │   └── quality-standards.md
@@ -195,7 +219,7 @@ git commit -m "fix: remove erroneously committed platform skill dirs"
 2. **Download at Install Time**: The installer fetches skills from the GitHub release tag and caches them at `~/.claude-superskills/cache/{version}/skills/` — no skills are bundled in the npm package
 3. **Platform-Specific Installers**: Each platform has its own async installer in `cli-installer/lib/`; all copy from the cache using `fs.copy` (no symlinks)
 4. **No Platform Dirs in Repo**: `.github/skills/`, `.claude/skills/`, `.codex/skills/`, `.agent/skills/`, `.agents/skills/`, `.gemini/skills/`, `.cursor/skills/`, `.adal/skills/` are all in `.gitignore`
-5. **Bundle System**: Skills are grouped into curated bundles (essential, content, developer, orchestration, all)
+5. **Bundle System**: Skills are grouped into curated bundles (essential, planning, research, content, orchestration, agentic-sdlc, all)
 6. **Claude Code Native Plugin**: `.claude-plugin/plugin.json` makes this a first-class Claude Code plugin. Skills are available as `/claude-superskills:<skill-name>`. `.claude-plugin/marketplace.json` enables installation via `/plugin marketplace add`. Both files must have their version kept in sync with `cli-installer/package.json`.
 
 ### Install Flow
@@ -230,7 +254,7 @@ npx claude-superskills
 /plugin install claude-superskills@claude-superskills
     → clones repo → copies to ~/.claude/plugins/cache/claude-superskills/
     → auto-discovers skills/ directory
-    → registers all 18 skills as /claude-superskills:<skill-name>
+    → registers all 33 skills as /claude-superskills:<skill-name>
 
 # NOTE: The shell command `claude plugin install ...` is currently unstable
 # due to upstream bugs in Claude Code (e.g. anthropics/claude-code#29722).
@@ -570,13 +594,14 @@ OpenCode uses `~/.agent/skills/`. Antigravity uses `~/.gemini/antigravity/skills
 
 ### Bundle System (`lib/bundles.js`)
 
-Curated skill collections:
-- **essential**: `skill-creator`, `prompt-engineer`, discovery/orchestration, and full planning quartet
-- **planning**: `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`, `agent-skill-orchestrator`
-- **research**: `deep-research`, `us-program-research`, `agent-skill-discovery`, `prompt-engineer`
-- **content**: `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`
-- **orchestration**: `agent-skill-discovery`, `agent-skill-orchestrator`
-- **all**: all 18 skills
+Curated skill collections (source: `bundles.json`):
+- **essential** (9): `agentic-sdlc`, `skill-creator`, `prompt-engineer`, `agent-skill-discovery`, `agent-skill-orchestrator`, `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`
+- **planning** (7): `brainstorming`, `spec-driven-development`, `project-context`, `writing-plans`, `executing-plans`, `grill-me`, `agent-skill-orchestrator`
+- **research** (5): `deep-research`, `us-program-research`, `senior-solution-architect`, `webpage-reader`, `prompt-engineer`
+- **content** (5): `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`
+- **orchestration** (2): `agent-skill-discovery`, `agent-skill-orchestrator`
+- **agentic-sdlc** (20): the router + 19 stage skills in Discover → Operate order (see Skill Types)
+- **all**: all 33 skills
 
 ## Automation Scripts
 
@@ -596,14 +621,27 @@ Curated skill collections:
 - **Planning** — Pre-implementation design and execution (`brainstorming`, `writing-plans`, `executing-plans`, `grill-me`)
 - **Research** — Deep research and academic analysis (`deep-research`, `us-program-research`, `senior-solution-architect`, `webpage-reader`)
 - **Content** — Media and document processing (`youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`)
+- **Agentic SDLC** (20 skills, bundle `agentic-sdlc`) — software delivery with AI agents through 7 stages, 4 human sign-offs, 13 agents and 3 paths. Several also work standalone and appear in the categories above.
+  - Router: `agentic-sdlc`
+  - Discover: `issue-triage`, `project-context`, `brainstorming`
+  - Specify: `spec-driven-development`, `grill-me` (+ `codebase-modernization` for brownfield, `security-hardening` for the threat model)
+  - Design: `senior-solution-architect`, `writing-plans`
+  - Build: `executing-plans`, `test-driven-development`, `systematic-debugging`
+  - Test: `test-strategy`, `verification-gate`, `multi-axis-code-review`, `security-hardening`
+  - Release: `deployment-pipeline`, `shipping-and-handover`
+  - Operate: `operations-and-incidents`, `retrospective`
 
 ### Orchestration Skills
 
 #### agent-skill-discovery (v1.1.0)
 Dual-scope discovery: scans installed resources globally + current repository resources locally. Works across all 8 platforms. Detects MCP servers, agents, skills, plugins.
 
-#### agent-skill-orchestrator (v1.1.0)
-Analyzes user requirements, matches to available resources with confidence scoring (trigger 30% + semantic 25% + tools 20% + category 15% + MCP 10%), generates primary + alternative execution plans with user approval before proceeding.
+#### agent-skill-orchestrator (v2.2.0)
+Analyzes user requirements, matches to available resources with confidence scoring (trigger 30% + semantic 25% + tools 20% + category 15% + MCP 10%), generates primary + alternative execution plans with user approval before proceeding. Software-delivery requests get the `agentic-sdlc` router as Option 1 when it is installed; single-stage requests go straight to the stage skill.
+
+### Agentic SDLC
+
+`skills/agentic-sdlc/` is the router (played by the Scrum Master agent). It detects state from `specs/` artifacts, scores the path (Quick, Standard, Full), dispatches the agent for the current stage from `agents/`, requests and records the four human sign-offs (Specify — Product Owner, Design — Tech Lead, Test — human reviewer, Release — Release Owner) and keeps loops bounded (red-green 3, build-test 5, review-fix 3, debug 3 hypotheses → Architect). Its `scripts/*.mjs` are dependency-free Node ≥ 18 checks with `node --test` suites (`node --test skills/agentic-sdlc/scripts/test/*.test.mjs`). Reference guide: `docs/guides/agentic-sdlc.md`.
 
 ## Language
 

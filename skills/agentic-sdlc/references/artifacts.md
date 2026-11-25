@@ -110,7 +110,6 @@ The router Module Index and other files name the files below; they are added in 
 | `references/extension-interface.md`† | Extensions | No extensions are loaded until it exists |
 | `references/standards-mapping.md`† | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
 | `examples/paths/`†, `examples/extensions/`† | Path and extension examples | `references/paths.md` examples; `examples/worked-example/` |
-| `docs/guides/agentic-sdlc.md`† (skills repository) | Long-form guide, word budget checked by `budget-check --guide` | Run `budget-check` without `--guide` |
 
 ## Naming and numbering
 

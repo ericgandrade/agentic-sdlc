@@ -1,7 +1,7 @@
 {
   "name": "claude-superskills",
   "version": "2.0.8",
-  "description": "18 universal AI skills for Claude Code — skill creation, deep research, strategic planning, content processing, solution architecture, and orchestration workflows",
+  "description": "33 universal AI skills for Claude Code — the Agentic SDLC (router, 13 agents and 19 stage skills from Discover to Operate with human sign-offs), plus skill creation, deep research, strategic planning, content processing, solution architecture and orchestration workflows",
   "author": {
     "name": "Eric Andrade",
     "url": "https://github.com/ericgandrade"
