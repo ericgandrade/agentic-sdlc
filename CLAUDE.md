@@ -19,7 +19,8 @@ You **MUST** keep the following files synchronized at all times when changing ve
 |------|----------------|-----------|
 | `cli-installer/package.json` | `version` field | **Source of Truth** |
 | `.claude-plugin/plugin.json` | `version` field | Must match npm exactly |
-| `README.md` | H1 Title, Version Badge, Footer | Visual confirmation |
+| `README.md` | H1 Title, Version Badge, Skills Badge, Footer (the root README presents the Agentic SDLC; the skill catalog lives in `docs/skills-library.md`) | Visual confirmation |
+| `docs/skills-library.md` | Skill category tables, bundle list, skill totals | Library catalog must match `skills/` |
 | `CLAUDE.md` | Project Overview & Version Checklist | Guidance consistency |
 | `CHANGELOG.md` | New version entry | History |
 | `cli-installer/README.md` | Version, skill count, command examples, supported platforms | Installer docs must match current product |
@@ -48,7 +49,7 @@ Version sync alone is **not enough**. Any change that affects product scope, pac
 
 1. **`skills/` is the only source of truth for skill content.** No guide or README may describe replicated skill copies inside platform directories as part of the active architecture.
 2. **`cli-installer/package.json` and `.claude-plugin/plugin.json` define the current released version.** Secondary docs must reflect that version or avoid version-specific claims.
-3. **`README.md` and `CLAUDE.md` define the current product shape.** Secondary docs such as `cli-installer/README.md`, `.claude-plugin/marketplace.json`, and `docs/guides/*.md` must not advertise obsolete counts, narrower scope, or deprecated flows.
+3. **`README.md` and `CLAUDE.md` define the current product shape.** Secondary docs such as `docs/skills-library.md`, `cli-installer/README.md`, `.claude-plugin/marketplace.json`, and `docs/guides/*.md` must not advertise obsolete counts, narrower scope, or deprecated flows.
 4. **Marketplace metadata is documentation.** `.claude-plugin/marketplace.json` descriptions must be reviewed whenever the public skill count or positioning changes.
 5. **Guides must describe the active architecture, not historical architecture.** If a guide mentions deprecated mirrored platform directories, symlink-era behavior, or bundled skills in npm, it must be updated or explicitly labeled historical.
 
@@ -320,7 +321,7 @@ Every new skill added to `skills/` **must** trigger the following updates before
 
 1. **`skills/<skill-name>/SKILL.md`** — create with valid frontmatter: `name` (kebab-case), `description` ("This skill should be used when..."), `license` (MIT). No other fields — `version`, `author`, `platforms`, `category`, `tags`, `risk`, `created`, `updated` all cause Claude Code loading failures. No bare date fields.
 2. **`skills/<skill-name>/README.md`** — create with `## Metadata` table (Version, Author, Created, Updated, Platforms, Category, Tags, Risk). Dates go here, NOT in SKILL.md.
-3. **`README.md`** — add skill to the relevant category table; bump the `skills-N` badge count.
+3. **`docs/skills-library.md`** — add skill to the relevant category table and update totals; bump the `skills-N` badge count in the root `README.md` (the root README is the Agentic SDLC presentation and has no category tables).
 4. **`CLAUDE.md`** — add skill to the architecture tree (`skills/`) and to the Skill Types section; update any skill count references.
 5. **`.claude-plugin/plugin.json`** — bump `"version"` (minor for new skill: X.Y.0 → X.(Y+1).0).
 6. **`cli-installer/package.json`** — bump version to match plugin.json via `./scripts/bump-version.sh minor`.
@@ -389,7 +390,7 @@ git push origin main && git push origin vX.Y.Z
 > **Note:** `bump-version.sh` uses `--no-git-tag-version` — it only updates `package.json`. The git tag must be created and pushed manually after the commit.
 
 > **Change Management Rule (mandatory):** any repository change must include consistency updates before release when applicable:
-> - `README.md` (commands, examples, version badges/footer, behavior notes)
+> - `README.md` (version badges/footer, status, behavior notes) and `docs/skills-library.md` (skill tables, commands, examples)
 > - `CHANGELOG.md` (new version entry with added/changed/fixed items)
 > - `CLAUDE.md` (architecture/workflow/rules/version references)
 > - `cli-installer/README.md` (installer behavior, skill count, examples)

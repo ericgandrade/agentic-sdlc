@@ -465,7 +465,7 @@ MIT - See [LICENSE](../LICENSE) for details.
 ## 🔗 Quick Links
 
 - 📚 [Full Catalog](../CATALOG.md) - All skills with metadata
-- 🛠️ [Skills Development Guide](references/skills-development.md) - Create custom skills
+- 🛠️ [Skills Development Guide](../resources/skills-development.md) - Create custom skills
 - 📝 [Changelog](../CHANGELOG.md) - Release history
 - 🐛 [Issues](https://github.com/ericgandrade/claude-superskills/issues) - Report problems
 - 💬 [Discussions](https://github.com/ericgandrade/claude-superskills/discussions) - Share ideas
@@ -492,7 +492,7 @@ See [detailed comparison](bundles/bundles.md#bundle-comparison).
 ## 🛠️ Advanced Usage
 
 - **[Skill Anatomy](guides/skill-anatomy.md)** - How to build skills
-- **[Skills Development](references/skills-development.md)** - Advanced creation
+- **[Skills Development](../resources/skills-development.md)** - Advanced creation
 - **[Changelog](../CHANGELOG.md)** - Version history
 
 ## Part of the Superskills Family

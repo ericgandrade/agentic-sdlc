@@ -12,7 +12,7 @@
 4. **Next task: F10 and F27**, the fingerprint going stale on record-only commits. `8c5d014` already excludes review records from the fingerprint (`skills/agentic-sdlc/scripts/lib/git.mjs`), so check what is still open before changing code. Add or update a test with any script change.
 5. One commit per finding or pair. Update the status here as findings close.
 
-**Branch rule:** all work stays on `claude/agentic-sdlc-handoff`. No PR to `main` and no tag until the owner asks; `main` is the previous version. The root `README.md` is a stakeholder presentation of the method; the former README is now `docs/skills-library.md` (add new skills there; `CLAUDE.md` still says README, update it before release; check that `release.js` still matches the README title and footer). For the root README: keep its status and findings counts current, and do not overstate the scores.
+**Branch rule:** all work stays on `claude/agentic-sdlc-handoff`. No PR to `main` and no tag until the owner asks; `main` is the previous version. The root `README.md` is a stakeholder presentation of the method; the former README is now `docs/skills-library.md` (add new skills there; `CLAUDE.md` now says so; `release.js major` was dry-run in a scratch copy on 2026-11-25: title, badge, footer and plugin go to 3.0.0 and both sync checks pass; catalog regeneration needs Python `pyyaml`). For the root README: keep its status and findings counts current, and do not overstate the scores.
 
 **Where we are:** all build phases are done. **What is stopped:** 14 Important and 14 Minor dogfood findings, the E.5 re-run and the v3.0.0 release prep. Nothing is running.
 
