@@ -5,6 +5,7 @@ const os = require('os');
 const yaml = require('js-yaml');
 
 const REPO_OWNER = 'ericgandrade';
+// GitHub repository name (not the npm package name): release zips unpack to `<REPO_NAME>-<version>/`.
 const REPO_NAME = 'agentic-sdlc';
 const CACHE_BASE = path.join(os.homedir(), '.claude-superskills', 'cache');
 const CACHE_COMPLETE_MARKER = '.cache-complete';
@@ -229,6 +230,8 @@ async function clearCache() {
 }
 
 module.exports = {
+  REPO_OWNER,
+  REPO_NAME,
   ensureSkillsCached,
   listCachedSkills,
   getSkillMetadata,

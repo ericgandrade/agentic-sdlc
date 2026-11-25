@@ -20,7 +20,6 @@ UNINSTALLER_VERSION="1.0.0"
 
 # Configuration
 PACKAGE_NAME="agentic-sdlc-method"
-LEGACY_PACKAGE_NAME="claude-superskills"   # npm name before v3.0.0
 
 # Flags
 SKIP_CONFIRMATION=false
@@ -100,7 +99,7 @@ ${BOLD}EXAMPLES:${NC}
     bash uninstall.sh --yes --purge
 
 ${BOLD}WHAT GETS REMOVED:${NC}
-    • npm global package (agentic-sdlc-method, and claude-superskills if present)
+    • npm global package (agentic-sdlc-method)
     • Installed skills in ~/.github/skills/
     • Installed skills in ~/.claude/skills/
     • Installed skills in ~/.codex/skills/
@@ -252,9 +251,6 @@ remove_npm_package() {
         return 0
     fi
     
-    if npm list -g "${LEGACY_PACKAGE_NAME}" &> /dev/null; then
-        npm uninstall -g "${LEGACY_PACKAGE_NAME}" > /dev/null 2>&1 && print_success "Legacy package ${LEGACY_PACKAGE_NAME} removed"
-    fi
     if ! npm list -g "${PACKAGE_NAME}" &> /dev/null; then
         return 0
     fi

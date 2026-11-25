@@ -4,8 +4,9 @@ const fs = require('fs-extra');
 const os = require('os');
 const path = require('path');
 
-const REPO_OWNER = 'ericgandrade';
-const REPO_NAME = require('../package.json').name;
+// The GitHub repository and the plugin are named agentic-sdlc; the npm package is agentic-sdlc-method.
+const { REPO_OWNER, REPO_NAME } = require('./core/downloader');
+const PACKAGE_NAME = require('../package.json').name;
 const MAX_UPLOAD_BYTES = 50 * 1024 * 1024;
 
 function getOutputDir() {
@@ -15,7 +16,7 @@ function getOutputDir() {
 function getGitHubHeaders() {
   return {
     Accept: 'application/vnd.github.v3+json',
-    'User-Agent': `${REPO_NAME}-installer`
+    'User-Agent': `${PACKAGE_NAME}-installer`
   };
 }
 

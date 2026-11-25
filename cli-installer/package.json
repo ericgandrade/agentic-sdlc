@@ -1,10 +1,9 @@
 {
   "name": "agentic-sdlc-method",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Installer for The Agentic SDLC Method: 23 AI skills (a router, 13 agents and 19 stage skills from Discover to Operate, with human sign-offs and evidence-based verification) for Claude Code, GitHub Copilot and 6 more AI tools",
   "bin": {
-    "agentic-sdlc-method": "bin/cli.js",
-    "claude-superskills": "bin/cli.js"
+    "agentic-sdlc-method": "bin/cli.js"
   },
   "scripts": {
     "test": "node --check bin/cli.js && node bin/cli.js --version",
