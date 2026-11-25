@@ -40,7 +40,7 @@ Not for:
 - A failure whose cause is unknown → `systematic-debugging`.
 - Writing the spec itself → `spec-driven-development`; comparing technologies for a new system → `senior-solution-architect`.
 - Rollout mechanics of an ordinary release → `deployment-pipeline`; acceptance tests from approved ACs → `test-strategy`.
-- Web or market research → `deep-research`.
+- Web or market research → `deep-research` (knowledge-superskills, when installed).
 
 ## Workflow
 

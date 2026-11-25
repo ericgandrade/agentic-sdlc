@@ -6,10 +6,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **claude-superskills** is a reusable AI skills library for **8 AI platforms**: GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI. Skills are Markdown-based workflow specifications (`SKILL.md`) that teach AI agents how to perform specific tasks.
 
-- **npm package**: `claude-superskills` (v2.0.8) — `npx claude-superskills` — **33 skills**, including the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`)
+- **npm package**: `claude-superskills` (v2.0.8) — `npx claude-superskills` — **23 skills**: the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`) plus `skill-creator`, `agent-skill-discovery` and `agent-skill-orchestrator`
 - **Claude Code plugin**: `claude --plugin-dir ./claude-superskills` — native plugin, no npm needed
 - **GitHub**: `https://github.com/ericgandrade/claude-superskills`
 - **Old package** `cli-ai-skills` is deprecated, redirects to this one
+- **Moved out**: research, content and document skills (deep-research, webpage-reader, us-program-research, youtube-summarizer, audio-transcriber, pptx-translator, document-converter, storytelling-expert, mckinsey-strategist, prompt-engineer) now live in [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills)
 
 ## 🚨 CRITICAL: VERSION CONSISTENCY RULE
 
@@ -70,7 +71,7 @@ claude-superskills/
 │   ├── plugin.json           # Plugin metadata (name, version, description, author...)
 │   └── marketplace.json      # Marketplace catalog — lists plugin + GitHub source
 │
-├── skills/                    # SINGLE SOURCE OF TRUTH for all 33 skills
+├── skills/                    # SINGLE SOURCE OF TRUTH for all 23 skills
 │   ├── agent-skill-discovery/
 │   ├── agent-skill-orchestrator/
 │   ├── agentic-sdlc/
@@ -82,36 +83,26 @@ claude-superskills/
 │   │   ├── templates/        # spec, plan, acceptance-tests, pr-body, release-notes, runbook, retro, ci/…
 │   │   ├── scripts/          # spec-lint, plan-graph, preflight, run-ledger, budget-check (.mjs) + lib/ + test/
 │   │   └── examples/         # worked-example/ (CSV export, Standard path; script test fixtures)
-│   ├── audio-transcriber/
 │   ├── brainstorming/
 │   ├── codebase-modernization/
-│   ├── deep-research/
 │   ├── deployment-pipeline/
-│   ├── document-converter/
 │   ├── executing-plans/
 │   ├── grill-me/
 │   ├── issue-triage/
-│   ├── mckinsey-strategist/
 │   ├── multi-axis-code-review/
 │   ├── operations-and-incidents/
-│   ├── pptx-translator/
 │   ├── project-context/
-│   ├── prompt-engineer/
 │   ├── retrospective/
 │   ├── security-hardening/
 │   ├── senior-solution-architect/
 │   ├── shipping-and-handover/
 │   ├── skill-creator/
 │   ├── spec-driven-development/
-│   ├── storytelling-expert/
 │   ├── systematic-debugging/
 │   ├── test-driven-development/
 │   ├── test-strategy/
-│   ├── us-program-research/
 │   ├── verification-gate/
-│   ├── webpage-reader/
-│   ├── writing-plans/
-│   └── youtube-summarizer/
+│   └── writing-plans/
 │
 ├── cli-installer/             # NPM package (claude-superskills)
 │   ├── bin/cli.js            # Main CLI entry point (commands, flags, install flow)
@@ -220,7 +211,7 @@ git commit -m "fix: remove erroneously committed platform skill dirs"
 2. **Download at Install Time**: The installer fetches skills from the GitHub release tag and caches them at `~/.claude-superskills/cache/{version}/skills/` — no skills are bundled in the npm package
 3. **Platform-Specific Installers**: Each platform has its own async installer in `cli-installer/lib/`; all copy from the cache using `fs.copy` (no symlinks)
 4. **No Platform Dirs in Repo**: `.github/skills/`, `.claude/skills/`, `.codex/skills/`, `.agent/skills/`, `.agents/skills/`, `.gemini/skills/`, `.cursor/skills/`, `.adal/skills/` are all in `.gitignore`
-5. **Bundle System**: Skills are grouped into curated bundles (essential, planning, research, content, orchestration, agentic-sdlc, all)
+5. **Bundle System**: Skills are grouped into curated bundles (essential, planning, orchestration, agentic-sdlc, all)
 6. **Claude Code Native Plugin**: `.claude-plugin/plugin.json` makes this a first-class Claude Code plugin. Skills are available as `/claude-superskills:<skill-name>`. `.claude-plugin/marketplace.json` enables installation via `/plugin marketplace add`. Both files must have their version kept in sync with `cli-installer/package.json`.
 
 ### Install Flow
@@ -255,7 +246,7 @@ npx claude-superskills
 /plugin install claude-superskills@claude-superskills
     → clones repo → copies to ~/.claude/plugins/cache/claude-superskills/
     → auto-discovers skills/ directory
-    → registers all 33 skills as /claude-superskills:<skill-name>
+    → registers all 23 skills as /claude-superskills:<skill-name>
 
 # NOTE: The shell command `claude plugin install ...` is currently unstable
 # due to upstream bugs in Claude Code (e.g. anthropics/claude-code#29722).
@@ -520,8 +511,8 @@ Do not skip any of these steps when bumping the version.
    # It must be updated whenever: skill count changes, MCP servers are added/removed,
    # supported platforms change, or the product positioning changes.
    # Failure to update it leaves stale metadata visible to all visitors.
-   gh repo edit --description "55 Universal AI Skills for Claude Code, GitHub Copilot & 6 more platforms. Planning, orchestration, product strategy, career workflows, research, Obsidian knowledge management, document conversion — no API keys required."
-   gh repo edit --add-topic "claude-code,github-copilot,ai-skills,skills,prompt-engineering,product-strategy,career-development,cli,automation,generative-ai,agents,productivity,llm,anthropic,openai-codex,cursor-ide,gemini-cli,workflow-automation,tech-leadership,ats-optimization"
+   gh repo edit --description "Agentic SDLC: a software delivery method for AI agents with 7 stages, 13 agents, 4 human sign-offs and evidence-based verification. 23 skills for Claude Code, GitHub Copilot and 6 more platforms."
+   gh repo edit --add-topic "claude-code,github-copilot,ai-skills,skills,agentic-sdlc,sdlc,spec-driven-development,tdd,code-review,ai-agents,agents,cli,automation,generative-ai,llm,anthropic,openai-codex,cursor-ide,gemini-cli,workflow-automation"
    ```
 6. **Generate Claude Desktop Plugin Package:**
    ```bash
@@ -596,13 +587,11 @@ OpenCode uses `~/.agent/skills/`. Antigravity uses `~/.gemini/antigravity/skills
 ### Bundle System (`lib/bundles.js`)
 
 Curated skill collections (source: `bundles.json`):
-- **essential** (9): `agentic-sdlc`, `skill-creator`, `prompt-engineer`, `agent-skill-discovery`, `agent-skill-orchestrator`, `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`
+- **essential** (8): `agentic-sdlc`, `skill-creator`, `agent-skill-discovery`, `agent-skill-orchestrator`, `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`
 - **planning** (7): `brainstorming`, `spec-driven-development`, `project-context`, `writing-plans`, `executing-plans`, `grill-me`, `agent-skill-orchestrator`
-- **research** (5): `deep-research`, `us-program-research`, `senior-solution-architect`, `webpage-reader`, `prompt-engineer`
-- **content** (5): `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`
 - **orchestration** (2): `agent-skill-discovery`, `agent-skill-orchestrator`
 - **agentic-sdlc** (20): the router + 19 stage skills in Discover → Operate order (see Skill Types)
-- **all**: all 33 skills
+- **all**: all 23 skills
 
 ## Automation Scripts
 
@@ -617,11 +606,8 @@ Curated skill collections (source: `bundles.json`):
 ## Skill Types
 
 - **Meta-skills** — Create or manage other skills (`skill-creator`)
-- **Automation** — Workflow optimization (`prompt-engineer`)
 - **Orchestration** — Resource discovery and task planning (`agent-skill-discovery`, `agent-skill-orchestrator`)
 - **Planning** — Pre-implementation design and execution (`brainstorming`, `writing-plans`, `executing-plans`, `grill-me`)
-- **Research** — Deep research and academic analysis (`deep-research`, `us-program-research`, `senior-solution-architect`, `webpage-reader`)
-- **Content** — Media and document processing (`youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`)
 - **Agentic SDLC** (20 skills, bundle `agentic-sdlc`) — software delivery with AI agents through 7 stages, 4 human sign-offs, 13 agents and 3 paths. Several also work standalone and appear in the categories above.
   - Router: `agentic-sdlc`
   - Discover: `issue-triage`, `project-context`, `brainstorming`

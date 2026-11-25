@@ -364,7 +364,7 @@ Improve the orchestrator:
 ## Related Skills
 
 - **agent-skill-discovery** (Required) - Discovers resources
-- **prompt-engineer** - May be recommended in plans
+- **prompt-engineer** (knowledge-superskills) - May be recommended in plans when installed
 - **skill-creator** - May be recommended for scaffolding
 
 ## License

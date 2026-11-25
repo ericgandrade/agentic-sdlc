@@ -1,6 +1,8 @@
 # claude-superskills v3.0.0
 
-Universal installer for the `claude-superskills` library. Install 33 reusable AI skills — including the 20-skill **Agentic SDLC** — across GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI from one command.
+Universal installer for the `claude-superskills` library. Install 23 reusable AI skills — including the 20-skill **Agentic SDLC** — across GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI from one command.
+
+Research, content and document skills moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills).
 
 If Claude Desktop is detected, the installer can also generate a Claude Cowork plugin zip for manual upload.
 
@@ -20,7 +22,7 @@ npx claude-superskills -y -q
 # Install curated bundles
 npx claude-superskills --bundle essential -y
 npx claude-superskills --bundle agentic-sdlc -y
-npx claude-superskills --bundle content -y
+npx claude-superskills --bundle planning -y
 ```
 
 See [Installation Guide](../docs/INSTALLATION.md) for full setup and troubleshooting.
@@ -79,33 +81,28 @@ Support status:
 
 | Bundle | Skills | Contents |
 |--------|--------|----------|
-| `essential` | 9 | Agentic SDLC router, skill creation, prompt optimization, discovery, orchestration and the planning quartet |
+| `essential` | 8 | Agentic SDLC router, skill creation, discovery, orchestration and the planning quartet |
 | `agentic-sdlc` | 20 | Router plus 19 stage skills from Discover to Operate, with human sign-offs, bounded loops and evidence-based verification |
 | `planning` | 7 | Brainstorming, specs, project context, plans, execution, stress-testing and orchestration |
-| `research` | 5 | Deep research, US program research, solution architecture, web reading and prompt optimization |
-| `content` | 5 | YouTube, audio, PowerPoint translation, document conversion and storytelling |
 | `orchestration` | 2 | Resource discovery and planning |
-| `all` | 33 | All available skills |
+| `all` | 23 | All available skills |
 
 ```bash
 npx claude-superskills --list-bundles
 ```
 
-## Available Skills (33)
+## Available Skills (23)
 
 - **Agentic SDLC (20)** — `agentic-sdlc` (router), Discover: `issue-triage`, `project-context`, `brainstorming` · Specify: `spec-driven-development`, `grill-me`, `codebase-modernization`, `security-hardening` · Design: `senior-solution-architect`, `writing-plans` · Build: `executing-plans`, `test-driven-development`, `systematic-debugging` · Test: `test-strategy`, `verification-gate`, `multi-axis-code-review` · Release: `deployment-pipeline`, `shipping-and-handover` · Operate: `operations-and-incidents`, `retrospective`
 - **Discovery & orchestration (2)** — `agent-skill-discovery`, `agent-skill-orchestrator`
-- **Development & automation (2)** — `skill-creator`, `prompt-engineer`
-- **Strategy (1)** — `mckinsey-strategist`
-- **Research (3)** — `deep-research`, `us-program-research`, `webpage-reader`
-- **Content (5)** — `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`
+- **Skill creation (1)** — `skill-creator`
 
 ## Search
 
 ```bash
 npx claude-superskills --search "planning"
 npx claude-superskills --search "resume"
-npx claude-superskills --search "research"
+npx claude-superskills --search "debugging"
 ```
 
 ## Example Commands

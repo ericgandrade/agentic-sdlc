@@ -1,7 +1,7 @@
 # 🤖 Claude Superskills v2.0.8
 
 ![Version](https://img.shields.io/badge/version-2.0.8-blue.svg)
-![Skills](https://img.shields.io/badge/skills-33-brightgreen.svg)
+![Skills](https://img.shields.io/badge/skills-23-brightgreen.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Status](https://img.shields.io/badge/Agentic%20SDLC-in%20development-orange.svg)
 
@@ -186,15 +186,9 @@ Then ask: *"Set up the Agentic SDLC here"*, followed by *"Fix issue #142 with th
 
 ## Also in this repository
 
-Claude Superskills began as a general skills library, and 13 skills from that version are still here. They work independently of the method:
+Three skills support the method and work on their own: `skill-creator` (build and test skills), `agent-skill-discovery` (list installed skills, agents and MCP servers) and `agent-skill-orchestrator` (plan a task across installed resources; it proposes the Agentic SDLC for software work).
 
-| Group | Skills |
-|---|---|
-| Working with skills and agents | `skill-creator`, `prompt-engineer`, `agent-skill-discovery`, `agent-skill-orchestrator` (proposes the Agentic SDLC for software work) |
-| Research | `deep-research`, `webpage-reader`, `us-program-research` |
-| Content and documents | `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`, `mckinsey-strategist` |
-
-They may move to a separate package so that this repository focuses on the method. Installation, bundles and the full catalog: [skills library](docs/skills-library.md).
+The research, content and document skills of earlier versions moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills). Installation, bundles and the catalog: [skills library](docs/skills-library.md).
 
 ## Learn more
 
@@ -204,7 +198,7 @@ They may move to a separate package so that this repository focuses on the metho
 | [Quickstart](skills/agentic-sdlc/references/quickstart.md) | Your first change |
 | [Worked example](skills/agentic-sdlc/examples/worked-example/) | A feature from spec to retrospective |
 | [Research](docs/research/) | Methods studied, scoring and audits |
-| [Skills library and installation](docs/skills-library.md) | The 33 skills, including those outside the method |
+| [Skills library and installation](docs/skills-library.md) | The 23 skills and their bundles |
 
 ## License
 

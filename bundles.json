@@ -8,7 +8,6 @@
       "skills": [
         "agentic-sdlc",
         "skill-creator",
-        "prompt-engineer",
         "agent-skill-discovery",
         "agent-skill-orchestrator",
         "brainstorming",
@@ -31,30 +30,6 @@
         "agent-skill-orchestrator"
       ],
       "target": "Developers, architects"
-    },
-    "research": {
-      "name": "Research",
-      "description": "Deep research, solution architecture, and program discovery.",
-      "skills": [
-        "deep-research",
-        "us-program-research",
-        "senior-solution-architect",
-        "webpage-reader",
-        "prompt-engineer"
-      ],
-      "target": "Researchers, architects, consultants"
-    },
-    "content": {
-      "name": "Content & Media",
-      "description": "Content processing, media transcription, and document conversion.",
-      "skills": [
-        "youtube-summarizer",
-        "audio-transcriber",
-        "pptx-translator",
-        "document-converter",
-        "storytelling-expert"
-      ],
-      "target": "Content creators, consultants"
     },
     "orchestration": {
       "name": "Orchestration",
@@ -94,12 +69,11 @@
     },
     "all": {
       "name": "All Skills",
-      "description": "Complete claude-superskills toolkit — all 33 skills.",
+      "description": "Complete claude-superskills toolkit — all 23 skills.",
       "skills": [
         "skill-creator",
         "agent-skill-discovery",
         "agent-skill-orchestrator",
-        "prompt-engineer",
         "agentic-sdlc",
         "issue-triage",
         "project-context",
@@ -119,16 +93,7 @@
         "deployment-pipeline",
         "shipping-and-handover",
         "operations-and-incidents",
-        "retrospective",
-        "deep-research",
-        "us-program-research",
-        "webpage-reader",
-        "youtube-summarizer",
-        "audio-transcriber",
-        "pptx-translator",
-        "document-converter",
-        "storytelling-expert",
-        "mckinsey-strategist"
+        "retrospective"
       ],
       "target": "All users"
     }

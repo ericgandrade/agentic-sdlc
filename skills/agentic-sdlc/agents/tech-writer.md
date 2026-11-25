@@ -22,7 +22,7 @@ Secrets or production data.
 
 ## Skills and modules
 
-`shipping-and-handover` (release notes, handover) · `references/release-ops.md` §Release notes · `document-converter` (format conversion when needed).
+`shipping-and-handover` (release notes, handover) · `references/release-ops.md` §Release notes · `document-converter` from knowledge-superskills (format conversion, when installed).
 
 ## May do
 

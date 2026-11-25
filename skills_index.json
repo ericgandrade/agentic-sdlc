@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated": "2026-05-10T22:14:50.383999Z",
+  "generated": "2026-11-25T17:32:26.650983Z",
   "skills": [
     {
       "name": "agent-skill-discovery",
@@ -29,8 +29,8 @@
     },
     {
       "name": "agent-skill-orchestrator",
-      "version": "2.1.0",
-      "description": "This skill should be used when the user needs to solve a complex task and wants a detailed execution plan using the best available resources. Analyzes user requirements, discovers available plugins/agents/skills/MCPs, performs intelligent matching with confidence scoring, and creates strategic execution plans with alternatives. Works across all AI CLI platforms.",
+      "version": "2.2.0",
+      "description": "This skill should be used when the user needs to solve a complex task and wants a detailed execution plan using the best available resources. Analyzes user requirements, discovers available plugins/agents/skills/MCPs, performs intelligent matching with confidence scoring, and creates strategic execution plans with alternatives. Works across all AI CLI platforms. Not for running software delivery through the Agentic SDLC stages (use agentic-sdlc), writing an implementation plan from a spec (use writing-plans), or only listing installed resources (use agent-skill-discovery).",
       "category": "orchestration",
       "tags": [
         "orchestration",
@@ -53,16 +53,19 @@
       "triggers": []
     },
     {
-      "name": "audio-transcriber",
+      "name": "agentic-sdlc",
       "version": "2.1.0",
-      "description": "This skill should be used when the user needs to transform audio recordings into professional Markdown documentation with intelligent summaries using LLM integration.",
-      "category": "content",
+      "description": "This skill should be used when the user wants to run software work end to end through the Agentic SDLC (Discover, Specify, Design, Build, Test, Release, Operate) with AI agents and four human sign-offs \u2014 starting a feature, bug fix or modernization the disciplined way, asking which stage or step comes next, resuming from specs/ artifacts, choosing the Quick, Standard or Full path, or handling a requirement change after Specify sign-off (deciding where it re-enters). It hands each stage to its stage skill and is not for one stage task asked on its own, such as writing a spec, writing or executing a plan, implementing or debugging a task, or reviewing a PR (use that stage skill), nor for non-software multi-skill plans (use agent-skill-orchestrator).",
+      "category": "orchestration",
       "tags": [
-        "audio",
-        "transcription",
-        "whisper",
-        "meeting-minutes",
-        "speech-to-text"
+        "agentic-sdlc",
+        "sdlc",
+        "spec-driven",
+        "ai-agents",
+        "human-in-the-loop",
+        "traceability",
+        "workflow",
+        "router"
       ],
       "risk": "safe",
       "platforms": [
@@ -79,13 +82,16 @@
     },
     {
       "name": "brainstorming",
-      "version": "2.0.0",
-      "description": "This skill should be used when the user needs pre-implementation ideation for creative work, such as creating features, building components, adding functionality, or modifying behavior.",
+      "version": "3.1.0",
+      "description": "This skill should be used when the user needs pre-implementation ideation before a spec or code \u2014 framing the real problem behind a request, generating and comparing genuinely different approaches with named techniques, scoring them, auditing assumptions, running a throwaway UI or logic prototype when paper cannot settle a question, and agreeing a discovery brief that feeds the spec; also for standalone ideation such as names, positioning or programs (the Discover stage of the Agentic SDLC). Not for intake, duplicate search or path scoring of a new request (use issue-triage), comparing technical designs for an approved spec (use senior-solution-architect), or writing the spec itself (use spec-driven-development).",
       "category": "planning",
       "tags": [
+        "agentic-sdlc",
         "brainstorming",
+        "discovery",
+        "ideation",
+        "prototyping",
         "design",
-        "requirements",
         "pre-implementation"
       ],
       "risk": "safe",
@@ -102,16 +108,19 @@
       "triggers": []
     },
     {
-      "name": "deep-research",
-      "version": "2.2.0",
-      "description": "This skill should be used when the user needs deep, multi-step web research with source synthesis, citations, skeptical evidence evaluation, confidence/gap analysis, and optional dense/frontier research using parallel agents.",
-      "category": "research",
+      "name": "codebase-modernization",
+      "version": "1.0.0",
+      "description": "This skill should be used when the user needs to change or modernize existing code safely \u2014 inventorying a legacy codebase and its dependencies, scoring components by value and risk, deciding to retire, retain, rehost, upgrade, re-platform, refactor or migrate, researching how the code works today with cited evidence, pinning current behaviour with characterization tests (CHAR-n) before touching untested code, designing expand-contract schema changes or a strangler cutover, slicing the migration into ordered slices for writing-plans, or writing a migration runbook (the Specify and Design stages of the Agentic SDLC on brownfield code). Not for first entry into a repository or its code map (use project-context), designing a new system (use senior-solution-architect), or web research (use deep-research).",
+      "category": "development",
       "tags": [
-        "research",
-        "search",
-        "analysis",
-        "synthesis",
-        "citations"
+        "agentic-sdlc",
+        "brownfield",
+        "legacy-code",
+        "modernization",
+        "characterization-tests",
+        "expand-contract",
+        "strangler-fig",
+        "migration"
       ],
       "risk": "safe",
       "platforms": [
@@ -127,22 +136,21 @@
       "triggers": []
     },
     {
-      "name": "document-converter",
+      "name": "deployment-pipeline",
       "version": "1.0.0",
-      "description": "This skill should be used when the user needs to convert documents between formats (Office to PDF, PDF to images, image to PDF), perform PDF operations (merge, split, rotate, encrypt, decrypt), or run OCR on scanned documents. Uses local free tools \u2014 LibreOffice, ghostscript, pdftk, tesseract, and imagemagick \u2014 with no API key required. Trigger when the user says \"convert this document\", \"export to PDF\", \"merge PDFs\", \"split PDF\", \"rotate PDF\", \"OCR this scan\", \"convert PPTX to PDF\", \"convert DOCX to PDF\", or any document format conversion request.",
-      "category": "content",
+      "description": "This skill should be used when a project needs CI/CD gates that enforce the Agentic SDLC \u2014 discovering the existing pipeline, mapping the sdlc-dod Definition of Done and the spec-lint/plan-graph approval checks to required CI jobs, setting branch protection, CODEOWNERS and production environment reviewers so the Test and Release sign-offs cannot be bypassed, proving each gate blocks a bad change, choosing a deployment strategy, rehearsing the rollback in staging, and deciding advance, hold or roll back at each rollout stage (the Release stage of the Agentic SDLC). Not for the PR, release notes, runbook or hand-over (use shipping-and-handover), writing the sdlc-dod block (use project-context), or watching production after rollout and running incidents (use operations-and-incidents).",
+      "category": "devops",
       "tags": [
-        "document-conversion",
-        "pdf",
-        "office",
-        "libreoffice",
-        "ocr",
-        "ghostscript",
-        "pdftk",
-        "imagemagick",
-        "tesseract"
+        "agentic-sdlc",
+        "ci-cd",
+        "branch-protection",
+        "quality-gates",
+        "deployment",
+        "rollback",
+        "canary",
+        "feature-flags"
       ],
-      "risk": "safe",
+      "risk": "medium",
       "platforms": [
         "GitHub Copilot CLI",
         "Claude Code",
@@ -157,14 +165,16 @@
     },
     {
       "name": "executing-plans",
-      "version": "2.0.0",
-      "description": "This skill should be used when the user has a written implementation plan to execute in a separate session with review checkpoints.",
+      "version": "4.0.0",
+      "description": "This skill should be used when an approved plan (specs/NNN-slug/plan.md or docs/plans/*.md) must be executed or an interrupted Build run resumed \u2014 test-first tasks via fresh Developer subagents or inline, per-task spec-then-quality review, bounded fix loops with escalation rulings, a run ledger copied into the PR, preflight, worktree isolation, file-disjoint parallel tasks and unattended runs (the Build stage of the Agentic SDLC). Not for one test-first task on its own (use test-driven-development), writing the plan (use writing-plans), or a failure whose cause is unknown (use systematic-debugging).",
       "category": "planning",
       "tags": [
         "planning",
         "execution",
-        "checkpoints",
-        "implementation"
+        "build",
+        "subagents",
+        "run-ledger",
+        "agentic-sdlc"
       ],
       "risk": "safe",
       "platforms": [
@@ -181,33 +191,18 @@
     },
     {
       "name": "grill-me",
-      "version": "1.0.0",
-      "description": "Relentless Socratic interview that walks down every branch of a plan or design, resolving decisions one-by-one. Trigger ONLY when the user explicitly says \"grill me\" or the PT equivalent \"me grille\". Do NOT trigger for stress-test, poke holes, devil's advocate, challenge, review, or feedback requests.",
-      "category": "Planning",
+      "version": "2.2.0",
+      "description": "This skill should be used when the user explicitly asks to be grilled (\"grill me\", \"grill me on this plan\", PT \"me grille\") or agrees to the agentic-sdlc router's proposal to run it; it runs a relentless one-decision-per-question interview down every branch of a plan, design, spec or idea, gives a recommended answer with every question, looks up facts instead of asking, records glossary terms and ADR candidates, stops after 3 rounds per stage, and closes with a summary that feeds the spec. Not for stress-test, poke holes, devil's advocate, challenge, review or feedback requests that do not use the word \"grill\" (the Discover and Specify stages of the Agentic SDLC).",
+      "category": "planning",
       "tags": [
+        "agentic-sdlc",
         "planning",
-        "stress-test",
+        "discover",
+        "specify",
         "socratic",
         "decision-tree",
-        "design-review"
-      ],
-      "risk": "Low",
-      "platforms": [
-        "All 8"
-      ],
-      "triggers": []
-    },
-    {
-      "name": "mckinsey-strategist",
-      "version": "2.1.0",
-      "description": "This skill should be used when the user needs structured strategic analysis and high-impact executive recommendations for complex business problems.",
-      "category": "strategy",
-      "tags": [
-        "consulting",
-        "strategy",
-        "mece",
-        "frameworks",
-        "business-analysis"
+        "glossary",
+        "adr"
       ],
       "risk": "safe",
       "platforms": [
@@ -223,16 +218,17 @@
       "triggers": []
     },
     {
-      "name": "pptx-translator",
-      "version": "2.8.0",
-      "description": "This skill should be used when the user needs to translate PowerPoint presentations (.pptx) between languages, preserving formatting and layout. Supports parallel slide-by-slide translation with per-slide validation and retry. Default languages are Portuguese and English but any language pair is supported.",
-      "category": "content",
+      "name": "issue-triage",
+      "version": "1.0.0",
+      "description": "This skill should be used when a new request, bug report, tracker issue, production signal or retro action needs intake before any spec or code \u2014 searching open and closed issues and out-of-scope records for duplicates and prior rejections by domain concept, getting the Product Owner's intake decision, classifying the item as bug, task, story or epic, scoring the Quick, Standard or Full path, checking readiness, and writing the intake record, a needs-info reply or an out-of-scope record (the Discover stage of the Agentic SDLC). Not for exploring solution options (use brainstorming), writing the spec (use spec-driven-development), or running a live incident (use operations-and-incidents).",
+      "category": "planning",
       "tags": [
-        "translation",
-        "pptx",
-        "powerpoint",
-        "multilingual",
-        "presentation"
+        "agentic-sdlc",
+        "triage",
+        "intake",
+        "issues",
+        "backlog",
+        "discover"
       ],
       "risk": "safe",
       "platforms": [
@@ -248,15 +244,129 @@
       "triggers": []
     },
     {
-      "name": "prompt-engineer",
-      "version": "2.0.0",
-      "description": "Use this skill when the user explicitly asks to create, write, improve, or optimize a prompt for use with an AI. Trigger on phrases like \"write me a prompt\", \"improve this prompt\", \"create a system prompt\", \"how do I ask ChatGPT/Claude to...\", or \"quero um prompt para...\". Do NOT trigger for direct task requests where the user wants the output, not the prompt.",
-      "category": "automation",
+      "name": "multi-axis-code-review",
+      "version": "1.0.0",
+      "description": "This skill should be used when a pull request or branch diff needs an independent review against its approved spec and plan \u2014 running spec-compliance, correctness, design and simplicity, security and context-free adversarial lenses in fresh contexts, verifying every finding before a GO or NO-GO verdict, routing defects to the stage that caused them, receiving review findings as the author, re-reviewing fixes within the 3-round bound, or preparing the Test sign-off (the Test stage of the Agentic SDLC); its security lens L3 comes from security-hardening. Not for a quick generic review of a diff with no spec or plan (a plain code review such as the built-in code-review), a security-only review (use security-hardening), or checking that test evidence is fresh (use verification-gate).",
+      "category": "quality",
       "tags": [
-        "prompt-engineering",
-        "optimization",
-        "frameworks",
-        "ai-enhancement"
+        "agentic-sdlc",
+        "code-review",
+        "test-stage",
+        "verification",
+        "security",
+        "root-cause-routing"
+      ],
+      "risk": "safe",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "operations-and-incidents",
+      "version": "1.0.0",
+      "description": "This skill should be used when a released change must be watched in production, the Release Engineer asks for a rollout-stage signal reading, the first indicator reading is due, an alert fires, an incident is reported or must be classified, a blameless postmortem is due, SLOs and error budgets must be derived from the spec, DORA delivery metrics must be computed, or production learning must become new from-production issues (the Operate stage of the Agentic SDLC). Not for owning the rollout decision, deploy log or rollback (use deployment-pipeline), a code-level root cause (use systematic-debugging), the team retro or the outcome verdict on an indicator (use retrospective), or intake of the issues it opens (use issue-triage).",
+      "category": "devops",
+      "tags": [
+        "agentic-sdlc",
+        "operations",
+        "incidents",
+        "sre",
+        "slo",
+        "postmortem",
+        "observability",
+        "dora-metrics",
+        "on-call"
+      ],
+      "risk": "medium",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "project-context",
+      "version": "1.2.0",
+      "description": "This skill should be used when the user wants to set up, adopt, refresh or audit a repository's agent instructions (the AGENTIC-SDLC block in AGENTS.md with its required sdlc-dod Definition of Done), enter an existing codebase before the first change, map the code, vendor the gate scripts into .agentic-sdlc/bin with VERSION and SHA256SUMS, write CONSTRAINTS.md or GLOSSARY.md, keep the adoption ledger, prepare CI enforcement inputs, or record an agent mistake as an AGENTS.md pitfall so it is not repeated (the Discover stage of the Agentic SDLC). Not for inventorying or migrating legacy code (use codebase-modernization), wiring CI jobs or branch protection (use deployment-pipeline), turning a recurring mistake into a retro action (use retrospective), or listing installed skills (use agent-skill-discovery).",
+      "category": "development",
+      "tags": [
+        "agentic-sdlc",
+        "agents-md",
+        "claude-md",
+        "definition-of-done",
+        "constraints",
+        "glossary",
+        "adoption",
+        "context-engineering"
+      ],
+      "risk": "safe",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "retrospective",
+      "version": "1.0.0",
+      "description": "This skill should be used when a delivery cycle closes and its lessons must become owned changes \u2014 a retro is due or overdue after a release reaches 100% or a merge with no release, a Quick batch reaches 10 items or 14 days, retro facts or an agenda must be drafted, prior retro actions must be checked, an indicator reading must be judged against its baseline and target, an epic needs a cross-item view, or an agent mistake that recurs across cycles must become an automated check or an AGENTS.md pitfall (the Operate stage of the Agentic SDLC). Not for postmortems, incidents or taking production readings (use operations-and-incidents), or logging a single agent mistake on the spot (use project-context).",
+      "category": "planning",
+      "tags": [
+        "agentic-sdlc",
+        "retrospective",
+        "operate",
+        "continuous-improvement",
+        "metrics",
+        "outcome-decision",
+        "agents-md"
+      ],
+      "risk": "safe",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "security-hardening",
+      "version": "1.0.0",
+      "description": "This skill should be used when a change needs security designed into its spec and checked in its diff \u2014 classifying data, writing a five-minute STRIDE threat model whose abuse cases become negative acceptance criteria, filling spec Security notes, mapping regulated obligations, applying hardening, secret, dependency and AI-use data rules during Build, or running the 20-item security review lens L3 with secret and dependency scanners (the Specify and Test stages of the Agentic SDLC). Not for the full multi-lens GO or NO-GO review (use multi-axis-code-review), CI gates and branch protection (use deployment-pipeline), or a generic vulnerability pass over pending changes with no spec (the built-in security-review).",
+      "category": "security",
+      "tags": [
+        "agentic-sdlc",
+        "security",
+        "threat-model",
+        "stride",
+        "owasp",
+        "secrets",
+        "supply-chain",
+        "ssdf"
       ],
       "risk": "safe",
       "platforms": [
@@ -273,17 +383,47 @@
     },
     {
       "name": "senior-solution-architect",
-      "version": "2.1.0",
-      "description": "This skill should be used when the user needs to design, review, or document complex software architectures. Use when creating C4 diagrams, writing Architecture Decision Records (ADRs), applying Clean, Hexagonal, or Domain-Driven Design patterns, or conducting system design reviews.",
+      "version": "2.3.0",
+      "description": "This skill should be used when the user needs to design, review or document a software architecture \u2014 comparing two or more materially different designs, shaping deep modules and interfaces, deciding whether a choice needs an Architecture Decision Record and writing it, drawing C4 diagrams, assessing an existing system for bottlenecks or structural friction, or ruling on a design question escalated from a failing loop (the Design stage of the Agentic SDLC). Not for exploring product approaches before a spec exists (use brainstorming), inventorying or migrating legacy code (use codebase-modernization), breaking a spec into plan tasks (use writing-plans), finding a bug's root cause (use systematic-debugging), or web and market research (use deep-research).",
       "category": "architecture",
       "tags": [
+        "agentic-sdlc",
         "architecture",
-        "c4-model",
+        "design-it-twice",
+        "deep-modules",
+        "interface-design",
         "adr",
-        "systems-design",
-        "clean-architecture"
+        "c4-model",
+        "systems-design"
       ],
       "risk": "safe",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "shipping-and-handover",
+      "version": "1.0.0",
+      "description": "This skill should be used when a development branch is finished and must be shipped or handed over \u2014 running the pre-ship checklist, opening the pull request with fingerprint-bound evidence, a before/after pair, a one-way or two-way door call and the rollback line, choosing merge, PR, keep or discard with explicit confirmation, checking docs drift, writing release notes and the runbook, and handing a release to Operate (the end of the Build stage and the Release stage of the Agentic SDLC). Not for producing or auditing test evidence (use verification-gate), CI gates, rollout stages or rollback rehearsal (use deployment-pipeline), or incidents and postmortems (use operations-and-incidents).",
+      "category": "devops",
+      "tags": [
+        "agentic-sdlc",
+        "release",
+        "pull-request",
+        "runbook",
+        "release-notes",
+        "docs-drift",
+        "handover"
+      ],
+      "risk": "medium",
       "platforms": [
         "GitHub Copilot CLI",
         "Claude Code",
@@ -316,16 +456,16 @@
       "triggers": []
     },
     {
-      "name": "storytelling-expert",
-      "version": "2.0.0",
-      "description": "This skill should be used when the user needs to transform ideas, presentations, speeches, or data into persuasive stories using elite storytelling frameworks.",
-      "category": "content",
+      "name": "spec-driven-development",
+      "version": "2.1.0",
+      "description": "This skill should be used when the user needs a written specification before code \u2014 turning an idea, brief, interview or conversation into specs/NNN-slug/spec.md with numbered testable acceptance criteria, measurable non-functional requirements, non-goals, security notes, rollback, release and observability, and an indicator; validating a spec with spec-lint and a doubt pass; revising an approved spec with a delta that states what must not change; splitting an epic into a capability map of module specs; or importing Spec Kit, Kiro, OpenSpec or AI-DLC specs (the Specify stage and Specify sign-off of the Agentic SDLC). Not for exploring options before the problem is agreed (use brainstorming), the threat model (use security-hardening), plan tasks (use writing-plans), or deciding where a change re-enters the cycle (use agentic-sdlc).",
+      "category": "planning",
       "tags": [
-        "storytelling",
-        "narrative",
-        "presentations",
-        "speeches",
-        "frameworks"
+        "agentic-sdlc",
+        "specification",
+        "acceptance-criteria",
+        "requirements",
+        "spec-driven"
       ],
       "risk": "safe",
       "platforms": [
@@ -341,18 +481,19 @@
       "triggers": []
     },
     {
-      "name": "us-program-research",
-      "version": "2.0.0",
-      "description": "This skill should be used when the user needs structured research and ranking of US academic programs (PhD, Master",
-      "category": "research",
+      "name": "systematic-debugging",
+      "version": "1.0.0",
+      "description": "This skill should be used when a test, build or runtime behaviour fails and the cause is not yet proven \u2014 after 3 failed red-green attempts, for a failing or flaky test, a test that passes alone but fails in the full suite, a bug report or production defect that reaches Build, or a fix that did not hold; it builds a tight red loop first, ranks 3\u20135 falsifiable hypotheses, tests them one at a time within the bound of 3 refuted hypotheses, proves the root cause with a regression test, and escalates to the Architect at the bound (the Build stage of the Agentic SDLC, also entered from Test and Operate). Not for running a production incident or deciding a rollback (use operations-and-incidents), or test-first work whose cause is already known (use test-driven-development).",
+      "category": "development",
       "tags": [
-        "us-programs",
-        "university-research",
-        "rankings",
-        "admissions",
-        "scorecards"
+        "agentic-sdlc",
+        "debugging",
+        "root-cause",
+        "regression-test",
+        "flaky-tests",
+        "test-pollution"
       ],
-      "risk": "medium",
+      "risk": "safe",
       "platforms": [
         "GitHub Copilot CLI",
         "Claude Code",
@@ -366,60 +507,100 @@
       "triggers": []
     },
     {
-      "name": "webpage-reader",
+      "name": "test-driven-development",
       "version": "1.0.0",
-      "description": "This skill should be used when the user wants to read, fetch, extract, or analyze the content of a web page from a URL. Use when the user provides a URL to access documentation, articles, blog posts, research papers, release notes, or any online content and needs clean, readable Markdown output without navigation clutter, advertisements, or boilerplate HTML.",
-      "category": "Content",
+      "description": "This skill should be used when implementing a plan task, feature slice or bug fix test-first \u2014 writing the failing test before production code, proving it fails for the right reason, writing the minimal code, refactoring under green, choosing mocks and seams, writing a reproduce-first regression test, pinning untested code with a characterization test before changing it inside a task, or checking that each test would catch a real break (the Build stage of the Agentic SDLC). One task at a time; not for running a whole plan (use executing-plans), acceptance tests designed from the spec (use test-strategy), a failure whose cause is unproven (use systematic-debugging), or characterization tests for a legacy migration (use codebase-modernization).",
+      "category": "development",
       "tags": [
-        "web",
-        "extraction",
-        "markdown",
-        "research",
-        "content",
-        "defuddle",
-        "url"
+        "agentic-sdlc",
+        "tdd",
+        "testing",
+        "red-green-refactor",
+        "mocking",
+        "regression-tests",
+        "mutation-testing"
       ],
-      "risk": "Low",
+      "risk": "safe",
       "platforms": [
-        "All 8"
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "test-strategy",
+      "version": "1.0.0",
+      "description": "This skill should be used when acceptance tests must be designed from an approved spec and ux.md in a context that has not seen the implementation \u2014 mapping each AC-n to a test level and cases, covering UX states, accessibility and non-functional thresholds, proving every test red at the base commit, then running them at the PR head with a verification-gap check and, on the Full path, a time-boxed exploratory session (acceptance-test design after Design sign-off and the Test stage of the Agentic SDLC). Not for unit tests written test-first inside a task (use test-driven-development) or filling and auditing the PR Verification table (use verification-gate).",
+      "category": "quality",
+      "tags": [
+        "agentic-sdlc",
+        "acceptance-tests",
+        "test-design",
+        "accessibility",
+        "non-functional",
+        "exploratory-testing",
+        "e2e"
+      ],
+      "risk": "safe",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
+      ],
+      "triggers": []
+    },
+    {
+      "name": "verification-gate",
+      "version": "1.0.0",
+      "description": "This skill should be used when anyone is about to claim work is done, fixed, passing, ready for review or ready to release, when the PR Verification and Trace sections must be filled or audited, when a PR description or agent report must be checked as testimony, or when the sdlc-dod Definition of Done must be run against a change (the Test stage of the Agentic SDLC, and the evidence rule for every stage). Not for designing tests (use test-strategy), the multi-lens review verdict (use multi-axis-code-review), writing the sdlc-dod block (use project-context), or wiring it into CI (use deployment-pipeline).",
+      "category": "quality",
+      "tags": [
+        "agentic-sdlc",
+        "verification",
+        "evidence",
+        "definition-of-done",
+        "traceability",
+        "code-review",
+        "testing"
+      ],
+      "risk": "safe",
+      "platforms": [
+        "GitHub Copilot CLI",
+        "Claude Code",
+        "OpenAI Codex",
+        "OpenCode",
+        "Gemini CLI",
+        "Antigravity",
+        "Cursor IDE",
+        "AdaL CLI"
       ],
       "triggers": []
     },
     {
       "name": "writing-plans",
-      "version": "2.0.0",
-      "description": "This skill should be used when the user has a spec or requirements for a multi-step task before touching code.",
+      "version": "3.2.0",
+      "description": "This skill should be used when an approved spec or a set of requirements exists and multi-step work has not started \u2014 it turns acceptance criteria into specs/NNN-slug/plan.md with vertical-slice tasks, a plan-graph-validated task graph (graph.json), an impact section from the code map, a self-review, a fresh-context plan review, an AC-to-task coverage check and a Design sign-off request (the Design stage of the Agentic SDLC). Not for choosing a legacy migration strategy or order (use codebase-modernization, whose slices it turns into tasks), comparing architectures (use senior-solution-architect), picking which skills or agents to use (use agent-skill-orchestrator), or executing the plan (use executing-plans).",
       "category": "planning",
       "tags": [
+        "agentic-sdlc",
         "planning",
         "implementation-plan",
+        "task-graph",
         "task-breakdown",
+        "vertical-slices",
+        "design-sign-off",
         "tdd"
-      ],
-      "risk": "safe",
-      "platforms": [
-        "GitHub Copilot CLI",
-        "Claude Code",
-        "OpenAI Codex",
-        "OpenCode",
-        "Gemini CLI",
-        "Antigravity",
-        "Cursor IDE",
-        "AdaL CLI"
-      ],
-      "triggers": []
-    },
-    {
-      "name": "youtube-summarizer",
-      "version": "2.1.0",
-      "description": "This skill should be used when the user needs to extract transcripts from YouTube videos and generate comprehensive, detailed summaries using intelligent analysis frameworks.",
-      "category": "content",
-      "tags": [
-        "video",
-        "summarization",
-        "transcription",
-        "youtube",
-        "content-analysis"
       ],
       "risk": "safe",
       "platforms": [

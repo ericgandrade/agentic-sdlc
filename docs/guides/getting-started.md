@@ -14,7 +14,7 @@ npx claude-superskills
 
 This will automatically:
 - 🔍 Detect your installed platforms (8 supported, from GitHub Copilot CLI to AdaL CLI)
-- 📦 Install the 33 available skills (or the ones you choose)
+- 📦 Install the 23 available skills (or the ones you choose)
 - ✅ Configure for immediate use
 - 🎯 Enable all features
 
@@ -63,16 +63,13 @@ The [Agentic SDLC Guide](agentic-sdlc.md) is a reference for later: stages, sign
 
 ---
 
-## 📦 The 33 Skills
+## 📦 The 23 Skills
 
 | Category | Skills |
 |----------|--------|
 | **Agentic SDLC (20)** | `agentic-sdlc` (router) · Discover: `issue-triage`, `project-context`, `brainstorming` · Specify: `spec-driven-development`, `grill-me`, `codebase-modernization`, `security-hardening` · Design: `senior-solution-architect`, `writing-plans` · Build: `executing-plans`, `test-driven-development`, `systematic-debugging` · Test: `test-strategy`, `verification-gate`, `multi-axis-code-review` · Release: `deployment-pipeline`, `shipping-and-handover` · Operate: `operations-and-incidents`, `retrospective` |
 | **Discovery & orchestration** | `agent-skill-discovery`, `agent-skill-orchestrator` |
-| **Development & automation** | `skill-creator`, `prompt-engineer` |
-| **Strategy** | `mckinsey-strategist` |
-| **Research** | `deep-research`, `us-program-research`, `webpage-reader` |
-| **Content** | `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert` |
+| **Skill creation** | `skill-creator` |
 
 Versions and purposes: [README → Available Skills](../../README.md#-available-skills) and the [Complete Catalog](../../CATALOG.md).
 
@@ -87,7 +84,7 @@ Perfect for getting started:
 ```bash
 npx claude-superskills --bundle essential -y
 ```
-Includes: **agentic-sdlc**, **skill-creator**, **prompt-engineer**, **agent-skill-discovery**, **agent-skill-orchestrator**, **brainstorming**, **writing-plans**, **executing-plans**, **grill-me**
+Includes: **agentic-sdlc**, **skill-creator**, **agent-skill-discovery**, **agent-skill-orchestrator**, **brainstorming**, **writing-plans**, **executing-plans**, **grill-me**
 
 ### Agentic SDLC Bundle
 Router plus 19 stage skills, Discover → Operate:
@@ -96,22 +93,22 @@ npx claude-superskills --bundle agentic-sdlc -y
 ```
 Includes: 20 skills (see the table above)
 
-### Content Bundle
-For video, audio, documents and storytelling:
+### Planning Bundle
+For planning a change before building it:
 ```bash
-npx claude-superskills --bundle content -y
+npx claude-superskills --bundle planning -y
 ```
-Includes: **youtube-summarizer**, **audio-transcriber**, **pptx-translator**, **document-converter**, **storytelling-expert**
+Includes: **brainstorming**, **spec-driven-development**, **project-context**, **writing-plans**, **executing-plans**, **grill-me**, **agent-skill-orchestrator**
 
 ### Other Bundles
-`planning` (7), `research` (5) and `orchestration` (2) — run `npx claude-superskills --list-bundles`.
+`orchestration` (2) — run `npx claude-superskills --list-bundles`.
 
 ### All Skills
 Complete collection:
 ```bash
 npx claude-superskills --bundle all -y
 ```
-Includes: all 33 skills
+Includes: all 23 skills
 
 **See [Bundles Guide](../bundles/bundles.md) for detailed descriptions.**
 
@@ -122,9 +119,9 @@ Includes: all 33 skills
 Can't remember a skill name? Search for it:
 
 ```bash
-npx claude-superskills --search "prompt"
-npx claude-superskills --search "video"
-npx claude-superskills --search "transcription"
+npx claude-superskills --search "plan"
+npx claude-superskills --search "review"
+npx claude-superskills --search "debugging"
 ```
 
 Search works across skill names, descriptions, tags, and categories.

@@ -5,7 +5,7 @@
     "email": "egandrade@gmail.com"
   },
   "metadata": {
-    "description": "33 universal AI skills for Claude Code, led by the Agentic SDLC — a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification — plus planning, orchestration, strategy, research, content processing, document conversion and skill creation"
+    "description": "23 universal AI skills for Claude Code built around the Agentic SDLC: a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification, plus skill creation and orchestration. Research, content and document skills moved to knowledge-superskills."
   },
   "plugins": [
     {
@@ -14,7 +14,7 @@
         "source": "github",
         "repo": "ericgandrade/claude-superskills"
       },
-      "description": "33 universal AI skills for Claude Code, led by the Agentic SDLC — a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification — plus planning, orchestration, strategy, research, content processing, document conversion and skill creation",
+      "description": "23 universal AI skills for Claude Code built around the Agentic SDLC: a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification, plus skill creation and orchestration. Research, content and document skills moved to knowledge-superskills.",
       "author": {
         "name": "Eric Andrade"
       },
@@ -24,27 +24,22 @@
       "keywords": [
         "skills",
         "ai",
-        "automation",
-        "research",
-        "planning",
-        "orchestration",
-        "content",
-        "strategy",
-        "prompt-engineering",
         "agentic-sdlc",
         "sdlc",
         "spec-driven-development",
         "tdd",
-        "code-review"
+        "code-review",
+        "planning",
+        "orchestration",
+        "automation"
       ],
       "category": "productivity",
       "tags": [
         "skills",
-        "research",
+        "agentic-sdlc",
         "planning",
-        "content",
         "orchestration",
-        "agentic-sdlc"
+        "code-review"
       ]
     }
   ]

@@ -2,6 +2,8 @@
 
 Installer, platforms, bundles and the full skill catalog. The project overview is in the [root README](../README.md).
 
+> Research, content and document skills (deep-research, webpage-reader, youtube-summarizer, pptx-translator, document-converter, storytelling-expert and others) moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills).
+
 > `npx claude-superskills` and the install script ship the released version from `main`, which does not include the Agentic SDLC yet.
 
 ## 🚀 Quick Install
@@ -187,7 +189,7 @@ Important:
 
 ---
 
-### Once installed — all 33 skills under the `claude-superskills:` namespace
+### Once installed — all 23 skills under the `claude-superskills:` namespace
 
 ```
 /claude-superskills:agentic-sdlc
@@ -211,25 +213,15 @@ Important:
 /claude-superskills:operations-and-incidents
 /claude-superskills:retrospective
 /claude-superskills:skill-creator
-/claude-superskills:prompt-engineer
 /claude-superskills:agent-skill-discovery
 /claude-superskills:agent-skill-orchestrator
-/claude-superskills:mckinsey-strategist
-/claude-superskills:deep-research
-/claude-superskills:us-program-research
-/claude-superskills:webpage-reader
-/claude-superskills:youtube-summarizer
-/claude-superskills:audio-transcriber
-/claude-superskills:pptx-translator
-/claude-superskills:document-converter
-/claude-superskills:storytelling-expert
 ```
 
 > **npm install still works** for GitHub Copilot, Cursor IDE, Gemini CLI, and 5 other platforms. The plugin format is Claude Code-specific.
 
 ## ✨ Features
 
-- **33 Universal Skills** - Work on all platforms
+- **23 Universal Skills** - Work on all platforms
 - **Agentic SDLC** - 20-skill method from Discover to Operate with human sign-offs, bounded loops and evidence-based verification
 - **Zero-Config Install** - Run once, works everywhere
 - **Curated Bundles** - Install exactly what you need
@@ -275,28 +267,7 @@ Important:
 | Skill | Version | Purpose |
 |-------|---------|---------|
 | **skill-creator** | v2.1.0 | Automate skill creation with guided workflow |
-| **prompt-engineer** | v2.0.0 | Optimize prompts using 11 frameworks (RTF, RISEN, Chain of Thought, etc.) |
 
-### 🧭 Strategy
-| Skill | Version | Purpose |
-|-------|---------|---------|
-| **mckinsey-strategist** | v2.1.0 | Senior strategy consulting with SWOT, VRIO, 7S and First Principles analysis |
-
-### 🔬 Research & Analysis
-| Skill | Version | Purpose |
-|-------|---------|---------|
-| **deep-research** | v2.3.0 | Dense multi-step research workflow with sub-question decomposition, parallel agents, frontier-model recommendation, evidence ledger, citations, and confidence/gap analysis |
-| **us-program-research** | v2.0.0 | Structured US academic program research, ranking, and application action-plan generation |
-| **webpage-reader** | v1.0.0 | Extract clean Markdown from any URL using the Defuddle CLI. Supports metadata-only mode, batch URLs, and saving output to file |
-
-### 📝 Content Processing
-| Skill | Version | Purpose |
-|-------|---------|---------|
-| **youtube-summarizer** | v2.1.0 | Extract YouTube transcripts and generate comprehensive summaries |
-| **audio-transcriber** | v2.1.0 | Transform audio recordings into professional Markdown documentation |
-| **pptx-translator** | v2.8.0 | Translate PowerPoint presentations between languages with batched parallel translation, group shape support, and per-slide self-validation |
-| **document-converter** | v1.0.0 | Convert Office documents to PDF, perform PDF operations (merge, split, rotate, encrypt, OCR) using local free tools — LibreOffice, ghostscript, pdftk, tesseract, imagemagick |
-| **storytelling-expert** | v2.0.0 | Transform ideas into engaging narratives using 8 elite storytelling frameworks |
 
 ## 🎯 Curated Bundles
 
@@ -307,14 +278,8 @@ npx claude-superskills --bundle essential -y
 # Agentic SDLC (router + 19 stage skills, Discover → Operate)
 npx claude-superskills --bundle agentic-sdlc -y
 
-# Content Creation (video & audio)
-npx claude-superskills --bundle content -y
-
 # Planning & Execution
 npx claude-superskills --bundle planning -y
-
-# Research & Analysis
-npx claude-superskills --bundle research -y
 
 # Discovery & Orchestration
 npx claude-superskills --bundle orchestration -y
@@ -328,8 +293,8 @@ See [Bundles Guide](bundles/bundles.md) for details.
 ## 🔍 Search Skills
 
 ```bash
-npx claude-superskills --search "prompt"
-npx claude-superskills --search "video"
+npx claude-superskills --search "plan"
+npx claude-superskills --search "review"
 ```
 
 ## 🚀 Quick Start Examples
@@ -365,11 +330,8 @@ claude  # or: gh copilot, gemini, opencode, codex, cursor
 # Create a new skill
 gh copilot -p "create a skill for PDF processing"
 
-# Optimize a prompt
-claude -p "improve this prompt: create REST API"
-
-# Process content
-gh copilot -p "transcribe this audio file: meeting.mp3"
+# Review a change
+claude -p "review this branch on all five axes"
 
 # Orchestrate complex tasks
 gemini -p "design a solution for processing meeting notes and creating Jira tickets"
@@ -479,13 +441,11 @@ MIT - See [LICENSE](../LICENSE) for details.
 
 Choose a bundle that fits your workflow:
 
-- **[Essential](bundles/bundles.md#essential)** - agentic-sdlc, skill-creator, prompt-engineer, agent-skill-discovery, agent-skill-orchestrator, brainstorming, writing-plans, executing-plans, grill-me
+- **[Essential](bundles/bundles.md#essential)** - agentic-sdlc, skill-creator, agent-skill-discovery, agent-skill-orchestrator, brainstorming, writing-plans, executing-plans, grill-me
 - **[Agentic SDLC](bundles/bundles.md#agentic-sdlc)** - router + 19 stage skills, Discover → Operate
 - **[Planning](bundles/bundles.md#planning)** - brainstorming, spec-driven-development, project-context, writing-plans, executing-plans, grill-me, agent-skill-orchestrator
-- **[Research](bundles/bundles.md#research)** - deep-research, us-program-research, senior-solution-architect, webpage-reader, prompt-engineer
-- **[Content](bundles/bundles.md#content)** - youtube-summarizer, audio-transcriber, pptx-translator, document-converter, storytelling-expert
 - **[Orchestration](bundles/bundles.md#orchestration)** - agent-skill-discovery, agent-skill-orchestrator
-- **[All](bundles/bundles.md#all)** - Complete 33-skill toolkit
+- **[All](bundles/bundles.md#all)** - Complete 23-skill toolkit
 
 See [detailed comparison](bundles/bundles.md#bundle-comparison).
 
@@ -499,7 +459,8 @@ See [detailed comparison](bundles/bundles.md#bundle-comparison).
 
 | Package | Skills | Focus | Install |
 |---------|--------|-------|---------|
-| **claude-superskills** | 33 | Core: Agentic SDLC, orchestration, planning, research & content | `npx claude-superskills` |
+| **claude-superskills** | 23 | Core: Agentic SDLC, skill creation, discovery & orchestration | `npx claude-superskills` |
+| [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills) | 10 | Research, content, documents, strategy & prompts | Claude Code plugin (no npm package yet) |
 | [obsidian-superskills](https://github.com/ericgandrade/obsidian-superskills) | 6 | Obsidian knowledge management | `npx obsidian-superskills` |
 | [career-superskills](https://github.com/ericgandrade/career-superskills) | 20 | Job search & career development | `npx career-superskills` |
 | [product-superskills](https://github.com/ericgandrade/product-superskills) | 8 | Product management & GTM strategy | `npx product-superskills` |

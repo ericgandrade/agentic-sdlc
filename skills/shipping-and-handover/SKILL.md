@@ -36,7 +36,7 @@ Not for:
 - CI gates, deployment strategies, running a rehearsal or a rollout stage → `deployment-pipeline`.
 - Incidents, alerts in production, postmortems → `operations-and-incidents`; the retro → `retrospective`.
 - Implementing a task → `executing-plans` and `test-driven-development`.
-- File format conversion of finished notes → `document-converter`.
+- File format conversion of finished notes → `document-converter` (knowledge-superskills, when installed).
 
 ## Workflow
 

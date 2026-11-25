@@ -5,7 +5,7 @@
 #
 # Usage:
 #   ./scripts/optimize-all-skills.sh                    # Run all skills
-#   ./scripts/optimize-all-skills.sh --skill deep-research  # Run one skill
+#   ./scripts/optimize-all-skills.sh --skill agentic-sdlc  # Run one skill
 #   ./scripts/optimize-all-skills.sh --evals-only       # Skip trigger-eval, only evals.json
 #   ./scripts/optimize-all-skills.sh --trigger-only     # Only run trigger-eval.json
 

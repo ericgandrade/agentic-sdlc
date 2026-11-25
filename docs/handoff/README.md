@@ -113,7 +113,7 @@ Can wait (behaviour is defined, only friction or polish): F07 (new 1-commit repo
 
 ## Known open items
 
-- E.1 residual overlaps: `operations-and-incidents` and `deployment-pipeline` (rollout wording); `test-driven-development` and `codebase-modernization` (characterization tests). `document-converter` has no trigger eval.
+- E.1 residual overlaps: `operations-and-incidents` and `deployment-pipeline` (rollout wording); `test-driven-development` and `codebase-modernization` (characterization tests). (`document-converter`, which had no trigger eval, moved to knowledge-superskills.)
 - `graphify` is not installed on this machine, so `graphify-out/` was not updated.
 - The previous session's state lives outside the repo, under `~/.copilot/session-state/`. Do not resume it in parallel with work on this branch: both would write to the same working tree. Its process (PID 49820) was still open on 2026-11-25; close it first.
 - F18 was re-tested on 2026-11-25 (dogfood report §7): all checks pass.

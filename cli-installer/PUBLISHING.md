@@ -98,7 +98,7 @@ claude-superskills doctor
 claude-superskills list
 
 # Test skills installation
-claude-superskills install prompt-engineer --yes
+claude-superskills install skill-creator --yes
 
 # Check installed skills
 claude-superskills list
@@ -107,7 +107,7 @@ claude-superskills list
 claude-superskills update --yes
 
 # Uninstall skill
-claude-superskills uninstall prompt-engineer
+claude-superskills uninstall skill-creator
 
 # Uninstall CLI
 npm uninstall -g claude-superskills

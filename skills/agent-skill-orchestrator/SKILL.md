@@ -57,7 +57,7 @@ Display progress before each orchestration phase:
 - Optimized prompts → precise requirements → high-confidence plans
 - Reduces planning iterations and "Refine plan" cycles
 
-**Prompt Quality Check:** Before planning, assess whether the user request is specific enough to yield accurate resource matching. If the request is fewer than 20 words, lacks a clear action verb or goal, or uses only ambiguous references ("this", "it", "that") without context, invoke `prompt-engineer` to refine it first. A well-refined request improves confidence scores by 20–30% and reduces planning iterations. Proceed directly if the request is already clear.
+**Prompt Quality Check:** Before planning, assess whether the user request is specific enough to yield accurate resource matching. If the request is fewer than 20 words, lacks a clear action verb or goal, or uses only ambiguous references ("this", "it", "that") without context, invoke `prompt-engineer` (knowledge-superskills) to refine it first when it is installed; otherwise ask one clarifying question. A well-refined request improves confidence scores by 20–30% and reduces planning iterations. Proceed directly if the request is already clear.
 
 **Impact on Planning:**
 - ✅ Confidence scores increase 20-30%
@@ -397,7 +397,7 @@ Display progress during execution:
 ### **ALWAYS:**
 
 - ✅ Assess prompt quality before planning (Step -1) - NEW in v1.1.0
-- ✅ Call prompt-engineer if quality score < 50% for optimal results
+- ✅ Call prompt-engineer (when installed) if quality score < 50% for optimal results
 - ✅ Start with fresh discovery (Step 0) on every invocation
 - ✅ Show confidence scores with reasoning for all recommendations
 - ✅ Provide multiple options (Option 1, Option 2) when feasible

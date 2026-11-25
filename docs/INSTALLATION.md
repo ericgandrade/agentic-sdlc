@@ -417,9 +417,9 @@ ls -la ~/.codex/skills/
 
 # You should see symlinks to:
 # - skill-creator
-# - prompt-engineer
-# - youtube-summarizer
-# - audio-transcriber
+# - agentic-sdlc
+# - brainstorming
+# - writing-plans
 ```
 
 **If skills are missing:**
@@ -448,9 +448,9 @@ git clone https://github.com/ericgandrade/claude-superskills.git
 # Create symlinks manually
 cd ~/.codex/skills
 ln -s /path/to/claude-superskills/skills/skill-creator skill-creator
-ln -s /path/to/claude-superskills/skills/prompt-engineer prompt-engineer
-ln -s /path/to/claude-superskills/skills/youtube-summarizer youtube-summarizer
-ln -s /path/to/claude-superskills/skills/audio-transcriber audio-transcriber
+ln -s /path/to/claude-superskills/skills/agentic-sdlc agentic-sdlc
+ln -s /path/to/claude-superskills/skills/brainstorming brainstorming
+ln -s /path/to/claude-superskills/skills/writing-plans writing-plans
 ```
 
 ---

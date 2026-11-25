@@ -100,7 +100,7 @@ The installer handles copying skills into each platform's global skill directory
 ## Example
 
 ```text
-skills/prompt-engineer/
+skills/skill-creator/
   SKILL.md
   README.md
 ```
