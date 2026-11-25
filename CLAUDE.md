@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **The Agentic SDLC Method** (repository `agentic-sdlc`, formerly `claude-superskills`) is a software delivery method packaged as AI skills for **8 AI platforms**: GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI. Skills are Markdown-based workflow specifications (`SKILL.md`) that teach AI agents how to perform specific tasks.
 
-- **npm package**: `agentic-sdlc-method` (v3.0.0; named `claude-superskills` up to v2.0.8, which is deprecated in its favour) — `npx agentic-sdlc-method` — **23 skills**: the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`) plus `skill-creator`, `agent-skill-discovery` and `agent-skill-orchestrator`
+- **npm package**: `agentic-sdlc-method` (v3.0.1; named `claude-superskills` up to v2.0.8, which is deprecated in its favour) — `npx agentic-sdlc-method` — **23 skills**: the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`) plus `skill-creator`, `agent-skill-discovery` and `agent-skill-orchestrator`
 - **Claude Code plugin**: name `agentic-sdlc` (skills appear as `/agentic-sdlc:<skill>`); `claude --plugin-dir ./agentic-sdlc` — native plugin, no npm needed. Plugin names may not start with `claude-` (`claude plugin validate`)
 - **GitHub**: `https://github.com/ericgandrade/agentic-sdlc` (renamed from `claude-superskills` on 2026-11-25; GitHub redirects the old URL). The npm package is `agentic-sdlc-method` (`agentic-sdlc` is taken on npm by another author); the cache folder stays `~/.claude-superskills/`. `cli-installer/lib/core/downloader.js` `REPO_NAME` must equal the GitHub repo name: the release zip's top folder is `<repo>-<version>/`
 - **Old package** `cli-ai-skills` is deprecated, redirects to this one
@@ -460,7 +460,7 @@ Skills that interact with project structure should include a discovery phase tha
 
 ## Version Management
 
-The package version is defined in `cli-installer/package.json` (currently **v3.0.0**).
+The package version is defined in `cli-installer/package.json` (currently **v3.0.1**).
 `.claude-plugin/plugin.json` `"version"` must always match `package.json` exactly.
 
 - `cli-installer/package.json` — source of truth for npm version
@@ -498,7 +498,7 @@ Do not skip any of these steps when bumping the version.
    # It must be updated whenever: skill count changes, MCP servers are added/removed,
    # supported platforms change, or the product positioning changes.
    # Failure to update it leaves stale metadata visible to all visitors.
-   gh repo edit --description "Agentic SDLC: a software delivery method for AI agents with 7 stages, 13 agents, 4 human sign-offs and evidence-based verification. 23 skills for Claude Code, GitHub Copilot and 6 more platforms."
+   gh repo edit --description "The Agentic SDLC Method: AI-native software delivery. Agent-driven, human-governed, evidence-verified. 13 agents, 23 skills, 7 stages, 4 human sign-offs. Vendor-agnostic: Claude Code, GitHub Copilot and 6 more tools." --homepage "https://www.npmjs.com/package/agentic-sdlc-method"
    gh repo edit --add-topic "claude-code,github-copilot,ai-skills,skills,agentic-sdlc,sdlc,spec-driven-development,tdd,code-review,ai-agents,agents,cli,automation,generative-ai,llm,anthropic,openai-codex,cursor-ide,gemini-cli,workflow-automation"
    ```
 6. **Generate Claude Desktop Plugin Package:**

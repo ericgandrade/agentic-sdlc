@@ -6,6 +6,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [3.0.1] - 2026-11-25
+
+### Fixed
+- Installer: the Claude Cowork package step built its GitHub URL from the npm package name (`agentic-sdlc-method`) instead of the repository name (`agentic-sdlc`), so `npx agentic-sdlc-method` ended with "Request failed with status code 404" on machines with Claude Cowork. `lib/cowork.js` now reads the repository name from `lib/core/downloader.js`. Skills were installed correctly before the error.
+
+
+
 ## [3.0.0] - 2026-11-25
 
 ### Fixed

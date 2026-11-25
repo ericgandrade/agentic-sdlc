@@ -64,6 +64,16 @@ const monthYear = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numer
 readme = readme.replace(new RegExp(`\\*Version ${oldVersion.replace(/\./g, '\\.')} \\| [^*]+\\*`, 'g'), `*Version ${newVersion} | ${monthYear}*`);
 fs.writeFileSync(readmePath, readme);
 
+// 4b. Update cli-installer/README.md (title and version badge)
+const cliReadmePath = path.join(rootDir, 'cli-installer', 'README.md');
+if (fs.existsSync(cliReadmePath)) {
+    console.log(`- Updating cli-installer/README.md...`);
+    let cliReadme = fs.readFileSync(cliReadmePath, 'utf8');
+    cliReadme = cliReadme.replace(new RegExp(`^(# [^\\n]*?)v${escapedOld}\\b`, 'm'), `$1v${newVersion}`);
+    cliReadme = cliReadme.split(`badge/version-${oldVersion}-`).join(`badge/version-${newVersion}-`);
+    fs.writeFileSync(cliReadmePath, cliReadme);
+}
+
 // 5. Update CLAUDE.md
 console.log(`- Updating CLAUDE.md...`);
 let claudeMd = fs.readFileSync(claudeMdPath, 'utf8');

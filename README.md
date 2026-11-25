@@ -1,9 +1,9 @@
 <h1 align="center">The Agentic SDLC Method</h1>
 
-<p align="center"><b>v3.0.0</b> · Open Source · MIT License · Vendor-Agnostic</p>
+<p align="center"><b>v3.0.1</b> · Open Source · MIT License · Vendor-Agnostic</p>
 
 <p align="center">
-  <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.0-blue.svg">
+  <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.1-blue.svg">
   <img alt="Open source" src="https://img.shields.io/badge/open%20source-yes-1d3fbf.svg">
   <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-green.svg">
   <img alt="Vendor-agnostic" src="https://img.shields.io/badge/vendor-agnostic-1d3fbf.svg">
@@ -249,4 +249,4 @@ MIT. Ideas and adapted content from other projects are credited in [THIRD_PARTY_
 
 ---
 
-*Version 3.0.0 | November 2026*
+*Version 3.0.1 | November 2026*
