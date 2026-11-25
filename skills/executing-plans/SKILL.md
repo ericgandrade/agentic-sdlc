@@ -138,7 +138,7 @@ Then `run-ledger task --run r1 --task T3 --state done --commit <sha>` (refused w
 ### Step 6 — Finish the branch
 
 1. Every task `done` (or closed by a `split`, `handover` or `drop` ruling) → run the full DoD once more on the final tree; stale evidence (fingerprint differs) is re-run, never reused.
-2. `run-ledger finish --run r1` → `DONE` (exit 0) · `BLOCKED` (exit 1) · `NEEDS_HUMAN` (exit 3); commit the archived `specs/NNN-slug/run-ledger.jsonl` as `chore: archive run ledger r1`.
+2. `run-ledger finish --run r1` → `DONE` (exit 0) · `BLOCKED` (exit 1) · `NEEDS_HUMAN` (exit 3); commit the archived `specs/NNN-slug/run-ledger.jsonl` as `chore: archive run ledger r1`. After `finish` the run accepts only Test-stage `round --task PR --loop review-fix` and its rulings; each re-archives the ledger.
 3. Write the PR body from `../agentic-sdlc/templates/pr-body.md`: Summary, Verification (one row per AC: command, exit code, fingerprint; `CANNOT_VERIFY` rows), Trace, the full `run-ledger render --run r1` table under `### Loop ledger` (rulings and halts included), `DONE_WITH_CONCERNS` items under `## Review triage`, every `self-review` label, Waivers.
 4. Attended: push the feature branch and open the PR only after the human says so. Never merge into the default branch, deploy or tag. `at/NNN-slug` joins the feature branch in the Test stage, once green (`../agentic-sdlc/references/verification.md` §2). Hand off to the Test stage (`multi-axis-code-review`); its findings return in receive mode as review-fix rounds on the task they cite.
 5. Report: PR link or branch, run result, tasks done, failed rounds per loop, rulings, open concerns. Clean up worktrees only after the rulings and evidence are in the PR (`references/resume-and-isolation.md` §7).

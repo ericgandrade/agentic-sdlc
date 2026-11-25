@@ -331,6 +331,14 @@ test('finish writes result.json and archives the ledger next to the spec', () =>
   assert.deepEqual(result.tasks.map((t) => t.state), ['done', 'done', 'done']);
   assert.ok(existsSync(join(dir, 'specs/001-demo/run-ledger.jsonl')));
   assert.equal(rl('task', '--run', 'r1', '--task', 'T1', '--state', 'started').code, 1, 'finished run is closed');
+  // Test-stage review-fix rounds on the PR are still recorded after finish (F22) and re-archived.
+  assert.equal(fail(rl, 'T1', 'review-fix', 'F-T1-1 x', 'initial').code, 1, 'task review-fix after finish is refused');
+  const pr = fail(rl, 'PR', 'review-fix', 'F-PR-1 unescaped name', 'initial implementation');
+  assert.equal(pr.code, 0, pr.out + pr.err);
+  assert.equal(rl('round', '--run', 'r1', '--task', 'PR', '--loop', 'review-fix', '--result', 'pass').code, 0);
+  const archived = loadLedger(join(dir, 'specs/001-demo/run-ledger.jsonl'));
+  assert.deepEqual(archived.slice(-2).map((e) => [e.type, e.task, e.result]), [['round', 'PR', 'fail'], ['round', 'PR', 'pass']], 'archive holds the post-finish rounds');
+  assert.equal(rl('finish', '--run', 'r1').code, 1, 'finish stays one-shot');
 });
 
 test('finish reports NEEDS_HUMAN on a pending ruling or a non-budget halt and BLOCKED on unfinished tasks', () => {

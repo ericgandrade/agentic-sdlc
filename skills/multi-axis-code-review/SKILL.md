@@ -38,7 +38,7 @@ Modes: **request** (a full round, Steps 0–8 and 10), **re-review** (Step 9), *
 
 1. **Pin the range.** Base = `git merge-base <target-branch> HEAD`; head = `git rev-parse HEAD`. Diff with three dots (`git diff <target>...HEAD`) so later commits on the target branch do not look reverted. A bad ref or an empty diff stops here with `NEEDS_CONTEXT`, before any lens is dispatched.
 2. **Find the artifacts.** Spec folder from commit trailers (`[Tn, AC-n]`, `Refs:`), the PR body header, or the branch name matched against `specs/NNN-slug/`. Read the Path line (`Quick | Standard | Full`, S and R) from the spec header or the PR body. Quick items have no `specs/` folder: the acceptance test in the issue is the spec.
-3. **Check entry conditions.** DoD green on the head commit, Verification rows fresh (fingerprint equals the current fingerprint, `../agentic-sdlc/references/verification.md` §4), Specify and Design sign-offs valid on Standard/Full (`node skills/agentic-sdlc/scripts/preflight.mjs` or `spec-lint --check-approval` and `plan-graph --check-approval`). Stale or missing evidence → `BLOCKED: evidence stale`; spec or acceptance tests missing → `NEEDS_CONTEXT`.
+3. **Check entry conditions.** DoD green on the head commit, Verification rows fresh (fingerprint equals the current fingerprint, `../agentic-sdlc/references/verification.md` §4), Specify and Design sign-offs valid on Standard/Full (`node <scripts>/preflight.mjs` or `spec-lint --check-approval` and `plan-graph --check-approval`). Stale or missing evidence → `BLOCKED: evidence stale`; spec or acceptance tests missing → `NEEDS_CONTEXT`.
 4. **Read the round count** from the PR `### Rounds` table (or the run ledger). Round 4 would be needed → stop and escalate (Step 8.4); never start a fourth round.
 5. **Size the diff** without lockfiles and generated files. Over 1,000 changed lines → split the lens input by file group (each lens reads all groups in one context, in order) and add a Review guide line suggesting a split for future work. Size alone is never a finding.
 6. **Run the weakened-bar scan** once (`references/weakened-bar-guard.md` §Scan). Its raw hits go into the L1 and L2 packages; the lenses judge them.
@@ -130,12 +130,12 @@ Rating rules: two severities fit → take the higher. Grade by effect on the use
 
 1. **Default NO-GO.** GO requires all of: every AC has a fresh passing Verification row or a waived `CANNOT_VERIFY`; the Trace has no orphans; 0 open Critical (each `fixed`, or `rejected` with the human reviewer's ruling recorded); every other confirmed finding has a disposition (Important deferred only with owner acceptance); every required lens ran or is waived.
 2. **Write the PR sections** per `../agentic-sdlc/templates/pr-body.md`: Lenses table (context, every check performed, findings raised, status), Findings table (one row per F-n), Rounds row, and the GO conditions. No praise, no statements about the author's effort. "LGTM" or GO without the per-lens check list is treated as NO-GO. Without a PR host the record is `specs/NNN-slug/review.md` with the same sections.
-3. **Record the round.** When a run exists:
+3. **Record the round.** When a run exists (`<scripts>` = `.agentic-sdlc/bin/` when vendored, else `skills/agentic-sdlc/scripts/`; lookup order in skill `executing-plans` Step 0):
    ```bash
-   node skills/agentic-sdlc/scripts/run-ledger.mjs round --run r1 --task PR --loop review-fix --result fail \
+   node <scripts>/run-ledger.mjs round --run r1 --task PR --loop review-fix --result fail \
      --signature 'F-1 Critical export.ts:40 header injection' --cause code --tried 'as built at e55a417'
    ```
-   Use `--task Tn` when every open finding names one task. Later rounds list the fixes in `--tried`. Without Node, add the row to `plan.md` `## Loop ledger` by hand.
+   At the Test stage the Build run is already finished; `run-ledger` accepts only `--task PR` review-fix rounds and rulings after `finish` and re-archives `specs/NNN-slug/run-ledger.jsonl` (commit it with the fix). Later rounds list the fixes in `--tried`. Without Node, add the row to `plan.md` `## Loop ledger` by hand.
 4. **Bound.** Round 3 ends with a Critical open → `ESCALATE` to the Tech Lead (breaker B4) with a ruling requested on every open finding; allowed rulings `reroute`, `handover`, `drop`. `run-ledger` exits 3 at the bound. Never weaken a test, threshold or check to reach GO.
 5. **Report** with the contract in `../agentic-sdlc/references/agents.md`: `DONE` verdict issued · `DONE_WITH_CONCERNS` GO with owner-accepted Important findings · `BLOCKED` evidence stale · `NEEDS_CONTEXT` spec or acceptance tests missing · `CANNOT_VERIFY` a lens did not run. The Reviewer never edits code, tests, specs or plans; a Reviewer that edits becomes an author and is replaced for that round.
 

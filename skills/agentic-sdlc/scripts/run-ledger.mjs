@@ -501,8 +501,11 @@ function open(flags) {
   return { id, root, path, events, st: deriveState(events) };
 }
 
-function guardOpen(ctx, out) {
-  if (ctx.st.finish) return out({ ok: false, code: EXIT.FAIL, lines: [`run ${ctx.id} is finished (${ctx.st.finish.status})`] });
+// Test-stage review-fix rounds on the PR come after the Build run finishes; they stay recordable.
+const prReview = (flags) => String(flags.task) === 'PR' && (flags.loop === undefined || String(flags.loop) === 'review-fix');
+
+function guardOpen(ctx, out, { afterFinish = false } = {}) {
+  if (ctx.st.finish && !afterFinish) return out({ ok: false, code: EXIT.FAIL, lines: [`run ${ctx.id} is finished (${ctx.st.finish.status})`] });
   if (ctx.st.halt) {
     return out({ ok: false, code: EXIT.BOUND, lines: [`HALTED (${ctx.st.halt.reason}): ${ctx.st.halt.detail}`, `status NEEDS_HUMAN · a human resumes with: run-ledger resume --run ${ctx.id} --ack "<name>: <decision>"`] });
   }
@@ -511,6 +514,7 @@ function guardOpen(ctx, out) {
 
 function haltNow(ctx, reason, detail, out, extra = []) {
   const e = appendEvent(ctx.path, ctx.events, { type: 'halt', reason, detail });
+  if (ctx.st.finish) rearchive(ctx);
   return out({
     ok: false, code: EXIT.BOUND, result: { halt: e },
     lines: [...extra, `HALT ${reason}: ${detail}`, `run status NEEDS_HUMAN${reason === 'budget' ? ' (result BLOCKED: budget)' : ''} · stop now; report to a human`],
@@ -639,7 +643,7 @@ function cmdRed(flags, out) {
 
 function cmdRound(flags, out) {
   const ctx = open(flags);
-  const blocked = guardOpen(ctx, out);
+  const blocked = guardOpen(ctx, out, { afterFinish: prReview(flags) });
   if (blocked !== null) return blocked;
   const id = need(flags, 'task');
   const loop = need(flags, 'loop', Object.keys(LOOP_BOUNDS).join(' | '));
@@ -653,7 +657,7 @@ function cmdRound(flags, out) {
   if (id !== 'PR' && t.state !== 'started' && !reviewable) return out({ ok: false, code: EXIT.FAIL, lines: [`${id} is ${t.state}, not started${loop === 'review-fix' ? ' or done' : ''}`] });
   if (t.escalation) return out({ ok: false, code: EXIT.BOUND, lines: [`${id} awaits a ruling on ${t.escalation.breaker} (${t.escalation.why}); no further rounds`] });
   if (loop === 'red-green' && t.inDebug) return out({ ok: false, code: EXIT.BOUND, lines: [`${id}: red-green bound reached; run the debug loop until a test proves the root cause`] });
-  if (!ctx.st.preflightFresh) return out({ ok: false, code: EXIT.FAIL, lines: [`no passing preflight since the last start/resume/env failure; run preflight --run ${ctx.id}`] });
+  if (!ctx.st.finish && !ctx.st.preflightFresh) return out({ ok: false, code: EXIT.FAIL, lines: [`no passing preflight since the last start/resume/env failure; run preflight --run ${ctx.id}`] });
   const g = budgetGuard(ctx, out);
   if (g !== null) return g;
   const fields = { type: 'round', task: id, loop, result, ...counters(flags) };
@@ -674,6 +678,7 @@ function cmdRound(flags, out) {
   if (verdict?.transition) fields.transition = verdict.transition;
   else if (verdict) fields.escalation = verdict;
   const e = appendEvent(ctx.path, ctx.events, fields);
+  if (ctx.st.finish) rearchive(ctx);
   const st = deriveState(ctx.events);
   const tt = st.tasks.get(id);
   const lines = [`${id} ${loop} round ${e.round}: ${result}${e.cause ? ` · cause ${e.cause} → ${ROUTES[e.cause]}` : ''}`];
@@ -693,7 +698,7 @@ function cmdRound(flags, out) {
 
 function cmdRuling(flags, out) {
   const ctx = open(flags);
-  if (ctx.st.finish) return out({ ok: false, code: EXIT.FAIL, lines: ['run is finished'] });
+  if (ctx.st.finish && !prReview(flags)) return out({ ok: false, code: EXIT.FAIL, lines: ['run is finished; only PR review-fix rounds and rulings are recorded after finish'] });
   const id = need(flags, 'task');
   const t = ctx.st.tasks.get(id);
   if (!t || !t.escalation) return out({ ok: false, code: EXIT.FAIL, lines: [`${id} has no open escalation`] });
@@ -703,6 +708,7 @@ function cmdRuling(flags, out) {
   const by = need(flags, 'by', '"<role: name>" of the human ruling');
   const note = decision === 'continue' ? need(flags, 'note', 'the new approach') : (flags.note ? String(flags.note) : '');
   const e = appendEvent(ctx.path, ctx.events, { type: 'ruling', task: id, breaker: t.escalation.breaker, decision, by, note });
+  if (ctx.st.finish) rearchive(ctx);
   return out({ ok: true, result: { event: e }, lines: [`${id} ruling ${decision} by ${by} on ${e.breaker}`] });
 }
 
@@ -854,6 +860,12 @@ function cmdRender(flags, out) {
   const { events } = loadFor(flags);
   const table = renderTable(events);
   return out({ ok: true, result: { markdown: table }, lines: [table] });
+}
+
+// After finish, keep specs/NNN-slug/run-ledger.jsonl equal to the live ledger.
+function rearchive(ctx) {
+  const archive = join(ctx.root, dirname(ctx.st.start.plan), 'run-ledger.jsonl');
+  if (existsSync(archive)) copyFileSync(ctx.path, archive);
 }
 
 function cmdFinish(flags, out) {

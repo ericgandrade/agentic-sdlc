@@ -130,7 +130,7 @@ On platforms with subagents, dispatch `prompts/claims-auditor.md` to a fresh con
 Fill `## Trace` with one row per AC and an `Orphans` line (procedure and examples: `references/two-way-gap-check.md`):
 
 - **Forward (untested requirements):** every AC has ≥ 1 task, ≥ 1 commit and ≥ 1 test with a fresh passing row, or a waived `CANNOT_VERIFY`.
-- **Backward (unrequested code):** every task names ≥ 1 AC; every commit names ≥ 1 `T-n` (Quick: `AC-n`) through `Refs: Tn AC-n` or `[Tn, AC-n]`; every cited AC ID exists in the spec; every changed file belongs to a task's `Files` list (Quick: `n/a — Quick`); every behaviour the diff adds serves an AC. Behaviour no AC asks for → L1 Important finding, scope outside the approved spec.
+- **Backward (unrequested code):** every task names ≥ 1 AC; every code commit names ≥ 1 `T-n` (Quick: `AC-n`) through `Refs: Tn AC-n` or `[Tn, AC-n]` (artifact-only commits are exempt, `../agentic-sdlc/references/verification.md` §5); every cited AC ID exists in the spec; every changed file belongs to a task's `Files` list (Quick: `n/a — Quick`); every behaviour the diff adds serves an AC. Behaviour no AC asks for → L1 Important finding, scope outside the approved spec.
 
 Any orphan → NO-GO until resolved by the rule in the orphan table of the reference. When `scripts/trace-check.mjs` exists, its output replaces the manual matrix and its exit 1 is a NO-GO.
 

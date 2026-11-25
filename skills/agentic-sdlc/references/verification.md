@@ -102,7 +102,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 |---|---|
 | Artifact | PR `## Trace` matrix and `Orphans` list (`templates/pr-body.md`) |
 | Trigger | Before the Reviewer issues GO; repeated before the Test sign-off request when commits were added |
-| Rule | Forward: every AC has ≥ 1 task and ≥ 1 test with a fresh passing row (or a waived `CANNOT_VERIFY`). Backward: every task names ≥ 1 AC; every commit on the branch names ≥ 1 Tn; every AC ID cited in a task, commit or test exists in the spec |
+| Rule | Forward: every AC has ≥ 1 task and ≥ 1 test with a fresh passing row (or a waived `CANNOT_VERIFY`). Backward: every task names ≥ 1 AC; every code commit on the branch names ≥ 1 Tn; every AC ID cited in a task, commit or test exists in the spec |
 | Output | One matrix row per AC: `AC-n · tasks · commits · tests · Verification rows · status`; an `Orphans` list (`none` when empty) |
 | Failure | Any orphan → NO-GO until resolved as below |
 
@@ -110,7 +110,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 
 1. ACs: the `AC-n` IDs in `spec.md` (Quick: in the issue).
 2. Tasks: the `## Tasks` rows of `plan.md` and their AC column.
-3. Commits: `git log --format='%h%x09%s%x09%(trailers:key=Refs,valueonly,separator=%x20)' <base>..HEAD`; the bracket form `[T3, AC-2]` in the subject also counts.
+3. Commits: `git log --format='%h%x09%s%x09%(trailers:key=Refs,valueonly,separator=%x20)' <base>..HEAD`; the bracket form `[T3, AC-2]` in the subject also counts. **Artifact commits are exempt from the Tn rule:** a `docs:`, `chore:` or `test:` commit whose files are all method artifacts (`docs/issues/**`, `docs/reviews/**`, `specs/NNN-slug/**`, `.agentic-sdlc/**`) or acceptance-test files listed in `acceptance-tests.md`. Examples: issue, spec, approval register, threat model, acceptance tests (`Refs: AC-n`), `chore: archive run ledger r1`, review record. List them in the matrix as `artifact`; a commit that also touches other files is a code commit.
 4. Tests: search the test directories for `AC-[0-9]+` in test names; match each to its Verification row.
 5. Fill the matrix; list every orphan with its kind.
 
@@ -119,7 +119,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 | AC without a task | Back to Design: add the task; Design sign-off re-opens |
 | AC without a passing test | Back to the Test Engineer for the test, then a fresh row |
 | Task without an AC | Remove the task, or run the change protocol (`references/rules.md`) to add the AC |
-| Commit without a Tn | Reword the commit on the feature branch before merge (`git rebase -i <base>`, `reword`); the default branch is never rewritten |
+| Code commit without a Tn | Reword the commit on the feature branch before merge (`git rebase -i <base>`, `reword`); the default branch is never rewritten |
 | Changed file or behaviour that no task and no AC asks for | L1 Important finding: remove it, or run the change protocol to add the AC and the task |
 | Unknown AC ID in a task, commit or test | Fix the reference; an ID cited with no spec AC behind it is scope outside the approved spec → L1 Important finding |
 
