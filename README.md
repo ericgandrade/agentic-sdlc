@@ -9,6 +9,55 @@ Scale AI-assisted engineering with a reusable skill platform that turns ad-hoc p
 ![Skills](https://img.shields.io/badge/skills-33-brightgreen.svg)
 ![Platforms](https://img.shields.io/badge/platforms-8-orange.svg)
 
+## 🧭 Agentic SDLC: the new way to develop with agents
+
+> **Status: in progress on branch `claude/agentic-sdlc-handoff`, not released.** `main` and `npx claude-superskills` still ship the previous version, without this method. Current state: [handoff](docs/handoff/README.md).
+
+**The Agentic SDLC is this project's new definitive method for software development with AI agents.** It takes a change from issue to production through 7 stages (Discover, Specify, Design, Build, Test, Release, Operate), with 13 agent roles, 4 named human sign-offs and 3 paths sized to the risk of the change. One rule runs through it: **every requirement is proven.**
+
+### Why
+
+Coding agents write code fast, but speed alone does not show that the right thing was built, that "done" is true, or who approved it. The method answers with written specs, tests designed independently of the implementation, fresh-context review, bounded retry loops, traceability and script checks that do not depend on the model obeying a prompt.
+
+### How it was built
+
+1. **Studied existing methods:** Superpowers, Matt Pocock skills, Addy Osmani agent-skills, BMad Method, GitHub Spec Kit, AWS Kiro, AWS AI-DLC, OpenSpec and Agile V ([evaluation](docs/research/2026-11-18-dev-workflow-frameworks-evaluation.md)), plus classic and standard lifecycles ([research](docs/research/methods/)).
+2. **Fixed a scoring methodology before scoring:** 16 criteria, evidence-based levels, several weighting profiles and a pre-registered superiority test ([methodology](docs/research/scoring/methodology.md)).
+3. **Failed the first round:** risk-adjusted 53.2, "Not superior".
+4. **Closed the gaps** the scoring exposed ([plan](docs/plans/2026-11-22-agentic-sdlc-score-gap-closure.md)) and re-scored with an audit: 88.5, "Superior" ([results](docs/research/scoring/results.md)).
+5. **Built it** (20 skills, templates, check scripts with tests) and **ran it end to end** on a small project ([dogfood report](docs/research/2026-11-25-dogfood-report.md)).
+
+### Scores (0–100, baseline profile)
+
+| Method | Score |
+|---|---:|
+| **Agentic SDLC** (design, risk-adjusted) | **88.5** ± 4.1 |
+| AWS AI-DLC | 68.6 |
+| Agile V | 67.0 |
+| BMad Method | 66.8 |
+| Addy Osmani agent-skills | 57.6 |
+| Superpowers | 56.0 |
+| AWS Kiro | 44.4 |
+| Matt Pocock skills | 43.8 |
+| GitHub Spec Kit | 43.2 |
+| OpenSpec | 38.8 |
+
+It ranked first under all five weighting profiles (baseline, equal, startup, regulated, autonomous).
+
+### What the score does and does not show
+
+- It is an **internal evaluation**: the methodology was written in this project and the scorers were AI agents. No external party has reviewed it.
+- The Agentic SDLC was scored **as a design** (92.4 before a discount for what was not yet built); the others were scored as released.
+- It was improved against the same criteria after the first round.
+- It compares documented mechanisms. It **does not measure** productivity or defect rates; no real team has used it yet.
+- Other methods lead on some criteria (BMad Method on C1, Agile V on C10).
+
+### Where it stands
+
+Both the Quick and Standard paths completed in the end-to-end run, the Standard one with workarounds: 30 findings (1 Critical, 14 Important, 14 Minor, 1 retracted). The Critical one is fixed (not yet re-tested end to end); the Important and Minor ones are open. Next: close them, test on a real project, release v3.0.0.
+
+**Read more:** [method guide](docs/guides/agentic-sdlc.md) · [quickstart](skills/agentic-sdlc/references/quickstart.md) · [worked example](skills/agentic-sdlc/examples/worked-example/)
+
 ## 🚀 Quick Install
 
 **One-liner (recommended):**
