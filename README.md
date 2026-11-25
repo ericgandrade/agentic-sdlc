@@ -91,7 +91,7 @@ We fixed a [scoring methodology](docs/research/scoring/methodology.md) first: 16
 | GitHub Spec Kit | 43.2 | `█████████` |
 | OpenSpec | 38.8 | `████████` |
 
-First place under all five profiles. Agreement between scorers was high (Krippendorff's α = 0.877). [Full results](docs/research/scoring/results.md).
+First place under all five profiles, 19.9 points ahead of second place; the uncertainty band on the 88.5 is ±4.1. Agreement between scorers was high (Krippendorff's α = 0.877). [Full results](docs/research/scoring/results.md).
 
 **Read the score with these limits:**
 
@@ -99,6 +99,7 @@ First place under all five profiles. Agreement between scorers was high (Krippen
 - The Agentic SDLC was scored as a design (risk-adjusted); the others as released products.
 - The first round failed (53.2). The gaps were closed and it was scored again against the same criteria.
 - It compares documented mechanisms, not productivity or defect rates.
+- The score predates the end-to-end trial, which then found 1 Critical and 14 Important gaps (all fixed since; see [Status](#status)).
 - Others still lead on some criteria, such as ease of adoption (BMad) and human governance (Agile V).
 
 ## Status
