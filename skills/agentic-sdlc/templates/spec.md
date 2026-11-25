@@ -112,7 +112,8 @@ Mechanism 12.1 / K2: observability is defined here, before release; Operate moni
 Standard/Full: every row is required. Quick with a production deploy: Signal and Rollback command.
 Signal names the AC it observes. Alert = comparator + number + unit + window + channel.
 Rollout = feature flag with default off, or stages 1% → 10% → 100%.
-Nothing deployed (library, CLI, internal script): Alert and Rollout may read "n/a — <reason>".
+Nothing deployed (library, CLI, internal script): Alert and Rollout may read "n/a — <reason>";
+Signal is an AC test consumers or CI run on the published artifact (references/release-ops.md §Package or library profile).
 -->
 
 | Item | Value |

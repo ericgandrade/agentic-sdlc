@@ -51,6 +51,22 @@ Required fields (Standard and Full):
 
 **Failure behaviour.** Any applicable item `false` → verdict NO-GO, the Release Engineer reports `BLOCKED` with the item numbers, and no Release sign-off request is sent. No staging environment → R3 and R5 are `CANNOT_VERIFY`; release proceeds only under an accept-risk waiver signed by the Release Owner (owner ≠ requester, expiry ≤ 30 days, follow-up issue to create staging).
 
+## Package or library profile
+
+**Trigger:** the change ships as a package, library, CLI or other artifact that consumers install; nothing runs in production under the team's control (spec §Release & observability says `n/a — <reason>` for Alert and Rollout). The service rules above are replaced row by row; every replaced row still reads `true` or `false` with evidence, and rows with nothing to check read `n/a — <reason>`.
+
+| Service rule | Package or library replacement | Evidence |
+|---|---|---|
+| Spec Signal | A consumer-facing check tagged with the AC: an AC test that a consumer project or the package's own CI runs against the published artifact | test ID · AC-n |
+| Spec Alert, R5 | Consumer CI or the registry: the package's CI on the default branch, or a canary consumer project, fails on the AC test; the failure notifies the owner. No such job → `n/a — <reason>` | job link, last run |
+| Spec Rollout, R4, stages | Pre-release channel first (`npm dist-tag next`, a `-rc` version, a pre-release on the host), then the stable channel. No channel → `n/a — consumers pin by semver` | publish command output |
+| R3 rollback rehearsal | Rehearse in a scratch worktree or a dry-run publish: `npm publish --dry-run` (or the ecosystem's equivalent), then the rollback (`npm dist-tag add <pkg>@<previous> latest`, deprecate or yank) against the same SHA as R1, ≤ 7 days old | commands, output, exit codes, times |
+| R6 dashboard | Registry page or download/install query, or `n/a — <reason>` | link or output |
+| Go/no-go 4 | `n/a — no production alert` when Alert is `n/a`; otherwise the consumer CI job is live | job link |
+| Per-stage rollout | Pre-release channel watch: ≥ 1 consumer install or CI run green before the stable tag | consumer run link |
+
+A package that also runs a service (for example a hosted API with an SDK) uses the service rules for the service and this profile for the package. No accept-risk waiver is needed for rows this profile replaces.
+
 ## Go/no-go (12.3)
 
 **Trigger:** the Release Engineer evaluates the criteria before asking for Release sign-off, then again at the end of each rollout stage. **Record:** release notes §Go/no-go (pre-release) and §Deploy log (per stage).

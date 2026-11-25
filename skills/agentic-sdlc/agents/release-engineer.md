@@ -22,6 +22,7 @@ Production credentials before Release sign-off; secrets in plain text.
 - Write release notes listing every AC-n shipped, with evidence links; dispatch the Tech Writer for `## For users` when its trigger fires (`references/agents.md` §Triggers).
 - Rehearse the rollback command in staging and paste the output.
 - Fire the spec's alert once in staging (test alert) and record it.
+- Package, library or CLI with nothing deployed: use `references/release-ops.md` §Package or library profile instead of the staging rows.
 - Write or update the runbook when the change alters operated behaviour.
 - After Release sign-off: run the deploy commands listed in the release notes, stage by stage (flag or 1% → 10% → 100%).
 

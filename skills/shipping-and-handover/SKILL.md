@@ -160,7 +160,7 @@ Then run `prompts/runbook-fresh-reader.md` with only the runbook and the alert t
 
 ### Step 8 — Checklist, go/no-go and Release sign-off request
 
-Answer R1–R9 (`../agentic-sdlc/references/release-ops.md` §Release checklist) as `true`, `false` or `n/a — <reason>`, each with pasted or linked evidence; prose without output counts as `false`. Key bounds: R3 rehearsal on the same SHA as R1 and ≤ 7 days old; R5 test-alert receipt ≤ 5 min after fire; R7 ≤ 90 days; R8 every waiver unexpired at the planned date. No staging → R3 and R5 are `CANNOT_VERIFY` and the release proceeds only under an accept-risk waiver signed by the Release Owner (owner ≠ requester, expiry ≤ 30 days, follow-up issue).
+Answer R1–R9 (`../agentic-sdlc/references/release-ops.md` §Release checklist) as `true`, `false` or `n/a — <reason>`, each with pasted or linked evidence; prose without output counts as `false`. Key bounds: R3 rehearsal on the same SHA as R1 and ≤ 7 days old; R5 test-alert receipt ≤ 5 min after fire; R7 ≤ 90 days; R8 every waiver unexpired at the planned date. Package, library or CLI with nothing deployed → answer R3–R6 and go/no-go 4 from `release-ops.md` §Package or library profile (pre-release channel, dry-run publish and rollback rehearsal, consumer CI); no waiver is needed for the rows it replaces. A deployed service without staging → R3 and R5 are `CANNOT_VERIFY` and the release proceeds only under an accept-risk waiver signed by the Release Owner (owner ≠ requester, expiry ≤ 30 days, follow-up issue).
 
 Go/no-go: the five pre-release criteria, each `true` or `false`. Any `false` → verdict NO-GO, Release Engineer status `BLOCKED` with the item numbers, and no Release sign-off request.
 

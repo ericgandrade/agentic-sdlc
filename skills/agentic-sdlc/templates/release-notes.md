@@ -6,6 +6,8 @@ Every checklist and go/no-go row is true or false with evidence; prose without o
 A section with nothing to report says "none — <reason>"; never leave it blank. Keep every heading.
 Location: the release entry on the host (GitHub/GitLab release) or CHANGELOG.md; §Summary is the
 user-facing CHANGELOG text.
+Package, library or CLI with nothing deployed: fill Rollout, Rollback, Observability, R3–R6 and
+go/no-go 4 from references/release-ops.md §Package or library profile; never game the service wording.
 -->
 
 # Release notes — <service> v<X.Y.Z>
