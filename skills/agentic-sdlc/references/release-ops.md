@@ -57,7 +57,7 @@ Required fields (Standard and Full):
 
 **Pre-release — GO only if all are true:**
 
-1. Every AC-n has PASS evidence bound to the release commit's fingerprint (`references/verification.md`).
+1. Every AC-n has PASS evidence bound to the release commit's fingerprint (`references/verification.md`): re-run at the release commit unless `git diff --quiet <PR head> <release commit>` exits 0.
 2. 0 open Critical findings; every open Important finding has owner acceptance and a follow-up issue.
 3. Checklist R1–R9 all `true` for the applicable items.
 4. Alerts named in the spec are live in production (rule ID or export of the rule).

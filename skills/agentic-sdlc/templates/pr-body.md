@@ -5,7 +5,7 @@ The Developer fills Summary and its own Verification rows when opening the PR.
 The Reviewer re-runs every command and fills Verification (by: Reviewer), Trace, Review triage and Review guide.
 Delete these comments; keep every heading. A section with nothing to report says "none" — never leave it blank.
 Without a PR host, this file is committed as specs/NNN-slug/review.md (Quick: docs/reviews/<issue>.md) with the same sections.
-Review records are excluded from the fingerprint, so committing one does not stale the evidence it cites.
+Review records, approval registers, archived run ledgers and release notes are excluded from the fingerprint, so committing one does not stale the evidence it cites.
 -->
 
 **Spec:** `specs/<NNN-slug>/spec.md` rev <N> · sha256 `<12 hex>` · **Plan:** rev <N> · sha256 `<12 hex>`

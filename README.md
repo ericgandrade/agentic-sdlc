@@ -122,7 +122,7 @@ First place under all five profiles. Agreement between scorers was high (Krippen
 | Scoring and gap closure | ✅ Done |
 | Build: 20 skills, 13 agents, templates, check scripts | ✅ Done |
 | End-to-end trial, Quick and Standard paths | ✅ Both completed, Standard with workarounds |
-| Fix trial findings | 🔄 Critical fixed (re-test pending); 14 Important and 14 Minor open |
+| Fix trial findings | 🔄 Critical fixed (re-test pending); Important: 2 of 14 fixed; 14 Minor open |
 | Pilot on a real project with a team | ⬜ Next |
 | Release v3.0.0 | ⬜ Next |
 

@@ -59,14 +59,16 @@ export function defaultBranch(cwd = process.cwd()) {
   }
 }
 
-// Review records (specs/<slug>/review.md, docs/reviews/) hold the fingerprint they cite, so they never feed it.
-const REVIEW_RECORD = /^specs\/[^/]+\/review\.md$/;
+// Record files cite the fingerprint or log events about the tested tree, so they never feed it:
+// review record, approval register, archived run ledger, hand-off, impediment log, release notes
+// (specs/<slug>/…) and docs/reviews/. spec.md, plan.md and acceptance-tests.md still count.
+const RECORD = /^specs\/[^/]+\/(?:(?:review|approvals|handoff|impediments|release-notes)\.md|run-ledger\.jsonl)$/;
 function excluded(path, exclude) {
-  return REVIEW_RECORD.test(path) || exclude.some((p) => path === p || path.startsWith(p.endsWith('/') ? p : p + '/'));
+  return RECORD.test(path) || exclude.some((p) => path === p || path.startsWith(p.endsWith('/') ? p : p + '/'));
 }
 
 // Working-tree fingerprint: SHA-256 over the index (`git ls-files -s`) plus content hashes of
-// every modified or untracked file, skipping paths under `exclude` and review records. Equal fingerprints mean
+// every modified or untracked file, skipping paths under `exclude` and record files. Equal fingerprints mean
 // the tested tree is byte-identical. Paths are repository-relative; any cwd inside the repository
 // gives the same result. Returns { fingerprint, short (12 hex), clean, head }.
 export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-sdlc/evidence/', 'docs/reviews/'] } = {}) {

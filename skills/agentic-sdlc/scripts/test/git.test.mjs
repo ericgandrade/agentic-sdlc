@@ -46,9 +46,16 @@ test('fingerprint changes with content and ignores the evidence folder', () => {
   write(repo, 'docs/reviews/142.md', 'fingerprint ' + f0.short);
   commit(repo, 'review records');
   assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'committed review records are excluded');
-  write(repo, 'specs/001-x/spec.md', 'x');
-  assert.notEqual(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'other spec files still count');
-  unlinkSync(join(repo, 'specs/001-x/spec.md'));
+  for (const rec of ['approvals.md', 'run-ledger.jsonl', 'handoff.md', 'impediments.md', 'release-notes.md']) {
+    write(repo, `specs/001-x/${rec}`, 'record ' + f0.short);
+    commit(repo, `record ${rec}`);
+    assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, `committed specs/*/${rec} is excluded`);
+  }
+  for (const art of ['spec.md', 'plan.md', 'acceptance-tests.md', 'nested/review.md']) {
+    write(repo, `specs/001-x/${art}`, 'x');
+    assert.notEqual(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, `specs/*/${art} still counts`);
+    unlinkSync(join(repo, `specs/001-x/${art}`));
+  }
   const cli = execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), '../lib/git.mjs'), 'fingerprint'], { cwd: repo, encoding: 'utf8' });
   assert.match(cli, new RegExp(`^${f0.short} clean head=[0-9a-f]{40}\\n$`), 'CLI prints the short fingerprint');
 

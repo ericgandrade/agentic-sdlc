@@ -28,9 +28,13 @@ user-facing CHANGELOG text.
 
 ## Shipped acceptance criteria
 
-| AC | Title | Critical | Evidence (PR Verification row) | Fingerprint | Result |
+<!-- The release commit (merge, version bump, CHANGELOG) usually changes the tree, so the PR fingerprint no longer applies.
+Re-run every AC and sdlc-dod command at the release commit and record that run here; the PR row stays as earlier evidence.
+`git diff --quiet <PR head> <release commit>` exit 0 is the only case where the PR rows carry over unchanged. -->
+
+| AC | Title | Critical | Evidence (release-commit run: command · exit; or the PR Verification row when the trees are equal) | Fingerprint (release commit) | Result |
 |---|---|---|---|---|---|
-| AC-<n> | <short title from spec> | <yes \| no> | <PR #n · row AC-n · test id> | `<12 hex>` | <PASS \| CANNOT_VERIFY + waiver W-n> |
+| AC-<n> | <short title from spec> | <yes \| no> | <`cmd` · exit 0 at `<sha>` · test id; PR #n row AC-n> | `<12 hex>` | <PASS \| CANNOT_VERIFY + waiver W-n> |
 
 ## Rollout
 

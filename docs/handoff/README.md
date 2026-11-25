@@ -30,11 +30,25 @@ PR, tag, release, `gh repo edit` and the Claude Desktop upload are owner actions
 | Phases 0, A–D (13 agents, stage skills) | Done | git history |
 | E.1 trigger-collision audit | Done | `docs/research/2026-11-25-trigger-audit.md` |
 | E.2 orchestrator proposes the method | Done | `1ecfca0` |
-| E.3 dogfood | Report written; F18 (Critical) fixed, **14 Important and 14 Minor open** | `docs/research/2026-11-25-dogfood-report.md` |
+| E.3 dogfood | Report written; F18 (Critical) fixed; Important: 2 of 14 fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
 | E.4 clarity test | Done; G-9, G-10, G-12, G-14, G-15 left open (Minor) | `docs/research/2026-11-25-clarity-test.md` |
 | E.5 live trigger evals | Inconclusive (harness), re-run needed | `docs/research/2026-11-25-eval-check.md` |
 | Phase F docs, `bundles.json` packaging fix | Done | `68ab211` |
 | Release prep | **Not started** | package version is still 2.0.8 |
+
+## Findings progress
+
+Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25-dogfood-findings-fix-plan.md).
+
+| ID | State | Commit / note |
+|---|---|---|
+| F18 | Fixed (docs); re-test pending | `eb7a3a6` |
+| F10 | Fixed | fingerprint excludes `specs/*/{review,approvals,handoff,impediments,release-notes}.md` and `specs/*/run-ledger.jsonl`; test in `git.test.mjs` |
+| F27 | Fixed | release notes, `release-ops.md` and `shipping-and-handover` re-run AC/DoD at the release commit unless the tree equals the PR head |
+| F21, F22 | Open | |
+| F16, F25 | Open (F16 partly closed by `8c5d014`) | |
+| F09, F11 | Open (templates fixed by `8c5d014`; references not aligned) | |
+| F14, F04, F05, F19, F23, F08 | Open | |
 
 ## Verified at `eb7a3a6` (tests and budget; the script checks below ran at `8c5d014`)
 
