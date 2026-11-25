@@ -2,6 +2,7 @@
 
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
 import { InputError } from './cli.mjs';
 
 export function git(args, { cwd = process.cwd(), input } = {}) {
@@ -58,15 +59,17 @@ export function defaultBranch(cwd = process.cwd()) {
   }
 }
 
+// Review records (specs/<slug>/review.md, docs/reviews/) hold the fingerprint they cite, so they never feed it.
+const REVIEW_RECORD = /^specs\/[^/]+\/review\.md$/;
 function excluded(path, exclude) {
-  return exclude.some((p) => path === p || path.startsWith(p.endsWith('/') ? p : p + '/'));
+  return REVIEW_RECORD.test(path) || exclude.some((p) => path === p || path.startsWith(p.endsWith('/') ? p : p + '/'));
 }
 
 // Working-tree fingerprint: SHA-256 over the index (`git ls-files -s`) plus content hashes of
-// every modified or untracked file, skipping paths under `exclude`. Equal fingerprints mean
+// every modified or untracked file, skipping paths under `exclude` and review records. Equal fingerprints mean
 // the tested tree is byte-identical. Paths are repository-relative; any cwd inside the repository
 // gives the same result. Returns { fingerprint, short (12 hex), clean, head }.
-export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-sdlc/evidence/'] } = {}) {
+export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-sdlc/evidence/', 'docs/reviews/'] } = {}) {
   if (!isRepo(start)) throw new InputError(`not a git repository: ${start}`);
   const cwd = topLevel(start);
   const h = createHash('sha256');
@@ -143,4 +146,19 @@ export function refsFromMessage(message) {
 // Files changed between two refs (three-dot diff from the merge base).
 export function changedFiles(base, head = 'HEAD', { cwd = process.cwd() } = {}) {
   return git(['diff', '--name-only', '-z', `${base}...${head}`], { cwd }).split('\0').filter(Boolean);
+}
+
+// CLI: `node scripts/lib/git.mjs fingerprint` prints "<12 hex> clean|dirty head=<sha>".
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  if (process.argv[2] !== 'fingerprint') {
+    process.stderr.write('usage: node scripts/lib/git.mjs fingerprint\n');
+    process.exit(2);
+  }
+  try {
+    const f = fingerprint();
+    process.stdout.write(`${f.short} ${f.clean ? 'clean' : 'dirty'} head=${f.head}\n`);
+  } catch (e) {
+    process.stderr.write(`${e.message}\n`);
+    process.exit(2);
+  }
 }

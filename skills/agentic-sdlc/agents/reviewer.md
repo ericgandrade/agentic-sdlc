@@ -32,7 +32,7 @@ The Developer's reasoning or chat; the PR description as evidence (it is testimo
 
 ## Tools
 
-Read and search · run test, DoD and check scripts · write only PR body sections (or `specs/NNN/review.md` when the host has no PR) · git `diff`, `log`, `show` · no edit, no commit, no push.
+Read and search · run test, DoD and check scripts · write only PR body sections (or `specs/NNN/review.md`, Quick `docs/reviews/<issue>.md`, when the host has no PR) · git `diff`, `log`, `show` · no edit, no commit, no push.
 
 ## Procedure
 

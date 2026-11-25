@@ -2,6 +2,8 @@ import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { unlinkSync } from 'node:fs';
 import { dirname, join } from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import {
   isRepo, headSha, currentBranch, defaultBranch, fingerprint, log, parseTrailers, refsFromMessage, changedFiles,
 } from '../lib/git.mjs';
@@ -40,6 +42,15 @@ test('fingerprint changes with content and ignores the evidence folder', () => {
 
   write(repo, '.agentic-sdlc/evidence/run.json', '{}');
   assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'evidence files are excluded');
+  write(repo, 'specs/001-x/review.md', 'fingerprint ' + f0.short);
+  write(repo, 'docs/reviews/142.md', 'fingerprint ' + f0.short);
+  commit(repo, 'review records');
+  assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'committed review records are excluded');
+  write(repo, 'specs/001-x/spec.md', 'x');
+  assert.notEqual(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'other spec files still count');
+  unlinkSync(join(repo, 'specs/001-x/spec.md'));
+  const cli = execFileSync(process.execPath, [join(dirname(fileURLToPath(import.meta.url)), '../lib/git.mjs'), 'fingerprint'], { cwd: repo, encoding: 'utf8' });
+  assert.match(cli, new RegExp(`^${f0.short} clean head=[0-9a-f]{40}\\n$`), 'CLI prints the short fingerprint');
 
   write(repo, 'src/a.js', 'two\n');
   const f1 = fingerprint({ cwd: repo });

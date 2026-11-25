@@ -57,6 +57,8 @@ coverage_min: 78.4
 
 Jest: `npx jest --coverage --coverageReporters=json-summary`. pnpm: replace `npx` with `pnpm exec`. Both write `coverage/coverage-summary.json`, so the CI floor step works unchanged.
 
+Plain `node --test` (no test framework): `coverage: npx c8 --reporter=json-summary --reporter=text-summary node --test` writes the same file. Without a dev dependency allowed, write `coverage: n/a — no coverage tool` and `coverage_min: n/a — no coverage tool` until one is added (rule 7).
+
 **Python (uv, Ruff, mypy, pytest-cov)**
 
 ```sdlc-dod

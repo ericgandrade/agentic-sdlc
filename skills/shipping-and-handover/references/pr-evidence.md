@@ -12,7 +12,7 @@ Load at Step 3 of `SKILL.md`. Format authority: `../agentic-sdlc/templates/pr-bo
 | `## Trace`, `## Review triage`, `## Review guide` | `pending — Reviewer` | Fills |
 | `## Waivers` | Existing rows or `none` | Adds as needed |
 
-Without a PR host, the same body is committed as `specs/NNN-slug/review.md` on the feature branch.
+Without a PR host, the same body is committed as `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) on the feature branch. Review records are excluded from the fingerprint, so this commit does not stale the evidence.
 
 ## 2. Summary prose
 

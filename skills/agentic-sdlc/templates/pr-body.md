@@ -4,7 +4,8 @@ references/review.md (Review triage), references/governance.md (Waivers).
 The Developer fills Summary and its own Verification rows when opening the PR.
 The Reviewer re-runs every command and fills Verification (by: Reviewer), Trace, Review triage and Review guide.
 Delete these comments; keep every heading. A section with nothing to report says "none" — never leave it blank.
-Without a PR host, this file is committed as specs/NNN-slug/review.md with the same sections.
+Without a PR host, this file is committed as specs/NNN-slug/review.md (Quick: docs/reviews/<issue>.md) with the same sections.
+Review records are excluded from the fingerprint, so committing one does not stale the evidence it cites.
 -->
 
 **Spec:** `specs/<NNN-slug>/spec.md` rev <N> · sha256 `<12 hex>` · **Plan:** rev <N> · sha256 `<12 hex>`
@@ -107,3 +108,11 @@ For the human reviewer (engineer) who gives Test sign-off. Read in this order.
 | ID | Kind (accept risk \| defer \| emergency) | Gate waived | Reason | Owner (≠ requester) | Expiry (≤ 30 days) | Follow-up issue |
 |---|---|---|---|---|---|---|
 | <W-n or "none"> | <kind> | <gate> | <reason> | <role, person> | <YYYY-MM-DD> | <#issue> |
+
+## Test sign-off
+
+Filled only after the human answers in a later turn (`references/governance.md` §2, step 6). "pending" until then.
+
+| Gate | Decision (exact words) | Approver (role, person) | Date (ISO-8601) | Head SHA |
+|---|---|---|---|---|
+| Test | <"approved …" \| pending> | <human reviewer, person> | <time> | `<40-hex sha>` |

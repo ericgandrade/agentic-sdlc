@@ -298,12 +298,14 @@ export function lintSpec(md, { pathOverride, checkApproval = false, today, readS
     for (const k of required) if (!hasWords(get(k))) err('OBS01', `Release & observability row "${k}" missing or empty`, at);
     const signal = get('signal');
     if (hasWords(signal) && path !== 'Quick' && !/\bAC-\d+\b/.test(signal)) err('OBS02', 'Signal must name the AC-n it observes', at);
+    // No production deployment (library, CLI, internal tool): "n/a — <reason>" is accepted for Alert and Rollout.
+    const notApplicable = (v) => /^\s*n\/a\s*[—–-]\s*\S+/i.test(v);
     const alert = get('alert');
-    if (hasWords(alert) && !(COMPARATOR.test(alert) && /\d/.test(alert) && WINDOW.test(alert))) {
+    if (hasWords(alert) && !notApplicable(alert) && !(COMPARATOR.test(alert) && /\d/.test(alert) && WINDOW.test(alert))) {
       err('OBS03', `Alert needs a comparator, a numeric threshold and a window (e.g. "> 2% over 15 min"): "${alert}"`, at);
     }
     const rollout = get('rollout');
-    if (hasWords(rollout) && !(/\bflag\b/i.test(rollout) && /\boff\b/i.test(rollout)) && (rollout.match(/\d+\s*%/g) || []).length < 2) {
+    if (hasWords(rollout) && !notApplicable(rollout) && !(/\bflag\b/i.test(rollout) && /\boff\b/i.test(rollout)) && (rollout.match(/\d+\s*%/g) || []).length < 2) {
       err('OBS04', 'Rollout needs a feature flag with default off, or ≥ 2 percentage stages (1% → 10% → 100%)', at);
     }
     const rb = get('rollback command');

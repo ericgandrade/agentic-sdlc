@@ -18,7 +18,7 @@ coverage: npm run coverage -- --json-summary
 coverage_min: 71.3
 ```
 
-On an existing codebase it runs adopt mode first and also writes `docs/codemap.md`. Done when the block exists between `<!-- AGENTIC-SDLC:BEGIN -->` and `<!-- AGENTIC-SDLC:END -->` and every `sdlc-dod` command exits 0 on the current branch. A command that fails at setup is recorded in the block's `Baseline:` line; it is never deleted to get green.
+On an existing codebase it runs adopt mode first, and no code change starts until adopt completes: inventory, baseline, artifact map, instruction audit, `docs/codemap.md`, ADR candidates and `docs/adoption-ledger.md`. Expect one working session. Done when the block exists between `<!-- AGENTIC-SDLC:BEGIN -->` and `<!-- AGENTIC-SDLC:END -->` and every `sdlc-dod` command exits 0 on the current branch. A command that fails at setup is recorded in the block's `Baseline:` line; it is never deleted to get green.
 
 ## Step 2 — Discover: score the path
 
@@ -48,7 +48,7 @@ The Developer writes a regression test whose name carries the AC ID, runs it and
   expected "2026-02-28 23:30", received "2026-03-01 02:30"
 ```
 
-A new test that passes on its first run proves nothing: delete it and write one that fails for the reported reason. Three failed attempts to reach red or green → stop and enter the debug loop (`references/loops.md`).
+Before the first edit, `node <skill>/scripts/preflight.mjs` checks a clean tree and a green Definition of Done. A new test that passes on its first run proves nothing: delete it and write one that fails for the reported reason. Three failed attempts to reach red or green → the debug loop (`references/loops.md`); the Architect takes over only when its anti-thrash rule fires.
 
 ## Step 5 — Build: green and Definition of Done
 
@@ -63,7 +63,7 @@ The PR body follows `templates/pr-body.md`. Its Verification table binds every c
 | AC-1 | `AC-1 formats order dates in the profile time zone` | `npm test -- dates` | 0 | `9b41c07e2d15` | 2026-11-22 14:05 |
 | DoD | lint, typecheck, test, coverage 71.9 ≥ 71.3 | `sdlc-dod` block | 0 | `9b41c07e2d15` | 2026-11-22 14:06 |
 
-The fingerprint comes from `scripts/lib/git.mjs` (or, without Node, the 12-hex HEAD SHA of a clean tree). Any edit after the run changes it, and stale evidence is re-run, never reused.
+The fingerprint is printed by `node <skill>/scripts/lib/git.mjs fingerprint` (without Node: the 12-hex HEAD SHA of a clean tree). Any edit after the run changes it, and stale evidence is re-run, never reused.
 
 ## Step 7 — Test: independent review
 
@@ -71,12 +71,12 @@ The Reviewer runs in a fresh context with the issue, the diff and the evidence, 
 
 ## Step 8 — Test sign-off
 
-The agent presents the PR, the evidence and the residual risks ("other date columns use the same formatter and were not changed"), asks the reviewer for a decision and **ends its turn**. Only an explicit "approved" in a later turn counts; the agent records the exact words, the date and the head commit SHA. The human merges.
+The agent presents the PR, the evidence and the residual risks ("other date columns use the same formatter and were not changed"), asks the reviewer for a decision and **ends its turn**. Only an explicit "approved" in a later turn counts; the agent records the exact words, the date and the head commit SHA in the PR body's `## Test sign-off` section. Without a PR host the body is committed as `docs/reviews/142.md`; review records never change the fingerprint. The human merges.
 
 ## Step 9 — Release and retro
 
 - When the merge deploys to production, the Release Owner gives the Release sign-off; the release notes list AC-1 and the rollback command (`git revert <merge sha>` and redeploy).
-- Quick items share a batched retro: every 10 merged Quick items or 14 days, whichever comes first, with at least one owned action that changes a file (`references/retrospective.md`).
+- Quick items share a batched retro: every 10 merged Quick items or 14 days, whichever comes first (counted from the merge log since the last `docs/retros/` file), with at least one owned action that changes a file (`references/retrospective.md`).
 
 ## When something goes wrong
 

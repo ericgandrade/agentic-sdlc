@@ -100,6 +100,13 @@ test('single defects in an otherwise valid spec', async (t) => {
     ['budget overflow', (s) => edit(s, '## Users', `${'word '.repeat(1000)}\n\n## Users`), 'BUD01'],
     ['Full path without threat model', (s) => edit(s, '| Path | Standard |', '| Path | Full |'), 'TM01'],
   ];
+  await t.test('alert and rollout accept "n/a — reason" when nothing is deployed', () => {
+    let s = edit(SPEC, /\| Alert \|[^\n]+\n/.exec(SPEC)[0], '| Alert | n/a — library published to npm, no running service |\n');
+    s = edit(s, /\| Rollout \|[^\n]+\n/.exec(s)[0], '| Rollout | n/a — consumers upgrade by semver |\n');
+    const codes = rules(lint(s));
+    assert.ok(!codes.includes('OBS03') && !codes.includes('OBS04'), codes.join(','));
+    assert.ok(rules(lint(edit(s, 'n/a — consumers upgrade by semver', 'n/a'))).includes('OBS04'), 'bare n/a without a reason must still fail');
+  });
   for (const [name, mutate, rule] of cases) {
     await t.test(name, () => {
       const r = lint(mutate(SPEC));

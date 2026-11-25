@@ -73,7 +73,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 ## 4. Evidence records and staleness
 
-**Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`; recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. The function is `fingerprint()` in `scripts/lib/git.mjs`.
+**Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**` and review records (`specs/*/review.md`, `docs/reviews/**`); recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. The function is `fingerprint()` in `scripts/lib/git.mjs`; `node scripts/lib/git.mjs fingerprint` prints it.
 
 **Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
 
@@ -88,7 +88,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 **When to check staleness:** before every completion claim; before the Reviewer issues GO; before the Test sign-off request; after any commit, rebase or merge from the base branch; before the Release sign-off request.
 
-**Persistence.** The PR body is the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md`, committed on the feature branch. `scripts/evidence.mjs record|check`† writes `.agentic-sdlc/evidence/ledger.jsonl` (cmd, exit, stdout sha256, last 40 lines, fingerprint, time) and renders the same table; when present, it replaces steps 1–5 and its `check` exit 1 is a Reviewer NO-GO.
+**Persistence.** The PR body is the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`), committed on the feature branch. `scripts/evidence.mjs record|check`† writes `.agentic-sdlc/evidence/ledger.jsonl` (cmd, exit, stdout sha256, last 40 lines, fingerprint, time) and renders the same table; when present, it replaces steps 1–5 and its `check` exit 1 is a Reviewer NO-GO.
 
 ## 5. Trace — two-way gap analysis
 

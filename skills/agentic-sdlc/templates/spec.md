@@ -112,6 +112,7 @@ Mechanism 12.1 / K2: observability is defined here, before release; Operate moni
 Standard/Full: every row is required. Quick with a production deploy: Signal and Rollback command.
 Signal names the AC it observes. Alert = comparator + number + unit + window + channel.
 Rollout = feature flag with default off, or stages 1% → 10% → 100%.
+Nothing deployed (library, CLI, internal script): Alert and Rollout may read "n/a — <reason>".
 -->
 
 | Item | Value |
@@ -145,6 +146,7 @@ None.
 <!--
 One row per revision; Rev 1..N contiguous; the last Rev equals the header Revision.
 Critique (mechanism 2.4): "<fresh-context | self-review> · 12/12 · <findings fixed> fixed, <n> open".
+12/12 = the 12-item critique checklist in skill `spec-driven-development` Step 6.
 -->
 
 | Rev | Date | Change | Requested by | Critique |
