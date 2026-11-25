@@ -30,7 +30,7 @@ PR, tag, release, `gh repo edit` and the Claude Desktop upload are owner actions
 | Phases 0, A–D (13 agents, stage skills) | Done | git history |
 | E.1 trigger-collision audit | Done | `docs/research/2026-11-25-trigger-audit.md` |
 | E.2 orchestrator proposes the method | Done | `1ecfca0` |
-| E.3 dogfood | Report written; F18 (Critical) fixed; all 14 Important fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
+| E.3 dogfood | Report written; F18 (Critical) fixed and re-tested; all 14 Important fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
 | E.4 clarity test | Done; G-9, G-10, G-12, G-14, G-15 left open (Minor) | `docs/research/2026-11-25-clarity-test.md` |
 | E.5 live trigger evals | Inconclusive (harness), re-run needed | `docs/research/2026-11-25-eval-check.md` |
 | Phase F docs, `bundles.json` packaging fix | Done | `68ab211` |
@@ -42,7 +42,7 @@ Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25
 
 | ID | State | Commit / note |
 |---|---|---|
-| F18 | Fixed (docs); re-test pending | `eb7a3a6` |
+| F18 | Fixed and re-tested (7/7 checks pass) | `eb7a3a6`; re-test in the dogfood report §7; doc ambiguities it found fixed |
 | F10 | Fixed | fingerprint excludes `specs/*/{review,approvals,handoff,impediments,release-notes}.md` and `specs/*/run-ledger.jsonl`; test in `git.test.mjs` |
 | F27 | Fixed | release notes, `release-ops.md` and `shipping-and-handover` re-run AC/DoD at the release commit unless the tree equals the PR head |
 | F21 | Fixed (docs) | `verification.md` §5 and `verification-gate` exempt artifact-only commits from the Tn rule |
@@ -94,4 +94,4 @@ Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25
 - E.1 residual overlaps: `operations-and-incidents` and `deployment-pipeline` (rollout wording); `test-driven-development` and `codebase-modernization` (characterization tests). `document-converter` has no trigger eval.
 - `graphify` is not installed on this machine, so `graphify-out/` was not updated.
 - The previous session's state lives outside the repo, under `~/.copilot/session-state/`. Do not resume it in parallel with work on this branch: both would write to the same working tree. Its process (PID 49820) was still open on 2026-11-25; close it first.
-- The F18 fix is documentation only and has not been re-dogfooded: run one Standard path Build with `at/NNN-slug` before the release.
+- F18 was re-tested on 2026-11-25 (dogfood report §7): all checks pass.

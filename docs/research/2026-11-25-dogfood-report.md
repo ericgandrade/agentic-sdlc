@@ -223,3 +223,21 @@ Commit timestamps understate the effort. Reading the method docs before the firs
   2. F10 and F27: fingerprint stability across doc commits.
   3. F21 and F22: artifact-commit exemption and review-fix events after finish.
   4. F16 and F25: a library/package profile for spec-lint and the release.
+
+## 7. F18 re-test (Standard Build with `at/NNN-slug`)
+
+Run after the F18 fix and the Important fixes, in a scratch project rebuilt from `dogfood-2026-11-25/standard/` (same spec, plan, approvals and acceptance-test map; spec and plan hashes still bound, so no approval rows were regenerated). Operator: a fresh agent context. Nothing in the repository was edited during the run.
+
+| Check | Result | Evidence |
+|---|---|---|
+| Acceptance tests red at base | PASS | on `at/001-price-format` cut from the base: `node --test test/price.acceptance.test.js` exit 1, missing export `formatPrice` |
+| Preflight `baseline-dod` on the feature branch | PASS | `preflight --run r1` exit 0, 3 DoD commands green; the same preflight on `at/` exits 1 (red baseline), so the side branch is what clears F18 |
+| Per-task DoD green | PASS | T1–T3 each started → red → round pass → `Refs: Tn AC-n` commit → done; DoD exit 0, `run-ledger check` exit 0 at every boundary |
+| `run-ledger finish` | PASS | exit 0, `DONE — 3 of 3 tasks done` |
+| Acceptance tests green after merge | PASS | disposable worktree at the feature head with `at/` merged: 11/11 pass; then `--no-ff` merge and full DoD exit 0 |
+| PR review-fix round after finish (F22) | PASS | `round --task PR --loop review-fix --result pass` exit 0; archived ledger rewritten |
+| Fingerprint unchanged by the ledger-archive commit (F10) | PASS | `29e81ede5ac0` before and after |
+
+Ambiguities found and fixed in the same change: when `at/` merges (`executing-plans` Step 2 said "before Step 6"), where `acceptance-tests.md` is committed and the merge-commit subject (`verification.md` §2), Build-time Verification rows re-run at the post-merge head (`executing-plans` Step 6.3), and Test-stage findings recorded as `--task PR` rounds (Step 6.4). Open note: `lib/git.mjs fingerprint` prints `clean` when only record files are modified, while `git status --porcelain` does not; both are correct for their purpose.
+
+Reconstruction limits: the acceptance-test file was rewritten from the Map (the first run did not keep it), and T1's red step is an import error, which `executing-plans` discourages; neither is caused by F18.

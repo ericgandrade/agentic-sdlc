@@ -51,11 +51,11 @@ Procedure:
 4. Run each test at the base commit. It must fail; a test that passes at the base proves nothing → rewrite it before Build starts.
 5. In the Test stage, run every acceptance test at the PR head and add its row to `## Verification`.
 
-**Where the tests live during Build.** They are red until the feature exists, and the `sdlc-dod` baseline and every task need a green tree. So they are committed on `at/NNN-slug`, cut from the base commit (`test: add acceptance tests for <NNN-slug>`, trailer `Refs: AC-1 … AC-n`), and stay off the feature branch during Build. The session controller does this branch work, never the Developer. In the Test stage:
+**Where the tests live during Build.** They are red until the feature exists, and the `sdlc-dod` baseline and every task need a green tree. So they are committed on `at/NNN-slug`, cut from the base commit, together with `specs/NNN-slug/acceptance-tests.md` whose "Red at the base commit" rows are filled before that commit (`test: add acceptance tests for <NNN-slug>`, trailer `Refs: AC-1 … AC-n`), and stay off the feature branch during Build. The session controller does this branch work, never the Developer. In the Test stage:
 
 1. In a disposable worktree at the feature-branch head, merge `at/NNN-slug` and run the acceptance tests.
 2. Red → a finding routed by cause. Fix on the feature branch, which stays without the red tests, and repeat step 1.
-3. Green → merge `at/NNN-slug` into the feature branch with `--no-ff`; that head is the PR head that step 5 records.
+3. Green → merge `at/NNN-slug` into the feature branch with `--no-ff` (`test: merge acceptance tests for <NNN-slug>`, trailer `Refs: AC-1 … AC-n`; an artifact commit for Trace, §5); that head is the PR head that step 5 records, and Build-time Verification rows are re-run there.
 
 The Developer never edits a test listed in `acceptance-tests.md`. An acceptance test that disagrees with the implementation is a finding for the Reviewer, routed by cause (spec, design or code), never a test to relax.
 
