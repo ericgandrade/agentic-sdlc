@@ -121,7 +121,7 @@ After the controller accepts a `DONE`, and before any task that depends on it st
 6. **Re-review** with `prompts/re-review.md` on `<FIX_BASE>..HEAD`: each fixed finding `resolved` or `still applies`, regressions in the delta only; a delta > 30% of the task diff → full task review. Record the next review-fix round.
 7. PASS with open Important findings → fix inside Files, or close the task `DONE_WITH_CONCERNS` and copy each into the PR `## Review triage`. Minor → deferred list.
 
-Per-task review rounds and Test-stage review rounds share the task's review-fix counter: 2 failed per-task rounds plus 1 failed PR round fire B4.
+Per-task review rounds count on the task; Test-stage review rounds count on `PR` (the run is finished by then), each with its own review-fix bound of 3 before B4. Finding IDs name the task a PR finding cites.
 
 Then `run-ledger task --run r1 --task T3 --state done --commit <sha>` (refused without a red event or `--no-red`, or after a failed last round), and copy the new `run-ledger render --run r1` rows into `plan.md` `## Loop ledger` (excluded from the plan hash; rows are appended, never edited).
 

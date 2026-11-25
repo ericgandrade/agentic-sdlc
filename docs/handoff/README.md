@@ -9,12 +9,12 @@
 1. `git fetch origin && git switch claude/agentic-sdlc-handoff && git status` (expect a clean tree). Work on this branch; do not go back to `claude/superskills-dev-workflow-kppj2r`.
 2. Read this file, then section 4 (findings table) of [`docs/research/2026-11-25-dogfood-report.md`](../research/2026-11-25-dogfood-report.md). Nothing else is needed to start.
 3. Confirm the baseline (commands under "Verified" below).
-4. **Next task: F10 and F27**, the fingerprint going stale on record-only commits. `8c5d014` already excludes review records from the fingerprint (`skills/agentic-sdlc/scripts/lib/git.mjs`), so check what is still open before changing code. Add or update a test with any script change.
-5. One commit per finding or pair. Update the status here as findings close.
+4. **Next task: the 7 Minor findings recommended before release** (section "Minor findings" below), then release prep. All Critical and Important findings are closed (see "Findings progress"). Add or update a test with any script change.
+5. One commit per finding or pair. Update the status here and in the root README as findings close.
 
 **Branch rule:** all work stays on `claude/agentic-sdlc-handoff`. No PR to `main` and no tag until the owner asks; `main` is the previous version. The root `README.md` is a stakeholder presentation of the method; the former README is now `docs/skills-library.md` (add new skills there; `CLAUDE.md` now says so; `release.js major` was dry-run in a scratch copy on 2026-11-25: title, badge, footer and plugin go to 3.0.0 and both sync checks pass; catalog regeneration needs Python `pyyaml`). For the root README: keep its status and findings counts current, and do not overstate the scores.
 
-**Where we are:** all build phases are done. **What is stopped:** 14 Important and 14 Minor dogfood findings, the E.5 re-run and the v3.0.0 release prep. Nothing is running.
+**Where we are:** all build phases are done; F18 is re-tested and all 14 Important findings are fixed (2026-11-25). **What is open:** 14 Minor findings (7 recommended before release), the E.5 re-run and the v3.0.0 release prep. Nothing is running.
 
 ## Goal
 
@@ -73,23 +73,19 @@ Fix before release (contradictions or a fallback every session hits; each is a s
 
 Can wait (behaviour is defined, only friction or polish): F07 (new 1-commit repo classified adopt), F12 (Quick PR header has no Issue field), F13 (`run-ledger start` needs `--plan`; Quick writes rows by hand, which is documented), F15 (Standard file bound counts docs), F17 (OBS errors report the section line), F28 (retro timing with a staged rollout), F30 (shared import error as red evidence for new modules).
 
-## Verified at `eb7a3a6` (tests and budget; the script checks below ran at `8c5d014`)
+## Verified at `8c58b0e` (2026-11-25)
 
-- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 124 pass, 0 fail (126 after F04 and F19).
-- `node skills/agentic-sdlc/scripts/budget-check.mjs`: PASS (`agents/test-engineer.md` warns, 572/600).
+- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 126 pass, 0 fail.
+- `node skills/agentic-sdlc/scripts/budget-check.mjs`: PASS (warnings: router 2196/2200, quickstart 1142/1200, analyst 580/600).
 - `./scripts/build-skills.sh`: OK.
 - `check-doc-consistency.sh` and `verify-version-sync.sh` fail **only** on `cli-installer/README.md`, which already says 3.0.0 while the other files say 2.0.8. `release.js` resolves this.
 
 ## Next steps
 
-1. Fix the E.3 findings: 1 Critical and 14 Important (table in the report, section 4). Suggested order:
-   1. ~~**F18** (Critical)~~: fixed on this branch (docs only: tests live on `at/NNN-slug` until green). Not yet re-dogfooded.
-   2. **F10, F27**: the fingerprint goes stale on record-only commits. Check what `8c5d014` already excludes.
-   3. **F21, F22**: artifact commits fail Trace; review-fix rounds are refused after `run-ledger finish`.
-   4. **F16, F25**: library or package profile. `8c5d014` added `n/a` for Alert and Rollout, so F16 may be partly closed.
-   5. Re-check F09, F11 and F14 against `8c5d014` (they overlap clarity gaps G-4, G-6, G-9), then F04, F05, F08, F19, F23.
+1. Fix the 7 Minor findings recommended before release (F02, F03, F06, F20, F24, F26, F29; section above). F29 needs a word trim in the router first.
 2. Release prep, on a clean tree:
-   - `node scripts/release.js major`. The `version` script in `cli-installer/package.json` runs `git add -A`, so stray files get staged.
+   - `pip install pyyaml` (catalog regeneration in `release.js` needs it).
+   - `node scripts/release.js major`. The `version` script in `cli-installer/package.json` runs `git add -A`, so stray files get staged. `CHANGELOG.md` already has `[3.0.0]`, so no placeholder is added; review it.
    - Run `verify-version-sync.sh`, `check-doc-consistency.sh`, `./scripts/package-plugin.sh`.
    - Commit `chore: bump version to 3.0.0`.
 3. Commit and push this branch after each step.

@@ -58,7 +58,7 @@ Then the backward pass. List each finding on the `Orphans` line as `kind · ID �
 | Backward check | How | Orphan kind |
 |---|---|---|
 | Every task names ≥ 1 AC | read the AC column of `## Tasks` | task without an AC |
-| Every commit names ≥ 1 task | each line of the git log output has `Tn` in the bracket subject or in `Refs:` (Quick: `AC-n`) | commit without a Tn |
+| Every code commit names ≥ 1 task | each line of the git log output has `Tn` in the bracket subject or in `Refs:` (Quick: `AC-n`); artifact-only commits are exempt (`../../agentic-sdlc/references/verification.md` §5) | code commit without a Tn |
 | Every cited AC exists | each `AC-n` found in tasks, commits and test names is in the spec AC list | unknown AC ID |
 | Every changed file is planned | each path from `git diff --name-only` appears in some task's `Files` column (tests of a listed file count with it) | report as an L1 finding, not an orphan: `file outside every task: <path>` |
 | Every added behaviour is requested | read the diff for new endpoints, flags, options, branches, outputs, config keys; each must serve an AC | report as an L1 Important finding: `behaviour outside the approved spec` |
@@ -74,7 +74,7 @@ The resolution for each orphan kind is fixed by the contract:
 | AC without a task | back to Design: add the task; Design sign-off re-opens |
 | AC without a passing test | back to the Test Engineer for the test, then a fresh row |
 | Task without an AC | remove the task, or run the change protocol (`../../agentic-sdlc/references/rules.md`) to add the AC |
-| Commit without a Tn | reword the commit on the feature branch before merge (`git rebase -i <base>`, `reword`); the default branch is never rewritten |
+| Code commit without a Tn | reword the commit on the feature branch before merge (`git rebase -i <base>`, `reword`); the default branch is never rewritten |
 | Unknown AC ID in a task, commit or test | fix the reference; an ID with no spec AC behind it is scope outside the approved spec → L1 Important finding |
 
 For unrequested behaviour: either remove it from the diff, or the Product Owner adds an AC through the change protocol (new spec revision, Specify sign-off again). The Reviewer never accepts it on the grounds that it is useful.

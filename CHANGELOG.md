@@ -9,7 +9,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ## [3.0.0] - 2026-11-25
 
 ### Fixed
-- Red acceptance tests no longer block Standard and Full Build: they live on `at/NNN-slug` and join the feature branch in the Test stage, once green (dogfood finding F18).
+- Red acceptance tests no longer block Standard and Full Build: they live on `at/NNN-slug` and join the feature branch in the Test stage, once green (dogfood finding F18; re-tested end to end).
+- The evidence fingerprint ignores record files (`specs/*/` review, approvals, hand-off, impediments, release notes, archived run ledger), so committing them no longer stales Verification rows; release notes re-run every AC at the release commit (F10, F27).
+- Artifact-only commits are exempt from the Trace "every commit names a task" rule; `run-ledger` records Test-stage PR review-fix rounds and rulings after `finish` (F21, F22).
+- A package or library release profile replaces the service-only rollout, rehearsal and alert rows (F16, F25).
+- The review record and Test sign-off without a PR host are defined in one place (F09, F11); the public-API risk trigger covers library exports (F14).
+- `preflight` compares coverage with `coverage_min` (`coverage-floor` check); `dod-block.md` adds a dependency-free `node:test` coverage example (F04, F05).
+- `run-ledger check` treats acceptance-test files as in-plan; single-AC test filters can no longer match `AC-10` for `AC-1` (F19, F23).
+- Vendoring locates the skill from an env var, a repository checkout or the plugin cache and writes the `missing:` line itself (F08).
 
 ### Breaking Changes
 - **`executing-plans` v4.0.0** replaces the v2 batch-and-checkpoint flow. Each plan task runs in a fresh context, test-first (red output recorded before green), with a fresh reviewer per task, a run ledger, bounded loops (red-green 3, build-test 5, review-fix 3, debug 3) and a `preflight` check. Parallel execution is limited to file-disjoint tasks. The ledger is copied into the PR. Agents report one status: `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT` or `CANNOT_VERIFY`.
