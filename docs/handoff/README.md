@@ -30,7 +30,7 @@ PR, tag, release, `gh repo edit` and the Claude Desktop upload are owner actions
 | Phases 0, A–D (13 agents, stage skills) | Done | git history |
 | E.1 trigger-collision audit | Done | `docs/research/2026-11-25-trigger-audit.md` |
 | E.2 orchestrator proposes the method | Done | `1ecfca0` |
-| E.3 dogfood | Report written; F18 (Critical) fixed; Important: 13 of 14 fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
+| E.3 dogfood | Report written; F18 (Critical) fixed; all 14 Important fixed (see Findings progress); 14 Minor open | `docs/research/2026-11-25-dogfood-report.md` |
 | E.4 clarity test | Done; G-9, G-10, G-12, G-14, G-15 left open (Minor) | `docs/research/2026-11-25-clarity-test.md` |
 | E.5 live trigger evals | Inconclusive (harness), re-run needed | `docs/research/2026-11-25-eval-check.md` |
 | Phase F docs, `bundles.json` packaging fix | Done | `68ab211` |
@@ -55,7 +55,7 @@ Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25
 | F05 | Fixed (docs) | `dod-block.md`: no bare directory for `node --test`, c8 with a glob, and a dependency-free `scripts/coverage.mjs` (checked on Node 24) |
 | F19 | Fixed | `run-ledger check` counts the `File` column of `acceptance-tests.md` §Map as in-plan; test in `run-ledger.test.mjs` |
 | F23 | Fixed (docs) | `artifacts.md` naming rule: non-digit after the AC ID in filters, scope to the item's test files, Quick names add the issue |
-| F08 | Open | |
+| F08 | Fixed (docs) | `vendoring.md`: `AGENTIC_SDLC_SKILL` / `SUPERSKILLS_REPO` / plugin cache lookup; `missing:` generated from the router's † scripts (procedure run in a scratch repo) |
 
 ## Verified at `eb7a3a6` (tests and budget; the script checks below ran at `8c5d014`)
 

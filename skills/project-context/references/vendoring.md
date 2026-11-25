@@ -16,14 +16,18 @@ Load in vendor mode, as the last step of setup and adopt, when the installed `ag
 | `<skill>/scripts/lib/*.mjs` | `.agentic-sdlc/bin/lib/` | `cli.mjs`, `git.mjs`, `md.mjs` — imported by relative path, so the layout is kept |
 | `<skill>/scripts/test/` | never copied | Test fixtures are not gates |
 
-`<skill>` is the installed `agentic-sdlc` directory: `~/.claude/skills/agentic-sdlc`, `~/.copilot/skills/agentic-sdlc`, the plugin cache, or another install target from `../../agentic-sdlc/references/platforms.md` §2. Locate it with `ls -d ~/.*/skills/agentic-sdlc ~/.gemini/antigravity/skills/agentic-sdlc 2>/dev/null`; with several installs, take the one whose README Metadata `Version` is highest and name it in `VERSION`.
+`<skill>` is the `agentic-sdlc` directory to copy from, in this order: `$AGENTIC_SDLC_SKILL` when set; `$SUPERSKILLS_REPO/skills/agentic-sdlc` for a checkout of `claude-superskills` (a `--plugin-dir` session); the Claude Code plugin cache `~/.claude/plugins/cache/*/skills/agentic-sdlc`; then the install targets in `../../agentic-sdlc/references/platforms.md` §2 (`~/.*/skills/agentic-sdlc`, `~/.gemini/antigravity/skills/agentic-sdlc`). The procedure below lists every candidate; with several, take the one whose README Metadata `Version` is highest, set `AGENTIC_SDLC_SKILL` to it and name it in `VERSION`.
 
 `preflight.mjs` imports `run-ledger.mjs`; never vendor one without the other. Scripts marked † in the router Module Index that are absent from the installed skill are listed on the `missing:` line; the router applies their Markdown fallback (`../../agentic-sdlc/references/artifacts.md` §Later-release files).
 
 ## 3. Procedure (POSIX shell, from the repository root)
 
 ```bash
-SKILL=~/.claude/skills/agentic-sdlc            # the located install
+# Candidates in lookup order; set AGENTIC_SDLC_SKILL to choose one explicitly.
+ls -d "${AGENTIC_SDLC_SKILL:-/nonexistent}" "${SUPERSKILLS_REPO:-/nonexistent}"/skills/agentic-sdlc \
+  ~/.claude/plugins/cache/*/skills/agentic-sdlc ~/.*/skills/agentic-sdlc ~/.gemini/antigravity/skills/agentic-sdlc 2>/dev/null
+SKILL="${AGENTIC_SDLC_SKILL:?set AGENTIC_SDLC_SKILL to one directory listed above}"
+test -f "$SKILL/scripts/preflight.mjs" || { echo "not an agentic-sdlc skill: $SKILL"; exit 1; }
 mkdir -p .agentic-sdlc/bin/lib
 rm -f .agentic-sdlc/bin/*.mjs .agentic-sdlc/bin/lib/*.mjs
 cp "$SKILL"/scripts/*.mjs .agentic-sdlc/bin/
@@ -34,6 +38,9 @@ cd .agentic-sdlc/bin
   echo "release: v<claude-superskills version>|unknown"
   echo "source: $SKILL"
   echo "vendored: $(date +%Y-%m-%d)"
+  # scripts marked † in the router Module Index that this install does not ship
+  m=$(grep -oE '[a-z-]+\.mjs`?†' "$SKILL/SKILL.md" | tr -d '`†' | LC_ALL=C sort -u | while read -r f; do [ -f "$SKILL/scripts/$f" ] || printf '%s\n' "$f"; done | paste -sd, - | sed 's/,/, /g')
+  [ -n "$m" ] && echo "missing: $m"
 } > VERSION
 find . -name '*.mjs' -type f | sed 's|^\./||' | LC_ALL=C sort | xargs shasum -a 256 > SHA256SUMS
 shasum -a 256 -c SHA256SUMS
