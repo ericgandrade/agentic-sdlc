@@ -12,7 +12,7 @@
    1. npm token for the first publish of a new package: on npmjs.com create a granular access token with read and write on all packages, then `gh secret set NPM_TOKEN -R ericgandrade/agentic-sdlc`. The current secret dates from 2026-05-08 and has likely expired.
    2. `git switch main && git pull && git tag v3.0.0 && git push origin v3.0.0`. The `Publish to npm` workflow checks that the tag matches the version, runs the gates and publishes `agentic-sdlc-method@3.0.0` with provenance.
    3. After the first publish: npmjs.com → `agentic-sdlc-method` → Settings → Trusted Publisher → GitHub Actions, repository `ericgandrade/agentic-sdlc`, workflow `publish-npm.yml`. Then revoke the token and delete the secret; later releases publish through OIDC.
-   4. Deprecate the old name (needs `npm login`): `npm deprecate claude-superskills "Renamed to agentic-sdlc-method. Run: npx agentic-sdlc-method"`.
+   4. Do **not** deprecate `claude-superskills`: the owner will reuse that npm name for a separate skills package.
    5. `gh repo edit` description and topics (commands in the `CLAUDE.md` release checklist); `./scripts/package-plugin.sh` and upload `plugin-output/agentic-sdlc-v3.0.0.zip` to Claude Desktop.
 4. Next work: [`docs/plans/2026-11-25-roadmap-v3.md`](../plans/2026-11-25-roadmap-v3.md) (v3.1: approval and trace checks, loop driver with enforced authority limits, re-score).
 

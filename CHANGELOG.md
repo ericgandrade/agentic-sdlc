@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [3.0.1] - 2026-11-25
 
+### Changed
+- The installer no longer registers a `claude-superskills` command alias, and `scripts/uninstall.sh` no longer removes a `claude-superskills` global package: that npm name will be reused for a separate skills package.
+
 ### Fixed
 - Installer: the Claude Cowork package step built its GitHub URL from the npm package name (`agentic-sdlc-method`) instead of the repository name (`agentic-sdlc`), so `npx agentic-sdlc-method` ended with "Request failed with status code 404" on machines with Claude Cowork. `lib/cowork.js` now reads the repository name from `lib/core/downloader.js`. Skills were installed correctly before the error.
 
@@ -30,7 +33,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Vendoring locates the skill from an env var, a repository checkout or the plugin cache and writes the `missing:` line itself (F08).
 
 ### Breaking Changes
-- **Repository renamed to `agentic-sdlc`** (was `claude-superskills`; GitHub redirects the old URL). The Claude Code plugin is now `agentic-sdlc`: install with `/plugin marketplace add ericgandrade/agentic-sdlc` and `/plugin install agentic-sdlc@agentic-sdlc`; skills appear as `/agentic-sdlc:<skill>`. The old plugin name started with `claude-`, which `claude plugin validate` rejects. The npm package is renamed to **`agentic-sdlc-method`** (`npx agentic-sdlc-method`); `claude-superskills` stops at v2.0.8 and is deprecated in its favour. The installer keeps `claude-superskills` as a command alias for global installs.
+- **Repository renamed to `agentic-sdlc`** (was `claude-superskills`; GitHub redirects the old URL). The Claude Code plugin is now `agentic-sdlc`: install with `/plugin marketplace add ericgandrade/agentic-sdlc` and `/plugin install agentic-sdlc@agentic-sdlc`; skills appear as `/agentic-sdlc:<skill>`. The old plugin name started with `claude-`, which `claude plugin validate` rejects. The npm package is renamed to **`agentic-sdlc-method`** (`npx agentic-sdlc-method`); `claude-superskills` stops at v2.0.8 for this project.
 - **Ten skills moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills):** `deep-research`, `webpage-reader`, `us-program-research`, `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`, `mckinsey-strategist` and `prompt-engineer`. claude-superskills now has 23 skills focused on the Agentic SDLC. The `research` and `content` bundles are removed; `essential` drops `prompt-engineer`. `doctor` no longer checks Python, Whisper and ffmpeg.
 - **`executing-plans` v4.0.0** replaces the v2 batch-and-checkpoint flow. Each plan task runs in a fresh context, test-first (red output recorded before green), with a fresh reviewer per task, a run ledger, bounded loops (red-green 3, build-test 5, review-fix 3, debug 3) and a `preflight` check. Parallel execution is limited to file-disjoint tasks. The ledger is copied into the PR. Agents report one status: `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT` or `CANNOT_VERIFY`.
 - **`writing-plans` v3.2.0** now produces a task graph (`| ID | Title | AC | Blocked by | Files | Size |`) that `plan-graph` validates. Inside the Agentic SDLC, plans live at `specs/NNN-slug/plan.md` and need a hash-bound Design sign-off; standalone plans stay in `docs/plans/`.
