@@ -1,7 +1,7 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { appendFileSync, cpSync, existsSync, readFileSync, rmSync } from 'node:fs';
+import { appendFileSync, cpSync, existsSync, readFileSync, rmSync, utimesSync } from 'node:fs';
 import { delimiter, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { contentHash } from '../lib/md.mjs';
@@ -123,6 +123,20 @@ test('coverage below coverage_min fails the coverage-floor check; no json-summar
     assert.equal(r.code, want === 'FAIL' ? 1 : 0);
     assert.match(json(r).checks.find((c) => c.id === 'coverage-floor').detail, new RegExp(`${pct}% .* 78\\.4`));
   }
+});
+
+test('a coverage summary older than the run is never compared (N1)', () => {
+  const dir = project();
+  const agents = readFileSync(join(dir, 'AGENTS.md'), 'utf8').replace('coverage_min: 0', 'coverage: node -e "0"\ncoverage_min: 50');
+  write(dir, 'AGENTS.md', agents);
+  write(dir, '.gitignore', 'coverage/\n');
+  commit(dir, 'coverage command that writes nothing');
+  write(dir, 'coverage/coverage-summary.json', JSON.stringify({ total: { lines: { pct: 99 } } }));
+  const old = new Date('2020-01-01T00:00:00Z');
+  utimesSync(join(dir, 'coverage/coverage-summary.json'), old, old);
+  const r = preflight(dir, '--plan', PLAN, '--json');
+  assert.equal(statusOf(r, 'coverage-floor'), 'SKIP', r.out);
+  assert.match(json(r).checks.find((c) => c.id === 'coverage-floor').detail, /older than this run/);
 });
 
 test('a missing sdlc-dod block exits 2', () => {

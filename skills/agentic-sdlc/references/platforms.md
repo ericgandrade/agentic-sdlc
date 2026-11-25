@@ -29,10 +29,10 @@ Load this file during `project-context` setup on a new platform, when the router
 
 ### Install and instructions
 
-| Platform | Install target (`npx claude-superskills`) | Instruction file the host reads | Block location |
+| Platform | Install target (`npx agentic-sdlc-method`) | Instruction file the host reads | Block location |
 |---|---|---|---|
 | GitHub Copilot CLI | `~/.copilot/skills/` | `AGENTS.md`, `.github/copilot-instructions.md` | `AGENTS.md` |
-| Claude Code | `~/.claude/skills/` or `/plugin install claude-superskills@claude-superskills` | `CLAUDE.md` | `AGENTS.md` + `@AGENTS.md` import line in `CLAUDE.md` |
+| Claude Code | `~/.claude/skills/` or `/plugin install agentic-sdlc@agentic-sdlc` | `CLAUDE.md` | `AGENTS.md` + `@AGENTS.md` import line in `CLAUDE.md` |
 | OpenAI Codex (CLI + App) | `~/.codex/skills/` | `AGENTS.md` | `AGENTS.md` |
 | OpenCode | `~/.agent/skills/` | `AGENTS.md` | `AGENTS.md` |
 | Gemini CLI | `~/.gemini/skills/` | `GEMINI.md` (or the file set in `context.fileName`) | `AGENTS.md` + `context.fileName: ["AGENTS.md", "GEMINI.md"]` in `.gemini/settings.json` |

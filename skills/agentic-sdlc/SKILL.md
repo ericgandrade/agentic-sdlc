@@ -31,11 +31,7 @@ Not for one-off explanations or line-by-line edits the user directs. Pure ideati
 
 ### Step 0 — Detect state
 
-Run the status command once, first match wins:
-
-1. `node .agentic-sdlc/bin/status.mjs --json`† (vendored into the project by `project-context`).
-2. `node <this skill>/scripts/status.mjs --json`†.
-3. Neither exists or Node is absent → apply the table below by reading the files.
+Read the files and apply the table below; first match wins. Once `status.mjs --json`† ships (`.agentic-sdlc/bin/` or this skill's `scripts/`), run it instead.
 
 | # | State (first match from the top) | Detected by | Next step |
 |---|---|---|---|
@@ -50,7 +46,7 @@ Run the status command once, first match wins:
 | 9 | Retro actions open | Retro action without `done` or `dropped: <reason>` | Work the oldest action as a Discover item |
 | — | Nothing open | None of the above | Ask for the next request |
 
-Unparsable artifact → state `UNKNOWN`, recommend `project-context audit` and `references/faq.md`†; the status script† exits 2. Confirm a resume in one line before acting (Example 4).
+Unparsable artifact → state `UNKNOWN`, recommend `project-context audit`; the status script† exits 2. Confirm a resume in one line before acting (Example 4).
 
 When the user names a stage, check its entry condition (`references/lifecycle.md` §1) and report each missing prerequisite. Never skip one silently.
 

@@ -3,7 +3,7 @@
 // Dependency-free Node >= 18. Exit codes: 0 every check passed · 1 a check failed (run not started) · 2 input missing.
 
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { EXIT, InputError, parseArgs, report, run } from './lib/cli.mjs';
@@ -79,12 +79,14 @@ function tail(text, n = TAIL_LINES) {
 // Same reader as the CI floor step: json-summary total.lines.pct (Istanbul, c8, Vitest, Jest).
 // Other formats (Go, .NET, JaCoCo, coverage.py) are compared by CI only → SKIP.
 export const COVERAGE_SUMMARY = 'coverage/coverage-summary.json';
-function coverageFloor(root, entries, dodResults) {
+function coverageFloor(root, entries, dodResults, startedMs) {
   const min = Number(entries.coverage_min);
   if (entries.coverage_min === undefined || /^n\/a\b/i.test(entries.coverage_min) || !Number.isFinite(min)) return check('coverage-floor', 'SKIP', 'no numeric coverage_min');
   if (!dodResults.some((d) => d.key === 'coverage')) return check('coverage-floor', 'SKIP', 'no coverage command ran (a stale summary is never read)');
   const file = join(root, COVERAGE_SUMMARY);
   if (!existsSync(file)) return check('coverage-floor', 'SKIP', `${COVERAGE_SUMMARY} not written (non json-summary format: CI compares the floor)`);
+  // A summary older than this DoD run was left by an earlier run: never compare it.
+  if (statSync(file).mtimeMs < startedMs - 2000) return check('coverage-floor', 'SKIP', `${COVERAGE_SUMMARY} is older than this run (not written by the coverage command); CI compares the floor`);
   let pct;
   try { pct = Number(JSON.parse(readFileSync(file, 'utf8')).total.lines.pct); } catch { pct = NaN; }
   if (!Number.isFinite(pct)) return check('coverage-floor', 'FAIL', `${COVERAGE_SUMMARY} has no numeric total.lines.pct`);
@@ -176,6 +178,7 @@ export function runPreflight({ cwd = process.cwd(), runId = null, plan = null, m
   if (checks.some((c) => c.status === 'FAIL')) {
     checks.push(check('baseline-dod', 'SKIP', 'an earlier check failed'));
   } else {
+    const dodStarted = Date.now();
     for (const { key, cmd } of cmds) {
       const t0 = Date.now();
       const r = spawnSync(cmd, { cwd: root, shell: true, encoding: 'utf8', timeout: timeoutMin * 60_000, maxBuffer: 64 * 1024 * 1024 });
@@ -185,7 +188,7 @@ export function runPreflight({ cwd = process.cwd(), runId = null, plan = null, m
     const red = dodResults.filter((d) => d.exit !== 0);
     checks.push(check('baseline-dod', red.length ? 'FAIL' : 'PASS',
       red.length ? `red baseline: ${red.map((d) => `${d.key} (exit ${d.exit})`).join(', ')} — fix or record the baseline before any change` : `${dodResults.length} command(s) green`));
-    if (!red.length) checks.push(coverageFloor(root, dod.entries, dodResults));
+    if (!red.length) checks.push(coverageFloor(root, dod.entries, dodResults, dodStarted));
   }
 
   const ok = checks.every((c) => c.status !== 'FAIL');

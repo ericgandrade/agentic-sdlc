@@ -36,7 +36,9 @@ cp "$SKILL"/scripts/lib/*.mjs .agentic-sdlc/bin/lib/
 cd .agentic-sdlc/bin
 {
   echo "agentic-sdlc $(grep -E '^\| Version \|' "$SKILL/README.md" | head -n 1 | awk -F'|' '{gsub(/ /,"",$3); print $3}')"
-  echo "release: v<claude-superskills version>|unknown"
+  # release: version in the plugin manifest two levels above the skill (plugin cache or repo checkout)
+  r=$( [ -f "$SKILL/../../.claude-plugin/plugin.json" ] && sed -n 's/^ *"version": *"\([^"]*\)".*/\1/p' "$SKILL/../../.claude-plugin/plugin.json" | head -n 1)
+  echo "release: ${r:+v}${r:-unknown}"
   echo "source: $SKILL"
   echo "vendored: $(date +%Y-%m-%d)"
   # scripts marked † in the router Module Index that this install does not ship
@@ -48,7 +50,7 @@ shasum -a 256 -c SHA256SUMS
 for f in *.mjs; do node "$f" --help > /dev/null || echo "FAIL --help $f"; done
 ```
 
-- `release:` is the `claude-superskills` npm or plugin version the skill came from (`npx claude-superskills --version`, or `version` in the plugin's `.claude-plugin/plugin.json`); `unknown` when neither can be read.
+- `release:` is the release the skill came from: `version` in `$SKILL/../../.claude-plugin/plugin.json` (the `agentic-sdlc` plugin manifest, present in a plugin cache or a repository checkout; it equals the `claude-superskills` npm version), computed by the procedure; `unknown` when that file is absent. For an npm install, replace `unknown` by hand with `v` + `npx agentic-sdlc-method --version`.
 - `sha256sum` replaces `shasum -a 256` on Linux images without Perl; the file format is identical.
 - Windows without a POSIX shell: copy with Explorer or `Copy-Item`, then write each line as `<lowercase hex>  <path>` using `(Get-FileHash -Algorithm SHA256 <path>).Hash.ToLower()`; verify on any POSIX host or in CI.
 - Node absent or < 18: vendor anyway (the files are inert), set `node: absent` on the Platform line and `Enforcement: prompt-only`; the project runs the Markdown-only path (`../../agentic-sdlc/references/platforms.md` §4) until Node is present.
@@ -57,13 +59,13 @@ for f in *.mjs; do node "$f" --help > /dev/null || echo "FAIL --help $f"; done
 
 ```text
 agentic-sdlc 2.1.0
-release: v2.0.8
+release: v3.0.0
 source: /home/dev/.claude/skills/agentic-sdlc
 vendored: 2026-11-24
 missing: status.mjs, dod-gate.mjs, doctor.mjs
 ```
 
-The `source:` path is informational and may name a home directory; it carries no secret. Teams that prefer not to commit local paths write `source: claude-superskills@v2.0.8`.
+The `source:` path is informational and may name a home directory; it carries no secret. Teams that prefer not to commit local paths write `source: agentic-sdlc-method@v3.0.0`.
 
 ## 4. Verification
 
@@ -92,4 +94,4 @@ Trigger: a new `agentic-sdlc` install, a `VERSION` mismatch, or a checksum failu
 
 ## 6. Without vendoring
 
-When a team refuses vendored files, CI points `SDLC_BIN` at a checkout of `<skills>/agentic-sdlc/scripts` at a pinned tag (`ericgandrade/claude-superskills@v<version>`), never at a moving branch. The block's `Tools:` line then reads `Tools: agentic-sdlc <version> from claude-superskills@v<version> (not vendored)`.
+When a team refuses vendored files, CI points `SDLC_BIN` at a checkout of `<skills>/agentic-sdlc/scripts` at a pinned tag (`ericgandrade/agentic-sdlc@v<version>`), never at a moving branch. The block's `Tools:` line then reads `Tools: agentic-sdlc <version> from claude-superskills@v<version> (not vendored)`.

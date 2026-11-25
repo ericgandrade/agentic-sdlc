@@ -12,6 +12,8 @@ Full workflow: skill `retrospective`.
 | Full | Same as Standard | ≤ 5 business days after the trigger | ≤ 45 min (full retro: adds §Full additions) | One spec |
 | Quick | 10 Quick items merged since the last Quick batch retro, or 14 calendar days since it with ≥ 1 Quick item merged; whichever comes first | ≤ 5 business days after the trigger | ≤ 15 min | All Quick items in the batch |
 
+**Long rollouts.** A Standard or Full rollout still below 100% ten business days after the merge does not hold the retro: run it then, write the Indicator and Outcome rows as `pending — <date the reading is due>`, and complete them in the next retro of the same team (they need `ops.md` readings from Operate).
+
 **Record:** `docs/retros/YYYY-MM-DD.md` (second retro on the same date: `YYYY-MM-DD-2.md`). The header line `**Covers:**` names the spec folder and release tag, or the batch's PR numbers; `status.mjs`† matches retros to items by this line.
 
 **Failure behaviour.** No valid record by the due date → `status.mjs`† reports `Retro overdue: <spec or batch>` as the next step (router Step 0, state 8), and the next Release in the repository is NO-GO (`references/release-ops.md` checklist R9; `trace-check`† FAIL once it exists) until the retro is held. A retro is never skipped because the cycle "went fine": a 15-minute retro with one action is the minimum.

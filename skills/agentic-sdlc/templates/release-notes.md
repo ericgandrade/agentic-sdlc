@@ -5,14 +5,16 @@ The Release Engineer fills every section before the Release sign-off request, th
 Every checklist and go/no-go row is true or false with evidence; prose without output counts as false.
 A section with nothing to report says "none — <reason>"; never leave it blank. Keep every heading.
 Location: the release entry on the host (GitHub/GitLab release) or CHANGELOG.md; §Summary is the
-user-facing CHANGELOG text.
+user-facing CHANGELOG text. No host release and no CHANGELOG: `specs/NNN-slug/release-notes.md`
+(Quick: `docs/releases/<issue>.md`). No PR host: the PR field reads `none — <review record path>`.
 Package, library or CLI with nothing deployed: fill Rollout, Rollback, Observability, R3–R6 and
-go/no-go 4 from references/release-ops.md §Package or library profile; never game the service wording.
+go/no-go 4 from references/release-ops.md §Package or library profile, and paste its Package contents
+evidence (the `npm pack --dry-run` file list) as an extra Release checklist row; never game the service wording.
 -->
 
 # Release notes — <service> v<X.Y.Z>
 
-**Spec:** `specs/<NNN-slug>/spec.md` rev <N> · sha256 `<12 hex>` · **PR:** #<n> (head `<sha>`) · **Path:** <Quick | Standard | Full>
+**Spec:** `specs/<NNN-slug>/spec.md` rev <N> · sha256 `<12 hex>` · **PR:** #<n> (head `<sha>`) or none — `<review record path>` (head `<sha>`) · **Path:** <Quick | Standard | Full>
 **Release commit:** `<sha>` · **Tag:** `v<X.Y.Z>` (pushed only after Release sign-off) · **Planned date:** <YYYY-MM-DD>
 **Release Engineer:** <agent or person> · **Release Owner:** <role, person>
 
@@ -112,9 +114,11 @@ exit <code> · <ISO-8601 time>
 
 ## Waivers
 
-| ID | Kind (accept risk \| defer \| emergency) | Gate waived | Reason | Owner (≠ requester) | Expiry (≤ 30 days) | Follow-up issue |
-|---|---|---|---|---|---|---|
-| <W-n or "none"> | <kind> | <gate> | <reason> | <role, person> | <YYYY-MM-DD> | <#issue> |
+Columns and rules: `references/governance.md` §6 (owner ≠ requester; a 1-person team writes the owner as `self · 1-person team`, §6.3).
+
+| ID | Kind (accept-risk \| defer \| emergency) | Gate waived | Severity | Reason | Requester | Owner (≠ requester) | Granted | Expires (≤ kind maximum) | Follow-up (#n, KEY-n or URL) |
+|---|---|---|---|---|---|---|---|---|---|
+| <W-n or "none"> | <kind> | <gate> | <Critical \| Important \| Minor> | <reason> | <role, person> | <role, person> | <YYYY-MM-DD> | <YYYY-MM-DD> | <#issue> |
 
 ## Residual risks
 

@@ -293,23 +293,27 @@ export function lintSpec(md, { pathOverride, checkApproval = false, today, readS
     const t = firstTable(sections.release.body);
     const rows = t ? Object.fromEntries(t.rows.map((r) => [String(r[0] || '').toLowerCase(), r[1] || ''])) : {};
     const get = (k) => { const key = Object.keys(rows).find((x) => x.startsWith(k)); return key ? rows[key] : ''; };
-    const at = sections.release.line + 1;
+    // Report the offending row's line; fall back to the heading line when the row is missing.
+    const rowAt = (k) => {
+      const idx = t ? t.rows.findIndex((r) => String(r[0] || '').toLowerCase().startsWith(k)) : -1;
+      return idx < 0 ? sections.release.line + 1 : sections.release.start + t.line + 3 + idx;
+    };
     const required = path === 'Quick' ? ['signal', 'rollback command'] : ['signal', 'alert', 'dashboard', 'owner', 'rollout', 'rollback command'];
-    for (const k of required) if (!hasWords(get(k))) err('OBS01', `Release & observability row "${k}" missing or empty`, at);
+    for (const k of required) if (!hasWords(get(k))) err('OBS01', `Release & observability row "${k}" missing or empty`, rowAt(k));
     const signal = get('signal');
-    if (hasWords(signal) && path !== 'Quick' && !/\bAC-\d+\b/.test(signal)) err('OBS02', 'Signal must name the AC-n it observes', at);
+    if (hasWords(signal) && path !== 'Quick' && !/\bAC-\d+\b/.test(signal)) err('OBS02', 'Signal must name the AC-n it observes', rowAt('signal'));
     // No production deployment (library, CLI, internal tool): "n/a — <reason>" is accepted for Alert and Rollout.
     const notApplicable = (v) => /^\s*n\/a\s*[—–-]\s*\S+/i.test(v);
     const alert = get('alert');
     if (hasWords(alert) && !notApplicable(alert) && !(COMPARATOR.test(alert) && /\d/.test(alert) && WINDOW.test(alert))) {
-      err('OBS03', `Alert needs a comparator, a numeric threshold and a window (e.g. "> 2% over 15 min"): "${alert}"`, at);
+      err('OBS03', `Alert needs a comparator, a numeric threshold and a window (e.g. "> 2% over 15 min"): "${alert}"`, rowAt('alert'));
     }
     const rollout = get('rollout');
     if (hasWords(rollout) && !notApplicable(rollout) && !(/\bflag\b/i.test(rollout) && /\boff\b/i.test(rollout)) && (rollout.match(/\d+\s*%/g) || []).length < 2) {
-      err('OBS04', 'Rollout needs a feature flag with default off, or ≥ 2 percentage stages (1% → 10% → 100%)', at);
+      err('OBS04', 'Rollout needs a feature flag with default off, or ≥ 2 percentage stages (1% → 10% → 100%)', rowAt('rollout'));
     }
     const rb = get('rollback command');
-    if (hasWords(rb) && !HAS_CODE.test(rb)) err('OBS05', 'Rollback command must be a command in backticks', at);
+    if (hasWords(rb) && !HAS_CODE.test(rb)) err('OBS05', 'Rollback command must be a command in backticks', rowAt('rollback command'));
   }
 
   // Indicator: baseline and target are numbers.
@@ -377,8 +381,11 @@ export function lintSpec(md, { pathOverride, checkApproval = false, today, readS
   const activeIds = new Set(acs.filter((a) => !a.retired).map((a) => a.id));
   const flagged = path === 'Full' || triggers.some((t) => THREAT_MODEL_TRIGGERS.has(t));
   const tm = readSibling('threat-model.md');
+  // A Security notes row "Threat model | n/a — <reason>" records the Security Auditor's judgment (references/security.md).
+  const tmRow = sections.security ? (firstTable(sections.security.body)?.rows || []).find((r) => /^threat model/i.test(String(r[0] || '').trim())) : null;
+  const threatModelNotApplicable = !!tmRow && /^\s*n\/a\s*[—–-]\s*\S+/i.test(String(tmRow[1] || ''));
   if (tm == null && path === 'Full') err('TM01', 'Full path requires threat-model.md next to spec.md');
-  else if (tm == null && flagged) warn('TM02', `risk-flagged spec (${triggers.join(', ')}) without threat-model.md; the Security Auditor writes it before Specify sign-off`);
+  else if (tm == null && flagged && !threatModelNotApplicable) warn('TM02', `risk-flagged spec (${triggers.join(', ')}) without threat-model.md; the Security Auditor writes it before the Specify sign-off request, or records "n/a — <reason>" in the Security notes "Threat model" row`);
   if (tm != null) {
     for (const t of parseTables(blankComments(tm))) {
       const rk = t.header.findIndex((h) => /rating|severity/i.test(h));

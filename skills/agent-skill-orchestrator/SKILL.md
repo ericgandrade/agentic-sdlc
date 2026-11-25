@@ -163,7 +163,7 @@ Total score = 0–100. Filter out resources below 40. Group into tiers: high con
 - Option 2 is the loose chain for teams that decline the method: for example `brainstorming` → `writing-plans` → `executing-plans` → `multi-axis-code-review`.
 - A single-stage request (only debug a failing test, only review a PR, only write a spec) goes straight to that stage skill (`systematic-debugging`, `multi-axis-code-review`, `spec-driven-development`) and does not start the full method.
 
-**When `agentic-sdlc` is not installed**, keep the normal plan and add one Notes line: "For end-to-end delivery with approvals, install the `agentic-sdlc` bundle (`npx claude-superskills`, bundle `agentic-sdlc`)."
+**When `agentic-sdlc` is not installed**, keep the normal plan and add one Notes line: "For end-to-end delivery with approvals, install the `agentic-sdlc` bundle (`npx agentic-sdlc-method`, bundle `agentic-sdlc`)."
 
 ### Step 3: Generate Execution Plan
 

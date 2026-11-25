@@ -9,6 +9,7 @@ Review records, approval registers, archived run ledgers and release notes are e
 -->
 
 **Spec:** `specs/<NNN-slug>/spec.md` rev <N> · sha256 `<12 hex>` · **Plan:** rev <N> · sha256 `<12 hex>`
+<!-- Quick path: replace the Spec/Plan line with **Issue:** <#n or `docs/issues/NNNN-slug.md`> · **AC:** AC-1 … AC-n (from the issue) -->
 **Path:** <Quick | Standard | Full> · S=<n> · R=<n> (<triggers>) · **Enforcement:** <branch-protection | prompt-only>
 **Base:** `<base branch>` @ `<sha>` · **Head:** `<sha>` · **Current fingerprint:** `<12 hex>`
 
@@ -105,14 +106,16 @@ For the human reviewer (engineer) who gives Test sign-off. Read in this order.
 
 ## Waivers
 
-| ID | Kind (accept risk \| defer \| emergency) | Gate waived | Reason | Owner (≠ requester) | Expiry (≤ 30 days) | Follow-up issue |
-|---|---|---|---|---|---|---|
-| <W-n or "none"> | <kind> | <gate> | <reason> | <role, person> | <YYYY-MM-DD> | <#issue> |
+Columns and rules: `references/governance.md` §6 (owner ≠ requester; a 1-person team writes the owner as `self · 1-person team`, §6.3).
+
+| ID | Kind (accept-risk \| defer \| emergency) | Gate waived | Severity | Reason | Requester | Owner (≠ requester) | Granted | Expires (≤ kind maximum) | Follow-up (#n, KEY-n or URL) |
+|---|---|---|---|---|---|---|---|---|---|
+| <W-n or "none"> | <kind> | <gate> | <Critical \| Important \| Minor> | <reason> | <role, person> | <role, person> | <YYYY-MM-DD> | <YYYY-MM-DD> | <#issue> |
 
 ## Test sign-off
 
 Filled only after the human answers in a later turn (`references/governance.md` §2, step 6). "pending" until then.
 
-| Gate | Decision (exact words) | Approver (role, person) | Date (ISO-8601) | Head SHA |
+| Gate | Decision (exact words) | Approver (role, person) | Date (ISO-8601) | Head SHA (PR host) or fingerprint (no PR host) |
 |---|---|---|---|---|
-| Test | <"approved …" \| pending> | <human reviewer, person> | <time> | `<40-hex sha>` |
+| Test | <"approved …" \| pending> | <human reviewer, person> | <time> | `<40-hex sha>` or `<12-hex fingerprint>` |

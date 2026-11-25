@@ -153,8 +153,8 @@ Rating rules: two severities fit → take the higher. Grade by effect on the use
 Only after a GO verdict (`references/test-signoff-prep.md`):
 
 1. Fill `## Review guide`: files riskiest first with the reason; 3–7 questions tied to a file, AC or F-n, including one per `declined to judge` finding; the CANNOT_VERIFY items with verifier and date; every `self-review` label; deferred findings and waivers.
-2. Request the sign-off in one message naming the role, PR, head SHA, verdict, open residual risks and the evidence reviewed. Full path: two human reviewers, at least one not involved in Design. The PR author never gives it; a 1-person team uses the waiver in `../agentic-sdlc/references/governance.md` §6.3.
-3. **End the turn.** Agents never approve. A push after the request makes the request stale: the review binds to the head SHA.
+2. Request the sign-off in one message naming the role, PR, head SHA (no PR host: the fingerprint), verdict, open residual risks and the evidence reviewed. Full path: two human reviewers, at least one not involved in Design. The PR author never gives it; a 1-person team uses the waiver in `../agentic-sdlc/references/governance.md` §6.3.
+3. **End the turn.** Agents never approve. A push after the request makes the request stale: the review binds to the head SHA. Without a PR host it binds to the fingerprint (record files excluded), so committing the review record keeps it valid and a change to code or tests voids it.
 
 ## Anti-rationalization
 

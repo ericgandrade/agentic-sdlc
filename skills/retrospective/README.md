@@ -31,7 +31,7 @@ Stage contract: `../agentic-sdlc/references/retrospective.md`. Record template: 
 ## Typical invocation
 
 ```text
-/claude-superskills:retrospective Prepare the retro for specs/009-bulk-invite; v3.8.0 reached 100% on 2026-12-14.
+/agentic-sdlc:retrospective Prepare the retro for specs/009-bulk-invite; v3.8.0 reached 100% on 2026-12-14.
 ```
 
 ```text

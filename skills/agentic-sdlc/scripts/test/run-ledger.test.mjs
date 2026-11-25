@@ -377,9 +377,20 @@ test('finish reports NEEDS_HUMAN on a pending ruling or a non-budget halt and BL
 
   const c = runFixture();
   finishT1(c.rl);
-  const fc = c.rl('finish', '--run', 'r1');
+  const refused = c.rl('finish', '--run', 'r1');
+  assert.equal(refused.code, 1);
+  assert.match(refused.out, /REFUSED: finish would close the run as BLOCKED \(tasks not done: T2=pending, T3=pending\)/);
+  assert.equal(c.rl('task', '--run', 'r1', '--task', 'T2', '--state', 'started').code, 0, 'a refused finish leaves the run open (N4)');
+  const fc = c.rl('finish', '--run', 'r1', '--confirm-blocked');
   assert.equal(fc.code, 1);
-  assert.match(fc.out, /BLOCKED — tasks not done: T2=pending, T3=pending/);
+  assert.match(fc.out, /BLOCKED — tasks not done: T2=started, T3=pending/);
+});
+
+test('--no-red is accepted only with --state done (N4)', () => {
+  const { rl } = runFixture();
+  const r = rl('task', '--run', 'r1', '--task', 'T1', '--state', 'started', '--no-red', 'docs only');
+  assert.equal(r.code, 2, r.out + r.err);
+  assert.match(r.err + r.out, /--no-red applies only to --state done/);
 });
 
 test('a heading-form plan yields tasks without Files; check reports the skipped file check', () => {

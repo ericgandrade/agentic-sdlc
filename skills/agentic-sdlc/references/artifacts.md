@@ -42,7 +42,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── runs/<id>/                     # run-ledger + preflight: ledger.jsonl, preflight.json, result.json
     ├── runs/preflight.json            # preflight without --run
     ├── evidence/ledger.jsonl          # † fingerprint-bound evidence records (evidence)
-        ├── metrics/history.jsonl          # † (metrics)
+    ├── metrics/history.jsonl          # † (metrics)
     └── doctor.json                    # † (doctor)
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
 ```
@@ -81,7 +81,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Run worktree | `../<repo>-sdlc-<id>` on `sdlc/NNN-<id>` | generated | Build · `run-ledger start --mode unattended` | unattended runs | `preflight` (isolation) |
 | Project config | `.agentic-sdlc/config.json` | — (`budgets` keys, `references/autonomous.md` §4) | Discover · `project-context` | when budgets differ from the defaults | `run-ledger start` |
 | Evidence ledger | `.agentic-sdlc/evidence/ledger.jsonl` | generated | Build, Test · `evidence record`† | all paths | `evidence check`† |
-| Release notes | release / `CHANGELOG.md` | `templates/release-notes.md` | Release · Release Engineer | production releases | release checklist |
+| Release notes | release / `CHANGELOG.md`; neither → `specs/NNN-slug/release-notes.md` (Quick: `docs/releases/<issue>.md`) | `templates/release-notes.md` | Release · Release Engineer | production releases | release checklist |
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md` | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
 | Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
 | Postmortem | `docs/postmortems/` | `templates/postmortem.md` | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
@@ -118,7 +118,7 @@ The router Module Index and other files name the files below; they are added in 
 - Spec folders: `NNN` = 3 digits, next free number in `specs/`; slug = 2–5 kebab-case words (`001-csv-export`).
 - IDs: `AC-1..n` per spec (unique, contiguous); `T1..n` per plan; `CHAR-n` for characterization tests; ADR `NNNN` 4 digits.
 - Commit trailer: `Refs: T3 AC-2` (space-separated IDs). The bracket form `[T3, AC-2]` in the subject is also parsed.
-- Test names contain the AC ID they prove: `AC-2 rejects formula prefixes`. AC IDs are local to one spec or issue, so a command that selects one AC ends the ID with a non-digit lookahead (`--test-name-pattern="AC-2(?![0-9])"`, `-t "AC-2(?![0-9])"`: `AC-2` alone also matches `AC-20`), and a run that selects 0 tests is a failure, not a pass and is scoped to that item's test files (the `File` column of `acceptance-tests.md`; Quick: the files the PR adds). Quick test names add the issue: `#142 AC-1 trims the price`.
+- Test names contain the AC ID they prove: `AC-2 rejects formula prefixes`. AC IDs are local to one spec or issue, so a command that selects one AC ends the ID with a non-digit lookahead (`--test-name-pattern="AC-2(?![0-9])"`, `-t "AC-2(?![0-9])"`: `AC-2` alone also matches `AC-20`), and a run that selects 0 tests is a failure, not a pass and is scoped to that item's test files (the `File` column of `acceptance-tests.md`; Quick: the files the PR adds). Quick test names add the issue: `#142 AC-1 trims the price`, selected with `--test-name-pattern="#142 AC-1(?![0-9])"`. Standard and Full test names start with the AC ID (`references/tdd.md` §2), so a Standard filter anchors it: `^AC-2(?![0-9])`; the anchor also excludes Quick tests, which start with `#<issue>`, in a shared file.
 
 ## AGENTS.md block
 
@@ -128,7 +128,7 @@ The block is the project context every agent reads first. `project-context` writ
 <!-- AGENTIC-SDLC:BEGIN -->
 ## Agentic SDLC
 - Artifacts: `specs/NNN-slug/` · ADRs: `docs/adr/` · Code map: `docs/codemap.md`
-- Conventions: branch `feat/NNN-slug`; commit trailer `Refs: Tn AC-n`
+- Conventions: branch `feat/NNN-slug` (Quick: `fix/<issue>-<slug>`); commit trailer `Refs: Tn AC-n`
 - Enforcement: branch-protection | prompt-only · permissions: enforced | prompt-only
 
 ## Definition of Done

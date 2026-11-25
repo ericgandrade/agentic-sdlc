@@ -97,7 +97,7 @@ A breaker halt also needs a ruling on the task (`run-ledger ruling --decision â€
 
 ## 7. Finish and run result
 
-`run-ledger finish --run <id>` writes `.agentic-sdlc/runs/<id>/result.json` and copies the ledger to `specs/NNN-slug/run-ledger.jsonl`. Commit the archive on the run branch.
+`run-ledger finish --run <id>` (terminal; a BLOCKED close with open tasks and no halt needs `--confirm-blocked`) writes `.agentic-sdlc/runs/<id>/result.json` and copies the ledger to `specs/NNN-slug/run-ledger.jsonl`. Commit the archive on the run branch.
 
 | Result | When | Exit |
 |---|---|---|

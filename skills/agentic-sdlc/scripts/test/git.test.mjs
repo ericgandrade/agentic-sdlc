@@ -79,6 +79,20 @@ test('fingerprint changes with content and ignores the evidence folder', () => {
   assert.notEqual(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'deleted file changes the fingerprint');
 });
 
+test('plan.md Loop ledger rows never change the fingerprint; plan content does (N3)', () => {
+  const repo = makeRepo('git-plan');
+  const plan = '# Plan\n\n## Tasks\n\n| ID | Title |\n|---|---|\n| T1 | one |\n\n## Loop ledger\n\n| Date | Task |\n|---|---|\n';
+  write(repo, 'specs/001-x/plan.md', plan);
+  commit(repo, 'plan');
+  const f0 = fingerprint({ cwd: repo }).fingerprint;
+  write(repo, 'specs/001-x/plan.md', plan + '| 2026-11-25 | T1 |\n');
+  assert.equal(fingerprint({ cwd: repo }).fingerprint, f0, 'uncommitted ledger row ignored');
+  commit(repo, 'ledger row');
+  assert.equal(fingerprint({ cwd: repo }).fingerprint, f0, 'committed ledger row ignored');
+  write(repo, 'specs/001-x/plan.md', plan.replace('| T1 | one |', '| T1 | changed |') + '| 2026-11-25 | T1 |\n');
+  assert.notEqual(fingerprint({ cwd: repo }).fingerprint, f0, 'a task edit still counts');
+});
+
 test('log returns commits oldest first with bodies; changedFiles uses the merge base', () => {
   const repo = makeRepo();
   write(repo, 'a.txt', 'a');

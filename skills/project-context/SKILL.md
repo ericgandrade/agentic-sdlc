@@ -53,8 +53,8 @@ Check the rows top to bottom; the first match wins.
 | 4 | Installed version ≠ `.agentic-sdlc/bin/VERSION`, or `SHA256SUMS` check fails | **vendor** |
 | 5 | CI gates, branch protection or the `Enforcement:` line requested; rollout week 3 | **enforce** |
 | 6 | Top-level source directory added, removed or moved; code map > 90 days | **codemap** |
-| 7 | No block; ≥ 1 commit and ≥ 1 source directory | **adopt** (brownfield) |
-| 8 | No block; no commits or no source directory | **setup** (greenfield) |
+| 7 | No block; ≥ 1 source directory with history beyond the initial commit | **adopt** (brownfield) |
+| 8 | No block; no commits, no source directory, or only one initial or scaffold commit (`git rev-list --count HEAD` = 1) | **setup** (greenfield) |
 | 9 | Block exists and "are these still correct?" asked, or `Verified:` > 90 days | **audit** |
 | 10 | Block exists | **refresh** |
 

@@ -18,7 +18,7 @@ Operate feeds incidents, alert trends, indicator misses and retro actions back i
 
 ## Install and first run
 
-1. Install: `npx claude-superskills` (all 8 platforms) or `/plugin install claude-superskills@claude-superskills` in Claude Code.
+1. Install: `npx agentic-sdlc-method` (all 8 platforms) or `/plugin install agentic-sdlc@agentic-sdlc` in Claude Code.
 2. In the project, ask: "Set up the Agentic SDLC here." `project-context` writes the AGENTS.md block with the `sdlc-dod` Definition of Done.
 3. Ask: "Fix this bug with the Agentic SDLC: <issue>." Follow `references/quickstart.md` (one Quick-path bug fix, end to end).
 

@@ -10,10 +10,12 @@ Load this file for any approval request, any approval record, any waiver, and th
 |---|---|---|---|---|---|
 | **Specify** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
 | **Design** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
-| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr`† (10.4) |
+| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA (PR host); no PR host → evidence fingerprint (`references/verification.md` §4; record files excluded) | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr`† (10.4) |
 | **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
 
 Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3). Quick-path items have no `specs/` folder.
+
+**Test sign-off staleness.** With a PR host, a push after the request makes the request stale (the review binds to the head SHA). Without a PR host, the sign-off binds to the fingerprint, so committing the review record does not stale it; any change to code or tests changes the fingerprint and voids it.
 
 **Accountability roles (K12).** One person can hold several roles; every record names the role exercised. Approver ≠ PR author is enforced by `approval-check`† (mechanism 10.4); in a 1-person team the waiver procedure (§6) applies.
 

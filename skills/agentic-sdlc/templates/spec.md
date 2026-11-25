@@ -2,7 +2,7 @@
 
 <!--
 Template for specs/NNN-slug/spec.md (mechanism 2.1). Copy it, replace every {{...}} placeholder,
-and delete no section. HTML comments are guidance: spec-lint ignores them, so they can stay.
+and delete no section. HTML comments are guidance: spec-lint ignores them, so they can stay. Remove them, if at all, before the Specify sign-off request: the approval hash covers the whole file.
 Check before the Specify sign-off request:
   node .agentic-sdlc/bin/spec-lint.mjs specs/NNN-slug/spec.md      (vendored copy)
   node <agentic-sdlc skill>/scripts/spec-lint.mjs specs/NNN-slug/spec.md

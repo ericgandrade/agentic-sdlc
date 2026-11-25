@@ -26,7 +26,7 @@ Failure behaviour:
 
 | Input | Definition | 1 point | 2 points | 3 points |
 |---|---|---|---|---|
-| Files | Source, test, config and migration files created, modified or deleted; lockfiles and generated files excluded | ≤ 3 | 4–15 | > 15 |
+| Files | Source, test, config and migration files created, modified or deleted; lockfiles, generated files and method records (issue, spec, plan, review record, ledger, other docs) excluded | ≤ 3 | 4–15 | > 15 |
 | Components | Separately built or deployed units touched: API service, web client, worker, database schema, shared package | 1 | 2 | ≥ 3 |
 | Iterations | Merged PRs needed before the change is complete in production | 1 | 2 | ≥ 3 |
 

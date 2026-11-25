@@ -104,7 +104,7 @@ Write test files under the project's test directories following the discovered c
 
 ### Step 7 — Red at the base commit
 
-Run each test at the base commit in a worktree. Each must fail, and fail for the reason stated in "Failure it catches" (missing route, wrong status, absent column). Record command, exit code and the first failure line in `## Red at the base commit`. A test that passes at base proves nothing → rewrite it. A test that fails for another reason (import error, fixture crash) → fix the test until it fails for the right reason.
+Run each test at the base commit in a worktree. Each must fail, and fail for the reason stated in "Failure it catches" (missing route, wrong status, absent column). Record command, exit code and the first failure line in `## Red at the base commit`. A test that passes at base proves nothing → rewrite it. A test that fails for another reason (import error, fixture crash) → fix the test until it fails for the right reason. New module: when every test would fail on the same missing import, add a temporary, uncommitted stub in the base worktree that exports the signatures and returns a wrong value, so each AC records its own assertion failure; delete the stub after recording.
 
 ### Step 8 — Coverage check, design-time gap pass, hand-off
 

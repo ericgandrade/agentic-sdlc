@@ -7,7 +7,7 @@ Load when a team adopts the method, when the project already has Spec Kit, Kiro,
 | Item | Owner | Done when |
 |---|---|---|
 | Name the four approvers: Product Owner, Tech Lead, at least one human reviewer, Release Owner | Team lead | Names recorded next to the AGENTS.md block; one person may hold several roles, and every record names the role exercised (`governance.md` §1, K12) |
-| Install the skills | Any engineer | `npx claude-superskills` or the platform's plugin flow; router answers "what is next?" |
+| Install the skills | Any engineer | `npx agentic-sdlc-method` or the platform's plugin flow; router answers "what is next?" |
 | Run `project-context` setup | Any engineer | AGENTS.md block with the `sdlc-dod` commands; `docs/codemap.md` on brownfield repos |
 | Run the Definition of Done once | Any engineer | Every `sdlc-dod` command runs; failures recorded on the block's `Baseline:` line (`paths.md` §5) |
 | Map existing artifacts (§3) | Tech Lead | `Artifacts:` line in the AGENTS.md block |

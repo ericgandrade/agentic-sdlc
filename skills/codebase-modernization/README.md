@@ -10,7 +10,7 @@ Specify- and Design-stage skill of the **Agentic SDLC** for brownfield code, use
 - A column, table, stored format or public API changes while old consumers run.
 - A component is replaced while traffic flows, or something "unused" is to be deleted.
 
-Not for first entry into a repository (`project-context` adopt mode), implementing one task test-first (`test-driven-development`), unknown failures (`systematic-debugging`), writing the spec (`spec-driven-development`), technology selection for new systems (`senior-solution-architect`), ordinary release rollout (`deployment-pipeline`) or web research (`deep-research`).
+Not for first entry into a repository (`project-context` adopt mode), implementing one task test-first (`test-driven-development`), unknown failures (`systematic-debugging`), writing the spec (`spec-driven-development`), technology selection for new systems (`senior-solution-architect`), ordinary release rollout (`deployment-pipeline`) or web research (`deep-research` from knowledge-superskills, when installed).
 
 ## What is included
 

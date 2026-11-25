@@ -533,7 +533,7 @@ function cmdStart(flags, out) {
   if (!['attended', 'unattended'].includes(mode)) throw new InputError('--mode is attended or unattended');
   if (!isRepo()) throw new InputError('not inside a git repository');
   const root = topLevel();
-  const planArg = need(flags, 'plan', 'path to plan.md');
+  const planArg = need(flags, 'plan', 'path to plan.md; Quick path has no run: keep loop rows by hand in the PR, references/loops.md §3');
   const planAbs = resolve(planArg);
   if (!existsSync(planAbs)) throw new InputError(`plan not found: ${planArg}`);
   const planRel = relative(root, planAbs).split('\\').join('/');
@@ -598,6 +598,7 @@ function cmdTask(flags, out) {
   const state = need(flags, 'state', 'started | done | blocked');
   const t = ctx.st.tasks.get(id);
   if (!t || !ctx.st.start.tasks.some((x) => x.id === id)) return out({ ok: false, code: EXIT.FAIL, lines: [`${id} is not a task of the approved plan (scope = approved tasks only)`] });
+  if (flags['no-red'] !== undefined && state !== 'done') throw new InputError('--no-red applies only to --state done');
   const fields = { type: 'task', task: id, state, ...counters(flags) };
   if (state === 'started') {
     if (!ctx.st.preflightFresh) return out({ ok: false, code: EXIT.FAIL, lines: [`no passing preflight since the last start/resume/env failure; run preflight --run ${ctx.id}`] });
@@ -803,8 +804,11 @@ function cmdResume(flags, out) {
 
 function summarize(st, events) {
   const tasks = [...st.tasks.values()].map((t) => ({
-    id: t.id, state: t.state, rounds: t.rounds.length, red: t.red.length > 0 || !!t.noRed,
-    lastSignature: t.rounds.filter((r) => r.result === 'fail').slice(-1)[0]?.signature || null,
+    // PR has no task lifecycle: show the state of its review-fix loop instead of "pending".
+    id: t.id, state: t.id === 'PR' ? (t.rounds.at(-1)?.result === 'pass' ? 'passed' : 'open') : t.state,
+    rounds: t.rounds.length, red: t.red.length > 0 || !!t.noRed,
+    // Only an open failure is shown; a later passing round clears it.
+    lastSignature: t.rounds.at(-1)?.result === 'fail' ? t.rounds.at(-1).signature || null : null,
     escalation: t.escalation ? `${t.escalation.breaker} → ${t.escalation.target}` : null, commit: t.commit,
   }));
   const budget = budgetUse(st, events);
@@ -905,6 +909,10 @@ function cmdFinish(flags, out) {
     const notDone = planTasks.filter((t) => t.state !== 'done').map((t) => `${t.id}=${t.state}`);
     reason = lp && !lp.ok ? `preflight failed: ${(lp.failed || []).join(', ')}` : [notDone.length && `tasks not done: ${notDone.join(', ')}`, open.length && `open failures: ${open.join(', ')}`].filter(Boolean).join('; ');
   }
+  // finish is terminal: a BLOCKED result with no halt behind it (tasks still open, preflight red) needs explicit consent.
+  if (status === 'BLOCKED' && !st.halt && !flags['confirm-blocked']) {
+    return out({ ok: false, code: EXIT.FAIL, lines: [`REFUSED: finish would close the run as BLOCKED (${reason}); the run stays open`, 'finish the open tasks, or pass --confirm-blocked to close it for good (a new run starts over)'] });
+  }
   const specDir = join(ctx.root, dirname(st.start.plan));
   const archive = join(specDir, 'run-ledger.jsonl');
   const e = appendEvent(ctx.path, ctx.events, { type: 'finish', status, reason, ...counters(flags) });
@@ -940,7 +948,8 @@ Commands
   resume  --run <id> [--ack "<name>: <decision>"]   (--ack required after a halt)
   status  --run <id> | --ledger <file>
   render  --run <id> | --ledger <file>   Markdown loop-ledger table for plan.md and the PR
-  finish  --run <id>     writes result.json, archives the ledger to specs/NNN-slug/run-ledger.jsonl
+  finish  --run <id> [--confirm-blocked]  writes result.json, archives the ledger to specs/NNN-slug/run-ledger.jsonl;
+                         a BLOCKED close with open tasks and no halt needs --confirm-blocked
 
 Every command accepts --turns N and --tokens N (cumulative agent counters) for budgets.
 Bounds: red-green 3 · build-test 5 · review-fix 3 · debug 3 · anti-thrash: same signature twice or 3 failed fixes.
@@ -949,7 +958,7 @@ Ledger: .agentic-sdlc/runs/<id>/ledger.jsonl (JSON Lines, append-only). SDLC_NOW
 Exit: 0 pass · 1 check failed · 2 input missing or ledger corrupt · 3 bound reached, halt or escalation.`;
 
 export async function main(argv = process.argv.slice(2), stdout = process.stdout) {
-  const { flags, positional } = parseArgs(argv, { booleans: ['json', 'help'] });
+  const { flags, positional } = parseArgs(argv, { booleans: ['json', 'help', 'confirm-blocked'] });
   const cmd = positional[0];
   if (flags.help || !cmd) {
     stdout.write(HELP + '\n');

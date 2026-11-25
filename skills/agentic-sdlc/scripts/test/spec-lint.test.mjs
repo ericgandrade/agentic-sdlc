@@ -45,13 +45,13 @@ const WAIVER_ROW = (cells) => SPEC.replace(
 test('the worked example passes lint and its approval check', () => {
   const r = lint(SPEC, { checkApproval: true });
   assert.deepEqual(rules(r), []);
-  assert.deepEqual(rules(r, 'warn'), ['TM02']);
+  assert.deepEqual(rules(r, 'warn'), ['TM02'], 'in-process lint has no threat-model.md sibling');
   assert.equal(r.path, 'Standard');
   assert.equal(r.approval.decision, 'approved');
 
   const cli = exec(EXAMPLE, '--check-approval', '--today', TODAY);
   assert.equal(cli.code, 0, cli.stdout + cli.stderr);
-  assert.match(cli.stdout, /PASS \(0 errors, 1 warnings\)/);
+  assert.match(cli.stdout, /PASS \(0 errors, 0 warnings\)/, "threat-model.md next to the spec clears TM02");
 });
 
 test('--hash prints the hash recorded in the Approvals row', () => {
@@ -100,6 +100,24 @@ test('single defects in an otherwise valid spec', async (t) => {
     ['budget overflow', (s) => edit(s, '## Users', `${'word '.repeat(1000)}\n\n## Users`), 'BUD01'],
     ['Full path without threat model', (s) => edit(s, '| Path | Standard |', '| Path | Full |'), 'TM01'],
   ];
+  await t.test('OBS errors report the offending row line, not the section heading (F17)', () => {
+    const row = /\| Alert \|[^\n]+\n/.exec(SPEC)[0];
+    const bad = edit(SPEC, row, '| Alert | we will watch it |\n');
+    const f = lint(bad).findings.find((x) => x.rule === 'OBS03');
+    assert.ok(f, 'OBS03 reported');
+    const expected = bad.split('\n').findIndex((l) => l.startsWith('| Alert | we will watch it')) + 1;
+    assert.equal(f.line, expected);
+  });
+
+  await t.test('a Security notes "Threat model | n/a — reason" row clears TM02 (N8)', () => {
+    const row = /\| Secrets \|[^\n]+\n/.exec(SPEC)[0];
+    assert.ok(rules(lint(SPEC), 'warn').includes('TM02'));
+    const s = edit(SPEC, row, row + '| Threat model | n/a — Security Auditor: export reuses the existing permission model; no new boundary |\n');
+    assert.ok(!rules(lint(s), 'warn').includes('TM02'));
+    const bare = edit(SPEC, row, row + '| Threat model | n/a |\n');
+    assert.ok(rules(lint(bare), 'warn').includes('TM02'), 'n/a needs a reason');
+  });
+
   await t.test('alert and rollout accept "n/a — reason" when nothing is deployed', () => {
     let s = edit(SPEC, /\| Alert \|[^\n]+\n/.exec(SPEC)[0], '| Alert | n/a — library published to npm, no running service |\n');
     s = edit(s, /\| Rollout \|[^\n]+\n/.exec(s)[0], '| Rollout | n/a — consumers upgrade by semver |\n');

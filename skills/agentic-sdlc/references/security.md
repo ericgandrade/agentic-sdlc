@@ -35,7 +35,7 @@ Template: `templates/threat-model.md` (spec-lint rules TM01–TM03); full workfl
 2. **Authentication and authorization:** who can call each new entry point, and the server-side check that enforces it.
 3. **Inputs:** each new external input with its validation (type, length, range or allowlist).
 4. **Secrets:** each new secret, where it is stored (environment or secret manager) and who rotates it; or `none`.
-5. **Threat model:** `specs/NNN-slug/threat-model.md` link on Full or risk-flagged items; otherwise `n/a — <reason>`.
+5. **Threat model:** `specs/NNN-slug/threat-model.md` link on Full or risk-flagged items; otherwise `n/a — <reason>`. A public-API change to a published library is risk-flagged (the `public API` trigger, so TM02 applies): it gets the link, or `n/a — <reason>` when the Security Auditor judges that no threat applies.
 
 **Failure behaviour.** Empty section on Standard/Full → `spec-lint` exit 1. Threat model: Full path without `threat-model.md` → TM01 error (exit 1); risk-flagged Standard spec without it → TM02 warning, written by the Security Auditor before Specify sign-off; a high or critical threat whose Mitigation cites no active `AC-n` → TM03 error (exit 1). Classification unknown after the 3-round question limit → Security Auditor `NEEDS_CONTEXT`; the path is scored with the `personal/health data` trigger.
 

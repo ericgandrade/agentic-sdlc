@@ -183,6 +183,24 @@ test('--check-approval binds the plan hash and the spec hash', () => {
   assert.deepEqual(codes(r), ['APPROVAL_FIELD']);
 });
 
+test('--check-approval cross-checks the approvals.md register when present (N9)', () => {
+  const approved = approve(VALID);
+  const reg = (row) => `# Approval register\n\n| Req | Sign-off | Artifact | Rev | Requested at | Asked role | Answered at | Exact words | Record |\n|---|---|---|---|---|---|---|---|---|\n${row}\n`;
+  const good = '| R2 | Design | plan.md | 1 | 2026-11-21 09:00 | Tech Lead | 2026-11-21 10:00 | "Approved." | plan.md ## Approvals |';
+  let plan = stage(approved);
+  write(dirname(plan), 'approvals.md', reg(good));
+  assert.equal(exec(plan, '--check-approval').code, 0);
+  plan = stage(approved);
+  write(dirname(plan), 'approvals.md', reg(good.replace('plan.md', 'spec.md')));
+  assert.deepEqual(codes(exec(plan, '--check-approval', '--json')), ['APPROVAL_REGISTER'], 'no plan.md request row');
+  plan = stage(approved);
+  write(dirname(plan), 'approvals.md', reg(good.replace('2026-11-21 10:00', '2026-11-21 08:00')));
+  assert.deepEqual(codes(exec(plan, '--check-approval', '--json')), ['APPROVAL_REGISTER'], 'answer before request');
+  plan = stage(approved);
+  write(dirname(plan), 'approvals.md', reg(good.replace('| Tech Lead |', '| Product Owner |')));
+  assert.deepEqual(codes(exec(plan, '--check-approval', '--json')), ['APPROVAL_REGISTER'], 'role not asked');
+});
+
 test('Loop ledger rows never void Design sign-off', () => {
   const ledger = '\n## Loop ledger\n\n| Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |\n|---|---|---|---|---|---|---|---|\n';
   const base = VALID.replace('\n## Revision log', `${ledger}\n## Revision log`);

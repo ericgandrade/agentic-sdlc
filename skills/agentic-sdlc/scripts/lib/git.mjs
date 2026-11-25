@@ -3,7 +3,10 @@
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { InputError } from './cli.mjs';
+import { stripSection } from './md.mjs';
 
 export function git(args, { cwd = process.cwd(), input } = {}) {
   try {
@@ -63,6 +66,11 @@ export function defaultBranch(cwd = process.cwd()) {
 // review record, approval register, archived run ledger, hand-off, impediment log, release notes
 // (specs/<slug>/…) and docs/reviews/. spec.md, plan.md and acceptance-tests.md still count.
 const RECORD = /^specs\/[^/]+\/(?:(?:review|approvals|handoff|impediments|release-notes)\.md|run-ledger\.jsonl)$/;
+// plan.md gets loop-ledger rows after every task and review round; like the plan hash, the
+// fingerprint reads it without `## Loop ledger`, so those rows never stale the evidence.
+const PLAN = /^specs\/[^/]+\/plan\.md$/;
+const planDigest = (text) => createHash('sha256').update(stripSection(text, 'Loop ledger'), 'utf8').digest('hex');
+
 function excluded(path, exclude) {
   return RECORD.test(path) || exclude.some((p) => path === p || path.startsWith(p.endsWith('/') ? p : p + '/'));
 }
@@ -78,7 +86,9 @@ export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-s
   const index = git(['ls-files', '-s', '-z'], { cwd }).split('\0').filter(Boolean);
   for (const entry of index) {
     const path = entry.slice(entry.indexOf('\t') + 1);
-    if (!excluded(path, exclude)) h.update('I ' + entry + '\n');
+    if (excluded(path, exclude)) continue;
+    if (PLAN.test(path)) h.update(`I plan ${path} ${planDigest(git(['show', `:${path}`], { cwd }))}\n`);
+    else h.update('I ' + entry + '\n');
   }
   const status = git(['status', '--porcelain', '-z', '--untracked-files=all'], { cwd }).split('\0');
   const dirty = [];
@@ -93,7 +103,16 @@ export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-s
   dirty.sort((a, b) => (a.path < b.path ? -1 : a.path > b.path ? 1 : 0));
   for (const { code, path } of dirty) {
     let blob = 'deleted';
-    if (!code.includes('D')) blob = git(['hash-object', '--', path], { cwd }).trim();
+    if (!code.includes('D')) {
+      if (PLAN.test(path)) {
+        const text = readFileSync(join(cwd, path), 'utf8');
+        const staged = (() => { try { return git(['show', `:${path}`], { cwd }); } catch { return null; } })();
+        if (staged !== null && planDigest(staged) === planDigest(text)) continue; // only Loop ledger rows differ
+        blob = planDigest(text);
+      } else {
+        blob = git(['hash-object', '--', path], { cwd }).trim();
+      }
+    }
     h.update(`W ${code} ${path} ${blob}\n`);
   }
   const full = h.digest('hex');
@@ -152,8 +171,13 @@ export function changedFiles(base, head = 'HEAD', { cwd = process.cwd() } = {}) 
 
 // CLI: `node scripts/lib/git.mjs fingerprint` prints "<12 hex> clean|dirty head=<sha>".
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  const usage = 'usage: node <scripts>/lib/git.mjs fingerprint   (prints "<12 hex> clean|dirty head=<sha>")\n';
+  if (process.argv[2] === '--help' || process.argv[2] === '-h') {
+    process.stdout.write(usage);
+    process.exit(0);
+  }
   if (process.argv[2] !== 'fingerprint') {
-    process.stderr.write('usage: node scripts/lib/git.mjs fingerprint\n');
+    process.stderr.write(usage);
     process.exit(2);
   }
   try {

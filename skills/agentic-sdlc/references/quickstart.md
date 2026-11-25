@@ -1,6 +1,6 @@
 # Quickstart — One Bug Fix on the Quick Path
 
-Read this once before the first run. It takes one bug from issue to approved pull request on the Quick path and shows every record the method expects. First-path reading is this file, the README install section and the router `SKILL.md`: at most 3,700 words, about 20 minutes, enforced by `scripts/budget-check.mjs`. Everything else loads later, at its trigger.
+Read this once before the first run: one bug from issue to approved pull request on the Quick path, with every record the method expects. First-path reading is this file, the README install section and the router `SKILL.md` (≤ 3,700 words, about 20 minutes, enforced by `scripts/budget-check.mjs`); everything else loads at its trigger.
 
 **Prerequisites:** the skills are installed (README §Install), the project is a git repository, and the agent can run shell commands. Node ≥ 18 enables the script gates; without it the same checks run by hand (`references/platforms.md` §4) and the PR carries the banner `enforcement: prompt-only`.
 
@@ -18,7 +18,7 @@ coverage: npm run coverage -- --json-summary
 coverage_min: 71.3
 ```
 
-On an existing codebase it runs adopt mode first, and no code change starts until adopt completes: inventory, baseline, artifact map, instruction audit, `docs/codemap.md`, ADR candidates and `docs/adoption-ledger.md`. Expect one working session. Done when the block exists between `<!-- AGENTIC-SDLC:BEGIN -->` and `<!-- AGENTIC-SDLC:END -->` and every `sdlc-dod` command exits 0 on the current branch. A command that fails at setup is recorded in the block's `Baseline:` line; it is never deleted to get green.
+On an existing codebase adopt mode runs first, and no code change starts until it completes: inventory, baseline, artifact map, instruction audit, `docs/codemap.md`, ADR candidates and `.agentic-sdlc/adoption.md`. Done when the block exists between `<!-- AGENTIC-SDLC:BEGIN -->` and `<!-- AGENTIC-SDLC:END -->` and every `sdlc-dod` command exits 0 on the current branch. A command that fails at setup is recorded in the block's `Baseline:` line; it is never deleted to get green.
 
 ## Step 2 — Discover: score the path
 
@@ -41,10 +41,10 @@ No code is written until this line exists in the issue.
 
 ## Step 4 — Build: red
 
-The Developer writes a regression test whose name carries the AC ID, runs it and pastes the failing output into the PR draft:
+The Developer creates the branch `fix/142-utc-dates`, writes a regression test named with the issue and AC ID, runs it (`--test-name-pattern="#142 AC-1(?![0-9])"`) and pastes the failing output into the PR draft:
 
 ```
-✗ AC-1 formats order dates in the profile time zone
+✗ #142 AC-1 formats order dates in the profile time zone
   expected "2026-02-28 23:30", received "2026-03-01 02:30"
 ```
 
@@ -58,20 +58,23 @@ The Developer changes the formatter to use the profile time zone, re-runs the te
 
 The PR body follows `templates/pr-body.md`. Its Verification table binds every claim to the exact tree that was tested:
 
-| AC | Test | Command | Exit | Fingerprint | Time |
-|---|---|---|---|---|---|
-| AC-1 | `AC-1 formats order dates in the profile time zone` | `npm test -- dates` | 0 | `9b41c07e2d15` | 2026-11-22 14:05 |
-| DoD | lint, typecheck, test, coverage 71.9 ≥ 71.3 | `sdlc-dod` block | 0 | `9b41c07e2d15` | 2026-11-22 14:06 |
+| ID | Test | Command | Exit | Fingerprint | Time (ISO-8601) | By |
+|---|---|---|---|---|---|---|
+| DoD:lint | — | `npm run lint` | 0 | `9b41c07e2d15` | 2026-11-22T14:06Z | Developer |
+| DoD:typecheck | — | `npm run typecheck` | 0 | `9b41c07e2d15` | 2026-11-22T14:06Z | Developer |
+| DoD:test | — | `npm test` | 0 | `9b41c07e2d15` | 2026-11-22T14:07Z | Developer |
+| DoD:coverage | — | `npm run coverage -- --json-summary` | 0 (71.9 ≥ 71.3) | `9b41c07e2d15` | 2026-11-22T14:08Z | Developer |
+| AC-1 | `#142 AC-1 formats order dates in the profile time zone` | `npm test -- --test-name-pattern="#142 AC-1(?![0-9])"` | 0 | `9b41c07e2d15` | 2026-11-22T14:05Z | Developer |
 
 The fingerprint is printed by `node <skill>/scripts/lib/git.mjs fingerprint` (without Node: the 12-hex HEAD SHA of a clean tree). Any edit after the run changes it, and stale evidence is re-run, never reused.
 
 ## Step 7 — Test: independent review
 
-The Reviewer runs in a fresh context with the issue, the diff and the evidence, never the Developer's reasoning. Quick-path lenses: **L1** (does the change meet AC-1?) and **L2** (correctness and code quality). Each finding is verified before it is listed and triaged as Critical, Important or Minor. The verdict defaults to NO-GO until AC-1 has fresh evidence and no Critical finding is open. On a platform without subagents the same pass runs in the session and is labelled `self-review` in the PR.
+The Reviewer runs in a fresh context with the issue, the diff and the evidence, never the Developer's reasoning. Quick-path lenses: **L1** (does the change meet AC-1?) and **L2** (correctness and code quality). Findings are verified, then triaged Critical, Important or Minor. The verdict defaults to NO-GO until AC-1 has fresh evidence and no Critical finding is open.
 
 ## Step 8 — Test sign-off
 
-The agent presents the PR, the evidence and the residual risks ("other date columns use the same formatter and were not changed"), asks the reviewer for a decision and **ends its turn**. Only an explicit "approved" in a later turn counts; the agent records the exact words, the date and the head commit SHA in the PR body's `## Test sign-off` section. Without a PR host the body is committed as `docs/reviews/142.md`; review records never change the fingerprint. The human merges.
+The agent presents the PR, the evidence and the residual risks ("other date columns use the same formatter and were not changed"), asks the reviewer for a decision and **ends its turn**. Only an explicit "approved" in a later turn counts; the agent records the exact words, the date and the head commit SHA in the PR body's `## Test sign-off` section. Without a PR host the body is committed as `docs/reviews/142.md` and the sign-off binds to the fingerprint instead: review records are excluded from it, so committing one keeps the sign-off valid; a code or test change voids it. The human merges.
 
 ## Step 9 — Release and retro
 

@@ -5,7 +5,7 @@ Template for specs/NNN-slug/plan.md (Design stage). Mechanisms 7.1 (task table),
 7.5 (impact), 6.3 (loop ledger), 11.3 (dependency note), 10.2/K8 (combined review).
 Fill every section. A section with nothing to record holds one line: `none — <reason>`.
 Validate with: node <skill>/scripts/plan-graph.mjs specs/NNN-slug/plan.md --write
-Delete these comment blocks when the plan is filled in.
+HTML comments are guidance: plan-graph ignores them, so they can stay. Remove them, if at all, before the Design sign-off request: the approval hash covers the whole file.
 Sources: task-table and slicing conventions adapted from Superpowers `writing-plans` (MIT),
 Matt Pocock `to-tickets` (MIT) and Addy Osmani `planning-and-task-breakdown` (MIT).
 -->

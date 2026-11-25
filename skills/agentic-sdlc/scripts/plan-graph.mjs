@@ -37,7 +37,8 @@ Options:
   --write              write graph.json next to the plan (or to --out)
   --out <path>         graph.json destination
   --check              fail when the committed graph.json differs from the regenerated graph
-  --check-approval     fail unless ## Approvals holds a valid row for the current plan and spec hashes
+  --check-approval     fail unless ## Approvals holds a valid row for the current plan and spec hashes,
+                       matching the approvals.md register row when that file exists next to the plan
   --done T1,T2         tasks already committed
   --from-git <range>   mark tasks done from "Refs: Tn" commit trailers in a git range (e.g. main..HEAD)
   --max-parallel <n>   frontier size, 1-3 (default 3)
@@ -332,7 +333,30 @@ export function frontier(graph, done, maxParallel = LIMITS.maxParallel) {
 }
 
 // Validates the ## Approvals table against the current plan and spec hashes (rule K8 included).
-export function checkApproval(md, { graph, specMd = null }) {
+// approvals.md register row for the approved plan revision (references/governance.md §3), checked when
+// the register exists: the request was logged first, answered in a later turn, by the role asked, in the same words.
+function checkRegister(registerMd, row, label) {
+  const at = (v) => { const m = /(\d{4}-\d{2}-\d{2})[ T](\d{2}):(\d{2})/.exec(v || ''); return m ? Date.parse(`${m[1]}T${m[2]}:${m[3]}:00Z`) : null; };
+  const unq = (v) => String(v || '').replace(/`/g, '').trim().replace(/^["“]|["”]$/g, '');
+  const table = parseTables(stripComments(registerMd)).find((t) => t.header.some((h) => /requested at/i.test(h)));
+  if (!table) return [{ code: 'APPROVAL_REGISTER', message: 'approvals.md has no register table (Requested at column)' }];
+  const ix = headerIndex(table.header);
+  const get = (r, k) => (ix[k] == null ? '' : String(r[ix[k]] ?? '').trim());
+  const rev = Number(String(row['plan rev']).replace(/\D/g, ''));
+  const hits = table.rows.filter((r) => /plan\.md/i.test(get(r, 'artifact')) && Number(get(r, 'rev')) === rev);
+  if (!hits.length) return [{ code: 'APPROVAL_REGISTER', message: `${label}: approvals.md has no request row for plan.md rev ${rev}` }];
+  const e = hits[hits.length - 1];
+  const errors = [];
+  const asked = at(get(e, 'requested at'));
+  const answered = at(get(e, 'answered at'));
+  if (asked == null || answered == null) errors.push({ code: 'APPROVAL_REGISTER', message: `${label}: approvals.md Requested at / Answered at must be YYYY-MM-DD HH:MM` });
+  else if (answered <= asked) errors.push({ code: 'APPROVAL_REGISTER', message: `${label}: answer is not later than the request; only a reply in a later turn counts` });
+  if (unq(get(e, 'exact words')) !== unq(row['exact words'])) errors.push({ code: 'APPROVAL_REGISTER', message: `${label}: exact words differ between ## Approvals and approvals.md` });
+  if (get(e, 'asked role').toLowerCase() !== String(row.role).toLowerCase()) errors.push({ code: 'APPROVAL_REGISTER', message: `${label}: role "${row.role}" is not the role asked in approvals.md ("${get(e, 'asked role')}")` });
+  return errors;
+}
+
+export function checkApproval(md, { graph, specMd = null, registerMd = null }) {
   const errors = [];
   const sec = findSection(normalize(md), 'Approvals', { level: 2 });
   const table = sec && parseTables(sec.body)[0];
@@ -368,6 +392,7 @@ export function checkApproval(md, { graph, specMd = null }) {
       errors.push({ code: 'APPROVAL_REV', message: `${label}: approved plan rev ${approvedRev} ≠ latest Revision log rev ${latest}` });
     }
   }
+  if (registerMd != null) errors.push(...checkRegister(registerMd, row, label));
   if (/combined/i.test(row['sign-off']) && graph.review !== 'combined') {
     errors.push({
       code: 'COMBINED_NOT_ALLOWED',
@@ -446,7 +471,11 @@ export async function main(argv = process.argv.slice(2), out = process.stdout) {
     }
     state = { done: done.sort(byId), ...frontier(graph, done, maxParallel), maxParallel };
 
-    if (flags['check-approval']) errors.push(...checkApproval(md, { graph, specMd }));
+    if (flags['check-approval']) {
+      const regFile = join(dirname(planFile), 'approvals.md');
+      const registerMd = existsSync(regFile) ? readMarkdownFile(regFile) : null;
+      errors.push(...checkApproval(md, { graph, specMd, registerMd }));
+    }
     if (flags.check) {
       if (!existsSync(outFile)) errors.push({ code: 'GRAPH_MISSING', message: `${basename(outFile)} missing; run plan-graph --write` });
       else if (readFileSync(outFile, 'utf8') !== stable(graph)) errors.push({ code: 'GRAPH_STALE', message: `${basename(outFile)} differs from the plan; run plan-graph --write and commit it` });

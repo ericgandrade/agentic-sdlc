@@ -79,7 +79,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 ## 4. Evidence records and staleness
 
-**Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`, `docs/reviews/**` and the record files under `specs/*/` (`review.md`, `approvals.md`, `run-ledger.jsonl`, `handoff.md`, `impediments.md`, `release-notes.md`); `spec.md`, `plan.md` and `acceptance-tests.md` still count, because editing them voids a sign-off. Recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. The function is `fingerprint()` in `scripts/lib/git.mjs`; `node scripts/lib/git.mjs fingerprint` prints it.
+**Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`, `docs/reviews/**` and the record files under `specs/*/` (`review.md`, `approvals.md`, `run-ledger.jsonl`, `handoff.md`, `impediments.md`, `release-notes.md`); `spec.md`, `plan.md` (read without its `## Loop ledger` rows, like the plan hash) and `acceptance-tests.md` still count, because editing them voids a sign-off. Recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. The function is `fingerprint()` in `scripts/lib/git.mjs`; `node scripts/lib/git.mjs fingerprint` prints it.
 
 **Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
 
