@@ -34,13 +34,13 @@ ERRORS=0
 VALIDATED=0
 
 # Use Python's yaml module for validation (most reliable cross-platform)
-if command -v python3 &> /dev/null; then
+if command -v python3 &> /dev/null && python3 -c "import yaml" 2>/dev/null; then
   VALIDATOR="python"
   echo "✓ Using Python YAML parser for validation"
   echo ""
 else
-  echo "⚠️  Python 3 not found. Skipping YAML validation."
-  echo "   Install Python 3 or yamllint for validation."
+  echo "⚠️  Python 3 with PyYAML not found. Skipping YAML validation (not a workflow error)."
+  echo "   Install it with: python3 -m pip install pyyaml"
   exit 0
 fi
 

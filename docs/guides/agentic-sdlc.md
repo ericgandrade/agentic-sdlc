@@ -2,7 +2,7 @@
 
 The **Agentic SDLC** is a method that follows the standard software development life cycle with AI agents: **7 stages, 4 human sign-offs, 13 agents named by function and 3 paths sized by a scored rubric.** Agents execute; named humans approve. One rule ties the cycle together: **every requirement is proven**, from the spec to production.
 
-This reference is **not needed before the first run**: start with [`references/quickstart.md`](../../skills/agentic-sdlc/references/quickstart.md) (one Quick-path bug fix end to end). Install the 20 skills with `npx claude-superskills --bundle agentic-sdlc -y`.
+This reference is **not needed before the first run**: start with [`references/quickstart.md`](../../skills/agentic-sdlc/references/quickstart.md) (one Quick-path bug fix end to end). Install the 20 skills with `npx agentic-sdlc-method --bundle agentic-sdlc -y`.
 
 Normative rules live in `skills/agentic-sdlc/references/` (`lifecycle.md`, `rules.md`, `governance.md`, `paths.md`, `artifacts.md`); they win over this guide.
 

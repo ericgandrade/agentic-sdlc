@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-claude-superskills is released under the MIT License (see `LICENSE`). Some skills — in particular the skills of the **Agentic SDLC** — adapt and synthesize ideas and content from the open-source projects listed below. Each adapted skill credits its sources in the `## Influences` section of its `README.md`. Content was rewritten and combined rather than copied wholesale; the notices below are reproduced as the MIT License requires for any substantial portions.
+The Agentic SDLC Method (repository `agentic-sdlc`, npm package `agentic-sdlc-method`, formerly claude-superskills) is released under the MIT License (see `LICENSE`). Some skills — in particular the skills of the **Agentic SDLC** — adapt and synthesize ideas and content from the open-source projects listed below. Each adapted skill credits its sources in the `## Influences` section of its `README.md`. Content was rewritten and combined rather than copied wholesale; the notices below are reproduced as the MIT License requires for any substantial portions.
 
 Trademarks mentioned here belong to their owners and are named only for attribution. No endorsement by any of these projects or owners is implied.
 

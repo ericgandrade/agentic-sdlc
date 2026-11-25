@@ -1,79 +1,96 @@
 name: Publish to npm
 
+# Publishes the `agentic-sdlc-method` npm package (the installer for The Agentic SDLC Method)
+# when a version tag is pushed. Preferred auth: npm Trusted Publishing (OIDC), configured once on
+# npmjs.com for package agentic-sdlc-method → GitHub Actions, repository ericgandrade/agentic-sdlc,
+# workflow publish-npm.yml. Fallback: the NPM_TOKEN secret (a granular token with publish rights).
+
 on:
   push:
     tags:
-      - 'v*'  # Triggers on version tags like v1.0.0, v1.1.0, etc.
-  workflow_dispatch:  # Allows manual trigger from GitHub UI
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   validate:
-    name: Pre-publish Validation
+    name: Pre-publish validation
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build skills
-        run: ./scripts/build-skills.sh
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
 
-      - name: Check version not already published
-        working-directory: ./cli-installer
+      - name: Tag matches the package version
+        if: startsWith(github.ref, 'refs/tags/')
         run: |
-          CURRENT=$(node -p "require('./package.json').version")
-          PUBLISHED=$(npm view claude-superskills version 2>/dev/null || echo "0.0.0")
-
-          echo "Current version: $CURRENT"
-          echo "Published version: $PUBLISHED"
-
-          if [ "$CURRENT" = "$PUBLISHED" ]; then
-            echo "❌ Version $CURRENT is already published on npm!"
-            echo "Please bump the version using: ./scripts/bump-version.sh [patch|minor|major]"
+          VERSION=$(node -p "require('./cli-installer/package.json').version")
+          if [ "$GITHUB_REF_NAME" != "v$VERSION" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match cli-installer/package.json version $VERSION"
             exit 1
           fi
 
-          echo "✅ Version $CURRENT is new (ready to publish)"
+      - name: Version not already published
+        working-directory: ./cli-installer
+        run: |
+          CURRENT=$(node -p "require('./package.json').version")
+          PUBLISHED=$(npm view agentic-sdlc-method version 2>/dev/null || echo "0.0.0")
+          echo "Current: $CURRENT · published: $PUBLISHED"
+          if [ "$CURRENT" = "$PUBLISHED" ]; then
+            echo "::error::version $CURRENT is already on npm; bump it with node scripts/release.js"
+            exit 1
+          fi
+
+      - name: Skills source
+        run: ./scripts/build-skills.sh
+
+      - name: Version and documentation consistency
+        run: |
+          ./scripts/verify-version-sync.sh
+          ./scripts/check-doc-consistency.sh
+
+      - name: Agentic SDLC script tests and budgets
+        run: |
+          node --test skills/agentic-sdlc/scripts/test/*.test.mjs
+          node skills/agentic-sdlc/scripts/budget-check.mjs
 
   publish:
     name: Publish to npm
     needs: validate
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      id-token: write   # npm Trusted Publishing (OIDC) and provenance
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build skills
-        run: ./scripts/build-skills.sh
-
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+
+      - name: Use npm 11.5.1 or later (required for Trusted Publishing)
+        run: npm install -g npm@latest && npm --version
 
       - name: Install dependencies
         working-directory: ./cli-installer
         run: npm ci
 
-      - name: Run tests
+      - name: Smoke test
         working-directory: ./cli-installer
         run: npm test
 
-      - name: Publish to npm
+      - name: Publish
         working-directory: ./cli-installer
-        run: npm publish
+        run: npm publish --provenance --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Deprecate old cli-ai-skills package
-        run: |
-          npm deprecate 'cli-ai-skills@*' 'Package renamed to claude-superskills. Run npx claude-superskills instead.' || true
-        env:
+          # Used only when Trusted Publishing is not configured for this repository.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

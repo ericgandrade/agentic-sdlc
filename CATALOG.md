@@ -1,6 +1,6 @@
 # 📚 Claude Superskills Catalog
 
-**Generated:** 2026-11-25T17:32:26.698772Z  
+**Generated:** 2026-11-25T18:06:03.346702Z  
 **Total Skills:** 23  
 **Platforms:** GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI
 
@@ -85,7 +85,7 @@
 ### Meta
 
 - **skill-creator** (v2.1.0)
-  - Description: Create new skills, modify and improve existing skills, and measure skill performance. Use when users...
+  - Description: This skill should be used when the user wants to create a skill from scratch, modify or improve an e...
   - Tags: automation, scaffolding, skill-creation, evals, benchmarking, description-optimization
 
 ### Orchestration

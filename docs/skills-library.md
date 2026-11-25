@@ -4,18 +4,18 @@ Installer, platforms, bundles and the full skill catalog. The project overview i
 
 > Research, content and document skills (deep-research, webpage-reader, youtube-summarizer, pptx-translator, document-converter, storytelling-expert and others) moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills).
 
-> From v3.0.0, `npx claude-superskills` and the install script ship the Agentic SDLC from `main`.
+> From v3.0.0, `npx agentic-sdlc-method` and the install script ship the Agentic SDLC from `main`.
 
 ## 🚀 Quick Install
 
 **One-liner (recommended):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 **Or use NPX (zero-install):**
 ```bash
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 The installer always uses **global installation** (`~/.<platform>/skills`), compares installed skill versions with the current installer version, shows differences, and recommends updates/new installs automatically.
@@ -23,19 +23,19 @@ The installer always uses **global installation** (`~/.<platform>/skills`), comp
 **Other methods:**
 ```bash
 # npm global
-npm install -g claude-superskills
+npm install -g agentic-sdlc-method
 
 # With bundles
-npx claude-superskills --bundle essential -y
-npx claude-superskills --bundle agentic-sdlc -y
+npx agentic-sdlc-method --bundle essential -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
 ```
 
 **Local install (no npm/npx required):**
 
 If you have cloned the repository and want to install skills directly, without any internet download or Node.js:
 ```bash
-git clone https://github.com/ericgandrade/claude-superskills
-cd claude-superskills
+git clone https://github.com/ericgandrade/agentic-sdlc
+cd agentic-sdlc
 
 # Interactive — choose which platforms to install to
 ./scripts/local-install.sh
@@ -53,7 +53,7 @@ See [Installation Guide](INSTALLATION.md) for all methods and troubleshooting.
 
 **Uninstall:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/uninstall.sh | bash
 ```
 
 ## 🔁 Agentic SDLC
@@ -80,21 +80,21 @@ The router skill `agentic-sdlc` plays the **Scrum Master**: it reads the reposit
 
 ```bash
 # Install the 20 Agentic SDLC skills
-npx claude-superskills --bundle agentic-sdlc -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
 ```
 
 Then ask your agent: *"Use agentic-sdlc to fix issue #42"*. First run: [Quickstart](../skills/agentic-sdlc/references/quickstart.md) (one Quick-path bug fix end to end). Reference: [Agentic SDLC Guide](guides/agentic-sdlc.md) (stages, sign-offs, agents, paths, artifacts, standards mapping, coming from Spec Kit / Kiro / AI-DLC / BMad). Worked example: [`skills/agentic-sdlc/examples/worked-example/`](../skills/agentic-sdlc/examples/worked-example/).
 
 ## 🔌 Claude Code Plugin (Native)
 
-Use claude-superskills as a native Claude Code plugin — no npm, no Node.js required.
+Use The Agentic SDLC Method as a native Claude Code plugin — no npm, no Node.js required.
 Requires **Claude Code v1.0.33+** (`claude --version` to check).
 
 ---
 
 ### Option A — Claude Code CLI (Terminal)
 
-> ⚠️ **Important:** While the universal installer (`npx claude-superskills`) works perfectly to copy skills into `~/.claude/skills/`, using the native Claude Code Plugin system (described below) is the **recommended and most suitable installation method** for Claude Code users.
+> ⚠️ **Important:** While the universal installer (`npx agentic-sdlc-method`) works perfectly to copy skills into `~/.claude/skills/`, using the native Claude Code Plugin system (described below) is the **recommended and most suitable installation method** for Claude Code users.
 
 **Method 1: Interactive UI (Inside a running `claude` session) — Recommended**
 
@@ -106,36 +106,36 @@ claude
 Then run these slash commands inside the session:
 ```text
 # 1. Add the marketplace
-/plugin marketplace add ericgandrade/claude-superskills
+/plugin marketplace add ericgandrade/agentic-sdlc
 
 # 2. Install the plugin
-/plugin install claude-superskills@claude-superskills
+/plugin install agentic-sdlc@agentic-sdlc
 ```
 
-Alternatively, open the plugin manager with `/plugin` → navigate to the **Discover** tab → search for "claude-superskills" → press **Enter** → choose your preferred scope.
+Alternatively, open the plugin manager with `/plugin` → navigate to the **Discover** tab → search for "agentic-sdlc" → press **Enter** → choose your preferred scope.
 
 **Method 2: Shell command (Outside a session)**
 
-> 🐛 **Known Bug:** The `claude plugin install` shell command is currently **failing** due to an upstream issue in Claude Code. We strongly recommend using the interactive in-session method above. If you prefer a CLI approach, the universal installer (`npx claude-superskills`) is completely reliable and stable. Tracked at: [anthropics/claude-code#29722](https://github.com/anthropics/claude-code/issues/29722).
+> 🐛 **Known Bug:** The `claude plugin install` shell command is currently **failing** due to an upstream issue in Claude Code. We strongly recommend using the interactive in-session method above. If you prefer a CLI approach, the universal installer (`npx agentic-sdlc-method`) is completely reliable and stable. Tracked at: [anthropics/claude-code#29722](https://github.com/anthropics/claude-code/issues/29722).
 
 ```bash
 # Attempt to add marketplace + install in one flow (Currently unstable)
-claude plugin install claude-superskills@claude-superskills
+claude plugin install agentic-sdlc@agentic-sdlc
 ```
 
 Choose your scope with `--scope`:
 
 ```bash
-claude plugin install claude-superskills@claude-superskills --scope user     # all your projects (default)
-claude plugin install claude-superskills@claude-superskills --scope project  # team-shared via .claude/settings.json
-claude plugin install claude-superskills@claude-superskills --scope local    # this project only, gitignored
+claude plugin install agentic-sdlc@agentic-sdlc --scope user     # all your projects (default)
+claude plugin install agentic-sdlc@agentic-sdlc --scope project  # team-shared via .claude/settings.json
+claude plugin install agentic-sdlc@agentic-sdlc --scope local    # this project only, gitignored
 ```
 
 **Method 3: Local test (no install needed)**
 
 ```bash
-git clone https://github.com/ericgandrade/claude-superskills
-claude --plugin-dir ./claude-superskills
+git clone https://github.com/ericgandrade/agentic-sdlc
+claude --plugin-dir ./agentic-sdlc
 ```
 
 ---
@@ -157,13 +157,13 @@ If you use Claude Desktop with Cowork, the safest path is to generate a plugin z
 Generate the package with the installer:
 
 ```bash
-npx claude-superskills package-cowork
+npx agentic-sdlc-method package-cowork
 ```
 
 Or let the interactive installer detect Cowork and offer it as a packaging target:
 
 ```bash
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 The installer will generate a zip like:
@@ -177,7 +177,7 @@ Then update Cowork manually:
 1. Open Claude Desktop.
 2. Switch to `Cowork`.
 3. Open `Customize`.
-4. Find the existing `claude-superskills` plugin.
+4. Find the existing `agentic-sdlc` plugin.
 5. Remove the previous version first.
 6. Upload the new zip generated by the installer.
 7. Confirm the new version appears in Cowork.
@@ -189,32 +189,32 @@ Important:
 
 ---
 
-### Once installed — all 23 skills under the `claude-superskills:` namespace
+### Once installed — all 23 skills under the `agentic-sdlc:` namespace
 
 ```
-/claude-superskills:agentic-sdlc
-/claude-superskills:issue-triage
-/claude-superskills:project-context
-/claude-superskills:brainstorming
-/claude-superskills:spec-driven-development
-/claude-superskills:grill-me
-/claude-superskills:codebase-modernization
-/claude-superskills:security-hardening
-/claude-superskills:senior-solution-architect
-/claude-superskills:writing-plans
-/claude-superskills:executing-plans
-/claude-superskills:test-driven-development
-/claude-superskills:systematic-debugging
-/claude-superskills:test-strategy
-/claude-superskills:verification-gate
-/claude-superskills:multi-axis-code-review
-/claude-superskills:deployment-pipeline
-/claude-superskills:shipping-and-handover
-/claude-superskills:operations-and-incidents
-/claude-superskills:retrospective
-/claude-superskills:skill-creator
-/claude-superskills:agent-skill-discovery
-/claude-superskills:agent-skill-orchestrator
+/agentic-sdlc:agentic-sdlc
+/agentic-sdlc:issue-triage
+/agentic-sdlc:project-context
+/agentic-sdlc:brainstorming
+/agentic-sdlc:spec-driven-development
+/agentic-sdlc:grill-me
+/agentic-sdlc:codebase-modernization
+/agentic-sdlc:security-hardening
+/agentic-sdlc:senior-solution-architect
+/agentic-sdlc:writing-plans
+/agentic-sdlc:executing-plans
+/agentic-sdlc:test-driven-development
+/agentic-sdlc:systematic-debugging
+/agentic-sdlc:test-strategy
+/agentic-sdlc:verification-gate
+/agentic-sdlc:multi-axis-code-review
+/agentic-sdlc:deployment-pipeline
+/agentic-sdlc:shipping-and-handover
+/agentic-sdlc:operations-and-incidents
+/agentic-sdlc:retrospective
+/agentic-sdlc:skill-creator
+/agentic-sdlc:agent-skill-discovery
+/agentic-sdlc:agent-skill-orchestrator
 ```
 
 > **npm install still works** for GitHub Copilot, Cursor IDE, Gemini CLI, and 5 other platforms. The plugin format is Claude Code-specific.
@@ -273,19 +273,19 @@ Important:
 
 ```bash
 # Essential Skills (recommended for beginners)
-npx claude-superskills --bundle essential -y
+npx agentic-sdlc-method --bundle essential -y
 
 # Agentic SDLC (router + 19 stage skills, Discover → Operate)
-npx claude-superskills --bundle agentic-sdlc -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
 
 # Planning & Execution
-npx claude-superskills --bundle planning -y
+npx agentic-sdlc-method --bundle planning -y
 
 # Discovery & Orchestration
-npx claude-superskills --bundle orchestration -y
+npx agentic-sdlc-method --bundle orchestration -y
 
 # All Skills (complete collection)
-npx claude-superskills --bundle all -y
+npx agentic-sdlc-method --bundle all -y
 ```
 
 See [Bundles Guide](bundles/bundles.md) for details.
@@ -293,8 +293,8 @@ See [Bundles Guide](bundles/bundles.md) for details.
 ## 🔍 Search Skills
 
 ```bash
-npx claude-superskills --search "plan"
-npx claude-superskills --search "review"
+npx agentic-sdlc-method --search "plan"
+npx agentic-sdlc-method --search "review"
 ```
 
 ## 🚀 Quick Start Examples
@@ -388,11 +388,11 @@ These skills follow the universal `SKILL.md` format and work with any AI coding 
 | `doctor` | `doc` | Check installation |
 
 ```bash
-npx claude-superskills i -a -y -q    # Install all, skip prompts, quiet mode
-npx claude-superskills status         # Show global status + skill version differences
-npx claude-superskills up -y          # Update outdated + install missing skills
-npx claude-superskills ls -q          # List with minimal output
-npx claude-superskills --list-bundles # Show available bundles
+npx agentic-sdlc-method i -a -y -q    # Install all, skip prompts, quiet mode
+npx agentic-sdlc-method status         # Show global status + skill version differences
+npx agentic-sdlc-method up -y          # Update outdated + install missing skills
+npx agentic-sdlc-method ls -q          # List with minimal output
+npx agentic-sdlc-method --list-bundles # Show available bundles
 ```
 
 ## 📋 System Requirements
@@ -405,18 +405,18 @@ npx claude-superskills --list-bundles # Show available bundles
 
 We welcome contributions! Check [CONTRIBUTING.md](../CONTRIBUTING.md) for guidelines.
 
-- Create new skills using the [skill-creator](https://github.com/ericgandrade/claude-superskills) skill
+- Create new skills using the [skill-creator](https://github.com/ericgandrade/agentic-sdlc) skill
 - Follow [Quality Standards](guides/quality-standards.md)
 - Report issues and suggestions
 
 ## 🔒 Privacy
 
-claude-superskills does not collect, store, transmit, or share any user data.
+The Agentic SDLC Method does not collect, store, transmit, or share any user data.
 
 - **No external servers** — the plugin has no backend, no telemetry, and no network requests of its own
 - **No API keys required** — all skills run entirely within Claude Code using Claude's native tools (WebSearch, WebFetch, Bash, Read/Write)
 - **No logging** — nothing is recorded outside of your local Claude Code session
-- **Open source** — all skill logic is fully auditable at [github.com/ericgandrade/claude-superskills](https://github.com/ericgandrade/claude-superskills)
+- **Open source** — all skill logic is fully auditable at [github.com/ericgandrade/agentic-sdlc](https://github.com/ericgandrade/agentic-sdlc)
 
 Any web searches or document fetches performed by skills use Claude Code's built-in tools, subject to Anthropic's own privacy policy.
 
@@ -429,8 +429,8 @@ MIT - See [LICENSE](../LICENSE) for details.
 - 📚 [Full Catalog](../CATALOG.md) - All skills with metadata
 - 🛠️ [Skills Development Guide](../resources/skills-development.md) - Create custom skills
 - 📝 [Changelog](../CHANGELOG.md) - Release history
-- 🐛 [Issues](https://github.com/ericgandrade/claude-superskills/issues) - Report problems
-- 💬 [Discussions](https://github.com/ericgandrade/claude-superskills/discussions) - Share ideas
+- 🐛 [Issues](https://github.com/ericgandrade/agentic-sdlc/issues) - Report problems
+- 💬 [Discussions](https://github.com/ericgandrade/agentic-sdlc/discussions) - Share ideas
 
 ---
 
@@ -459,7 +459,7 @@ See [detailed comparison](bundles/bundles.md#bundle-comparison).
 
 | Package | Skills | Focus | Install |
 |---------|--------|-------|---------|
-| **claude-superskills** | 23 | Core: Agentic SDLC, skill creation, discovery & orchestration | `npx claude-superskills` |
+| **agentic-sdlc** | 23 | Core: Agentic SDLC, skill creation, discovery & orchestration | `npx agentic-sdlc-method` |
 | [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills) | 10 | Research, content, documents, strategy & prompts | Claude Code plugin (no npm package yet) |
 | [obsidian-superskills](https://github.com/ericgandrade/obsidian-superskills) | 6 | Obsidian knowledge management | `npx obsidian-superskills` |
 | [career-superskills](https://github.com/ericgandrade/career-superskills) | 20 | Job search & career development | `npx career-superskills` |
@@ -469,4 +469,4 @@ See [detailed comparison](bundles/bundles.md#bundle-comparison).
 
 ---
 
-**Getting Started? Check [Quick Start](guides/getting-started.md) or run `npx claude-superskills` now!**
+**Getting Started? Check [Quick Start](guides/getting-started.md) or run `npx agentic-sdlc-method` now!**

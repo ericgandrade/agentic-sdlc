@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # package-plugin.sh — Generate a Claude Desktop plugin ZIP package
-# Output: plugin-output/claude-superskills-vX.Y.Z.zip
+# Output: plugin-output/agentic-sdlc-vX.Y.Z.zip
 # Usage: ./scripts/package-plugin.sh
 
 set -euo pipefail
@@ -11,16 +11,16 @@ OUTPUT_DIR="$REPO_ROOT/plugin-output"
 
 # Read version from package.json
 VERSION=$(node -e "console.log(require('$PACKAGE_JSON').version)")
-ZIP_NAME="claude-superskills-v${VERSION}.zip"
+ZIP_NAME="agentic-sdlc-v${VERSION}.zip"
 ZIP_PATH="$OUTPUT_DIR/$ZIP_NAME"
 
-echo "Packaging claude-superskills v${VERSION}..."
+echo "Packaging agentic-sdlc v${VERSION}..."
 
 # Create output directory
 mkdir -p "$OUTPUT_DIR"
 
 # Remove any previous zip
-rm -f "$OUTPUT_DIR"/claude-superskills-v*.zip
+rm -f "$OUTPUT_DIR"/agentic-sdlc-v*.zip
 
 # Generate zip from repo root, excluding non-essential files
 cd "$REPO_ROOT"

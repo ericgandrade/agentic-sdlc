@@ -10,7 +10,7 @@
    ```
 
 2. **Verify package.json**
-   - Unique package name on npm: `claude-superskills`
+   - Unique package name on npm: `agentic-sdlc-method`
    - Valid SemVer version
    - Git repository configured
    - Appropriate keywords
@@ -24,13 +24,13 @@
 npm link
 
 # Test commands
-claude-superskills --version
-claude-superskills doctor
-claude-superskills list
-claude-superskills install --help
+agentic-sdlc-method --version
+agentic-sdlc-method doctor
+agentic-sdlc-method list
+agentic-sdlc-method install --help
 
 # Uninstall link
-npm unlink -g claude-superskills
+npm unlink -g agentic-sdlc-method
 ```
 
 #### 2. Dry Run
@@ -76,13 +76,13 @@ npm publish
 
 ```bash
 # Search on npm registry
-npm search claude-superskills
+npm search agentic-sdlc-method
 
 # View package information
-npm view claude-superskills
+npm view agentic-sdlc-method
 
 # Install globally from npm
-npm install -g claude-superskills
+npm install -g agentic-sdlc-method
 ```
 
 ### Post-Publication Tests
@@ -90,27 +90,27 @@ npm install -g claude-superskills
 ```bash
 # In different directory
 cd ~
-npm install -g claude-superskills
+npm install -g agentic-sdlc-method
 
 # Test installation
-claude-superskills --version
-claude-superskills doctor
-claude-superskills list
+agentic-sdlc-method --version
+agentic-sdlc-method doctor
+agentic-sdlc-method list
 
 # Test skills installation
-claude-superskills install skill-creator --yes
+agentic-sdlc-method install skill-creator --yes
 
 # Check installed skills
-claude-superskills list
+agentic-sdlc-method list
 
 # Update
-claude-superskills update --yes
+agentic-sdlc-method update --yes
 
 # Uninstall skill
-claude-superskills uninstall skill-creator
+agentic-sdlc-method uninstall skill-creator
 
 # Uninstall CLI
-npm uninstall -g claude-superskills
+npm uninstall -g agentic-sdlc-method
 ```
 
 ---
@@ -137,11 +137,11 @@ npm uninstall -g claude-superskills
 
 - [ ] `npm login` executed
 - [ ] `npm publish` without errors
-- [ ] Package appears at https://www.npmjs.com/package/claude-superskills
+- [ ] Package appears at https://www.npmjs.com/package/agentic-sdlc-method
 
 ### After Publication
 
-- [ ] Install globally: `npm install -g claude-superskills`
+- [ ] Install globally: `npm install -g agentic-sdlc-method`
 - [ ] Test main commands
 - [ ] Install test skill
 - [ ] Update main repository documentation
@@ -170,14 +170,14 @@ npm audit fix
 
 ```bash
 # Deprecate specific version
-npm deprecate claude-superskills@1.0.0 "Version discontinued, use 1.1.0+"
+npm deprecate agentic-sdlc-method@1.0.0 "Version discontinued, use 1.1.0+"
 ```
 
 ### Remove Version (use with caution!)
 
 ```bash
 # Remove published version (only first 72h)
-npm unpublish claude-superskills@1.0.0
+npm unpublish agentic-sdlc-method@1.0.0
 ```
 
 ---

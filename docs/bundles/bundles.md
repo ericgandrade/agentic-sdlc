@@ -3,8 +3,8 @@
 Bundles are curated collections of skills grouped by use case. They are defined in [`bundles.json`](../../bundles.json) at the repository root, which is the source of truth for this page. Install one with:
 
 ```bash
-npx claude-superskills --bundle <name> -y
-npx claude-superskills --list-bundles   # show all bundles
+npx agentic-sdlc-method --bundle <name> -y
+npx agentic-sdlc-method --list-bundles   # show all bundles
 ```
 
 A skill can belong to several bundles.
@@ -22,7 +22,7 @@ Core skills for orchestration, planning, skill creation, and the Agentic SDLC ro
 **Includes:** `agentic-sdlc`, `skill-creator`, `agent-skill-discovery`, `agent-skill-orchestrator`, `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`
 
 ```bash
-npx claude-superskills --bundle essential -y
+npx agentic-sdlc-method --bundle essential -y
 ```
 
 ---
@@ -59,7 +59,7 @@ End-to-end AI-assisted software delivery: router plus 19 stage skills from Disco
 The router plays the Scrum Master and hands each stage to its agent and skills. Human sign-offs: Product Owner (Specify), Tech Lead (Design), human reviewer (Test), Release Owner (Release). Start with the [Quickstart](../../skills/agentic-sdlc/references/quickstart.md); reference: [Agentic SDLC Guide](../guides/agentic-sdlc.md).
 
 ```bash
-npx claude-superskills --bundle agentic-sdlc -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
 ```
 
 ---
@@ -73,7 +73,7 @@ Full planning and execution workflow.
 **Includes:** `brainstorming`, `spec-driven-development`, `project-context`, `writing-plans`, `executing-plans`, `grill-me`, `agent-skill-orchestrator`
 
 ```bash
-npx claude-superskills --bundle planning -y
+npx agentic-sdlc-method --bundle planning -y
 ```
 
 ---
@@ -87,7 +87,7 @@ Skill discovery and orchestration.
 **Includes:** `agent-skill-discovery`, `agent-skill-orchestrator`
 
 ```bash
-npx claude-superskills --bundle orchestration -y
+npx agentic-sdlc-method --bundle orchestration -y
 ```
 
 ---
@@ -96,12 +96,12 @@ npx claude-superskills --bundle orchestration -y
 
 **Bundle:** `all` · **Skills:** 23 · **For:** All users
 
-Complete claude-superskills toolkit — all 23 skills.
+Complete agentic-sdlc toolkit — all 23 skills.
 
 Every skill in `skills/`: the 20 Agentic SDLC skills plus `agent-skill-discovery`, `agent-skill-orchestrator` and `skill-creator`.
 
 ```bash
-npx claude-superskills --bundle all -y
+npx agentic-sdlc-method --bundle all -y
 ```
 
 ---

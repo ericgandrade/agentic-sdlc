@@ -1,5 +1,5 @@
 {
-  "name": "claude-superskills",
+  "name": "agentic-sdlc",
   "owner": {
     "name": "Eric Andrade",
     "email": "egandrade@gmail.com"
@@ -9,17 +9,17 @@
   },
   "plugins": [
     {
-      "name": "claude-superskills",
+      "name": "agentic-sdlc",
       "source": {
         "source": "github",
-        "repo": "ericgandrade/claude-superskills"
+        "repo": "ericgandrade/agentic-sdlc"
       },
       "description": "23 universal AI skills for Claude Code built around the Agentic SDLC: a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification, plus skill creation and orchestration. Research, content and document skills moved to knowledge-superskills.",
       "author": {
         "name": "Eric Andrade"
       },
-      "homepage": "https://github.com/ericgandrade/claude-superskills",
-      "repository": "https://github.com/ericgandrade/claude-superskills",
+      "homepage": "https://github.com/ericgandrade/agentic-sdlc",
+      "repository": "https://github.com/ericgandrade/agentic-sdlc",
       "license": "MIT",
       "keywords": [
         "skills",

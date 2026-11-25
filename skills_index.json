@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated": "2026-11-25T17:32:26.650983Z",
+  "generated": "2026-11-25T18:06:03.152877Z",
   "skills": [
     {
       "name": "agent-skill-discovery",
@@ -110,7 +110,7 @@
     {
       "name": "codebase-modernization",
       "version": "1.0.0",
-      "description": "This skill should be used when the user needs to change or modernize existing code safely \u2014 inventorying a legacy codebase and its dependencies, scoring components by value and risk, deciding to retire, retain, rehost, upgrade, re-platform, refactor or migrate, researching how the code works today with cited evidence, pinning current behaviour with characterization tests (CHAR-n) before touching untested code, designing expand-contract schema changes or a strangler cutover, slicing the migration into ordered slices for writing-plans, or writing a migration runbook (the Specify and Design stages of the Agentic SDLC on brownfield code). Not for first entry into a repository or its code map (use project-context), designing a new system (use senior-solution-architect), or web research (use deep-research).",
+      "description": "This skill should be used when the user needs to change or modernize existing code safely \u2014 inventorying a legacy codebase and its dependencies, scoring components by value and risk, deciding to retire, retain, rehost, upgrade, re-platform, refactor or migrate, researching how the code works today with cited evidence, pinning current behaviour with characterization tests (CHAR-n) before touching untested code, designing expand-contract schema changes or a strangler cutover, slicing the migration into ordered slices for writing-plans, or writing a migration runbook (the Specify and Design stages of the Agentic SDLC on brownfield code). Not for first entry into a repository or its code map (use project-context), designing a new system (use senior-solution-architect), or web research (use deep-research from knowledge-superskills, when installed).",
       "category": "development",
       "tags": [
         "agentic-sdlc",
@@ -384,7 +384,7 @@
     {
       "name": "senior-solution-architect",
       "version": "2.3.0",
-      "description": "This skill should be used when the user needs to design, review or document a software architecture \u2014 comparing two or more materially different designs, shaping deep modules and interfaces, deciding whether a choice needs an Architecture Decision Record and writing it, drawing C4 diagrams, assessing an existing system for bottlenecks or structural friction, or ruling on a design question escalated from a failing loop (the Design stage of the Agentic SDLC). Not for exploring product approaches before a spec exists (use brainstorming), inventorying or migrating legacy code (use codebase-modernization), breaking a spec into plan tasks (use writing-plans), finding a bug's root cause (use systematic-debugging), or web and market research (use deep-research).",
+      "description": "This skill should be used when the user needs to design, review or document a software architecture \u2014 comparing two or more materially different designs, shaping deep modules and interfaces, deciding whether a choice needs an Architecture Decision Record and writing it, drawing C4 diagrams, assessing an existing system for bottlenecks or structural friction, or ruling on a design question escalated from a failing loop (the Design stage of the Agentic SDLC). Not for exploring product approaches before a spec exists (use brainstorming), inventorying or migrating legacy code (use codebase-modernization), breaking a spec into plan tasks (use writing-plans), finding a bug's root cause (use systematic-debugging), or web and market research (use deep-research from knowledge-superskills, when installed).",
       "category": "architecture",
       "tags": [
         "agentic-sdlc",
@@ -439,7 +439,7 @@
     {
       "name": "skill-creator",
       "version": "2.1.0",
-      "description": "Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, update or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
+      "description": "This skill should be used when the user wants to create a skill from scratch, modify or improve an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.",
       "category": "meta",
       "tags": [
         "automation",

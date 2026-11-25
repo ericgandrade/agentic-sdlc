@@ -19,20 +19,20 @@ Complete guide for installing **CLI AI Skills** on your system.
 **Recommended (one-liner):**
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 Or with wget:
 
 ```bash
-wget -qO- https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 This script will:
 - ✅ Detect your operating system (macOS/Linux/WSL)
 - ✅ Verify Node.js >= 16.0.0 is installed
 - ✅ Offer to install Node.js via nvm if missing
-- ✅ Install claude-superskills globally via npm
+- ✅ Install agentic-sdlc-method globally via npm
 - ✅ Detect installed AI CLI tools (Copilot, Claude, Codex, OpenCode, Gemini)
 - ✅ Detect Claude Desktop / Cowork when available
 - ✅ Show next steps
@@ -45,24 +45,24 @@ This script will:
 
 **Interactive install:**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 **Non-interactive (CI/CD):**
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash -s -- --yes
 ```
 
 **With options:**
 ```bash
 # Skip Node.js version check
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash -s -- --skip-node-check
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash -s -- --skip-node-check
 
 # Verbose output
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash -s -- --verbose
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash -s -- --verbose
 
 # Help
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash -s -- --help
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash -s -- --help
 ```
 
 **Advantages:**
@@ -77,7 +77,7 @@ curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/mai
 ### Method 2: NPX (Zero-Install)
 
 ```bash
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 **Advantages:**
@@ -96,7 +96,7 @@ npx claude-superskills
 If Claude Desktop is installed, you can generate a Cowork-ready plugin zip:
 
 ```bash
-npx claude-superskills package-cowork
+npx agentic-sdlc-method package-cowork
 ```
 
 The package is generated locally and must be uploaded manually in Claude Desktop / Cowork.
@@ -106,12 +106,12 @@ The package is generated locally and must be uploaded manually in Claude Desktop
 ### Method 3: NPM Global Install
 
 ```bash
-npm install -g claude-superskills
+npm install -g agentic-sdlc-method
 ```
 
 Then run:
 ```bash
-claude-superskills
+agentic-sdlc-method
 ```
 
 **Advantages:**
@@ -132,8 +132,8 @@ claude-superskills
 For contributors or local testing:
 
 ```bash
-git clone https://github.com/ericgandrade/claude-superskills.git
-cd claude-superskills/cli-installer
+git clone https://github.com/ericgandrade/agentic-sdlc.git
+cd agentic-sdlc/cli-installer
 npm link
 ```
 
@@ -141,7 +141,7 @@ This creates a symlink to your local copy. Any changes you make will be reflecte
 
 **Unlink:**
 ```bash
-npm unlink -g claude-superskills
+npm unlink -g agentic-sdlc-method
 ```
 
 ---
@@ -218,14 +218,14 @@ How it works:
 Recommended update flow:
 
 ```bash
-npx claude-superskills package-cowork
+npx agentic-sdlc-method package-cowork
 ```
 
 Then in Claude Desktop:
 
 1. Open `Cowork`.
 2. Open `Customize`.
-3. Find the installed `claude-superskills` plugin.
+3. Find the installed `agentic-sdlc` plugin.
 4. Remove the old version first.
 5. Upload the new zip.
 6. Confirm the new version is shown.
@@ -244,7 +244,7 @@ Important:
 node --version  # Should be >= 16.0.0
 
 # Install via shell script (recommended)
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 ---
@@ -258,10 +258,10 @@ curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/mai
 node --version
 
 # Install via shell script
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 
 # Or with wget
-wget -qO- https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+wget -qO- https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 ---
@@ -275,7 +275,7 @@ wget -qO- https://raw.githubusercontent.com/ericgandrade/claude-superskills/main
 3. Run installer:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 ```
 
 ---
@@ -288,10 +288,10 @@ The shell installer doesn't work on pure Windows. Use npm instead:
 
 ```bash
 # PowerShell or Git Bash
-npm install -g claude-superskills
+npm install -g agentic-sdlc-method
 
 # Or use npx
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 ---
@@ -346,7 +346,7 @@ source ~/.bashrc
 
 ---
 
-### Issue: "claude-superskills: command not found" after install
+### Issue: "agentic-sdlc-method: command not found" after install
 
 **Solution:** Reload your shell or check PATH
 
@@ -355,7 +355,7 @@ source ~/.bashrc
 source ~/.bashrc  # or ~/.zshrc
 
 # Verify installation
-npm list -g claude-superskills
+npm list -g agentic-sdlc-method
 
 # Check PATH
 echo $PATH | grep npm
@@ -372,10 +372,10 @@ echo $PATH | grep npm
 curl --version
 
 # Try with bash explicitly
-bash <(curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh)
 
 # Or download and run
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh -o install.sh
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh -o install.sh
 chmod +x install.sh
 ./install.sh
 ```
@@ -394,7 +394,7 @@ This is **normal** if you haven't installed GitHub Copilot CLI, Claude Code, or 
    - **OpenCode:** https://opencode.ai
    - **Gemini CLI:** https://gemini.google.com/cli
 
-2. After installing, run `npx claude-superskills` again
+2. After installing, run `npx agentic-sdlc-method` again
 
 ---
 
@@ -425,10 +425,10 @@ ls -la ~/.codex/skills/
 **If skills are missing:**
 ```bash
 # Reinstall
-npx claude-superskills --all -y
+npx agentic-sdlc-method --all -y
 
 # Or use doctor command to diagnose
-npx claude-superskills doctor
+npx agentic-sdlc-method doctor
 ```
 
 **Restart Codex App:**
@@ -443,20 +443,20 @@ After installation, you may need to:
 mkdir -p ~/.codex/skills
 
 # Clone repository
-git clone https://github.com/ericgandrade/claude-superskills.git
+git clone https://github.com/ericgandrade/agentic-sdlc.git
 
 # Create symlinks manually
 cd ~/.codex/skills
-ln -s /path/to/claude-superskills/skills/skill-creator skill-creator
-ln -s /path/to/claude-superskills/skills/agentic-sdlc agentic-sdlc
-ln -s /path/to/claude-superskills/skills/brainstorming brainstorming
-ln -s /path/to/claude-superskills/skills/writing-plans writing-plans
+ln -s /path/to/agentic-sdlc/skills/skill-creator skill-creator
+ln -s /path/to/agentic-sdlc/skills/agentic-sdlc agentic-sdlc
+ln -s /path/to/agentic-sdlc/skills/brainstorming brainstorming
+ln -s /path/to/agentic-sdlc/skills/writing-plans writing-plans
 ```
 
 ---
    - **Claude Code:** https://code.claude.ai/
    
-2. Run `claude-superskills` again - it will detect the tools
+2. Run `agentic-sdlc-method` again - it will detect the tools
 
 The installer works fine without AI tools, but you won't be able to install skills until you have one.
 
@@ -467,14 +467,14 @@ The installer works fine without AI tools, but you won't be able to install skil
 ### Quick Uninstall
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/uninstall.sh | bash
 ```
 
 ### Manual Uninstall
 
 **Remove npm package:**
 ```bash
-npm uninstall -g claude-superskills
+npm uninstall -g agentic-sdlc-method
 ```
 
 **Remove installed skills:**
@@ -517,20 +517,20 @@ bash uninstall.sh --yes --purge
 If you use npx, you always get the latest version:
 
 ```bash
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 ### Upgrade Global Install
 
 ```bash
-npm update -g claude-superskills
+npm update -g agentic-sdlc-method
 ```
 
 Or reinstall:
 
 ```bash
-npm uninstall -g claude-superskills
-npm install -g claude-superskills
+npm uninstall -g agentic-sdlc-method
+npm install -g agentic-sdlc-method
 ```
 
 ### Upgrade via Shell Installer
@@ -538,29 +538,29 @@ npm install -g claude-superskills
 The shell installer always installs the latest version:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash -s -- --yes
+curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash -s -- --yes
 ```
 
 ### Check Current Version
 
 ```bash
-claude-superskills --version
+agentic-sdlc-method --version
 ```
 
 Or:
 
 ```bash
-npm list -g claude-superskills
+npm list -g agentic-sdlc-method
 ```
 
 ---
 
 ## 📚 Additional Resources
 
-- **GitHub Repository:** https://github.com/ericgandrade/claude-superskills
-- **NPM Package:** https://npmjs.com/package/claude-superskills
-- **Issues:** https://github.com/ericgandrade/claude-superskills/issues
-- **Changelog:** https://github.com/ericgandrade/claude-superskills/blob/main/cli-installer/CHANGELOG.md
+- **GitHub Repository:** https://github.com/ericgandrade/agentic-sdlc
+- **NPM Package:** https://npmjs.com/package/agentic-sdlc-method
+- **Issues:** https://github.com/ericgandrade/agentic-sdlc/issues
+- **Changelog:** https://github.com/ericgandrade/agentic-sdlc/blob/main/cli-installer/CHANGELOG.md
 
 ---
 
@@ -568,7 +568,7 @@ npm list -g claude-superskills
 
 If you encounter issues not covered here:
 
-1. Check existing issues: https://github.com/ericgandrade/claude-superskills/issues
+1. Check existing issues: https://github.com/ericgandrade/agentic-sdlc/issues
 2. Create a new issue with:
    - Your OS and version
    - Node.js version (`node --version`)

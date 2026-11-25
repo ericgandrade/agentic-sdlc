@@ -1,17 +1,17 @@
 {
-  "name": "claude-superskills",
-  "version": "2.0.8",
-  "description": "33 reusable AI skills for GitHub Copilot, Claude Code, and 6 more AI platforms, including the Agentic SDLC: 20 skills from Discover to Operate with human sign-offs",
-  "main": "lib/index.js",
+  "name": "agentic-sdlc-method",
+  "version": "3.0.0",
+  "description": "Installer for The Agentic SDLC Method: 23 AI skills (a router, 13 agents and 19 stage skills from Discover to Operate, with human sign-offs and evidence-based verification) for Claude Code, GitHub Copilot and 6 more AI tools",
   "bin": {
+    "agentic-sdlc-method": "bin/cli.js",
     "claude-superskills": "bin/cli.js"
   },
   "scripts": {
-    "test": "echo '✅ claude-superskills - test passed'",
+    "test": "node --check bin/cli.js && node bin/cli.js --version",
     "build": "cd .. && ./scripts/build-skills.sh",
     "prebuild": "cd .. && ./scripts/build-skills.sh",
     "link": "npm link",
-    "unlink": "npm unlink -g claude-superskills",
+    "unlink": "npm unlink -g agentic-sdlc-method",
     "generate-index": "cd .. && python3 scripts/generate-skills-index.py",
     "generate-catalog": "cd .. && python3 scripts/generate-catalog.py",
     "generate-all": "npm run build && npm run generate-index && npm run generate-catalog",
@@ -60,10 +60,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ericgandrade/claude-superskills.git"
+    "url": "git+https://github.com/ericgandrade/agentic-sdlc.git"
   },
   "bugs": {
-    "url": "https://github.com/ericgandrade/claude-superskills/issues"
+    "url": "https://github.com/ericgandrade/agentic-sdlc/issues"
   },
-  "homepage": "https://github.com/ericgandrade/claude-superskills#readme"
+  "homepage": "https://github.com/ericgandrade/agentic-sdlc#readme"
 }

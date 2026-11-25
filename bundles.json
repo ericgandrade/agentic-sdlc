@@ -69,7 +69,7 @@
     },
     "all": {
       "name": "All Skills",
-      "description": "Complete claude-superskills toolkit — all 23 skills.",
+      "description": "Complete agentic-sdlc toolkit — all 23 skills.",
       "skills": [
         "skill-creator",
         "agent-skill-discovery",

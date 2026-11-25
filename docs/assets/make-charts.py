@@ -37,6 +37,22 @@ def arrow(x1, y1, x2, y2, color=BLUE):
     return f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{color}" stroke-width="2" marker-end="url(#a)"/>'
 
 
+# 0. Hero ----------------------------------------------------------------------------------
+def hero():
+    w, h = 1200, 400
+    b = [t(w / 2, 78, "The definitive approach to AI-native software engineering.", 32, INK, 700, "middle"),
+         t(w / 2, 122, "Agent-driven.  Human-governed.  Evidence-verified.", 22, BLUE, 700, "middle")]
+    stats = [("13", "Specialized agents"), ("23", "Integrated skills"), ("7", "Lifecycle stages")]
+    cw, gap = 300, 40
+    x0 = (w - (3 * cw + 2 * gap)) / 2
+    for i, (n, label) in enumerate(stats):
+        x = x0 + i * (cw + gap)
+        b.append(rect(x, 162, cw, 150, CARD, 14))
+        b.append(t(x + cw / 2, 252, n, 72, BLUE, 800, "middle"))
+        b.append(t(x + cw / 2, 290, label, 18, MUTED, 600, "middle"))
+    b.append(t(w / 2, 360, "From idea to production. Beyond code generation.", 20, INK, 600, "middle"))
+    svg("hero.svg", w, h, "The definitive approach to AI-native software engineering. Agent-driven, human-governed, evidence-verified. 13 specialized agents, 23 integrated skills, 7 lifecycle stages. From idea to production, beyond code generation.", b)
+
 # 1. Journey -------------------------------------------------------------------------------
 def journey():
     steps = [
@@ -119,7 +135,7 @@ def criteria():
     w, rowh, top, lx, sx, sw = 1200, 34, 132, 50, 330, 360
     h = top + rowh * len(CRITERIA) + 70
     b = [t(40, 52, "Where the lead comes from", 28, INK, 700),
-         t(40, 80, "Level 0–5 on each criterion: the Agentic SDLC against the best of the nine other methods.", 15, MUTED),
+         t(40, 80, "Level 0–5 on each of the 16 criteria (C1–C16): the Agentic SDLC against the best of the nine other methods.", 15, MUTED),
          f'<circle cx="52" cy="104" r="8" fill="{BLUE}"/>', t(68, 109, "Agentic SDLC", 14, INK, 700),
          f'<circle cx="200" cy="104" r="9" fill="none" stroke="{AMBER}" stroke-width="3"/>', t(218, 109, "Best other method (named on the right)", 14, INK),
          rect(30, top - 14, w - 60, rowh * len(CRITERIA) + 44, CARD, 12)]
@@ -151,7 +167,7 @@ def guardrails():
          rect(30, 76, 560, 456, CARD, 12), rect(610, 76, 560, 456, CARD, 12),
          t(56, 112, "Evidence, not claims", 20, INK, 700),
          t(636, 112, "Bounded autonomy", 20, INK, 700)]
-    chain = [("AC-1 in the approved spec", "a numbered, testable criterion"),
+    chain = [("Acceptance criterion AC-1, approved", "numbered and testable, written before code"),
              ("Test named AC-1, red first", "the failing output is recorded"),
              ("Command and exit code", "re-run fresh, never copied"),
              ("Fingerprint of the tested tree", "any later edit makes it stale"),
@@ -168,7 +184,7 @@ def guardrails():
              ("Debugging", "3 hypotheses", "Architect"),
              ("Build-test", "5 rounds", "Tech Lead"),
              ("Review-fix", "3 rounds", "Tech Lead"),
-             ("Same failure twice", "anti-thrash", "Architect")]
+             ("Same failure repeated", "2 in a row", "Architect")]
     b.append(t(636, 146, "Loop", 13, MUTED, 700) + t(820, 146, "Limit", 13, MUTED, 700) + t(976, 146, "Then", 13, MUTED, 700))
     for i, (loop, lim, then) in enumerate(loops):
         y = 158 + i * 46
@@ -187,6 +203,7 @@ def guardrails():
 
 
 if __name__ == "__main__":
+    hero()
     journey()
     ranking()
     criteria()

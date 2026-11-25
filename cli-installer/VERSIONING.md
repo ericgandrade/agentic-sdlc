@@ -5,7 +5,7 @@
 ### Latest (npm tag)
 - **What it is:** Default npm tag pointing to the most recent stable version
 - **When it changes:** Every time you publish a new version via `npm publish`
-- **How users access:** `npm install claude-superskills` or `npx claude-superskills`
+- **How users access:** `npm install agentic-sdlc-method` or `npx agentic-sdlc-method`
 
 ### Main (Git branch)
 - **What it is:** Main source code branch on GitHub
@@ -56,7 +56,7 @@ git commit --amend --no-edit
 git push origin main --tags
 
 # 6. Wait for publishing (~2 min)
-# Check: https://github.com/ericgandrade/claude-superskills/actions
+# Check: https://github.com/ericgandrade/agentic-sdlc/actions
 ```
 
 ### 2. New Feature (MINOR: 1.0.0 → 1.1.0)
@@ -163,10 +163,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Automatic version checking
 - GitHub Actions CI/CD
 
-[Unreleased]: https://github.com/ericgandrade/claude-superskills/compare/v1.1.0...HEAD
-[1.1.0]: https://github.com/ericgandrade/claude-superskills/compare/v1.0.1...v1.1.0
-[1.0.1]: https://github.com/ericgandrade/claude-superskills/compare/v1.0.0...v1.0.1
-[1.0.0]: https://github.com/ericgandrade/claude-superskills/releases/tag/v1.0.0
+[Unreleased]: https://github.com/ericgandrade/agentic-sdlc/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/ericgandrade/agentic-sdlc/compare/v1.0.1...v1.1.0
+[1.0.1]: https://github.com/ericgandrade/agentic-sdlc/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/ericgandrade/agentic-sdlc/releases/tag/v1.0.0
 ```
 
 ## 🚀 Useful Commands
@@ -176,13 +176,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 cat cli-installer/package.json | grep version
 
 # View all published versions on npm
-npm view claude-superskills versions
+npm view agentic-sdlc-method versions
 
 # View latest version information
-npm view claude-superskills
+npm view agentic-sdlc-method
 
 # Test specific version
-npx claude-superskills@1.0.1 --version
+npx agentic-sdlc-method@1.0.1 --version
 
 # View local git tags
 git tag
@@ -214,7 +214,7 @@ git push origin main --tags
 
 ### Error: "npm publish failed on GitHub Actions"
 
-1. Check logs: https://github.com/ericgandrade/claude-superskills/actions
+1. Check logs: https://github.com/ericgandrade/agentic-sdlc/actions
 2. Common: npm token expired (expires every 90 days)
 3. Solution: Create new token and update GitHub Secret NPM_TOKEN
 
@@ -255,7 +255,7 @@ Git main branch: claude-superskills (source code)
 npm registry: claude-superskills
 ├─ Published version: 1.0.0
 ├─ Tag: latest
-└─ Available: npx claude-superskills
+└─ Available: npx agentic-sdlc-method
 ```
 
 ## 🔗 Useful Links

@@ -6,15 +6,17 @@
 
 ## Start here
 
-1. `git fetch origin && git switch claude/agentic-sdlc-handoff && git status` (expect a clean tree). Work on this branch; do not go back to `claude/superskills-dev-workflow-kppj2r`.
-2. Read this file, then section 4 (findings table) of [`docs/research/2026-11-25-dogfood-report.md`](../research/2026-11-25-dogfood-report.md). Nothing else is needed to start.
-3. Confirm the baseline (commands under "Verified" below).
-4. **Next task: the 7 Minor findings recommended before release** (section "Minor findings" below), then release prep. All Critical and Important findings are closed (see "Findings progress"). Add or update a test with any script change.
-5. One commit per finding or pair. Update the status here and in the root README as findings close.
+1. The repository is now **`ericgandrade/agentic-sdlc`** (renamed from `claude-superskills` on 2026-11-25; GitHub redirects the old URL). The Claude Code plugin is `agentic-sdlc`; the npm package is **`agentic-sdlc-method`** (`agentic-sdlc` belongs to another author on npm).
+2. `git fetch origin && git switch claude/agentic-sdlc-handoff`. The v3.0.0 release PR from this branch to `main` is open; the version is already bumped to 3.0.0 in every file.
+3. **Owner actions after the PR is merged** (npm publishing of the new name):
+   1. npm token for the first publish of a new package: on npmjs.com create a granular access token with read and write on all packages, then `gh secret set NPM_TOKEN -R ericgandrade/agentic-sdlc`. The current secret dates from 2026-05-08 and has likely expired.
+   2. `git switch main && git pull && git tag v3.0.0 && git push origin v3.0.0`. The `Publish to npm` workflow checks that the tag matches the version, runs the gates and publishes `agentic-sdlc-method@3.0.0` with provenance.
+   3. After the first publish: npmjs.com → `agentic-sdlc-method` → Settings → Trusted Publisher → GitHub Actions, repository `ericgandrade/agentic-sdlc`, workflow `publish-npm.yml`. Then revoke the token and delete the secret; later releases publish through OIDC.
+   4. Deprecate the old name (needs `npm login`): `npm deprecate claude-superskills "Renamed to agentic-sdlc-method. Run: npx agentic-sdlc-method"`.
+   5. `gh repo edit` description and topics (commands in the `CLAUDE.md` release checklist); `./scripts/package-plugin.sh` and upload `plugin-output/agentic-sdlc-v3.0.0.zip` to Claude Desktop.
+4. Next work: [`docs/plans/2026-11-25-roadmap-v3.md`](../plans/2026-11-25-roadmap-v3.md) (v3.1: approval and trace checks, loop driver with enforced authority limits, re-score).
 
-**Branch rule:** all work stays on `claude/agentic-sdlc-handoff`. No PR to `main` and no tag until the owner asks; `main` is the previous version. The root `README.md` is a stakeholder presentation of the method; the former README is now `docs/skills-library.md` (add new skills there; `CLAUDE.md` now says so; `release.js major` was dry-run in a scratch copy on 2026-11-25: title, badge, footer and plugin go to 3.0.0 and both sync checks pass; catalog regeneration needs Python `pyyaml`). For the root README: keep its status and findings counts current, and do not overstate the scores.
-
-**Where we are:** all build phases are done; F18 is re-tested and all 14 Important findings are fixed (2026-11-25). **What is open:** 14 Minor findings (7 recommended before release), the E.5 re-run and the v3.0.0 release prep. Nothing is running.
+**Where we are (2026-11-25):** every dogfood finding is closed (1 Critical re-tested, 14 Important, 14 Minor), plus 14 findings from a second end-to-end test (N1–N14), a static QA sweep, a plugin validation and a newcomer README review. Ten non-SDLC skills moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills). Nothing is running.
 
 ## Goal
 
@@ -71,28 +73,31 @@ Known and accepted (not fixed):
 
 v3.0 → v3.2 plan with projected score gains: [`docs/plans/2026-11-25-roadmap-v3.md`](../plans/2026-11-25-roadmap-v3.md). Ralph Loop decision and evidence: [`docs/research/2026-11-25-ralph-loop-study.md`](../research/2026-11-25-ralph-loop-study.md) (add it in v3.1 only with enforced authority limits; alone it adds +0.0).
 
-## Minor findings: recommendation before v3.0.0
+## Minor findings: all 14 closed (2026-11-25)
 
-Fix before release (contradictions or a fallback every session hits; each is a small doc edit):
-
-| ID | Why before release |
+| ID | Fix |
 |---|---|
-| F02 | Mis-indented line in the `artifacts.md` layout tree; one-line fix |
-| F03 | `plan.md` and `spec.md` templates disagree on deleting comment blocks |
-| F06 | Two formats for the Platform/Enforcement lines (`agents-md-block.md` vs `platforms.md`) |
-| F20 | `executing-plans` and `tdd.md` disagree on whether an import error is a valid red |
-| F24 | Waiver table has 7 columns in templates and 10 in `governance.md` |
-| F26 | Release notes have no location or PR value without a host (same pattern as F09) |
-| F29 | Router Step 0 starts with scripts that do not ship (`status.mjs`, `path-score.mjs`, `faq.md`); put the manual fallback first. The router is at 2196/2200 words, so this needs a trim elsewhere in `SKILL.md` |
+| F02 | `artifacts.md` layout tree aligned |
+| F03 | `plan.md` and `spec.md` templates: comments may stay; remove them only before the sign-off request (the hash covers the file) |
+| F06 | `agents-md-block.md` uses the `platforms.md` Platform / Enforcement line format |
+| F07 | `project-context` mode table: a one-commit repository is greenfield setup |
+| F12 | PR body template has a Quick header variant (Issue, AC list) |
+| F13 | `run-ledger start` error says Quick has no run and keeps rows by hand |
+| F15 | `paths.md` file definition excludes method records |
+| F17 | `spec-lint` OBS errors report the offending row line (test added) |
+| F20 | `executing-plans` red rule matches `tdd.md` |
+| F24 | PR body and release-notes waiver tables use the 10 governance columns and link the 1-person rule |
+| F26 | Release notes location and PR value without a host or CHANGELOG |
+| F28 | `retrospective.md`: a rollout below 100% ten business days after merge runs the retro with `pending — <date>` Indicator and Outcome rows |
+| F29 | Router Step 0 starts with the manual table; `faq.md`† reference removed (router 2178/2200) |
+| F30 | `test-strategy` Step 7: temporary uncommitted stub so each AC of a new module records its own assertion failure |
 
-Can wait (behaviour is defined, only friction or polish): F07 (new 1-commit repo classified adopt), F12 (Quick PR header has no Issue field), F13 (`run-ledger start` needs `--plan`; Quick writes rows by hand, which is documented), F15 (Standard file bound counts docs), F17 (OBS errors report the section line), F28 (retro timing with a staged rollout), F30 (shared import error as red evidence for new modules).
+## Verified on the release branch (2026-11-25)
 
-## Verified at `8c58b0e` (2026-11-25)
-
-- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 126 pass, 0 fail.
+- `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 132 pass, 0 fail.
 - `node skills/agentic-sdlc/scripts/budget-check.mjs`: PASS (warnings: router 2196/2200, quickstart 1142/1200, analyst 580/600).
 - `./scripts/build-skills.sh`: OK.
-- `check-doc-consistency.sh` and `verify-version-sync.sh` fail **only** on the root `README.md` and `cli-installer/README.md`, which already say 3.0.0 while the package says 2.0.8. `release.js major` resolves this (it leaves already-updated README lines alone).
+- `verify-version-sync.sh`, `check-doc-consistency.sh`, `claude plugin validate .`, `validate-workflows.sh` (with PyYAML): pass.
 
 ## Next steps
 

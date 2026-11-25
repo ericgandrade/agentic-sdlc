@@ -9,7 +9,7 @@ Welcome to Claude Superskills! This guide will help you get up and running in mi
 The simplest way to get started is to run the installer with no arguments:
 
 ```bash
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 This will automatically:
@@ -25,25 +25,25 @@ This will automatically:
 See what's installed:
 
 ```bash
-npx claude-superskills ls
+npx agentic-sdlc-method ls
 ```
 
 Or the long form:
 
 ```bash
-npx claude-superskills list
+npx agentic-sdlc-method list
 ```
 
 ### 3. Get Help
 
 ```bash
-npx claude-superskills help
+npx agentic-sdlc-method help
 ```
 
 Or check a specific command:
 
 ```bash
-npx claude-superskills install --help
+npx agentic-sdlc-method install --help
 ```
 
 ---
@@ -54,7 +54,7 @@ The **Agentic SDLC** takes one change from issue to production with AI agents an
 
 1. Install the 20 skills:
    ```bash
-   npx claude-superskills --bundle agentic-sdlc -y
+   npx agentic-sdlc-method --bundle agentic-sdlc -y
    ```
 2. Follow the [Quickstart](../../skills/agentic-sdlc/references/quickstart.md): one Quick-path bug fix, end to end, in a real repository.
 3. Ask your agent, for example: *"Use agentic-sdlc to fix issue #42"*. The router (the Scrum Master) detects the repository state, scores the path and stops at every human sign-off.
@@ -82,31 +82,31 @@ Instead of installing everything, you can install just what you need:
 ### Essential Bundle
 Perfect for getting started:
 ```bash
-npx claude-superskills --bundle essential -y
+npx agentic-sdlc-method --bundle essential -y
 ```
 Includes: **agentic-sdlc**, **skill-creator**, **agent-skill-discovery**, **agent-skill-orchestrator**, **brainstorming**, **writing-plans**, **executing-plans**, **grill-me**
 
 ### Agentic SDLC Bundle
 Router plus 19 stage skills, Discover → Operate:
 ```bash
-npx claude-superskills --bundle agentic-sdlc -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
 ```
 Includes: 20 skills (see the table above)
 
 ### Planning Bundle
 For planning a change before building it:
 ```bash
-npx claude-superskills --bundle planning -y
+npx agentic-sdlc-method --bundle planning -y
 ```
 Includes: **brainstorming**, **spec-driven-development**, **project-context**, **writing-plans**, **executing-plans**, **grill-me**, **agent-skill-orchestrator**
 
 ### Other Bundles
-`orchestration` (2) — run `npx claude-superskills --list-bundles`.
+`orchestration` (2) — run `npx agentic-sdlc-method --list-bundles`.
 
 ### All Skills
 Complete collection:
 ```bash
-npx claude-superskills --bundle all -y
+npx agentic-sdlc-method --bundle all -y
 ```
 Includes: all 23 skills
 
@@ -119,9 +119,9 @@ Includes: all 23 skills
 Can't remember a skill name? Search for it:
 
 ```bash
-npx claude-superskills --search "plan"
-npx claude-superskills --search "review"
-npx claude-superskills --search "debugging"
+npx agentic-sdlc-method --search "plan"
+npx agentic-sdlc-method --search "review"
+npx agentic-sdlc-method --search "debugging"
 ```
 
 Search works across skill names, descriptions, tags, and categories.
@@ -142,9 +142,9 @@ Use short commands for faster typing:
 
 Examples:
 ```bash
-npx claude-superskills i -a -y    # Install all with flags
-npx claude-superskills ls          # Quick list
-npx claude-superskills up          # Update skills
+npx agentic-sdlc-method i -a -y    # Install all with flags
+npx agentic-sdlc-method ls          # Quick list
+npx agentic-sdlc-method up          # Update skills
 ```
 
 ---
@@ -163,9 +163,9 @@ Combine with short flags for maximum efficiency:
 
 Examples:
 ```bash
-npx claude-superskills install -a -y -q    # Install everything silently
-npx claude-superskills list -q             # List without extra formatting
-npx claude-superskills update -g -y        # Global update with confirmation skip
+npx agentic-sdlc-method install -a -y -q    # Install everything silently
+npx agentic-sdlc-method list -q             # List without extra formatting
+npx agentic-sdlc-method update -g -y        # Global update with confirmation skip
 ```
 
 ---
@@ -207,23 +207,23 @@ Now that you're installed, explore:
 node --version
 
 # Install globally instead of npx
-npm install -g claude-superskills
-npx claude-superskills
+npm install -g agentic-sdlc-method
+npx agentic-sdlc-method
 ```
 
 ### "No platforms detected"
 ```bash
 # Check if your platform is installed
-npx claude-superskills doctor
+npx agentic-sdlc-method doctor
 ```
 
 ### "Permission denied"
 ```bash
 # Try with sudo (not recommended)
-sudo npx claude-superskills -g
+sudo npx agentic-sdlc-method -g
 
 # Or use local install
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 ### Need more help?

@@ -5,7 +5,7 @@ const os = require('os');
 const yaml = require('js-yaml');
 
 const REPO_OWNER = 'ericgandrade';
-const REPO_NAME = 'claude-superskills';
+const REPO_NAME = 'agentic-sdlc';
 const CACHE_BASE = path.join(os.homedir(), '.claude-superskills', 'cache');
 const CACHE_COMPLETE_MARKER = '.cache-complete';
 

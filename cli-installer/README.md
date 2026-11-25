@@ -1,6 +1,6 @@
-# claude-superskills v3.0.0
+# agentic-sdlc-method v3.0.0
 
-Universal installer for the `claude-superskills` library. Install 23 reusable AI skills — including the 20-skill **Agentic SDLC** — across GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI from one command.
+Installer for [The Agentic SDLC Method](https://github.com/ericgandrade/agentic-sdlc) (npm package `agentic-sdlc-method`; it was `claude-superskills` up to v2.0.8). Install 23 reusable AI skills — including the 20-skill **Agentic SDLC** — across GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI from one command.
 
 Research, content and document skills moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills).
 
@@ -14,15 +14,15 @@ If Claude Desktop is detected, the installer can also generate a Claude Cowork p
 
 ```bash
 # Interactive smart installation
-npx claude-superskills
+npx agentic-sdlc-method
 
 # Auto smart update/install
-npx claude-superskills -y -q
+npx agentic-sdlc-method -y -q
 
 # Install curated bundles
-npx claude-superskills --bundle essential -y
-npx claude-superskills --bundle agentic-sdlc -y
-npx claude-superskills --bundle planning -y
+npx agentic-sdlc-method --bundle essential -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
+npx agentic-sdlc-method --bundle planning -y
 ```
 
 See [Installation Guide](../docs/INSTALLATION.md) for full setup and troubleshooting.
@@ -88,7 +88,7 @@ Support status:
 | `all` | 23 | All available skills |
 
 ```bash
-npx claude-superskills --list-bundles
+npx agentic-sdlc-method --list-bundles
 ```
 
 ## Available Skills (23)
@@ -100,23 +100,23 @@ npx claude-superskills --list-bundles
 ## Search
 
 ```bash
-npx claude-superskills --search "planning"
-npx claude-superskills --search "resume"
-npx claude-superskills --search "debugging"
+npx agentic-sdlc-method --search "planning"
+npx agentic-sdlc-method --search "resume"
+npx agentic-sdlc-method --search "debugging"
 ```
 
 ## Example Commands
 
 ```bash
-npx claude-superskills
-npx claude-superskills -y -q
-npx claude-superskills --bundle essential -y
-npx claude-superskills --bundle agentic-sdlc -y
-npx claude-superskills up -y
-npx claude-superskills package-cowork
-npx claude-superskills status
-npx claude-superskills uninstall -y
-npx claude-superskills doctor
+npx agentic-sdlc-method
+npx agentic-sdlc-method -y -q
+npx agentic-sdlc-method --bundle essential -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
+npx agentic-sdlc-method up -y
+npx agentic-sdlc-method package-cowork
+npx agentic-sdlc-method status
+npx agentic-sdlc-method uninstall -y
+npx agentic-sdlc-method doctor
 ```
 
 ## Notes
@@ -124,4 +124,4 @@ npx claude-superskills doctor
 - The installer downloads skills from GitHub and caches them locally before copying them into platform directories.
 - The installer compares installed skill versions with the skills of its own release and recommends updates automatically.
 - Skills are authored in the repository `skills/` directory only; platform directories are installation targets, not source directories.
-- Claude Cowork updates are manual by design: generate the zip, remove the previous `claude-superskills` plugin in Cowork, then upload the new zip.
+- Claude Cowork updates are manual by design: generate the zip, remove the previous plugin (`agentic-sdlc`, or `claude-superskills` before v3.0.0) in Cowork, then upload the new zip.
