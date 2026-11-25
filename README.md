@@ -185,8 +185,10 @@ Then, in your project, ask: *"Set up the Agentic SDLC here"*, followed by *"Fix 
 | Pilot with a real team | The trial was run by agents playing every role; a team pilot measures it in practice |
 | Independent re-score of the built method | The methodology requires it; new scorers, same frozen rules |
 | Approval and trace checks in CI (`approval-check`, `trace-check`) | Closes the two discounted criteria, human governance and traceability |
-| Unattended loop driver (under study) | Lets a run continue across fresh agent sessions without a person pressing Enter, inside the same limits and sign-offs |
+| Unattended loop driver, Ralph-style | Lets a run continue across fresh agent sessions without a person pressing Enter, inside the same limits and sign-offs ([study](docs/research/2026-11-25-ralph-loop-study.md)) |
 | Easier adoption | The criterion where BMad still leads |
+
+Full plan with projected score gains: [roadmap](docs/plans/2026-11-25-roadmap-v3.md).
 
 ## Also in this repository
 

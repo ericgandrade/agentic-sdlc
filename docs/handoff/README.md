@@ -67,6 +67,10 @@ Known and accepted (not fixed):
 - With the F18 flow, F19's in-plan rule matters mostly at the Test-stage merge.
 - The worked example still filters with `-t "AC-1"`; changing it would change its plan hash.
 
+## Roadmap
+
+v3.0 → v3.2 plan with projected score gains: [`docs/plans/2026-11-25-roadmap-v3.md`](../plans/2026-11-25-roadmap-v3.md). Ralph Loop decision and evidence: [`docs/research/2026-11-25-ralph-loop-study.md`](../research/2026-11-25-ralph-loop-study.md) (add it in v3.1 only with enforced authority limits; alone it adds +0.0).
+
 ## Minor findings: recommendation before v3.0.0
 
 Fix before release (contradictions or a fallback every session hits; each is a small doc edit):
