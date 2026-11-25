@@ -1,0 +1,5 @@
+agentic-sdlc 2.1.0
+release: v2.0.8
+source: claude-superskills@working-tree (dogfood)
+vendored: 2026-11-24
+missing: status.mjs, doctor.mjs, path-score.mjs, evidence.mjs, trace-check.mjs, dod-gate.mjs, approval-check.mjs, audit-export.mjs, ext-check.mjs, metrics.mjs

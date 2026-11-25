@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "path": "Standard",
+  "planHash": "aad1222c3fd3",
+  "review": "combined",
+  "taskCount": 3,
+  "acs": [
+    "AC-1",
+    "AC-2",
+    "AC-3",
+    "AC-4",
+    "AC-5"
+  ],
+  "nodes": [
+    {
+      "id": "T1",
+      "title": "Format integer minor units with Intl for any currency and locale",
+      "acs": [
+        "AC-1",
+        "AC-2",
+        "AC-3"
+      ],
+      "blockedBy": [],
+      "files": [
+        "src/price.js",
+        "test/price.test.js"
+      ],
+      "sizeHours": 2,
+      "wave": 1
+    },
+    {
+      "id": "T2",
+      "title": "Reject non-integer amounts and malformed currency codes or locales",
+      "acs": [
+        "AC-4",
+        "AC-5"
+      ],
+      "blockedBy": [
+        "T1"
+      ],
+      "files": [
+        "src/price.js",
+        "test/price.test.js"
+      ],
+      "sizeHours": 2,
+      "wave": 2
+    },
+    {
+      "id": "T3",
+      "title": "Export formatPrice from the package entry point",
+      "acs": [
+        "AC-1"
+      ],
+      "blockedBy": [
+        "T1"
+      ],
+      "files": [
+        "src/index.js",
+        "test/index.test.js"
+      ],
+      "sizeHours": 1,
+      "wave": 2
+    }
+  ],
+  "edges": [
+    {
+      "from": "T1",
+      "to": "T2",
+      "type": "blocks"
+    },
+    {
+      "from": "T1",
+      "to": "T3",
+      "type": "blocks"
+    }
+  ],
+  "waves": [
+    [
+      "T1"
+    ],
+    [
+      "T2",
+      "T3"
+    ]
+  ],
+  "conflicts": [],
+  "initialFrontier": [
+    "T1"
+  ]
+}

@@ -1,0 +1,32 @@
+* 4497931 docs(retros): 2026-11-25 Standard retro for 001-price-format (simulated decisions)
+* ae7ac26 docs(specs): 001 release notes v0.2.0 + simulated Release sign-off
+* fb5839a chore(release): v0.2.0 (strkit formatPrice)
+*   0b6a4e6 Merge feat/001-price-format (Standard, AC-1..AC-5)
+|\  
+| * f1f68c1 docs(specs): 001 simulated Test sign-off (dogfood-owner)
+| * 5d322bd docs(specs): 001 review record (PR body) and acceptance tests green rows
+| * a6eb040 fix(price): format from an exact decimal string; normalize negative zero (review F-1, F-2)
+| * 0806e33 docs(specs): 001 loop ledger rows and archived run ledger s1
+| *   0890cb7 Merge at/001-price-format: Test Engineer acceptance tests (Test stage)
+| |\  
+| | * 1a3c62f test(price): 001 acceptance tests AT-1a..AT-5a (Test Engineer, red at base)
+| * | cc0d9f4 feat(index): export formatPrice from the package entry point
+| * | 7d8182f feat(price): reject non-integer amounts and malformed currency codes
+| * | 97ddabc feat(price): format integer minor units with Intl
+| |/  
+| * a5e10c7 docs(specs): 001 simulated combined Specify + Design sign-off (dogfood-owner)
+| * 1c470b7 docs(specs): 001 price-format spec rev 1, threat model, plan rev 1, approval request
+| * 0b7e7ce docs(issues): 0002 locale-aware price formatting (Standard)
+|/  
+*   0fe81e1 Merge fix/0001-slugify-trailing-dash (Quick, AC-1)
+|\  
+| * d16c339 docs(prs): 0001 PR body and simulated Test sign-off
+| * 5385f3b test(slugify): AC-1 edge case for runs of separators (review F-1)
+| * ad6ec36 fix(slugify): strip trailing dashes
+| * ef677f5 docs(issues): 0001 slugify keeps trailing dashes (Quick, AC-1)
+|/  
+*   6d319c1 Merge context PR: adopt Agentic SDLC (simulated approval by dogfood-owner)
+|\  
+| * c13a8d2 chore: adopt Agentic SDLC (AGENTS.md block, code map, vendored gates)
+|/  
+* d0c78b1 chore: initial strkit library
