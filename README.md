@@ -28,20 +28,7 @@ Coding agents produce code in minutes. Speed alone does not answer the questions
 
 ## How it works
 
-```mermaid
-flowchart LR
-    D["1 · Discover"] --> S["2 · Specify"]
-    S --> G1{{"✋ Product Owner"}}
-    G1 --> DS["3 · Design"]
-    DS --> G2{{"✋ Tech Lead"}}
-    G2 --> B["4 · Build"]
-    B --> T["5 · Test"]
-    T --> G3{{"✋ Human reviewer"}}
-    G3 --> R["6 · Release"]
-    R --> G4{{"✋ Release Owner"}}
-    G4 --> O["7 · Operate"]
-    O -. "incidents, metrics and retros feed new work" .-> D
-```
+![How the Agentic SDLC works: seven stages from idea to production, 13 specialized AI agents coordinated by a Scrum Master, and four human sign-offs](docs/assets/agentic-sdlc-overview.svg)
 
 | Stage | What happens | What it leaves behind |
 |---|---|---|

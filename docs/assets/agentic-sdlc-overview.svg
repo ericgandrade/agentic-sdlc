@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif" role="img" aria-label="How the Agentic SDLC works: seven stages, thirteen AI agents and four human sign-offs">
+<defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1d3fbf"/></marker></defs>
+<rect x="0" y="0" width="1200" height="860" rx="16" fill="#edf0f7" stroke="none" stroke-width="1"/>
+<text x="40" y="52" font-size="28" fill="#141a2a" font-weight="700" text-anchor="start">How the Agentic SDLC works</text>
+<text x="1160" y="52" font-size="16" fill="#1d3fbf" font-weight="700" text-anchor="end">Every requirement is proven</text>
+<rect x="40" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="114.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="114.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">1</text>
+<text x="114.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Discover</text>
+<text x="114.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Is it worth doing?</text>
+<text x="114.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">How big, how risky?</text>
+<rect x="202" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="276.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="276.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">2</text>
+<text x="276.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Specify</text>
+<text x="276.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">What must it do?</text>
+<text x="276.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Acceptance criteria</text>
+<rect x="364" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="438.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="438.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">3</text>
+<text x="438.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Design</text>
+<text x="438.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">How will we build it?</text>
+<text x="438.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Tasks and decisions</text>
+<rect x="526" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="600.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="600.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">4</text>
+<text x="600.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Build</text>
+<text x="600.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Test first,</text>
+<text x="600.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">one task at a time</text>
+<rect x="688" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="762.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="762.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">5</text>
+<text x="762.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Test</text>
+<text x="762.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Independent checks</text>
+<text x="762.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">and review</text>
+<rect x="850" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="924.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="924.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">6</text>
+<text x="924.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Release</text>
+<text x="924.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Rehearse rollback,</text>
+<text x="924.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">go / no-go</text>
+<rect x="1012" y="80" width="148" height="128" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<circle cx="1086.0" cy="110" r="15" fill="#1d3fbf"/>
+<text x="1086.0" y="115" font-size="15" fill="#fff" font-weight="700" text-anchor="middle">7</text>
+<text x="1086.0" y="152" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Operate</text>
+<text x="1086.0" y="176" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Monitor, respond,</text>
+<text x="1086.0" y="194" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">learn</text>
+<rect x="202" y="218" width="148" height="46" rx="8" fill="#fff4dd" stroke="#e0a43a" stroke-width="1"/>
+<text x="276.0" y="237" font-size="12" fill="#9a5b00" font-weight="700" text-anchor="middle">✔ Sign-off</text>
+<text x="276.0" y="255" font-size="13" fill="#141a2a" font-weight="400" text-anchor="middle">Product Owner</text>
+<rect x="364" y="218" width="148" height="46" rx="8" fill="#fff4dd" stroke="#e0a43a" stroke-width="1"/>
+<text x="438.0" y="237" font-size="12" fill="#9a5b00" font-weight="700" text-anchor="middle">✔ Sign-off</text>
+<text x="438.0" y="255" font-size="13" fill="#141a2a" font-weight="400" text-anchor="middle">Tech Lead</text>
+<rect x="688" y="218" width="148" height="46" rx="8" fill="#fff4dd" stroke="#e0a43a" stroke-width="1"/>
+<text x="762.0" y="237" font-size="12" fill="#9a5b00" font-weight="700" text-anchor="middle">✔ Sign-off</text>
+<text x="762.0" y="255" font-size="13" fill="#141a2a" font-weight="400" text-anchor="middle">Human reviewer</text>
+<rect x="850" y="218" width="148" height="46" rx="8" fill="#fff4dd" stroke="#e0a43a" stroke-width="1"/>
+<text x="924.0" y="237" font-size="12" fill="#9a5b00" font-weight="700" text-anchor="middle">✔ Sign-off</text>
+<text x="924.0" y="255" font-size="13" fill="#141a2a" font-weight="400" text-anchor="middle">Release Owner</text>
+<text x="40" y="298" font-size="14" fill="#141a2a" font-weight="400" text-anchor="start">Idea</text>
+<line x1="90" y1="293" x2="1060" y2="293" stroke="#1d3fbf" stroke-width="2" marker-end="url(#a)"/>
+<text x="1160" y="298" font-size="14" fill="#141a2a" font-weight="400" text-anchor="end">Production</text>
+<text x="600" y="318" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Incidents, metrics and retrospectives feed the next cycle</text>
+<line x1="600" y1="362" x2="600" y2="330" stroke="#1d3fbf" stroke-width="2" marker-end="url(#a)"/>
+<rect x="40" y="366" width="1120" height="348" rx="12" fill="#e4e9f8" stroke="#1d3fbf" stroke-width="2"/>
+<text x="600" y="396" font-size="17" fill="#141a2a" font-weight="700" text-anchor="middle">13 specialized AI agents</text>
+<rect x="56" y="412" width="1088" height="58" rx="10" fill="#1d3fbf" stroke="none" stroke-width="1"/>
+<text x="600" y="437" font-size="17" fill="#fff" font-weight="700" text-anchor="middle">Scrum Master</text>
+<text x="600" y="458" font-size="13" fill="#dfe5ff" font-weight="400" text-anchor="middle">Reads the state of the work, picks the path, calls the right agent, asks humans for sign-off</text>
+<rect x="56.0" y="482" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="142.0" y="518" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Analyst</text>
+<text x="142.0" y="544" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Scores the work,</text>
+<text x="142.0" y="562" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">writes the spec</text>
+<rect x="239.2" y="482" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="325.2" y="518" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Product Manager</text>
+<text x="325.2" y="544" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Problem, outcome,</text>
+<text x="325.2" y="562" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">indicator</text>
+<rect x="422.4" y="482" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="508.4" y="518" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">UX Designer</text>
+<text x="508.4" y="544" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Journeys, states,</text>
+<text x="508.4" y="562" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">accessibility</text>
+<rect x="605.6" y="482" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="691.5999999999999" y="518" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Security Auditor</text>
+<text x="691.5999999999999" y="544" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Threats and security</text>
+<text x="691.5999999999999" y="562" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">review</text>
+<rect x="788.8" y="482" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="874.8" y="518" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Architect</text>
+<text x="874.8" y="544" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Hard-to-reverse</text>
+<text x="874.8" y="562" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">decisions</text>
+<rect x="972.0" y="482" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="1058.0" y="518" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Planner</text>
+<text x="1058.0" y="544" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Tasks and dependency</text>
+<text x="1058.0" y="562" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">graph</text>
+<rect x="56.0" y="596" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="142.0" y="632" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Developer</text>
+<text x="142.0" y="658" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Test first, one task</text>
+<rect x="239.2" y="596" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="325.2" y="632" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Test Engineer</text>
+<text x="325.2" y="658" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Tests from the spec</text>
+<rect x="422.4" y="596" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="508.4" y="632" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Reviewer</text>
+<text x="508.4" y="658" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Verdict with evidence</text>
+<rect x="605.6" y="596" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="691.5999999999999" y="632" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Tech Writer</text>
+<text x="691.5999999999999" y="658" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Docs and release notes</text>
+<rect x="788.8" y="596" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="874.8" y="632" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">Release Engineer</text>
+<text x="874.8" y="658" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Rollback and go /</text>
+<text x="874.8" y="676" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">no-go</text>
+<rect x="972.0" y="596" width="172" height="104" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="1058.0" y="632" font-size="16" fill="#141a2a" font-weight="700" text-anchor="middle">SRE</text>
+<text x="1058.0" y="658" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">Production and</text>
+<text x="1058.0" y="676" font-size="13" fill="#5b6476" font-weight="400" text-anchor="middle">incidents</text>
+<line x1="600" y1="756" x2="600" y2="720" stroke="#1d3fbf" stroke-width="2" marker-end="url(#a)"/>
+<rect x="40" y="760" width="1120" height="74" rx="10" fill="#fff" stroke="none" stroke-width="1"/>
+<text x="600" y="791" font-size="18" fill="#141a2a" font-weight="700" text-anchor="middle">Humans stay in charge</text>
+<text x="600" y="816" font-size="14" fill="#5b6476" font-weight="400" text-anchor="middle">Define intent, resolve ambiguity and give four sign-offs. Silence is never approval.</text>
+</svg>
