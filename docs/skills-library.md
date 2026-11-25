@@ -4,7 +4,7 @@ Installer, platforms, bundles and the full skill catalog. The project overview i
 
 > Research, content and document skills (deep-research, webpage-reader, youtube-summarizer, pptx-translator, document-converter, storytelling-expert and others) moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills).
 
-> `npx claude-superskills` and the install script ship the released version from `main`, which does not include the Agentic SDLC yet.
+> From v3.0.0, `npx claude-superskills` and the install script ship the Agentic SDLC from `main`.
 
 ## 🚀 Quick Install
 

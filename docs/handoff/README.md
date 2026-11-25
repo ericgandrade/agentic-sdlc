@@ -88,7 +88,7 @@ Can wait (behaviour is defined, only friction or polish): F07 (new 1-commit repo
 - `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 126 pass, 0 fail.
 - `node skills/agentic-sdlc/scripts/budget-check.mjs`: PASS (warnings: router 2196/2200, quickstart 1142/1200, analyst 580/600).
 - `./scripts/build-skills.sh`: OK.
-- `check-doc-consistency.sh` and `verify-version-sync.sh` fail **only** on `cli-installer/README.md`, which already says 3.0.0 while the other files say 2.0.8. `release.js` resolves this.
+- `check-doc-consistency.sh` and `verify-version-sync.sh` fail **only** on the root `README.md` and `cli-installer/README.md`, which already say 3.0.0 while the package says 2.0.8. `release.js major` resolves this (it leaves already-updated README lines alone).
 
 ## Next steps
 
