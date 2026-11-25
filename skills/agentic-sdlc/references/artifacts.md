@@ -118,7 +118,7 @@ The router Module Index and other files name the files below; they are added in 
 - Spec folders: `NNN` = 3 digits, next free number in `specs/`; slug = 2–5 kebab-case words (`001-csv-export`).
 - IDs: `AC-1..n` per spec (unique, contiguous); `T1..n` per plan; `CHAR-n` for characterization tests; ADR `NNNN` 4 digits.
 - Commit trailer: `Refs: T3 AC-2` (space-separated IDs). The bracket form `[T3, AC-2]` in the subject is also parsed.
-- Test names contain the AC ID they prove: `AC-2 rejects formula prefixes`.
+- Test names contain the AC ID they prove: `AC-2 rejects formula prefixes`. AC IDs are local to one spec or issue, so a command that selects one AC ends the ID with a non-digit (`--test-name-pattern="AC-2 "`, `-t "AC-2 "`: `AC-2` alone also matches `AC-20`) and is scoped to that item's test files (the `File` column of `acceptance-tests.md`; Quick: the files the PR adds). Quick test names add the issue: `#142 AC-1 trims the price`.
 
 ## AGENTS.md block
 

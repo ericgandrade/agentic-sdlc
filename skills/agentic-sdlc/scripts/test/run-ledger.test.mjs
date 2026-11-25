@@ -176,6 +176,23 @@ test('check halts on more than 3 out-of-plan files, reports 1-3 as a concern, an
   assert.equal(rl('status', '--run', 'r1').code, 3);
 });
 
+test('check treats files listed in acceptance-tests.md as in-plan (F19)', () => {
+  const { dir, rl } = runFixture();
+  const files = [1, 2, 3, 4].map((n) => `test/acceptance/at-${n}.test.mjs`);
+  write(dir, 'specs/001-demo/acceptance-tests.md', [
+    '# Acceptance tests — 001-demo', '', '## Map', '',
+    '| AC | Critical | Test ID | Test name (contains the AC ID) | Level | File | Failure it catches | Negative |',
+    '|---|---|---|---|---|---|---|---|',
+    ...files.map((f, i) => `| AC-1 | no | AT-1${'abcd'[i]} | \`AC-1 case ${i}\` | unit | \`${f}\` | wrong greeting | no |`), '',
+  ].join('\n'));
+  for (const f of files) write(dir, f, 'x');
+  const ok = rl('check', '--run', 'r1');
+  assert.equal(ok.code, 0, ok.out + ok.err);
+  assert.doesNotMatch(ok.out, /outside plan Files/);
+  write(dir, 'src/extra1.mjs', 'x');
+  assert.match(rl('check', '--run', 'r1').out, /concern: 1 file\(s\) outside plan Files: src\/extra1\.mjs/);
+});
+
 test('check halts on a dependency manifest outside plan Files', () => {
   const { dir, rl } = runFixture();
   write(dir, 'package.json', '{"dependencies":{"left-pad":"1.3.0"}}');

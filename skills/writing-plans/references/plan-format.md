@@ -88,7 +88,7 @@ Field rules:
 |---|---|---|
 | Line 1 | Same AC, Blocked by and Files as the row; each file marked `(create)` or `(modify)` (or `(delete)`) | template |
 | Interface | Fixed before code. Types, HTTP status, error body, `null`/empty semantics, config keys with defaults. A dependent task codes against this text; a missing signature makes the Developer answer `NEEDS_CONTEXT` | `../../agentic-sdlc/references/tdd.md` |
-| Red | Test names contain the AC ID. Exact command scoped to the test file (`-t "AC-2"` when sharing a file). The expected failure is the one the missing behaviour causes (`Failed to load url`, `expected 429 to be 200`), never a syntax or import error of the test itself | tdd.md |
+| Red | Test names contain the AC ID. Exact command scoped to the test file (`-t "AC-2 "` when sharing a file; the trailing space keeps `AC-20` out, `../../agentic-sdlc/references/artifacts.md` §Naming and numbering). The expected failure is the one the missing behaviour causes (`Failed to load url`, `expected 429 to be 200`), never a syntax or import error of the test itself | tdd.md |
 | Green | Minimal code, same command, number of passing tests | tdd.md |
 | Refactor | Concrete or "none beyond naming" | tdd.md |
 | Commit | Conventional Commit subject; trailer `Refs: Tn AC-n` listing every AC the task serves. `executing-plans`, `plan-graph --from-git` and `trace-check`† read the trailer | `../../agentic-sdlc/references/artifacts.md` |

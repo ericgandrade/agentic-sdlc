@@ -45,7 +45,7 @@ Not for:
 |---|---|---|
 | `package.json` with Vitest | `npx vitest run` | `npx vitest run test/report/export.test.ts -t "AC-4"` |
 | `package.json` with Jest | `npx jest` | `npx jest test/report/export.test.ts -t "AC-4"` |
-| `package.json` only `node --test` | `node --test` | `node --test --test-name-pattern="AC-4" test/export.test.mjs` |
+| `package.json` only `node --test` | `node --test` | `node --test --test-name-pattern="AC-4 " test/export.test.mjs` |
 | `pyproject.toml` / `pytest.ini` | `pytest` | `pytest tests/test_export.py -k "ac_4"` |
 | `go.mod` | `go test ./...` | `go test ./report -run 'TestAC4'` |
 | `Cargo.toml` | `cargo test` | `cargo test ac_4_` |

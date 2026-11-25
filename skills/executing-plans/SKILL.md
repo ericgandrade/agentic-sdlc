@@ -152,7 +152,7 @@ node <scripts>/run-ledger.mjs start --run r2 --plan specs/007-rate-limit/plan.md
 cd ../<repo>-sdlc-r2 && node <scripts>/preflight.mjs --run r2 --plan specs/007-rate-limit/plan.md --mode unattended
 ```
 
-Sequential, graph order. Per task: `check` → `task started` → red → rounds → per-task review → DoD → commit → `task done` → `check`. No checkpoints; the run stops at the first halt (`run-ledger halt --reason`): `loop-bound`, `path-escalation`, `spec-design-cause`, `dependency-added`, `secret-detected`, `out-of-plan-files` (> 3 files), `red-baseline`, `approval-void`, `budget` (15 tasks, 5 build-test rounds per task, 4 active hours, 300 turns, tokens when configured) or `authority` (push, merge, deploy, release, tag, secret access, destructive command). Halt → `NEEDS_HUMAN`, stop at once, print the brief. Never push. `finish` writes the run result; the human reviews, pushes and opens the PR.
+Sequential, graph order. Per task: `check` → `task started` → red → rounds → per-task review → DoD → commit → `task done` → `check`. No checkpoints; the run stops at the first halt (`run-ledger halt --reason`): `loop-bound`, `path-escalation`, `spec-design-cause`, `dependency-added`, `secret-detected`, `out-of-plan-files` (> 3 files; files in the `acceptance-tests.md` Map count as in-plan), `red-baseline`, `approval-void`, `budget` (15 tasks, 5 build-test rounds per task, 4 active hours, 300 turns, tokens when configured) or `authority` (push, merge, deploy, release, tag, secret access, destructive command). Halt → `NEEDS_HUMAN`, stop at once, print the brief. Never push. `finish` writes the run result; the human reviews, pushes and opens the PR.
 
 ### Step 8 — Resume
 

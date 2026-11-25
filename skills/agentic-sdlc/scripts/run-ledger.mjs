@@ -720,6 +720,19 @@ function cmdHalt(flags, out) {
   return haltNow(ctx, reason, need(flags, 'detail'), out);
 }
 
+// Acceptance-test files belong to the Test Engineer, not to a task: the File column of the
+// ## Map table in specs/NNN-slug/acceptance-tests.md counts as in-plan.
+export function acceptanceTestFiles(specDirAbs) {
+  const p = join(specDirAbs, 'acceptance-tests.md');
+  if (!existsSync(p)) return [];
+  const map = findSection(readMarkdownFile(p), 'Map');
+  if (!map) return [];
+  const t = parseTables(map.body)[0];
+  const col = t ? t.header.findIndex((h) => /^file$/i.test(h.trim())) : -1;
+  if (col < 0) return [];
+  return t.rows.map((r) => String(r[col] || '').replace(/`/g, '').trim()).filter((f) => f && !f.startsWith('<'));
+}
+
 function cmdCheck(flags, out) {
   const ctx = open(flags);
   const blocked = guardOpen(ctx, out);
@@ -730,7 +743,7 @@ function cmdCheck(flags, out) {
   const { tasks } = readPlanTasks(readMarkdownFile(planAbs));
   const specDir = dirname(start.plan);
   const changed = changedSince(ctx.root, start.base).filter((f) => !f.startsWith('.agentic-sdlc/') && !f.startsWith(`${specDir}/`));
-  const planFiles = tasks.some((t) => t.files) ? tasks.flatMap((t) => t.files || []) : null;
+  const planFiles = tasks.some((t) => t.files) ? [...tasks.flatMap((t) => t.files || []), ...acceptanceTestFiles(join(ctx.root, specDir))] : null;
   const findings = { changed: changed.length, outOfPlan: [], dependency: [], secrets: [], approvals: null, budget: null };
   const halts = [];
   if (planFiles) {
