@@ -37,7 +37,7 @@ Not for writing the plan (`writing-plans`), single-change TDD discipline (`test-
 - **Per-task review** — fresh reviewer per task: spec compliance (Missing/Misunderstood → Critical, Extra → Important), then quality; verify-then-rate; scoped re-review of the fix delta (`prompts/task-reviewer.md`, `prompts/re-review.md`)
 - **Subagent prompts** — `prompts/developer.md` with the 15-line status report and a fix-round variant in receive mode
 - **Three mode axes** — dispatch × attention × enforcement, with bounded waiting, no nested dispatch, capability tiers and checkpoint cadences (`references/modes.md`)
-- **Fix loop depth** — cause classification order, debug cause-class rule, signature normalization, breaker order in practice, rulings and their approval effects, shared review-fix counter (`references/fix-loop-and-escalation.md`)
+- **Fix loop depth** — cause classification order, debug cause-class rule, signature normalization, breaker order in practice, rulings and their approval effects, per-task and PR review-fix counters (`references/fix-loop-and-escalation.md`)
 - **Parallel tasks** — only file-disjoint frontier tasks, wave conflicts respected, worktree per task, controller as single ledger writer, `--no-ff` merge in task-ID order with the DoD after each merge (`references/parallel-tasks.md`)
 - **Resume and isolation** — ledger/git cross-check, resume without a ledger, WIP patch for a dirty tree, cleanup rules (`references/resume-and-isolation.md`)
 - **Ledger into the PR** — `run-ledger render` rows copied into `plan.md` at each task exit and into the PR `### Loop ledger` at the end; Quick path keeps rows by hand with `Refs: AC-n`

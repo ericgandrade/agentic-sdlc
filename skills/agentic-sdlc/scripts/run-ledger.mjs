@@ -658,7 +658,8 @@ function cmdRound(flags, out) {
   if (t.escalation) return out({ ok: false, code: EXIT.BOUND, lines: [`${id} awaits a ruling on ${t.escalation.breaker} (${t.escalation.why}); no further rounds`] });
   if (loop === 'red-green' && t.inDebug) return out({ ok: false, code: EXIT.BOUND, lines: [`${id}: red-green bound reached; run the debug loop until a test proves the root cause`] });
   if (!ctx.st.finish && !ctx.st.preflightFresh) return out({ ok: false, code: EXIT.FAIL, lines: [`no passing preflight since the last start/resume/env failure; run preflight --run ${ctx.id}`] });
-  const g = budgetGuard(ctx, out);
+  // Build budgets end with the run; after finish no halt is written, because a finished run cannot be resumed.
+  const g = ctx.st.finish ? null : budgetGuard(ctx, out);
   if (g !== null) return g;
   const fields = { type: 'round', task: id, loop, result, ...counters(flags) };
   if (result === 'fail') {
@@ -687,7 +688,7 @@ function cmdRound(flags, out) {
   if (verdict?.transition) return out({ ok: false, code: EXIT.BOUND, result: { event: e }, lines: [...lines, `BOUND: ${verdict.why}. Next: debug loop — state a hypothesis, prove it with a test (≤ ${LOOP_BOUNDS.debug} refuted hypotheses)`] });
   if (verdict) {
     const brief = escalationBrief(st, tt, e);
-    if (ctx.st.start.mode === 'unattended') {
+    if (ctx.st.start.mode === 'unattended' && !ctx.st.finish) {
       const reason = verdict.breaker === 'B6' ? 'spec-design-cause' : 'loop-bound';
       return haltNow({ ...ctx, events: ctx.events }, reason, `${id} ${verdict.breaker}: ${verdict.why}`, out, brief);
     }

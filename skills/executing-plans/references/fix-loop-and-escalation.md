@@ -34,7 +34,7 @@ A **round** is one fix attempt followed by its re-check. It is recorded once, af
 | A per-task review or the Test-stage review leaves ≥ 1 confirmed Critical open | review-fix |
 | The DoD fails after merging a parallel wave | build-test, on the task whose files the failure names |
 
-**Shared counters.** Per-task review rounds in Build and Test-stage review rounds on the same task share the task's review-fix counter: two failed per-task reviews plus one failed PR review fire B4. Plan for it: fix Critical findings completely in each round instead of patching the reported line.
+**Separate counters.** Per-task review rounds in Build count on the task; Test-stage review rounds count on `PR`, because the run is finished by then. Each fires B4 at its third failed round. Fix Critical findings completely in each round instead of patching the reported line.
 
 ## 3. Cause classification
 

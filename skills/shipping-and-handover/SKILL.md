@@ -123,7 +123,7 @@ Reply 1 or 2.
 |---|---|
 | Named branch, PR host, no Test sign-off | 1 push + open PR · 2 keep |
 | Detached HEAD | 1 create branch `<name>`, push, open PR · 2 keep |
-| No PR host | 1 commit `specs/NNN-slug/review.md` on the branch for local review · 2 keep |
+| No PR host | 1 commit `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) on the branch for local review · 2 keep |
 | Test sign-off on the current head SHA | 1 merge · 2 keep (Step 5) |
 
 **Merge is never shown before a Test sign-off bound to the head SHA.** **Discard is never shown**; it runs only on an explicit request and only after the typed confirmation `discard <branch-name>` in a later turn, following the inventory in `references/integration-options.md` (branch, commits not in the base, unpushed commits, worktree path, uncommitted and untracked files, open PR). Option 1 pushes the feature branch only and opens the PR with the Step 3 body. Option 2 reports branch, worktree path, last SHA and evidence freshness. Rejected push → report it; never force-push.

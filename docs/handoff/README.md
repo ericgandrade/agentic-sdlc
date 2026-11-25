@@ -57,6 +57,16 @@ Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25
 | F23 | Fixed (docs) | `artifacts.md` naming rule: non-digit after the AC ID in filters, scope to the item's test files, Quick names add the issue |
 | F08 | Fixed (docs) | `vendoring.md`: `AGENTIC_SDLC_SKILL` / `SUPERSKILLS_REPO` / plugin cache lookup; `missing:` generated from the router's † scripts (procedure run in a scratch repo) |
 
+## Independent review of the fixes (2026-11-25)
+
+A separate Opus reviewer read the range `6d2c38d..` without this session's reasoning: 126/126 tests, budget PASS, nothing blocking. Its four verified defects are fixed: post-finish budget halt that could never be resumed (`run-ledger.mjs`, test added); `loops.md` and `fix-loop-and-escalation.md` contradicting the post-finish PR rounds and counters; vendoring with a relative `AGENTIC_SDLC_SKILL`; a garbled sentence in `dod-block.md`. Also applied: AC filters use `AC-n(?![0-9])` (a trailing space missed names ending in the ID), library rollback rehearsal against a scratch registry, the artifact-commit exemption no longer covers `.agentic-sdlc/bin/` or `config.json`, `coverage-floor` reads the summary only when `coverage` ran, Quick review-record path in `multi-axis-code-review` and `shipping-and-handover`.
+
+Known and accepted (not fixed):
+- `result.json` keeps the `finish` status; post-finish PR rounds only update the archived ledger.
+- Prompt-only mode pastes ledger rows into `plan.md ## Loop ledger`, which still changes the fingerprint (scripts absent; rare).
+- With the F18 flow, F19's in-plan rule matters mostly at the Test-stage merge.
+- The worked example still filters with `-t "AC-1"`; changing it would change its plan hash.
+
 ## Minor findings: recommendation before v3.0.0
 
 Fix before release (contradictions or a fallback every session hits; each is a small doc edit):

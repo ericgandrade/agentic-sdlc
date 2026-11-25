@@ -129,7 +129,7 @@ Rating rules: two severities fit → take the higher. Grade by effect on the use
 ### Step 8 — Verdict and record
 
 1. **Default NO-GO.** GO requires all of: every AC has a fresh passing Verification row or a waived `CANNOT_VERIFY`; the Trace has no orphans; 0 open Critical (each `fixed`, or `rejected` with the human reviewer's ruling recorded); every other confirmed finding has a disposition (Important deferred only with owner acceptance); every required lens ran or is waived.
-2. **Write the PR sections** per `../agentic-sdlc/templates/pr-body.md`: Lenses table (context, every check performed, findings raised, status), Findings table (one row per F-n), Rounds row, and the GO conditions. No praise, no statements about the author's effort. "LGTM" or GO without the per-lens check list is treated as NO-GO. Without a PR host the record is `specs/NNN-slug/review.md` with the same sections.
+2. **Write the PR sections** per `../agentic-sdlc/templates/pr-body.md`: Lenses table (context, every check performed, findings raised, status), Findings table (one row per F-n), Rounds row, and the GO conditions. No praise, no statements about the author's effort. "LGTM" or GO without the per-lens check list is treated as NO-GO. Without a PR host the record is `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) with the same sections.
 3. **Record the round.** When a run exists (`<scripts>` = `.agentic-sdlc/bin/` when vendored, else `skills/agentic-sdlc/scripts/`; lookup order in skill `executing-plans` Step 0):
    ```bash
    node <scripts>/run-ledger.mjs round --run r1 --task PR --loop review-fix --result fail \

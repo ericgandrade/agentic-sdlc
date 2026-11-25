@@ -356,6 +356,11 @@ test('finish writes result.json and archives the ledger next to the spec', () =>
   const archived = loadLedger(join(dir, 'specs/001-demo/run-ledger.jsonl'));
   assert.deepEqual(archived.slice(-2).map((e) => [e.type, e.task, e.result]), [['round', 'PR', 'fail'], ['round', 'PR', 'pass']], 'archive holds the post-finish rounds');
   assert.equal(rl('finish', '--run', 'r1').code, 1, 'finish stays one-shot');
+  // Build budgets do not apply after finish: a heavy Test-stage round never leaves an un-resumable halt.
+  assert.equal(rl('round', '--run', 'r1', '--task', 'PR', '--loop', 'review-fix', '--result', 'pass', '--turns', '400').code, 0);
+  const again = rl('round', '--run', 'r1', '--task', 'PR', '--loop', 'review-fix', '--result', 'pass');
+  assert.equal(again.code, 0, again.out + again.err);
+  assert.ok(!loadLedger(join(dir, '.agentic-sdlc/runs/r1/ledger.jsonl')).some((e) => e.type === 'halt'), 'no halt after finish');
 });
 
 test('finish reports NEEDS_HUMAN on a pending ruling or a non-budget halt and BLOCKED on unfinished tasks', () => {

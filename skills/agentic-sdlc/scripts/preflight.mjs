@@ -82,7 +82,7 @@ export const COVERAGE_SUMMARY = 'coverage/coverage-summary.json';
 function coverageFloor(root, entries, dodResults) {
   const min = Number(entries.coverage_min);
   if (entries.coverage_min === undefined || /^n\/a\b/i.test(entries.coverage_min) || !Number.isFinite(min)) return check('coverage-floor', 'SKIP', 'no numeric coverage_min');
-  if (!dodResults.some((d) => d.key === 'coverage' || d.key === 'test')) return check('coverage-floor', 'SKIP', 'no coverage or test command ran');
+  if (!dodResults.some((d) => d.key === 'coverage')) return check('coverage-floor', 'SKIP', 'no coverage command ran (a stale summary is never read)');
   const file = join(root, COVERAGE_SUMMARY);
   if (!existsSync(file)) return check('coverage-floor', 'SKIP', `${COVERAGE_SUMMARY} not written (non json-summary format: CI compares the floor)`);
   let pct;

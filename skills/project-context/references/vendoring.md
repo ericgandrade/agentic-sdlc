@@ -27,6 +27,7 @@ Load in vendor mode, as the last step of setup and adopt, when the installed `ag
 ls -d "${AGENTIC_SDLC_SKILL:-/nonexistent}" "${SUPERSKILLS_REPO:-/nonexistent}"/skills/agentic-sdlc \
   ~/.claude/plugins/cache/*/skills/agentic-sdlc ~/.*/skills/agentic-sdlc ~/.gemini/antigravity/skills/agentic-sdlc 2>/dev/null
 SKILL="${AGENTIC_SDLC_SKILL:?set AGENTIC_SDLC_SKILL to one directory listed above}"
+SKILL=$(cd "$SKILL" && pwd)                     # absolute: the steps below cd into .agentic-sdlc/bin
 test -f "$SKILL/scripts/preflight.mjs" || { echo "not an agentic-sdlc skill: $SKILL"; exit 1; }
 mkdir -p .agentic-sdlc/bin/lib
 rm -f .agentic-sdlc/bin/*.mjs .agentic-sdlc/bin/lib/*.mjs

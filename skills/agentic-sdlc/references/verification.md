@@ -110,7 +110,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 
 1. ACs: the `AC-n` IDs in `spec.md` (Quick: in the issue).
 2. Tasks: the `## Tasks` rows of `plan.md` and their AC column.
-3. Commits: `git log --format='%h%x09%s%x09%(trailers:key=Refs,valueonly,separator=%x20)' <base>..HEAD`; the bracket form `[T3, AC-2]` in the subject also counts. **Artifact commits are exempt from the Tn rule:** a `docs:`, `chore:` or `test:` commit whose files are all method artifacts (`docs/issues/**`, `docs/reviews/**`, `specs/NNN-slug/**`, `.agentic-sdlc/**`) or acceptance-test files listed in `acceptance-tests.md`. Examples: issue, spec, approval register, threat model, acceptance tests (`Refs: AC-n`), `chore: archive run ledger r1`, review record. List them in the matrix as `artifact`; a commit that also touches other files is a code commit.
+3. Commits: `git log --format='%h%x09%s%x09%(trailers:key=Refs,valueonly,separator=%x20)' <base>..HEAD`; the bracket form `[T3, AC-2]` in the subject also counts. **Artifact commits are exempt from the Tn rule:** a `docs:`, `chore:` or `test:` commit whose files are all method artifacts (`docs/issues/**`, `docs/reviews/**`, `specs/NNN-slug/**`, `.agentic-sdlc/runs/**`; never `.agentic-sdlc/bin/` or `config.json`, which change the gates) or acceptance-test files listed in `acceptance-tests.md`. Examples: issue, spec, approval register, threat model, acceptance tests (`Refs: AC-n`), `chore: archive run ledger r1`, review record. List them in the matrix as `artifact`; a commit that also touches other files is a code commit.
 4. Tests: search the test directories for `AC-[0-9]+` in test names; match each to its Verification row.
 5. Fill the matrix; list every orphan with its kind.
 

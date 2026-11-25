@@ -60,7 +60,7 @@ Required fields (Standard and Full):
 | Spec Signal | A consumer-facing check tagged with the AC: an AC test that a consumer project or the package's own CI runs against the published artifact | test ID · AC-n |
 | Spec Alert, R5 | Consumer CI or the registry: the package's CI on the default branch, or a canary consumer project, fails on the AC test; the failure notifies the owner. No such job → `n/a — <reason>` | job link, last run |
 | Spec Rollout, R4, stages | Pre-release channel first (`npm dist-tag next`, a `-rc` version, a pre-release on the host), then the stable channel. No channel → `n/a — consumers pin by semver` | publish command output |
-| R3 rollback rehearsal | Rehearse in a scratch worktree or a dry-run publish: `npm publish --dry-run` (or the ecosystem's equivalent), then the rollback (`npm dist-tag add <pkg>@<previous> latest`, deprecate or yank) against the same SHA as R1, ≤ 7 days old | commands, output, exit codes, times |
+| R3 rollback rehearsal | Rehearse without touching the live registry: `npm publish --dry-run` (or the ecosystem's equivalent) and the rollback against a scratch or local registry (for example Verdaccio): publish, `npm dist-tag add <pkg>@<previous> latest`, verify; same SHA as R1, ≤ 7 days old. The live dist-tag or yank runs only under the Release sign-off | commands, output, exit codes, times |
 | R6 dashboard | Registry page or download/install query, or `n/a — <reason>` | link or output |
 | Go/no-go 4 | `n/a — no production alert` when Alert is `n/a`; otherwise the consumer CI job is live | job link |
 | Per-stage rollout | Pre-release channel watch: ≥ 1 consumer install or CI run green before the stable tag | consumer run link |

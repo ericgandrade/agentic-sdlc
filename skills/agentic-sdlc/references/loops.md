@@ -22,7 +22,7 @@ Full workflow: skill `systematic-debugging` (debug loop); task loops run in skil
 
 **One counter.** A round is one fix attempt followed by its re-check. Each task carries one failed-fix counter per loop; the anti-thrash breaker (§6) fires at 3 failed build-test fixes, before the hard cap of 5. A ruling `continue` resets the anti-thrash count only; the hard cap counts every round of the loop. A passing debug round resets the red-green count.
 
-Review-fix rounds belong to the task whose code the finding names (`--task T3`) or to `PR` for findings that span tasks. One review round = one Reviewer pass; open Critical findings → `fail`; the fixes are the next round's `--tried`.
+Per-task review rounds during Build belong to the task (`--task T3`). Test-stage review rounds come after `run-ledger finish` and are always `--task PR` (the finding ID names the task); each counter has its own bound. One review round = one Reviewer pass; open Critical findings → `fail`; the fixes are the next round's `--tried`.
 
 ## 2. Root-cause routing (6.2)
 
