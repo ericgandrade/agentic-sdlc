@@ -57,6 +57,22 @@ Plan: [`docs/plans/2026-11-25-dogfood-findings-fix-plan.md`](../plans/2026-11-25
 | F23 | Fixed (docs) | `artifacts.md` naming rule: non-digit after the AC ID in filters, scope to the item's test files, Quick names add the issue |
 | F08 | Fixed (docs) | `vendoring.md`: `AGENTIC_SDLC_SKILL` / `SUPERSKILLS_REPO` / plugin cache lookup; `missing:` generated from the router's † scripts (procedure run in a scratch repo) |
 
+## Minor findings: recommendation before v3.0.0
+
+Fix before release (contradictions or a fallback every session hits; each is a small doc edit):
+
+| ID | Why before release |
+|---|---|
+| F02 | Mis-indented line in the `artifacts.md` layout tree; one-line fix |
+| F03 | `plan.md` and `spec.md` templates disagree on deleting comment blocks |
+| F06 | Two formats for the Platform/Enforcement lines (`agents-md-block.md` vs `platforms.md`) |
+| F20 | `executing-plans` and `tdd.md` disagree on whether an import error is a valid red |
+| F24 | Waiver table has 7 columns in templates and 10 in `governance.md` |
+| F26 | Release notes have no location or PR value without a host (same pattern as F09) |
+| F29 | Router Step 0 starts with scripts that do not ship (`status.mjs`, `path-score.mjs`, `faq.md`); put the manual fallback first. The router is at 2196/2200 words, so this needs a trim elsewhere in `SKILL.md` |
+
+Can wait (behaviour is defined, only friction or polish): F07 (new 1-commit repo classified adopt), F12 (Quick PR header has no Issue field), F13 (`run-ledger start` needs `--plan`; Quick writes rows by hand, which is documented), F15 (Standard file bound counts docs), F17 (OBS errors report the section line), F28 (retro timing with a staged rollout), F30 (shared import error as red evidence for new modules).
+
 ## Verified at `eb7a3a6` (tests and budget; the script checks below ran at `8c5d014`)
 
 - `node --test skills/agentic-sdlc/scripts/test/*.test.mjs`: 124 pass, 0 fail (126 after F04 and F19).
