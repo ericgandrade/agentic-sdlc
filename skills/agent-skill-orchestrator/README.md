@@ -33,8 +33,8 @@ Use this skill when you:
 ### Via NPM (Recommended)
 
 ```bash
-npm install -g claude-superskills
-claude-superskills install agent-skill-orchestrator agent-skill-discovery
+npm install -g agentic-sdlc-method
+agentic-sdlc-method install agent-skill-orchestrator agent-skill-discovery
 ```
 
 **Note:** `agent-skill-discovery` is a required dependency.
@@ -43,7 +43,7 @@ claude-superskills install agent-skill-orchestrator agent-skill-discovery
 
 ```bash
 git clone https://github.com/yourusername/claude-superskills.git
-cd claude-superskills
+cd agentic-sdlc
 ./scripts/build-skills.sh
 ```
 
@@ -208,7 +208,7 @@ Bonus for MCPs when external integration needed
 
 ### Recommended
 - Various plugins/skills/MCPs depending on your tasks
-- Install bundles: `claude-superskills install --all`
+- Install bundles: `agentic-sdlc-method install --all`
 
 ## Use Cases
 
@@ -260,7 +260,7 @@ Choose your preferred option to proceed or cancel safely.
 **Solution:**
 ```bash
 # Install resources
-claude-superskills install --all
+agentic-sdlc-method install --all
 
 # Verify installation
 claude
@@ -282,7 +282,7 @@ claude
 
 **Solution:**
 ```bash
-claude-superskills install agent-skill-discovery
+agentic-sdlc-method install agent-skill-discovery
 ```
 
 ### "Plan looks wrong"
@@ -359,12 +359,12 @@ Improve the orchestrator:
 3. Report matching issues
 4. Enhance plan generation logic
 
-[Contributing Guide](../../docs/CONTRIBUTING.md)
+[Contributing Guide](../../CONTRIBUTING.md)
 
 ## Related Skills
 
 - **agent-skill-discovery** (Required) - Discovers resources
-- **prompt-engineer** - May be recommended in plans
+- **prompt-engineer** (knowledge-superskills) - May be recommended in plans when installed
 - **skill-creator** - May be recommended for scaffolding
 
 ## License
@@ -379,6 +379,10 @@ MIT License - See [LICENSE](../../LICENSE)
 - **All 8 platforms** — Antigravity, Cursor IDE, and AdaL CLI added to platform support matrix
 
 ## Version History
+
+### v2.2.0 (2026-11-25)
+- Step 2.5: software-delivery requests get the `agentic-sdlc` router as Option 1 when installed; single-stage requests go straight to the stage skill
+- New eval scenario for an end-to-end feature request
 
 ### v2.0.0 (2026-03-06)
 - Added Progress Tracking gauge bars to SKILL.md
@@ -396,7 +400,6 @@ MIT License - See [LICENSE](../../LICENSE)
 ## Support
 
 - **Full Specification:** [SKILL.md](SKILL.md)
-- **Scoring Details:** [references/scoring-algorithm.md](references/scoring-algorithm.md)
 - **Issues:** [GitHub Issues](https://github.com/yourusername/claude-superskills/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/yourusername/claude-superskills/discussions)
 
@@ -406,10 +409,10 @@ MIT License - See [LICENSE](../../LICENSE)
 
 | Field | Value |
 |-------|-------|
-| Version | 2.1.0 |
+| Version | 2.2.0 |
 | Author | Eric Andrade |
 | Created | 2026-02-07 |
-| Updated | 2026-03-19 |
+| Updated | 2026-11-25 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | orchestration |
 | Tags | orchestration, planning, strategy, intelligent-matching, platform-agnostic |

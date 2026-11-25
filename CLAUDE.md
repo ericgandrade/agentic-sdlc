@@ -4,12 +4,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**claude-superskills** is a reusable AI skills library for **8 AI platforms**: GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI. Skills are Markdown-based workflow specifications (`SKILL.md`) that teach AI agents how to perform specific tasks.
+**The Agentic SDLC Method** (repository `agentic-sdlc`, formerly `claude-superskills`) is a software delivery method packaged as AI skills for **8 AI platforms**: GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI. Skills are Markdown-based workflow specifications (`SKILL.md`) that teach AI agents how to perform specific tasks.
 
-- **npm package**: `claude-superskills` (v2.0.8) — `npx claude-superskills` — **18 skills**
-- **Claude Code plugin**: `claude --plugin-dir ./claude-superskills` — native plugin, no npm needed
-- **GitHub**: `https://github.com/ericgandrade/claude-superskills`
+- **npm package**: `agentic-sdlc-method` (v3.0.0; named `claude-superskills` up to v2.0.8, which is deprecated in its favour) — `npx agentic-sdlc-method` — **23 skills**: the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`) plus `skill-creator`, `agent-skill-discovery` and `agent-skill-orchestrator`
+- **Claude Code plugin**: name `agentic-sdlc` (skills appear as `/agentic-sdlc:<skill>`); `claude --plugin-dir ./agentic-sdlc` — native plugin, no npm needed. Plugin names may not start with `claude-` (`claude plugin validate`)
+- **GitHub**: `https://github.com/ericgandrade/agentic-sdlc` (renamed from `claude-superskills` on 2026-11-25; GitHub redirects the old URL). The npm package is `agentic-sdlc-method` (`agentic-sdlc` is taken on npm by another author); the cache folder stays `~/.claude-superskills/`. `cli-installer/lib/core/downloader.js` `REPO_NAME` must equal the GitHub repo name: the release zip's top folder is `<repo>-<version>/`
 - **Old package** `cli-ai-skills` is deprecated, redirects to this one
+- **Moved out**: research, content and document skills (deep-research, webpage-reader, us-program-research, youtube-summarizer, audio-transcriber, pptx-translator, document-converter, storytelling-expert, mckinsey-strategist, prompt-engineer) now live in [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills)
 
 ## 🚨 CRITICAL: VERSION CONSISTENCY RULE
 
@@ -19,7 +20,8 @@ You **MUST** keep the following files synchronized at all times when changing ve
 |------|----------------|-----------|
 | `cli-installer/package.json` | `version` field | **Source of Truth** |
 | `.claude-plugin/plugin.json` | `version` field | Must match npm exactly |
-| `README.md` | H1 Title, Version Badge, Footer | Visual confirmation |
+| `README.md` | H1 Title, Version Badge, Skills Badge, Footer (the root README presents the Agentic SDLC; the skill catalog lives in `docs/skills-library.md`) | Visual confirmation |
+| `docs/skills-library.md` | Skill category tables, bundle list, skill totals | Library catalog must match `skills/` |
 | `CLAUDE.md` | Project Overview & Version Checklist | Guidance consistency |
 | `CHANGELOG.md` | New version entry | History |
 | `cli-installer/README.md` | Version, skill count, command examples, supported platforms | Installer docs must match current product |
@@ -48,7 +50,7 @@ Version sync alone is **not enough**. Any change that affects product scope, pac
 
 1. **`skills/` is the only source of truth for skill content.** No guide or README may describe replicated skill copies inside platform directories as part of the active architecture.
 2. **`cli-installer/package.json` and `.claude-plugin/plugin.json` define the current released version.** Secondary docs must reflect that version or avoid version-specific claims.
-3. **`README.md` and `CLAUDE.md` define the current product shape.** Secondary docs such as `cli-installer/README.md`, `.claude-plugin/marketplace.json`, and `docs/guides/*.md` must not advertise obsolete counts, narrower scope, or deprecated flows.
+3. **`README.md` and `CLAUDE.md` define the current product shape.** Secondary docs such as `docs/skills-library.md`, `cli-installer/README.md`, `.claude-plugin/marketplace.json`, and `docs/guides/*.md` must not advertise obsolete counts, narrower scope, or deprecated flows.
 4. **Marketplace metadata is documentation.** `.claude-plugin/marketplace.json` descriptions must be reviewed whenever the public skill count or positioning changes.
 5. **Guides must describe the active architecture, not historical architecture.** If a guide mentions deprecated mirrored platform directories, symlink-era behavior, or bundled skills in npm, it must be updated or explicitly labeled historical.
 
@@ -64,33 +66,46 @@ This script synchronizes the 5 version-authoritative files and regenerates index
 ## Repository Architecture
 
 ```
-claude-superskills/
+agentic-sdlc/
 ├── .claude-plugin/            # Claude Code plugin manifest + marketplace catalog
 │   ├── plugin.json           # Plugin metadata (name, version, description, author...)
 │   └── marketplace.json      # Marketplace catalog — lists plugin + GitHub source
 │
-├── skills/                    # SINGLE SOURCE OF TRUTH for all 18 skills
+├── skills/                    # SINGLE SOURCE OF TRUTH for all 23 skills
 │   ├── agent-skill-discovery/
 │   ├── agent-skill-orchestrator/
-│   ├── audio-transcriber/
+│   ├── agentic-sdlc/
+│   │   ├── SKILL.md          # Agentic SDLC router (Scrum Master): state, path, dispatch, sign-offs
+│   │   ├── agents/           # 13 agent briefs (scrum-master, analyst, product-manager, ux-designer, planner,
+│   │   │                     #   architect, developer, test-engineer, reviewer, security-auditor,
+│   │   │                     #   tech-writer, release-engineer, sre)
+│   │   ├── references/       # stage contracts: lifecycle, paths, governance, loops, quickstart, adoption…
+│   │   ├── templates/        # spec, plan, acceptance-tests, pr-body, release-notes, runbook, retro, ci/…
+│   │   ├── scripts/          # spec-lint, plan-graph, preflight, run-ledger, budget-check (.mjs) + lib/ + test/
+│   │   └── examples/         # worked-example/ (CSV export, Standard path; script test fixtures)
 │   ├── brainstorming/
-│   ├── deep-research/
-│   ├── document-converter/
+│   ├── codebase-modernization/
+│   ├── deployment-pipeline/
 │   ├── executing-plans/
 │   ├── grill-me/
-│   ├── mckinsey-strategist/
-│   ├── pptx-translator/
-│   ├── prompt-engineer/
+│   ├── issue-triage/
+│   ├── multi-axis-code-review/
+│   ├── operations-and-incidents/
+│   ├── project-context/
+│   ├── retrospective/
+│   ├── security-hardening/
 │   ├── senior-solution-architect/
+│   ├── shipping-and-handover/
 │   ├── skill-creator/
-│   ├── storytelling-expert/
-│   ├── us-program-research/
-│   ├── webpage-reader/
-│   ├── writing-plans/
-│   └── youtube-summarizer/
+│   ├── spec-driven-development/
+│   ├── systematic-debugging/
+│   ├── test-driven-development/
+│   ├── test-strategy/
+│   ├── verification-gate/
+│   └── writing-plans/
 │
-├── cli-installer/             # NPM package (claude-superskills)
-│   ├── bin/cli.js            # Main CLI entry point (commands, flags, install flow)
+├── cli-installer/             # npm package (agentic-sdlc-method)
+│   ├── bin/cli.js            # CLI entry point: every command (install, list, status, update, uninstall, doctor), flags, install flow
 │   ├── lib/
 │   │   ├── copilot.js        # GitHub Copilot installer
 │   │   ├── claude.js         # Claude Code installer
@@ -105,26 +120,13 @@ claude-superskills/
 │   │   ├── detector.js       # Platform detection (detectTools())
 │   │   ├── bundles.js        # Bundle loader (reads bundles.json)
 │   │   ├── search.js         # Skill search functionality
-│   │   ├── version-checker.js # Installed version comparison
-│   │   ├── commands/         # Modular command implementations
-│   │   │   ├── install.js
-│   │   │   ├── uninstall.js
-│   │   │   ├── list.js
-│   │   │   ├── update.js
-│   │   │   └── doctor.js
+│   │   ├── cowork.js         # Claude Cowork / Desktop package helper
 │   │   ├── core/
-│   │   │   ├── downloader.js          # GitHub download + local cache manager
-│   │   │   ├── installer.js           # Core install logic
-│   │   │   ├── requirements-installer.js
-│   │   │   ├── detector.js            # Core platform detector class
-│   │   │   └── version-checker.js
+│   │   │   └── downloader.js          # GitHub download + local cache manager
 │   │   ├── ui/
-│   │   │   ├── table.js        # displayToolsTable()
-│   │   │   ├── prompts.js      # UI prompt helpers
-│   │   │   └── progress-gauge.js
+│   │   │   └── table.js        # displayToolsTable()
 │   │   └── utils/
 │   │       ├── path-resolver.js   # getCachedSkillsPath(), getUserSkillsPath(), getCodexSkillPaths()
-│   │       ├── skill-versions.js
 │   │       └── skill-diff.js      # Skill diff for install/update comparisons
 │   └── package.json          # NPM manifest — no skills/ in files
 │
@@ -144,12 +146,13 @@ claude-superskills/
 │   ├── generate-catalog.py        # Python: generates CATALOG.md
 │   ├── generate-skills-index.py   # Python: generates skills index
 │   ├── optimize-all-skills.sh     # Runs eval readiness check across all skills
-│   ├── package-plugin.sh          # Generates plugin-output/claude-superskills-vX.Y.Z.zip for Claude Desktop
+│   ├── package-plugin.sh          # Generates plugin-output/agentic-sdlc-vX.Y.Z.zip for Claude Desktop
 │   └── pre-publish-check.sh
 │
 └── docs/
     ├── INSTALLATION.md            # Full installation guide (all methods)
     ├── guides/
+    │   ├── agentic-sdlc.md            # Agentic SDLC reference guide (≤ 2,500 words)
     │   ├── getting-started.md
     │   ├── skill-anatomy.md
     │   └── quality-standards.md
@@ -195,14 +198,14 @@ git commit -m "fix: remove erroneously committed platform skill dirs"
 2. **Download at Install Time**: The installer fetches skills from the GitHub release tag and caches them at `~/.claude-superskills/cache/{version}/skills/` — no skills are bundled in the npm package
 3. **Platform-Specific Installers**: Each platform has its own async installer in `cli-installer/lib/`; all copy from the cache using `fs.copy` (no symlinks)
 4. **No Platform Dirs in Repo**: `.github/skills/`, `.claude/skills/`, `.codex/skills/`, `.agent/skills/`, `.agents/skills/`, `.gemini/skills/`, `.cursor/skills/`, `.adal/skills/` are all in `.gitignore`
-5. **Bundle System**: Skills are grouped into curated bundles (essential, content, developer, orchestration, all)
-6. **Claude Code Native Plugin**: `.claude-plugin/plugin.json` makes this a first-class Claude Code plugin. Skills are available as `/claude-superskills:<skill-name>`. `.claude-plugin/marketplace.json` enables installation via `/plugin marketplace add`. Both files must have their version kept in sync with `cli-installer/package.json`.
+5. **Bundle System**: Skills are grouped into curated bundles (essential, planning, orchestration, agentic-sdlc, all)
+6. **Claude Code Native Plugin**: `.claude-plugin/plugin.json` makes this a first-class Claude Code plugin. Skills are available as `/agentic-sdlc:<skill-name>`. `.claude-plugin/marketplace.json` enables installation via `/plugin marketplace add`. Both files must have their version kept in sync with `cli-installer/package.json`.
 
 ### Install Flow
 
 **Via npm installer (all 8 platforms):**
 ```
-npx claude-superskills
+npx agentic-sdlc-method
     → detect installed platforms
     → ensureSkillsCached(version)          # downloads from GitHub if not cached
         → tries release zip first          # github.com/.../archive/refs/tags/v{ver}.zip
@@ -223,21 +226,21 @@ npx claude-superskills
 ```text
 # Add marketplace + Install (Interactive method - Recommended)
 # Run these commands inside an active `claude` session:
-/plugin marketplace add ericgandrade/claude-superskills
+/plugin marketplace add ericgandrade/agentic-sdlc
     → clones repo, reads .claude-plugin/marketplace.json
-    → finds plugin entry: source: github ericgandrade/claude-superskills
+    → finds plugin entry: source: github ericgandrade/agentic-sdlc
 
-/plugin install claude-superskills@claude-superskills
-    → clones repo → copies to ~/.claude/plugins/cache/claude-superskills/
+/plugin install agentic-sdlc@agentic-sdlc
+    → clones repo → copies to ~/.claude/plugins/cache/agentic-sdlc/
     → auto-discovers skills/ directory
-    → registers all 18 skills as /claude-superskills:<skill-name>
+    → registers all 23 skills as /agentic-sdlc:<skill-name>
 
 # NOTE: The shell command `claude plugin install ...` is currently unstable
 # due to upstream bugs in Claude Code (e.g. anthropics/claude-code#29722).
 # Always prefer the in-session `/plugin` commands above.
 
 # Test locally (no marketplace required)
-claude --plugin-dir ./claude-superskills
+claude --plugin-dir ./agentic-sdlc
 ```
 
 ## 🚨 CRITICAL: PLANNING RULE
@@ -287,7 +290,7 @@ done
 ./scripts/build-skills.sh
 
 # Test new skill as Claude Code plugin (locally, no install)
-claude --plugin-dir ./ --print "/claude-superskills:<skill-name>"
+claude --plugin-dir ./ --print "/agentic-sdlc:<skill-name>"
 ```
 
 ### New Skill Checklist (mandatory — plugin model)
@@ -296,7 +299,7 @@ Every new skill added to `skills/` **must** trigger the following updates before
 
 1. **`skills/<skill-name>/SKILL.md`** — create with valid frontmatter: `name` (kebab-case), `description` ("This skill should be used when..."), `license` (MIT). No other fields — `version`, `author`, `platforms`, `category`, `tags`, `risk`, `created`, `updated` all cause Claude Code loading failures. No bare date fields.
 2. **`skills/<skill-name>/README.md`** — create with `## Metadata` table (Version, Author, Created, Updated, Platforms, Category, Tags, Risk). Dates go here, NOT in SKILL.md.
-3. **`README.md`** — add skill to the relevant category table; bump the `skills-N` badge count.
+3. **`docs/skills-library.md`** — add skill to the relevant category table and update totals; bump the `skills-N` badge count in the root `README.md` (the root README is the Agentic SDLC presentation and has no category tables).
 4. **`CLAUDE.md`** — add skill to the architecture tree (`skills/`) and to the Skill Types section; update any skill count references.
 5. **`.claude-plugin/plugin.json`** — bump `"version"` (minor for new skill: X.Y.0 → X.(Y+1).0).
 6. **`cli-installer/package.json`** — bump version to match plugin.json via `./scripts/bump-version.sh minor`.
@@ -318,9 +321,9 @@ npm install
 
 # Link locally for testing
 npm link
-claude-superskills --help
-claude-superskills --list-bundles
-claude-superskills -y -q   # install all, no prompts
+agentic-sdlc-method --help
+agentic-sdlc-method --list-bundles
+agentic-sdlc-method -y -q   # install all, no prompts
 
 # Run tests
 npm test
@@ -332,7 +335,7 @@ npm run generate-catalog
 npm run generate-index
 
 # Unlink after testing
-npm unlink -g claude-superskills
+npm unlink -g agentic-sdlc-method
 ```
 
 ### Publishing Workflow
@@ -365,7 +368,7 @@ git push origin main && git push origin vX.Y.Z
 > **Note:** `bump-version.sh` uses `--no-git-tag-version` — it only updates `package.json`. The git tag must be created and pushed manually after the commit.
 
 > **Change Management Rule (mandatory):** any repository change must include consistency updates before release when applicable:
-> - `README.md` (commands, examples, version badges/footer, behavior notes)
+> - `README.md` (version badges/footer, status, behavior notes) and `docs/skills-library.md` (skill tables, commands, examples)
 > - `CHANGELOG.md` (new version entry with added/changed/fixed items)
 > - `CLAUDE.md` (architecture/workflow/rules/version references)
 > - `cli-installer/README.md` (installer behavior, skill count, examples)
@@ -382,7 +385,7 @@ git push origin main && git push origin vX.Y.Z
 rm -rf ~/.claude-superskills/cache/
 
 # Install (will download from GitHub)
-npx claude-superskills -y -q
+npx agentic-sdlc-method -y -q
 
 # Verify cache was created
 ls ~/.claude-superskills/cache/
@@ -457,7 +460,7 @@ Skills that interact with project structure should include a discovery phase tha
 
 ## Version Management
 
-The package version is defined in `cli-installer/package.json` (currently **v2.0.8**).
+The package version is defined in `cli-installer/package.json` (currently **v3.0.0**).
 `.claude-plugin/plugin.json` `"version"` must always match `package.json` exactly.
 
 - `cli-installer/package.json` — source of truth for npm version
@@ -495,14 +498,14 @@ Do not skip any of these steps when bumping the version.
    # It must be updated whenever: skill count changes, MCP servers are added/removed,
    # supported platforms change, or the product positioning changes.
    # Failure to update it leaves stale metadata visible to all visitors.
-   gh repo edit --description "55 Universal AI Skills for Claude Code, GitHub Copilot & 6 more platforms. Planning, orchestration, product strategy, career workflows, research, Obsidian knowledge management, document conversion — no API keys required."
-   gh repo edit --add-topic "claude-code,github-copilot,ai-skills,skills,prompt-engineering,product-strategy,career-development,cli,automation,generative-ai,agents,productivity,llm,anthropic,openai-codex,cursor-ide,gemini-cli,workflow-automation,tech-leadership,ats-optimization"
+   gh repo edit --description "Agentic SDLC: a software delivery method for AI agents with 7 stages, 13 agents, 4 human sign-offs and evidence-based verification. 23 skills for Claude Code, GitHub Copilot and 6 more platforms."
+   gh repo edit --add-topic "claude-code,github-copilot,ai-skills,skills,agentic-sdlc,sdlc,spec-driven-development,tdd,code-review,ai-agents,agents,cli,automation,generative-ai,llm,anthropic,openai-codex,cursor-ide,gemini-cli,workflow-automation"
    ```
 6. **Generate Claude Desktop Plugin Package:**
    ```bash
    ./scripts/package-plugin.sh
    ```
-   Output: `plugin-output/claude-superskills-vX.Y.Z.zip` (gitignored — not committed).
+   Output: `plugin-output/agentic-sdlc-vX.Y.Z.zip` (gitignored — not committed).
    Upload manually at: Claude Desktop → Organization Settings → Plugins → Add plugins → Upload a file.
    > This step is mandatory on every version bump. The zip must reflect the current version before the commit.
 7. **Commit, Tag, and Push:**
@@ -570,13 +573,12 @@ OpenCode uses `~/.agent/skills/`. Antigravity uses `~/.gemini/antigravity/skills
 
 ### Bundle System (`lib/bundles.js`)
 
-Curated skill collections:
-- **essential**: `skill-creator`, `prompt-engineer`, discovery/orchestration, and full planning quartet
-- **planning**: `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`, `agent-skill-orchestrator`
-- **research**: `deep-research`, `us-program-research`, `agent-skill-discovery`, `prompt-engineer`
-- **content**: `youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`
-- **orchestration**: `agent-skill-discovery`, `agent-skill-orchestrator`
-- **all**: all 18 skills
+Curated skill collections (source: `bundles.json`):
+- **essential** (8): `agentic-sdlc`, `skill-creator`, `agent-skill-discovery`, `agent-skill-orchestrator`, `brainstorming`, `writing-plans`, `executing-plans`, `grill-me`
+- **planning** (7): `brainstorming`, `spec-driven-development`, `project-context`, `writing-plans`, `executing-plans`, `grill-me`, `agent-skill-orchestrator`
+- **orchestration** (2): `agent-skill-discovery`, `agent-skill-orchestrator`
+- **agentic-sdlc** (20): the router + 19 stage skills in Discover → Operate order (see Skill Types)
+- **all**: all 23 skills
 
 ## Automation Scripts
 
@@ -591,19 +593,29 @@ Curated skill collections:
 ## Skill Types
 
 - **Meta-skills** — Create or manage other skills (`skill-creator`)
-- **Automation** — Workflow optimization (`prompt-engineer`)
 - **Orchestration** — Resource discovery and task planning (`agent-skill-discovery`, `agent-skill-orchestrator`)
 - **Planning** — Pre-implementation design and execution (`brainstorming`, `writing-plans`, `executing-plans`, `grill-me`)
-- **Research** — Deep research and academic analysis (`deep-research`, `us-program-research`, `senior-solution-architect`, `webpage-reader`)
-- **Content** — Media and document processing (`youtube-summarizer`, `audio-transcriber`, `pptx-translator`, `document-converter`, `storytelling-expert`)
+- **Agentic SDLC** (20 skills, bundle `agentic-sdlc`) — software delivery with AI agents through 7 stages, 4 human sign-offs, 13 agents and 3 paths. Several also work standalone and appear in the categories above.
+  - Router: `agentic-sdlc`
+  - Discover: `issue-triage`, `project-context`, `brainstorming`
+  - Specify: `spec-driven-development`, `grill-me` (+ `codebase-modernization` for brownfield, `security-hardening` for the threat model)
+  - Design: `senior-solution-architect`, `writing-plans`
+  - Build: `executing-plans`, `test-driven-development`, `systematic-debugging`
+  - Test: `test-strategy`, `verification-gate`, `multi-axis-code-review`, `security-hardening`
+  - Release: `deployment-pipeline`, `shipping-and-handover`
+  - Operate: `operations-and-incidents`, `retrospective`
 
 ### Orchestration Skills
 
 #### agent-skill-discovery (v1.1.0)
 Dual-scope discovery: scans installed resources globally + current repository resources locally. Works across all 8 platforms. Detects MCP servers, agents, skills, plugins.
 
-#### agent-skill-orchestrator (v1.1.0)
-Analyzes user requirements, matches to available resources with confidence scoring (trigger 30% + semantic 25% + tools 20% + category 15% + MCP 10%), generates primary + alternative execution plans with user approval before proceeding.
+#### agent-skill-orchestrator (v2.2.0)
+Analyzes user requirements, matches to available resources with confidence scoring (trigger 30% + semantic 25% + tools 20% + category 15% + MCP 10%), generates primary + alternative execution plans with user approval before proceeding. Software-delivery requests get the `agentic-sdlc` router as Option 1 when it is installed; single-stage requests go straight to the stage skill.
+
+### Agentic SDLC
+
+`skills/agentic-sdlc/` is the router (played by the Scrum Master agent). It detects state from `specs/` artifacts, scores the path (Quick, Standard, Full), dispatches the agent for the current stage from `agents/`, requests and records the four human sign-offs (Specify — Product Owner, Design — Tech Lead, Test — human reviewer, Release — Release Owner) and keeps loops bounded (red-green 3, build-test 5, review-fix 3, debug 3 hypotheses → Architect). Its `scripts/*.mjs` are dependency-free Node ≥ 18 checks with `node --test` suites (`node --test skills/agentic-sdlc/scripts/test/*.test.mjs`). Reference guide: `docs/guides/agentic-sdlc.md`.
 
 ## Language
 

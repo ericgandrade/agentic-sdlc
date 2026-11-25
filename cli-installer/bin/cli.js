@@ -41,17 +41,18 @@ const MIGRATION_PACKAGES = [
   { name: 'product-superskills',  count: 8,  label: 'Product management & GTM strategy',    cmd: 'npx product-superskills' },
   { name: 'design-superskills',   count: 9,  label: 'UI/UX design, brand & diagrams',       cmd: 'npx design-superskills' },
   { name: 'avanade-superskills',  count: 3,  label: 'Avanade-branded content (private)',    cmd: 'git clone https://github.com/ericgandrade/avanade-superskills' },
+  { name: 'knowledge-superskills', count: 10, label: 'Research, content & documents (v3.0)', cmd: '/plugin marketplace add ericgandrade/knowledge-superskills' },
 ];
 
 function printMigrationWarning() {
   if (semver.major(VERSION) < 2) return;
-  console.log(chalk.yellow.bold('⚠️  v2.0 Migration Notice'));
-  console.log(chalk.yellow('46 skills were moved to focused packages. Install what you need:\n'));
+  console.log(chalk.yellow.bold('⚠️  Migration notice (v2.0 and v3.0)'));
+  console.log(chalk.yellow('Skills outside the Agentic SDLC moved to focused packages (46 in v2.0, 10 in v3.0). Install what you need:\n'));
   for (const pkg of MIGRATION_PACKAGES) {
     console.log(`  ${chalk.white.bold(pkg.name)} ${chalk.dim(`(${pkg.count} skills — ${pkg.label})`)}`);
     console.log(`  ${chalk.cyan(pkg.cmd)}\n`);
   }
-  console.log(chalk.dim('claude-superskills now contains 17 core skills: orchestration, planning, research & content.\n'));
+  console.log(chalk.dim('agentic-sdlc-method installs The Agentic SDLC Method: 23 skills (the Agentic SDLC plus skill creation and orchestration). Research and content skills moved to knowledge-superskills.\n'));
 }
 
 const commandAliases = {
@@ -790,7 +791,7 @@ async function main() {
   setupEscapeHandler();
   setupCleanupHandler();
 
-  console.log(chalk.cyan.bold(`\n🚀 claude-superskills v${VERSION} - Multi-Platform Installer\n`));
+  console.log(chalk.cyan.bold(`\n🚀 agentic-sdlc-method v${VERSION} - The Agentic SDLC Method installer\n`));
 
   printMigrationWarning();
 
@@ -1036,7 +1037,7 @@ async function main() {
       break;
 
     case 'doctor':
-      console.log('Use: npx claude-superskills --help for options\n');
+      console.log('Use: npx agentic-sdlc-method --help for options\n');
       break;
 
     default:
@@ -1049,7 +1050,7 @@ function showHelp() {
   console.log(`
 CLI AI Skills v${VERSION}
 
-Usage: npx claude-superskills [COMMAND] [OPTIONS]
+Usage: npx agentic-sdlc-method [COMMAND] [OPTIONS]
 
 Commands:
   install, i      Install skills (default)
@@ -1080,18 +1081,18 @@ Notes:
   - If Claude Cowork is detected, the installer can generate a plugin zip for manual upload.
 
 Examples:
-  npx claude-superskills                        # Interactive smart installation
-  npx claude-superskills -y -q                 # Auto smart update/install
-  npx claude-superskills --bundle essential -y # Install essential bundle
-  npx claude-superskills up -y                 # Update outdated + install missing skills
-  npx claude-superskills package-cowork        # Generate Cowork zip for manual upload
-  npx claude-superskills status                # Show global status and version differences
-  npx claude-superskills uninstall -y          # Uninstall all + clear cache
-  npx claude-superskills uninstall --nuclear   # ☢️  Remove ALL skills from ALL platforms
-  npx claude-superskills --local               # Install to current project
-  npx claude-superskills --local -y            # Auto install locally
-  npx claude-superskills update --local        # Update local skills only
-  npx claude-superskills uninstall --local -y  # Remove local skills
+  npx agentic-sdlc-method                        # Interactive smart installation
+  npx agentic-sdlc-method -y -q                 # Auto smart update/install
+  npx agentic-sdlc-method --bundle essential -y # Install essential bundle
+  npx agentic-sdlc-method up -y                 # Update outdated + install missing skills
+  npx agentic-sdlc-method package-cowork        # Generate Cowork zip for manual upload
+  npx agentic-sdlc-method status                # Show global status and version differences
+  npx agentic-sdlc-method uninstall -y          # Uninstall all + clear cache
+  npx agentic-sdlc-method uninstall --nuclear   # ☢️  Remove ALL skills from ALL platforms
+  npx agentic-sdlc-method --local               # Install to current project
+  npx agentic-sdlc-method --local -y            # Auto install locally
+  npx agentic-sdlc-method update --local        # Update local skills only
+  npx agentic-sdlc-method uninstall --local -y  # Remove local skills
 `);
 }
 

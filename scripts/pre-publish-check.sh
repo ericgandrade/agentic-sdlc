@@ -8,7 +8,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 PKG_DIR="$REPO_ROOT/cli-installer"
 
-echo "📦 Pre-publish Checklist for claude-superskills"
+echo "📦 Pre-publish Checklist for agentic-sdlc-method"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 
@@ -40,7 +40,7 @@ echo ""
 
 # 3. Check if version already published
 echo "3️⃣  Checking if version is published on npm..."
-PUBLISHED_VERSION=$(npm view claude-superskills version 2>/dev/null || echo "0.0.0")
+PUBLISHED_VERSION=$(npm view agentic-sdlc-method version 2>/dev/null || echo "0.0.0")
 
 if [ "$CURRENT_VERSION" = "$PUBLISHED_VERSION" ]; then
   echo "   ❌ Version $CURRENT_VERSION is already published!"

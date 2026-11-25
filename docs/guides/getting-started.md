@@ -1,6 +1,6 @@
-# Getting Started with CLI AI Skills
+# Getting Started with Claude Superskills
 
-Welcome to CLI AI Skills! This guide will help you get up and running in minutes.
+Welcome to Claude Superskills! This guide will help you get up and running in minutes.
 
 ## 🚀 Quick Start (3 Commands)
 
@@ -9,12 +9,12 @@ Welcome to CLI AI Skills! This guide will help you get up and running in minutes
 The simplest way to get started is to run the installer with no arguments:
 
 ```bash
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 This will automatically:
-- 🔍 Detect your installed platforms (GitHub Copilot CLI, Claude Code, Codex)
-- 📦 Install all 4 available skills
+- 🔍 Detect your installed platforms (8 supported, from GitHub Copilot CLI to AdaL CLI)
+- 📦 Install the 23 available skills (or the ones you choose)
 - ✅ Configure for immediate use
 - 🎯 Enable all features
 
@@ -25,56 +25,53 @@ This will automatically:
 See what's installed:
 
 ```bash
-npx claude-superskills ls
+npx agentic-sdlc-method ls
 ```
 
 Or the long form:
 
 ```bash
-npx claude-superskills list
+npx agentic-sdlc-method list
 ```
 
 ### 3. Get Help
 
 ```bash
-npx claude-superskills help
+npx agentic-sdlc-method help
 ```
 
 Or check a specific command:
 
 ```bash
-npx claude-superskills install --help
+npx agentic-sdlc-method install --help
 ```
 
 ---
 
-## 📦 Our 4 Universal Skills
+## 🔁 Agentic SDLC: First Run
 
-CLI AI Skills comes with 4 expertly crafted skills that work across all supported platforms:
+The **Agentic SDLC** takes one change from issue to production with AI agents and named human sign-offs: 7 stages (Discover, Specify, Design, Build, Test, Release, Operate), 4 sign-offs (Product Owner, Tech Lead, human reviewer, Release Owner), 13 agents and 3 paths (Quick, Standard, Full) chosen by a path score.
 
-### 1. **skill-creator** (v1.3.0)
-Automate the entire workflow of creating new skills from brainstorming to installation.
-- **When to use:** Building custom skills, extending the CLI
-- **Category:** Meta (tool for creating tools)
-- **Status:** Safe ✅
+1. Install the 20 skills:
+   ```bash
+   npx agentic-sdlc-method --bundle agentic-sdlc -y
+   ```
+2. Follow the [Quickstart](../../skills/agentic-sdlc/references/quickstart.md): one Quick-path bug fix, end to end, in a real repository.
+3. Ask your agent, for example: *"Use agentic-sdlc to fix issue #42"*. The router (the Scrum Master) detects the repository state, scores the path and stops at every human sign-off.
 
-### 2. **prompt-engineer** (v1.1.0)
-Transform user prompts into optimized prompts using proven frameworks like RTF, RISEN, Chain of Thought, and more.
-- **When to use:** Improving AI prompt quality, optimizing responses
-- **Category:** Automation
-- **Status:** Safe ✅
+The [Agentic SDLC Guide](agentic-sdlc.md) is a reference for later: stages, sign-offs, agents, paths, artifacts, standards mapping and adoption from Spec Kit, Kiro, AI-DLC or BMad. It is not needed before the first run.
 
-### 3. **youtube-summarizer** (v1.2.0)
-Extract and summarize YouTube video content with technical metadata.
-- **When to use:** Processing video transcripts, creating summaries
-- **Category:** Content
-- **Status:** Safe ✅
+---
 
-### 4. **audio-transcriber** (v1.2.0)
-Transcribe audio files to Markdown with speaker detection, meeting minutes generation.
-- **When to use:** Converting audio to text, creating meeting notes
-- **Category:** Content
-- **Status:** Safe ✅
+## 📦 The 23 Skills
+
+| Category | Skills |
+|----------|--------|
+| **Agentic SDLC (20)** | `agentic-sdlc` (router) · Discover: `issue-triage`, `project-context`, `brainstorming` · Specify: `spec-driven-development`, `grill-me`, `codebase-modernization`, `security-hardening` · Design: `senior-solution-architect`, `writing-plans` · Build: `executing-plans`, `test-driven-development`, `systematic-debugging` · Test: `test-strategy`, `verification-gate`, `multi-axis-code-review` · Release: `deployment-pipeline`, `shipping-and-handover` · Operate: `operations-and-incidents`, `retrospective` |
+| **Discovery & orchestration** | `agent-skill-discovery`, `agent-skill-orchestrator` |
+| **Skill creation** | `skill-creator` |
+
+Versions and purposes: [README → Available Skills](../../README.md#-available-skills) and the [Complete Catalog](../../CATALOG.md).
 
 ---
 
@@ -85,30 +82,33 @@ Instead of installing everything, you can install just what you need:
 ### Essential Bundle
 Perfect for getting started:
 ```bash
-npx claude-superskills --bundle essential -y
+npx agentic-sdlc-method --bundle essential -y
 ```
-Includes: **skill-creator**, **prompt-engineer**
+Includes: **agentic-sdlc**, **skill-creator**, **agent-skill-discovery**, **agent-skill-orchestrator**, **brainstorming**, **writing-plans**, **executing-plans**, **grill-me**
 
-### Content Bundle
-For video and audio processing:
+### Agentic SDLC Bundle
+Router plus 19 stage skills, Discover → Operate:
 ```bash
-npx claude-superskills --bundle content -y
+npx agentic-sdlc-method --bundle agentic-sdlc -y
 ```
-Includes: **youtube-summarizer**, **audio-transcriber**
+Includes: 20 skills (see the table above)
 
-### Developer Bundle
-For creating custom skills:
+### Planning Bundle
+For planning a change before building it:
 ```bash
-npx claude-superskills --bundle developer -y
+npx agentic-sdlc-method --bundle planning -y
 ```
-Includes: **skill-creator**
+Includes: **brainstorming**, **spec-driven-development**, **project-context**, **writing-plans**, **executing-plans**, **grill-me**, **agent-skill-orchestrator**
+
+### Other Bundles
+`orchestration` (2) — run `npx agentic-sdlc-method --list-bundles`.
 
 ### All Skills
 Complete collection:
 ```bash
-npx claude-superskills --bundle all -y
+npx agentic-sdlc-method --bundle all -y
 ```
-Includes: all 4 skills
+Includes: all 23 skills
 
 **See [Bundles Guide](../bundles/bundles.md) for detailed descriptions.**
 
@@ -119,9 +119,9 @@ Includes: all 4 skills
 Can't remember a skill name? Search for it:
 
 ```bash
-npx claude-superskills --search "prompt"
-npx claude-superskills --search "video"
-npx claude-superskills --search "transcription"
+npx agentic-sdlc-method --search "plan"
+npx agentic-sdlc-method --search "review"
+npx agentic-sdlc-method --search "debugging"
 ```
 
 Search works across skill names, descriptions, tags, and categories.
@@ -142,9 +142,9 @@ Use short commands for faster typing:
 
 Examples:
 ```bash
-npx claude-superskills i -a -y    # Install all with flags
-npx claude-superskills ls          # Quick list
-npx claude-superskills up          # Update skills
+npx agentic-sdlc-method i -a -y    # Install all with flags
+npx agentic-sdlc-method ls          # Quick list
+npx agentic-sdlc-method up          # Update skills
 ```
 
 ---
@@ -163,9 +163,9 @@ Combine with short flags for maximum efficiency:
 
 Examples:
 ```bash
-npx claude-superskills install -a -y -q    # Install everything silently
-npx claude-superskills list -q             # List without extra formatting
-npx claude-superskills update -g -y        # Global update with confirmation skip
+npx agentic-sdlc-method install -a -y -q    # Install everything silently
+npx agentic-sdlc-method list -q             # List without extra formatting
+npx agentic-sdlc-method update -g -y        # Global update with confirmation skip
 ```
 
 ---
@@ -174,9 +174,14 @@ npx claude-superskills update -g -y        # Global update with confirmation ski
 
 CLI AI Skills works on:
 
-- **🤖 GitHub Copilot CLI** - GitHub's AI coding assistant
-- **🧠 Claude Code** - Anthropic's Claude in VS Code
-- **⚙️ Codex** - OpenAI's code understanding model
+- **🤖 GitHub Copilot CLI** - `~/.copilot/skills/`
+- **🧠 Claude Code** - `~/.claude/skills/` (or the native plugin)
+- **⚙️ OpenAI Codex** - `~/.codex/skills/`
+- **OpenCode** - `~/.agent/skills/`
+- **Gemini CLI** - `~/.gemini/skills/`
+- **Antigravity** - `~/.gemini/antigravity/skills/`
+- **Cursor IDE** - `~/.cursor/skills/`
+- **AdaL CLI** - `~/.adal/skills/`
 
 All skills are compatible with all platforms. Choose what you use!
 
@@ -186,10 +191,11 @@ All skills are compatible with all platforms. Choose what you use!
 
 Now that you're installed, explore:
 
-1. **[Skill Anatomy Guide](skill-anatomy.md)** - Understand how skills work internally
-2. **[Bundles Guide](../bundles/bundles.md)** - Deep dive into skill collections
-3. **[Quality Standards](quality-standards.md)** - Learn best practices for using skills
-4. **[Complete Catalog](../../CATALOG.md)** - Browse all skills with metadata
+1. **[Agentic SDLC Guide](agentic-sdlc.md)** - Stages, sign-offs, agents, paths and artifacts
+2. **[Skill Anatomy Guide](skill-anatomy.md)** - Understand how skills work internally
+3. **[Bundles Guide](../bundles/bundles.md)** - Deep dive into skill collections
+4. **[Quality Standards](quality-standards.md)** - Learn best practices for using skills
+5. **[Complete Catalog](../../CATALOG.md)** - Browse all skills with metadata
 
 ---
 
@@ -201,23 +207,23 @@ Now that you're installed, explore:
 node --version
 
 # Install globally instead of npx
-npm install -g claude-superskills
-npx claude-superskills
+npm install -g agentic-sdlc-method
+npx agentic-sdlc-method
 ```
 
 ### "No platforms detected"
 ```bash
 # Check if your platform is installed
-npx claude-superskills doctor
+npx agentic-sdlc-method doctor
 ```
 
 ### "Permission denied"
 ```bash
 # Try with sudo (not recommended)
-sudo npx claude-superskills -g
+sudo npx agentic-sdlc-method -g
 
 # Or use local install
-npx claude-superskills
+npx agentic-sdlc-method
 ```
 
 ### Need more help?

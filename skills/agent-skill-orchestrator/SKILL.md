@@ -1,6 +1,6 @@
 ---
 name: agent-skill-orchestrator
-description: This skill should be used when the user needs to solve a complex task and wants a detailed execution plan using the best available resources. Analyzes user requirements, discovers available plugins/agents/skills/MCPs, performs intelligent matching with confidence scoring, and creates strategic execution plans with alternatives. Works across all AI CLI platforms.
+description: This skill should be used when the user needs to solve a complex task and wants a detailed execution plan using the best available resources. Analyzes user requirements, discovers available plugins/agents/skills/MCPs, performs intelligent matching with confidence scoring, and creates strategic execution plans with alternatives. Works across all AI CLI platforms. Not for running software delivery through the Agentic SDLC stages (use agentic-sdlc), writing an implementation plan from a spec (use writing-plans), or only listing installed resources (use agent-skill-discovery).
 license: MIT
 ---
 
@@ -57,7 +57,7 @@ Display progress before each orchestration phase:
 - Optimized prompts → precise requirements → high-confidence plans
 - Reduces planning iterations and "Refine plan" cycles
 
-**Prompt Quality Check:** Before planning, assess whether the user request is specific enough to yield accurate resource matching. If the request is fewer than 20 words, lacks a clear action verb or goal, or uses only ambiguous references ("this", "it", "that") without context, invoke `prompt-engineer` to refine it first. A well-refined request improves confidence scores by 20–30% and reduces planning iterations. Proceed directly if the request is already clear.
+**Prompt Quality Check:** Before planning, assess whether the user request is specific enough to yield accurate resource matching. If the request is fewer than 20 words, lacks a clear action verb or goal, or uses only ambiguous references ("this", "it", "that") without context, invoke `prompt-engineer` (knowledge-superskills) to refine it first when it is installed; otherwise ask one clarifying question. A well-refined request improves confidence scores by 20–30% and reduces planning iterations. Proceed directly if the request is already clear.
 
 **Impact on Planning:**
 - ✅ Confidence scores increase 20-30%
@@ -151,6 +151,19 @@ resources = invokeSkill("agent-skill-discovery")
 | MCP integration bonus | 10% | Is this an MCP tool and does the task require external service integrations? |
 
 Total score = 0–100. Filter out resources below 40. Group into tiers: high confidence (≥80), medium (60–79), low (40–59).
+
+### Step 2.5: Software-Delivery Method Check
+
+**Objective:** Propose one end-to-end method instead of a loose chain of skills when the request is software delivery.
+
+**Detect** a software-delivery request: build, fix or change a feature, bug, API, service or migration in a code repository, with code expected to ship (task type development, complexity moderate or complex, or any mention of spec, plan, tests, PR, release or deploy).
+
+**When `agentic-sdlc` is among the discovered resources**, make it the primary strategy:
+- Option 1 names the `agentic-sdlc` router as the single entry point. It selects the path (Quick, Standard, Full) from its path score and dispatches the stage skills itself (Discover → Specify → Design → Build → Test → Release → Operate). Do not sequence the stage skills by hand in this case; list the stages the router is expected to run and the human sign-offs it will ask for (Product Owner, Tech Lead, human reviewer, Release Owner).
+- Option 2 is the loose chain for teams that decline the method: for example `brainstorming` → `writing-plans` → `executing-plans` → `multi-axis-code-review`.
+- A single-stage request (only debug a failing test, only review a PR, only write a spec) goes straight to that stage skill (`systematic-debugging`, `multi-axis-code-review`, `spec-driven-development`) and does not start the full method.
+
+**When `agentic-sdlc` is not installed**, keep the normal plan and add one Notes line: "For end-to-end delivery with approvals, install the `agentic-sdlc` bundle (`npx agentic-sdlc-method`, bundle `agentic-sdlc`)."
 
 ### Step 3: Generate Execution Plan
 
@@ -384,7 +397,7 @@ Display progress during execution:
 ### **ALWAYS:**
 
 - ✅ Assess prompt quality before planning (Step -1) - NEW in v1.1.0
-- ✅ Call prompt-engineer if quality score < 50% for optimal results
+- ✅ Call prompt-engineer (when installed) if quality score < 50% for optimal results
 - ✅ Start with fresh discovery (Step 0) on every invocation
 - ✅ Show confidence scores with reasoning for all recommendations
 - ✅ Provide multiple options (Option 1, Option 2) when feasible
@@ -395,6 +408,7 @@ Display progress during execution:
 - ✅ Handle missing resources gracefully (suggest alternatives or abort)
 - ✅ Report progress during execution (if Step 6 is reached)
 - ✅ Explain reasoning for each resource selection
+- ✅ Propose the `agentic-sdlc` router as Option 1 for multi-stage software-delivery requests when it is installed (Step 2.5)
 
 ### **ORCHESTRATION PRINCIPLES:**
 

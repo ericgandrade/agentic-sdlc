@@ -1,0 +1,22 @@
+{
+  "skill_name": "security-hardening",
+  "description": "Triggers for threat modelling a spec, abuse cases as negative acceptance criteria, security notes, hardening, secrets, dependency audits, AI-use data rules, the L3 security review lens and SSDF evidence mapping",
+  "queries": [
+    {"id": 1, "query": "Threat-model the CSV export spec before the Product Owner signs it", "should_trigger": true},
+    {"id": 2, "query": "spec-lint reports TM03 on our threat-model.md, how do I fix it?", "should_trigger": true},
+    {"id": 3, "query": "Run the security lens L3 on this PR diff", "should_trigger": true},
+    {"id": 4, "query": "gitleaks found an API key in my branch that is already pushed — what now?", "should_trigger": true},
+    {"id": 5, "query": "npm audit shows a high advisory in a transitive dependency, can we merge?", "should_trigger": true},
+    {"id": 6, "query": "Turn these abuse cases into negative acceptance criteria", "should_trigger": true},
+    {"id": 7, "query": "Can I paste customer emails into the AI assistant to debug this import?", "should_trigger": true},
+    {"id": 8, "query": "Map the GDPR obligations for this spec to controls and evidence", "should_trigger": true},
+    {"id": 9, "query": "Which NIST SSDF practices does our development process produce evidence for?", "should_trigger": true},
+    {"id": 10, "query": "Write the spec with acceptance criteria for the order export feature", "should_trigger": false},
+    {"id": 11, "query": "Design the acceptance test strategy and coverage floor for this spec", "should_trigger": false},
+    {"id": 12, "query": "Merge all review lenses into one GO/NO-GO verdict for PR #88", "should_trigger": false},
+    {"id": 13, "query": "Set up branch protection and the staging-to-production deploy pipeline", "should_trigger": false},
+    {"id": 14, "query": "Production is down after the release — start the incident", "should_trigger": false},
+    {"id": 15, "query": "Write a failing test first for the discount calculation", "should_trigger": false},
+    {"id": 16, "query": "Compare event sourcing versus CRUD for this service and write an ADR", "should_trigger": false}
+  ]
+}

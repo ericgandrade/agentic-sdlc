@@ -50,7 +50,7 @@ if [ -z "$CURRENT_VERSION" ]; then
   exit 1
 fi
 
-echo "📦 Bumping claude-superskills version"
+echo "📦 Bumping agentic-sdlc-method version"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "Current version: $CURRENT_VERSION"
@@ -59,7 +59,7 @@ echo ""
 
 # Check if version already published (for non-prerelease)
 if [[ ! "$VERSION_TYPE" =~ ^pre ]]; then
-  PUBLISHED_VERSION=$(npm view claude-superskills version 2>/dev/null || echo "0.0.0")
+  PUBLISHED_VERSION=$(npm view agentic-sdlc-method version 2>/dev/null || echo "0.0.0")
   
   if [ "$CURRENT_VERSION" = "$PUBLISHED_VERSION" ]; then
     echo "⚠️  Warning: Current version $CURRENT_VERSION is already published on npm"

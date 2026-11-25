@@ -1,0 +1,65 @@
+{
+  "skill_name": "test-driven-development",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Implement task T3 from specs/012-csv-export/plan.md. AC-4: Given a filter matching more than 50,000 rows, When a manager requests the CSV export, Then the API returns 422 with code ROW_LIMIT. Interface: exportCsv(filter: ReportFilter, user: User): Promise<ExportResult>. Files: src/report/export.ts, test/report/export.test.ts. The project uses Vitest and a seeded SQLite test database.",
+      "expected_output": "A red-green-refactor cycle for AC-4: a single named test written first, run alone, failing for the expected reason with the output pasted, minimal code to pass, a name-the-break check, a commit with the Refs trailer and a task report",
+      "expectations": [
+        "Output writes the test before any production code and names it with the AC ID, for example 'AC-4 more than 50,000 rows returns 422 ROW_LIMIT'",
+        "Output runs only that test first, shows or asks for the failing output, and checks it fails on the assertion or missing symbol rather than a syntax, import or setup error",
+        "Output uses the seeded test database as the real collaborator and does not mock the repository or the module under test",
+        "Output writes minimal code to pass, then runs the module's other tests before refactoring",
+        "Output applies at least one mutation (for example removing or changing the 50,000 limit) and confirms the test fails against it before reverting",
+        "Output commits with the trailer 'Refs: T3 AC-4' and records red and round events with run-ledger or pastes them into the task report when Node is absent"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Bug BUG-418: on the orders report, an empty filter returns zero rows instead of only the header row in the CSV. Quick path, the issue already has the acceptance test. Fix it.",
+      "expected_output": "Bug-fix variant: a reproduce-first regression test named BUG-418 at the correct seam, watched failing with the reported symptom, then the minimal fix, then the full module tests",
+      "expectations": [
+        "Output writes a regression test named with BUG-418 before touching the fix",
+        "Output runs the test and confirms it fails with the reported symptom (no header row) rather than an unrelated error",
+        "Output places the test at the seam where the bug occurs (the CSV export interface the caller uses), not at a private helper",
+        "Output explains what happens if no seam reproduces the bug: a missing-seam finding and NEEDS_CONTEXT instead of a fix without a failing test",
+        "Output makes the minimal fix, watches the test pass and runs the touched module's tests before claiming the fix"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "We're behind schedule. I already wrote the discount calculation in src/pricing/discount.py last night and it works, I tested it by hand. Just add a few tests after the fact so CI is happy, and skip the flaky test_tax_rounding test for now. No need for the red step.",
+      "expected_output": "A refusal to write tests after the code or to skip a test, with the rule applied: code written before its test is set aside, the test is written and seen failing first, and the flaky test is fixed rather than skipped",
+      "expectations": [
+        "Output does not agree to write tests after the code as the closing evidence for the task",
+        "Output states that code written before its failing test is deleted or set aside and rebuilt from a red test, and explains that a test written after passes by construction",
+        "Output refuses to skip or disable test_tax_rounding and identifies skipping as weakening a check (an authority violation)",
+        "Output proposes diagnosing the flaky test (sleeping, order dependence or real clock) instead of skipping it",
+        "Output offers the fastest compliant path, for example writing one named AC test, watching it fail with the code removed, then restoring the minimal code"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "My new test for T5 ('AC-2 duplicate email is rejected') passed on the very first run before I wrote any code. Also my unit test for the signup service mocks the user repository, the email validator, the password hasher and the mailer. Is that fine? Can I commit?",
+      "expected_output": "A diagnosis that the first-run pass proves nothing and the over-mocked test hides integration, with a concrete rewrite plan before commit",
+      "expectations": [
+        "Output says a new test that passes before production code exists must be deleted and rewritten, or reclassified as a CHAR-n characterization test if the behaviour already exists",
+        "Output flags mocking the validator and hasher as over-mocking of in-process collaborators that should stay real",
+        "Output keeps at most the mailer mocked as a process boundary, and the repository real through a test database or in-memory fake",
+        "Output requires a one-line justification comment for any second mocked collaborator",
+        "Output does not approve the commit until a red output for the AC-2 test is recorded"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "I've tried three times to make 'AC-3 expired invitation returns 410' pass on task T7 and it still fails with 'expected 410, got 500'. Let me try one more quick fix.",
+      "expected_output": "The red-green bound is applied: after 3 failed attempts the work switches to the debug loop instead of a fourth quick fix",
+      "expectations": [
+        "Output states the red-green loop is bounded at 3 failed attempts and that the bound is reached",
+        "Output switches to the debug loop (systematic debugging) rather than attempting a fourth fix",
+        "Output records the failed rounds with signature, cause and tried approach, for example with run-ledger round",
+        "Output does not weaken the assertion, change the expected status or skip the test to reach green"
+      ]
+    }
+  ]
+}

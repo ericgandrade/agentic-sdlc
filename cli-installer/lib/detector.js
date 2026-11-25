@@ -509,7 +509,7 @@ Install at least one of the following tools:
 📦 Google Antigravity:
    https://antigravity.google/download
 
-After installing, run again: npx claude-superskills
+After installing, run again: npx agentic-sdlc-method
   `;
 }
 

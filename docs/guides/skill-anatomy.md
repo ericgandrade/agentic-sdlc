@@ -100,12 +100,38 @@ The installer handles copying skills into each platform's global skill directory
 ## Example
 
 ```text
-skills/prompt-engineer/
+skills/skill-creator/
   SKILL.md
   README.md
 ```
 
 `SKILL.md` contains the executable workflow. `README.md` contains the richer metadata, explanation, and supporting guidance.
+
+### Multi-File Example: the `agentic-sdlc` Router
+
+Larger skills keep `SKILL.md` short and move depth into files that load only when a step needs them. The Agentic SDLC router is the largest example in the repository:
+
+```text
+skills/agentic-sdlc/
+  SKILL.md            # router: state detection, path score, stage hand-off, module index
+  README.md           # metadata, install and first run
+  agents/             # 13 functional agent briefs (scrum-master.md, analyst.md, ... sre.md)
+  references/         # normative rules loaded on demand (lifecycle, governance, paths, artifacts, quickstart, ...)
+  templates/          # artifact templates (spec, ux, plan, PR body, release notes, runbook, CI, ...)
+  scripts/            # dependency-free Node >= 18 checks: spec-lint, plan-graph, preflight, run-ledger, budget-check
+    lib/              #   shared helpers
+    test/             #   node --test suites and fixtures
+  examples/
+    worked-example/   # one change carried through every stage; also the scripts' test fixture
+  evals/              # trigger and behaviour evaluations
+```
+
+Patterns worth reusing:
+
+- **Router plus stage skills.** The router owns sequencing and hand-off; the 19 stage skills (`issue-triage`, `spec-driven-development`, `test-driven-development`, ...) stay independently installable and usable on their own.
+- **Agent briefs.** Each file in `agents/` states what the agent reads, what it never sees, its skills, allowed and forbidden actions, tools and its report format.
+- **Word budgets.** `scripts/budget-check.mjs` enforces budgets on `SKILL.md`, references, agent briefs and the first-run path, so the context an agent loads stays bounded.
+- **Scripts with manual fallbacks.** Every script has a Markdown rule that an agent can apply by hand when Node is not available.
 
 ## Anti-Patterns
 

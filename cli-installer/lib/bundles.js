@@ -6,7 +6,9 @@ const fs = require('fs');
 const path = require('path');
 
 function loadBundles() {
-  const bundlesPath = path.join(__dirname, '../../bundles.json');
+  // Packaged copy (npm, written by prepack) first, then the repository root.
+  const candidates = [path.join(__dirname, '../bundles.json'), path.join(__dirname, '../../bundles.json')];
+  const bundlesPath = candidates.find((p) => fs.existsSync(p)) || candidates[1];
   try {
     return JSON.parse(fs.readFileSync(bundlesPath, 'utf8'));
   } catch (e) {

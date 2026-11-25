@@ -1,0 +1,22 @@
+{"v":1,"seq":1,"ts":"2026-11-25T00:05:34.948Z","type":"start","run":"s1","mode":"attended","plan":"specs/001-price-format/plan.md","spec":"specs/001-price-format/spec.md","base":"1a3c62f83781edcb712be325649f601a17eb3e5b","branch":"feat/001-price-format","worktree":null,"hashes":{"plan":"aad1222c3fd3","spec":"46743045b021"},"budgets":{"max_tasks":15,"max_rounds":5,"max_hours":4,"max_turns":300,"max_tokens":null},"tasks":[{"id":"T1","blockedBy":[]},{"id":"T2","blockedBy":["T1"]},{"id":"T3","blockedBy":["T1"]}]}
+{"v":1,"seq":2,"ts":"2026-11-25T00:05:35.802Z","type":"preflight","ok":false,"head":"1a3c62f83781edcb712be325649f601a17eb3e5b","failed":["baseline-dod"]}
+{"v":1,"seq":3,"ts":"2026-11-25T00:06:01.675Z","type":"preflight","ok":true,"head":"a5e10c786da5083c248066c176c0c5ce8900ec01","failed":[]}
+{"v":1,"seq":4,"ts":"2026-11-25T00:06:07.763Z","type":"check","findings":{"changed":1,"outOfPlan":["test/price.acceptance.test.js"],"dependency":[],"secrets":[],"approvals":{"specChanged":false,"planChanged":false},"budget":{"use":{"tasks":0,"hours":0.01,"turns":0,"tokens":0},"over":[]}}}
+{"v":1,"seq":5,"ts":"2026-11-25T00:06:07.806Z","type":"task","task":"T1","state":"started"}
+{"v":1,"seq":6,"ts":"2026-11-25T00:06:21.907Z","type":"red","task":"T1","test":"AC-1 formats 123456 USD cents in en-US as $1,234.56","signature":"ERR_MODULE_NOT_FOUND: Cannot find module src/price.js"}
+{"v":1,"seq":7,"ts":"2026-11-25T00:06:22.010Z","type":"round","task":"T1","loop":"red-green","result":"pass","cause":null,"round":1}
+{"v":1,"seq":8,"ts":"2026-11-25T00:06:26.784Z","type":"task","task":"T1","state":"done","commit":"97ddabc07097"}
+{"v":1,"seq":9,"ts":"2026-11-25T00:06:26.843Z","type":"check","findings":{"changed":3,"outOfPlan":["test/price.acceptance.test.js"],"dependency":[],"secrets":[],"approvals":{"specChanged":false,"planChanged":false},"budget":{"use":{"tasks":1,"hours":0.01,"turns":0,"tokens":0},"over":[]}}}
+{"v":1,"seq":10,"ts":"2026-11-25T00:06:31.768Z","type":"task","task":"T2","state":"started"}
+{"v":1,"seq":11,"ts":"2026-11-25T00:06:37.574Z","type":"red","task":"T2","test":"AC-4 rejects amounts that are not safe integers","signature":"Missing expected exception (RangeError)."}
+{"v":1,"seq":12,"ts":"2026-11-25T00:06:37.613Z","type":"red","task":"T2","test":"AC-5 rejects malformed currency codes and locale tags","signature":"Missing expected exception (RangeError)."}
+{"v":1,"seq":13,"ts":"2026-11-25T00:06:41.519Z","type":"round","task":"T2","loop":"red-green","result":"pass","cause":null,"round":1}
+{"v":1,"seq":14,"ts":"2026-11-25T00:06:48.752Z","type":"task","task":"T2","state":"done","commit":"7d8182fb1ac8"}
+{"v":1,"seq":15,"ts":"2026-11-25T00:06:48.818Z","type":"check","findings":{"changed":3,"outOfPlan":["test/price.acceptance.test.js"],"dependency":[],"secrets":[],"approvals":{"specChanged":false,"planChanged":false},"budget":{"use":{"tasks":2,"hours":0.02,"turns":0,"tokens":0},"over":[]}}}
+{"v":1,"seq":16,"ts":"2026-11-25T00:06:48.855Z","type":"task","task":"T3","state":"started"}
+{"v":1,"seq":17,"ts":"2026-11-25T00:06:56.208Z","type":"red","task":"T3","test":"AC-1 formatPrice is exported from the package entry point","signature":"SyntaxError: does not provide an export named 'formatPrice'"}
+{"v":1,"seq":18,"ts":"2026-11-25T00:06:56.296Z","type":"round","task":"T3","loop":"red-green","result":"fail","signature":"AC-1 formatPrice is exported… / ERR_MODULE_NOT_FOUND ./price","cause":"code","tried":"re-export without .js extension","round":1}
+{"v":1,"seq":19,"ts":"2026-11-25T00:06:56.397Z","type":"round","task":"T3","loop":"red-green","result":"pass","cause":null,"round":2}
+{"v":1,"seq":20,"ts":"2026-11-25T00:07:01.500Z","type":"task","task":"T3","state":"done","commit":"cc0d9f4d669e"}
+{"v":1,"seq":21,"ts":"2026-11-25T00:07:01.565Z","type":"check","findings":{"changed":5,"outOfPlan":["test/price.acceptance.test.js"],"dependency":[],"secrets":[],"approvals":{"specChanged":false,"planChanged":false},"budget":{"use":{"tasks":3,"hours":0.02,"turns":0,"tokens":0},"over":[]}}}
+{"v":1,"seq":22,"ts":"2026-11-25T00:07:11.167Z","type":"finish","status":"DONE","reason":"3 of 3 tasks done"}

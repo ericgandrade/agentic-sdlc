@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # =============================================================================
-# claude-superskills — Local Installer (no npm/npx required)
+# The Agentic SDLC Method — Local Installer (no npm/npx required)
 #
 # Use this when you have cloned the repository locally and want to install
 # skills directly from the skills/ directory, without downloading anything.
@@ -51,7 +51,7 @@ step() { [[ "$QUIET" == false ]] && echo -e "\n${BOLD}${CYAN}▸${NC} $*" || tru
 show_help() {
   cat <<EOF
 
-${BOLD}claude-superskills — Local Installer${NC}
+${BOLD}The Agentic SDLC Method — Local Installer${NC}
 
 Installs skills from the local ${BOLD}skills/${NC} directory directly into your
 platform skill directories. No npm, no npx, no internet required.
@@ -76,8 +76,8 @@ ${BOLD}INSTALL PATHS:${NC}
 
 ${BOLD}EXAMPLES:${NC}
   # Clone the repo and install interactively
-  git clone https://github.com/ericgandrade/claude-superskills
-  cd claude-superskills
+  git clone https://github.com/ericgandrade/agentic-sdlc
+  cd agentic-sdlc
   ./scripts/local-install.sh
 
   # Auto-install to all detected platforms
@@ -305,7 +305,7 @@ install_for_platform() {
 main() {
   parse_args "$@"
 
-  [[ "$QUIET" == false ]] && echo -e "\n${BOLD}${CYAN}🚀 claude-superskills — Local Installer${NC}\n"
+  [[ "$QUIET" == false ]] && echo -e "\n${BOLD}${CYAN}🚀 The Agentic SDLC Method — Local Installer${NC}\n"
 
   # Verify skills/ source exists
   if [[ ! -d "$SKILLS_DIR" ]]; then

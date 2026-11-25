@@ -1,0 +1,82 @@
+{
+  "skill_name": "retrospective",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "specs/009-bulk-refund (Standard path) reached 100% rollout on Monday 2026-12-14. The run ledger is archived at specs/009-bulk-refund/run-ledger.jsonl and the PR #251 body has the Review triage. The last retro, docs/retros/2026-11-30.md, has one open action RA-20261130-1 (add a CI check for unpinned Docker base images, owner Tech Lead). Act as the Scrum Master agent and prepare the retro.",
+      "expected_output": "A retro draft at docs/retros/<date>.md from templates/retro.md with a due date of 2026-12-21, Facts drafted from the named sources with commands, the prior action checked against git, candidate Change items with cause tags and seen-before lookups, proposed actions marked proposed, and the turn ended for the named human facilitator",
+      "expectations": [
+        "Output computes the due date as 5 business days after 2026-12-14 (2026-12-21) and sets the timebox to 15 minutes for a Standard retro",
+        "Output gathers loop rounds with node skills/agentic-sdlc/scripts/run-ledger.mjs status --ledger specs/009-bulk-refund/run-ledger.jsonl (or the plan.md Loop ledger) rather than from memory",
+        "Output checks RA-20261130-1 by searching git for a commit with the trailer Refs: RA-20261130-1 that changes the named target file, and records done <SHA> or open with its cycle count",
+        "Output fills every Facts row with a value and source, or n/a with a reason, and distinguishes 0 found after checking from never checked",
+        "Output leaves owners and final actions to the humans in the meeting, marks drafted actions as proposed, and ends the turn after presenting the draft to the facilitator (human Scrum Master or Tech Lead)",
+        "Output does not name a person as the cause of any observation"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The export feature went fine, honestly nothing went wrong. Skip the retro for specs/011-saved-filters and let's go straight to releasing the next item. If you need an action just write 'be more careful with mocks next time' and assign it to the AI.",
+      "expected_output": "A refusal to skip: the retro is part of every cycle, an overdue retro makes the next Release NO-GO through checklist R9, the minimum is a 15-minute retro with one valid action, and the proposed action is rejected because it has no target file and an agent cannot own actions",
+      "expectations": [
+        "Output refuses to skip the retro and states that a cycle that went fine still needs a 15-minute retro with at least one action",
+        "Output states that a retro past its due date makes the next Release NO-GO (release checklist R9) and that status reports it as the next step",
+        "Output rejects 'be more careful with mocks next time' as an observation, not an action, because it changes no named file",
+        "Output rejects assigning the action to the AI and requires a named human owner (role and person)",
+        "Output proposes a valid alternative shape: an action with an ID RA-YYYYMMDD-n, one verb phrase, a target file such as a lint config or the AGENTS.md Pitfalls section, and a due date within 14 days",
+        "Output offers to draft the facts and agenda now so the retro can be held quickly"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "At today's retro for specs/014-push-digest, C-1 says the Developer agent again wrote a unit test that calls the real clock instead of the injected one. AGENTS.md already has a pitfall line about this from 2026-11-20, and docs/retros/2026-11-20.md tagged the same problem test-gap. The engineer proposing the fix is S. Ibarra. Write the action.",
+      "expected_output": "An automated-control action (lint rule, test or CI check) because the test-gap tag recurs within 90 days and the existing pitfall line did not prevent it, with a named owner, a target file, a due date within 14 days, an approver other than the proposer, and a plan to prove the check fails on a seeded violation",
+      "expectations": [
+        "Output identifies the recurrence: same cause tag test-gap in two retros within 90 days, recorded in the Seen before column",
+        "Output requires an automated control (for example a lint rule banning direct clock calls in test files or a CI check) and rejects another AGENTS.md line as the only answer",
+        "Output names an approver for the control who is not S. Ibarra, recorded in the Control approved by column",
+        "Output gives the action an ID RA-YYYYMMDD-n, one owner, a target file path and a due date no more than 14 days after the retro",
+        "Output requires the check to be shown failing on a deliberately seeded violation and passing on clean code before the action is closed",
+        "Output states that the action closes only with a merged commit that changes the target file and carries Refs: RA-YYYYMMDD-n"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The Product Owner wants to close specs/016-self-serve-cancellation as accepted at today's retro. The indicator is 'cancellation support tickets, baseline 40/month, target <= 15/month, monthly help-desk count'. The release was 9 days ago and the help-desk dashboard has been down for a week, so there is no reading. Just mark it accepted, the feature obviously works.",
+      "expected_output": "No accepted decision without a reading: the indicator verdict is n/a with the reason, the outcome decision is hold with a next-reading date, the item is carried to the next retro, and the Product Owner's decision is recorded as their own words, never invented by the agent",
+      "expectations": [
+        "Output records the indicator as n/a with the reason (dashboard down) and does not estimate or invent a number",
+        "Output refuses to record accepted from absent data and proposes hold with a dated next reading",
+        "Output places the held outcome decision in the Carried section so it is the first agenda item of the next retro",
+        "Output notes that the agent drafts the verdict while only the Product Owner decides, and that a decision made against the evidence is recorded with the person's exact words and reason",
+        "Output raises the missing reading as a Change item with cause tag ops-signal or an action restoring the indicator source"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Epic 'multi-currency checkout' was delivered as specs/020-currency-model, 021-price-display, 022-payment-routing and 023-refund-currency, all Full path. The last one reached 100% today. Prepare what the Full retro needs, including the cross-item view.",
+      "expected_output": "A Full retro preparation (45-minute timebox) with the Full additions checks and an epic aggregate table across the four specs: loop rounds and escalations per spec, findings by severity, Critical after Test sign-off, approval wait per sign-off, defects escaped, plus seam and drift checks across items",
+      "expectations": [
+        "Output sets a 45-minute timebox and includes the Full additions: threat-model mitigations verified or residual, runbook first check executed since release, sign-off wait times",
+        "Output builds one aggregate row per spec from run-ledger status, PR Review triage, approvals.md and postmortems, with a source per value",
+        "Output computes approval wait as request time to answer time per sign-off from approvals.md and the PR review timestamps",
+        "Output counts defects escaped (Critical after Test sign-off, reverts or hotfixes within 7 days, from-production issues) per spec",
+        "Output checks seams between items (duplicated solutions, pattern divergence, dropped or reinterpreted acceptance criteria) and records each candidate with file or commit evidence",
+        "Output turns each aggregate gap into a Change item with one cause tag rather than a free-text conclusion"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Prepare the retro for specs/018-webhook-retries (v5.1.0 at 100% on 2026-12-07). docs/postmortems/2026-12-09-webhook-backlog.md (SEV2) lists PA-20261209-1 (add a queue-depth alert, owner SRE on-call M. Silva, target alerts/webhooks.yml, open) and PA-20261209-2 (done). ops.md also shows four SEV4 alert fires between 2026-12-10 and 2026-12-14. Just fold the open postmortem item into a new retro action so we only track one list.",
+      "expected_output": "Keeps PA-20261209-1 under its own ID in §Prior actions (not renamed to RA-), checks for a merged commit with Refs: PA-20261209-1 that changes alerts/webhooks.yml, counts 1 SEV2 incident and excludes the SEV4 fires from incidents while raising them as an alert-noise candidate, and runs the recurrence lookup including the postmortem's cause tags.",
+      "expectations": [
+        "Lists PA-20261209-1 in §Prior actions with its original ID, owner, target file and status; does not re-issue it as an RA- action",
+        "Checks closure with git log --grep='Refs: PA-20261209-1' plus a changed alerts/webhooks.yml on the default branch; records open, not done, when no such commit exists",
+        "Records incidents since release as 1 (SEV2) with the postmortem path as source and does not count the SEV4 fires as incidents",
+        "Turns the four SEV4 fires (≥ 3 in 7 days without an incident) into a candidate Change item tagged ops-signal with ops.md as evidence",
+        "Includes the postmortem's cause tags in the 90-day seen-before lookup for every candidate Change item",
+        "Ends the turn with a draft record; does not commit it or assign owners"
+      ]
+    }
+  ]
+}

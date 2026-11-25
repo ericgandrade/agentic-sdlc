@@ -1,0 +1,155 @@
+{
+  "schema": 1,
+  "path": "Standard",
+  "planHash": "4da2f0c5aea8",
+  "review": "combined",
+  "taskCount": 5,
+  "acs": [
+    "AC-1",
+    "AC-2",
+    "AC-3",
+    "AC-4"
+  ],
+  "nodes": [
+    {
+      "id": "T1",
+      "title": "Escape formula prefixes in a pure CSV serializer",
+      "acs": [
+        "AC-2"
+      ],
+      "blockedBy": [],
+      "files": [
+        "server/src/export/csv.ts",
+        "server/test/export/csv.test.ts"
+      ],
+      "sizeHours": 3,
+      "wave": 1
+    },
+    {
+      "id": "T2",
+      "title": "Add the `reports:export` permission and its middleware",
+      "acs": [
+        "AC-3"
+      ],
+      "blockedBy": [],
+      "files": [
+        "server/src/auth/permissions.ts",
+        "server/test/auth/permissions.test.ts"
+      ],
+      "sizeHours": 2,
+      "wave": 1
+    },
+    {
+      "id": "T3",
+      "title": "Stream the filtered rows from the export route with the 50,000-row limit",
+      "acs": [
+        "AC-1",
+        "AC-4"
+      ],
+      "blockedBy": [
+        "T1",
+        "T2"
+      ],
+      "files": [
+        "server/src/routes/reports/export.ts",
+        "server/test/routes/reports/export.test.ts"
+      ],
+      "sizeHours": 4,
+      "wave": 2
+    },
+    {
+      "id": "T4",
+      "title": "Fix the column order, ISO dates and 2-decimal totals",
+      "acs": [
+        "AC-1"
+      ],
+      "blockedBy": [
+        "T1"
+      ],
+      "files": [
+        "server/src/export/csv.ts",
+        "server/test/export/csv.test.ts",
+        "server/test/routes/reports/export.test.ts"
+      ],
+      "sizeHours": 2,
+      "wave": 3
+    },
+    {
+      "id": "T5",
+      "title": "Add the Export CSV button and its API client call",
+      "acs": [
+        "AC-1"
+      ],
+      "blockedBy": [
+        "T3"
+      ],
+      "files": [
+        "web/src/api/reports.ts",
+        "web/src/api/__tests__/reports.test.ts",
+        "web/src/reports/ExportButton.tsx",
+        "web/src/reports/__tests__/ExportButton.test.tsx"
+      ],
+      "sizeHours": 4,
+      "wave": 3
+    }
+  ],
+  "edges": [
+    {
+      "from": "T1",
+      "to": "T3",
+      "type": "blocks"
+    },
+    {
+      "from": "T2",
+      "to": "T3",
+      "type": "blocks"
+    },
+    {
+      "from": "T1",
+      "to": "T4",
+      "type": "blocks"
+    },
+    {
+      "from": "T3",
+      "to": "T5",
+      "type": "blocks"
+    },
+    {
+      "from": "T3",
+      "to": "T4",
+      "type": "file-conflict",
+      "files": [
+        "server/test/routes/reports/export.test.ts"
+      ]
+    }
+  ],
+  "waves": [
+    [
+      "T1",
+      "T2"
+    ],
+    [
+      "T3"
+    ],
+    [
+      "T4",
+      "T5"
+    ]
+  ],
+  "conflicts": [
+    {
+      "tasks": [
+        "T3",
+        "T4"
+      ],
+      "files": [
+        "server/test/routes/reports/export.test.ts"
+      ],
+      "resolution": "T4 runs in wave 3, after T3 (wave 2)"
+    }
+  ],
+  "initialFrontier": [
+    "T1",
+    "T2"
+  ]
+}

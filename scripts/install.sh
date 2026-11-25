@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
 # CLI AI Skills Installer
-# https://github.com/ericgandrade/claude-superskills
+# https://github.com/ericgandrade/agentic-sdlc
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
-#   wget -qO- https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
+#   wget -qO- https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 #
 # Options:
 #   --yes, -y              Skip all confirmations
@@ -21,8 +21,8 @@ INSTALLER_VERSION="1.0.0"
 
 # Configuration
 MIN_NODE_VERSION="16.0.0"
-PACKAGE_NAME="claude-superskills"
-REPO_URL="https://github.com/ericgandrade/claude-superskills"
+PACKAGE_NAME="agentic-sdlc-method"
+REPO_URL="https://github.com/ericgandrade/agentic-sdlc"
 
 # Flags
 SKIP_CONFIRMATION=false
@@ -90,8 +90,8 @@ show_help() {
 ${BOLD}CLI AI Skills Installer${NC} v${INSTALLER_VERSION}
 
 ${BOLD}USAGE:${NC}
-    curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
-    wget -qO- https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
+    wget -qO- https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 
 ${BOLD}OPTIONS:${NC}
     -y, --yes              Skip all confirmations (non-interactive mode)
@@ -102,10 +102,10 @@ ${BOLD}OPTIONS:${NC}
 
 ${BOLD}EXAMPLES:${NC}
     # Interactive install
-    curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash
 
     # Non-interactive (CI/CD)
-    curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash -s -- --yes
+    curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash -s -- --yes
 
 ${BOLD}REQUIREMENTS:${NC}
     - Node.js >= ${MIN_NODE_VERSION}
@@ -407,7 +407,7 @@ display_tools_table() {
     echo ""
 }
 
-# Install claude-superskills
+# Install agentic-sdlc-method
 install_cli_ai_skills() {
     print_step "Installing ${PACKAGE_NAME}..."
     
@@ -432,8 +432,8 @@ install_cli_ai_skills() {
 verify_installation() {
     verbose "Verifying installation..."
     
-    if command -v claude-superskills &> /dev/null; then
-        local installed_version=$(claude-superskills --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "unknown")
+    if command -v agentic-sdlc-method &> /dev/null; then
+        local installed_version=$(agentic-sdlc-method --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1 || echo "unknown")
         verbose "Installed version: $installed_version"
         print_success "Installation verified (v${installed_version})"
         return 0
@@ -456,10 +456,10 @@ show_post_install() {
     print_step "Next Steps"
     echo ""
     echo "1. Run the installer:"
-    echo "   ${CYAN}claude-superskills${NC}"
+    echo "   ${CYAN}agentic-sdlc-method${NC}"
     echo ""
     echo "2. Or use npx (no install needed):"
-    echo "   ${CYAN}npx claude-superskills${NC}"
+    echo "   ${CYAN}npx agentic-sdlc-method${NC}"
     echo ""
     
     # Count installed tools
@@ -491,7 +491,7 @@ show_post_install() {
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]; then
             echo ""
-            exec claude-superskills
+            exec agentic-sdlc-method
         fi
     fi
 }
@@ -528,8 +528,8 @@ main() {
             echo ""
             echo "Please use:"
             echo "  • WSL (Windows Subsystem for Linux)"
-            echo "  • Git Bash (install via: npm install -g claude-superskills)"
-            echo "  • Or: npx claude-superskills"
+            echo "  • Git Bash (install via: npm install -g agentic-sdlc-method)"
+            echo "  • Or: npx agentic-sdlc-method"
             exit 1
             ;;
         *)

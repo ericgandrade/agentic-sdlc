@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # optimize-all-skills.sh
 # Runs evals for all skills and reports a summary of trigger accuracy and output quality.
-# Requires: claude-superskills installed, skill-creator skill available.
+# Requires: agentic-sdlc-method installed, skill-creator skill available.
 #
 # Usage:
 #   ./scripts/optimize-all-skills.sh                    # Run all skills
-#   ./scripts/optimize-all-skills.sh --skill deep-research  # Run one skill
+#   ./scripts/optimize-all-skills.sh --skill agentic-sdlc  # Run one skill
 #   ./scripts/optimize-all-skills.sh --evals-only       # Skip trigger-eval, only evals.json
 #   ./scripts/optimize-all-skills.sh --trigger-only     # Only run trigger-eval.json
 
@@ -33,7 +33,7 @@ done
 mkdir -p "$RESULTS_DIR"
 
 echo "======================================================"
-echo "  claude-superskills: Optimize All Skills"
+echo "  agentic-sdlc: Optimize All Skills"
 echo "  Results: $RESULTS_DIR"
 echo "======================================================"
 echo ""
@@ -99,6 +99,6 @@ echo "  Skipped (no evals): $SKIP"
 echo "  Results saved to:   $RESULTS_DIR"
 echo ""
 echo "  To run evals with the skill-creator, use:"
-echo "  /claude-superskills:skill-creator"
+echo "  /agentic-sdlc:skill-creator"
 echo "  Then: 'Run evals for [skill-name]'"
 echo "======================================================"

@@ -1,46 +1,99 @@
 {
-  "version": "2.0.0",
-  "generated": "2026-05-08T00:00:00Z",
+  "version": "3.0.0",
+  "generated": "2026-11-25T00:00:00Z",
   "bundles": {
     "essential": {
       "name": "Essential",
-      "description": "Core skills for orchestration, planning, and skill creation.",
-      "skills": ["skill-creator", "prompt-engineer", "agent-skill-discovery", "agent-skill-orchestrator", "brainstorming", "writing-plans", "executing-plans", "grill-me"],
+      "description": "Core skills for orchestration, planning, skill creation, and the Agentic SDLC router.",
+      "skills": [
+        "agentic-sdlc",
+        "skill-creator",
+        "agent-skill-discovery",
+        "agent-skill-orchestrator",
+        "brainstorming",
+        "writing-plans",
+        "executing-plans",
+        "grill-me"
+      ],
       "target": "All users"
     },
     "planning": {
       "name": "Planning",
       "description": "Full planning and execution workflow.",
-      "skills": ["brainstorming", "writing-plans", "executing-plans", "grill-me", "agent-skill-orchestrator"],
+      "skills": [
+        "brainstorming",
+        "spec-driven-development",
+        "project-context",
+        "writing-plans",
+        "executing-plans",
+        "grill-me",
+        "agent-skill-orchestrator"
+      ],
       "target": "Developers, architects"
-    },
-    "research": {
-      "name": "Research",
-      "description": "Deep research, solution architecture, and program discovery.",
-      "skills": ["deep-research", "us-program-research", "senior-solution-architect", "webpage-reader", "prompt-engineer"],
-      "target": "Researchers, architects, consultants"
-    },
-    "content": {
-      "name": "Content & Media",
-      "description": "Content processing, media transcription, and document conversion.",
-      "skills": ["youtube-summarizer", "audio-transcriber", "pptx-translator", "document-converter", "storytelling-expert"],
-      "target": "Content creators, consultants"
     },
     "orchestration": {
       "name": "Orchestration",
       "description": "Skill discovery and orchestration.",
-      "skills": ["agent-skill-discovery", "agent-skill-orchestrator"],
+      "skills": [
+        "agent-skill-discovery",
+        "agent-skill-orchestrator"
+      ],
       "target": "Power users, AI builders"
+    },
+    "agentic-sdlc": {
+      "name": "Agentic SDLC",
+      "description": "End-to-end AI-assisted software delivery: router plus 19 stage skills from Discover to Operate, with human sign-offs, bounded loops and evidence-based verification.",
+      "skills": [
+        "agentic-sdlc",
+        "issue-triage",
+        "project-context",
+        "brainstorming",
+        "spec-driven-development",
+        "grill-me",
+        "codebase-modernization",
+        "security-hardening",
+        "senior-solution-architect",
+        "writing-plans",
+        "executing-plans",
+        "test-driven-development",
+        "systematic-debugging",
+        "test-strategy",
+        "verification-gate",
+        "multi-axis-code-review",
+        "deployment-pipeline",
+        "shipping-and-handover",
+        "operations-and-incidents",
+        "retrospective"
+      ],
+      "target": "Developers, tech leads, product owners, regulated teams"
     },
     "all": {
       "name": "All Skills",
-      "description": "Complete claude-superskills toolkit — all 18 core skills.",
+      "description": "Complete agentic-sdlc toolkit — all 23 skills.",
       "skills": [
-        "skill-creator", "agent-skill-discovery", "agent-skill-orchestrator",
-        "brainstorming", "writing-plans", "executing-plans", "prompt-engineer", "grill-me",
-        "deep-research", "us-program-research", "senior-solution-architect", "webpage-reader",
-        "youtube-summarizer", "audio-transcriber", "pptx-translator", "document-converter", "storytelling-expert",
-        "mckinsey-strategist"
+        "skill-creator",
+        "agent-skill-discovery",
+        "agent-skill-orchestrator",
+        "agentic-sdlc",
+        "issue-triage",
+        "project-context",
+        "brainstorming",
+        "spec-driven-development",
+        "grill-me",
+        "codebase-modernization",
+        "security-hardening",
+        "senior-solution-architect",
+        "writing-plans",
+        "executing-plans",
+        "test-driven-development",
+        "systematic-debugging",
+        "test-strategy",
+        "verification-gate",
+        "multi-axis-code-review",
+        "deployment-pipeline",
+        "shipping-and-handover",
+        "operations-and-incidents",
+        "retrospective"
       ],
       "target": "All users"
     }

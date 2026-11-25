@@ -16,7 +16,7 @@ Automated workflow that publishes the `claude-superskills` package to npm when y
    - Copy the token (starts with `npm_...`)
 
 2. Add as Secret on GitHub:
-   - Go to: https://github.com/ericgandrade/claude-superskills/settings/secrets/actions
+   - Go to: https://github.com/ericgandrade/agentic-sdlc/settings/secrets/actions
    - Click **"New repository secret"**
    - Name: `NPM_TOKEN`
    - Value: Paste the npm token
@@ -43,7 +43,7 @@ git push origin main --tags
 
 #### 3️⃣ Monitor Publishing
 
-- Go to: https://github.com/ericgandrade/claude-superskills/actions
+- Go to: https://github.com/ericgandrade/agentic-sdlc/actions
 - Watch the "Publish to npm" workflow running
 - ✅ When finished, package is on npm!
 
@@ -93,7 +93,7 @@ git push origin main
 git push origin v1.0.1
 
 # Wait for GitHub Actions to publish
-# Check at: https://github.com/ericgandrade/claude-superskills/actions
+# Check at: https://github.com/ericgandrade/agentic-sdlc/actions
 ```
 
 ### Useful Links

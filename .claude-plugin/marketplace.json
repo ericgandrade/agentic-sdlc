@@ -1,47 +1,45 @@
 {
-  "name": "claude-superskills",
+  "name": "agentic-sdlc",
   "owner": {
     "name": "Eric Andrade",
     "email": "egandrade@gmail.com"
   },
   "metadata": {
-    "description": "18 universal AI skills for Claude Code — planning, orchestration, product strategy, career workflows, research, content processing, UI/UX design, Obsidian knowledge management, document conversion, and Avanade-branded web generation"
+    "description": "23 universal AI skills for Claude Code built around the Agentic SDLC: a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification, plus skill creation and orchestration. Research, content and document skills moved to knowledge-superskills."
   },
   "plugins": [
     {
-      "name": "claude-superskills",
+      "name": "agentic-sdlc",
       "source": {
         "source": "github",
-        "repo": "ericgandrade/claude-superskills"
+        "repo": "ericgandrade/agentic-sdlc"
       },
-      "description": "18 universal AI skills for Claude Code — planning, orchestration, product strategy, career workflows, research, content processing, UI/UX design, Obsidian knowledge management, document conversion, and Avanade-branded web generation",
+      "description": "23 universal AI skills for Claude Code built around the Agentic SDLC: a 20-skill method from Discover to Operate with 13 agents, 4 human sign-offs and evidence-based verification, plus skill creation and orchestration. Research, content and document skills moved to knowledge-superskills.",
       "author": {
         "name": "Eric Andrade"
       },
-      "homepage": "https://github.com/ericgandrade/claude-superskills",
-      "repository": "https://github.com/ericgandrade/claude-superskills",
+      "homepage": "https://github.com/ericgandrade/agentic-sdlc",
+      "repository": "https://github.com/ericgandrade/agentic-sdlc",
       "license": "MIT",
       "keywords": [
         "skills",
         "ai",
-        "automation",
-        "research",
+        "agentic-sdlc",
+        "sdlc",
+        "spec-driven-development",
+        "tdd",
+        "code-review",
         "planning",
         "orchestration",
-        "content",
-        "strategy",
-        "prompt-engineering",
-        "ui-ux",
-        "design"
+        "automation"
       ],
       "category": "productivity",
       "tags": [
         "skills",
-        "research",
+        "agentic-sdlc",
         "planning",
-        "content",
         "orchestration",
-        "design"
+        "code-review"
       ]
     }
   ]

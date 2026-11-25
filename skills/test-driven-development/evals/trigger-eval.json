@@ -1,0 +1,24 @@
+{
+  "skill_name": "test-driven-development",
+  "description": "Triggers for implementing code test-first: writing a failing test before production code, red-green-refactor, reproduce-first regression tests for bugs, mocking and seam choices, and checking that a test would catch a real break",
+  "queries": [
+    {"id": 1, "query": "Implement task T4 from the plan test-first: write the failing test, then the code", "should_trigger": true},
+    {"id": 2, "query": "Use TDD to add the 50,000-row limit to the CSV export", "should_trigger": true},
+    {"id": 3, "query": "Fix bug 418 but write a regression test that reproduces it first", "should_trigger": true},
+    {"id": 4, "query": "My new test passed on the first run before I wrote any code, what now?", "should_trigger": true},
+    {"id": 5, "query": "Should I mock the repository and the validator in this unit test or use the real ones?", "should_trigger": true},
+    {"id": 6, "query": "Red-green-refactor this pricing function, one behaviour at a time", "should_trigger": true},
+    {"id": 7, "query": "Would my tests actually catch a bug here? Mutate the code and check each test fails", "should_trigger": true},
+    {"id": 8, "query": "I wrote the code already, just add tests afterwards so coverage passes", "should_trigger": true},
+    {"id": 9, "query": "Add a characterization test before I change this untested legacy billing function", "should_trigger": true},
+    {"id": 10, "query": "Design the acceptance tests for every AC in the spec before the build starts", "should_trigger": false},
+    {"id": 11, "query": "This test has failed three different ways and I can't find the root cause, help me investigate", "should_trigger": false},
+    {"id": 12, "query": "Review this pull request for correctness, security and test quality", "should_trigger": false},
+    {"id": 13, "query": "Execute the whole approved plan task by task with subagents and open the PR", "should_trigger": false},
+    {"id": 14, "query": "Confirm the feature is done: run the DoD and record fingerprinted evidence in the PR", "should_trigger": false},
+    {"id": 15, "query": "Break the approved spec into tasks with interface signatures and file paths", "should_trigger": false},
+    {"id": 16, "query": "Write the spec with acceptance criteria for password reset", "should_trigger": false},
+    {"id": 17, "query": "Plan the migration of the legacy monolith with a strangler pattern", "should_trigger": false},
+    {"id": 18, "query": "Write golden-master characterization tests for the whole legacy billing module before the strangler migration starts", "should_trigger": false}
+  ]
+}

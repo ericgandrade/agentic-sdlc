@@ -1,0 +1,75 @@
+{
+  "skill_name": "spec-driven-development",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We agreed in brainstorming: managers can export the currently filtered report as CSV, up to 50,000 rows, behind a feature flag. Customer names and order totals are included. Write the spec.",
+      "expected_output": "A spec.md in synthesize mode with numbered, testable acceptance criteria, boundaries, rollback, indicators and a Specify sign-off request to the Product Owner",
+      "expectations": [
+        "Output lists assumptions before or alongside the draft",
+        "Output numbers acceptance criteria as AC-1, AC-2, ... in Given/When/Then form",
+        "Output includes unhappy-path criteria such as missing permission, row limit exceeded, and CSV injection",
+        "Output includes boundaries (always / ask first / never), a rollback via the feature flag, and at least one measurable indicator",
+        "Output performs or describes a doubt pass and asks the Product Owner explicitly for Specify sign-off (spec rev and hash) without writing code"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Validate this spec: 'Objective: make search better. AC-1: search is fast. AC-2: results are relevant and the UI is user-friendly. Rollback: revert.'",
+      "expected_output": "Validate mode report identifying untestable criteria and missing sections with concrete fixes",
+      "expectations": [
+        "Output flags 'fast', 'relevant' and 'user-friendly' as not testable and proposes measurable rewrites",
+        "Output flags AC-2 as combining multiple behaviors and suggests splitting it",
+        "Output notes missing sections such as non-goals, boundaries, indicators and a concrete rollback",
+        "Output presents findings with severity and does not rewrite the spec without approval"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "spec.md revision 1 for CSV export was approved yesterday (Specify sign-off recorded with its hash). Product now wants Excel export too. Update the spec.",
+      "expected_output": "Revise mode following the change protocol with a new revision and re-approval",
+      "expectations": [
+        "Output does not edit revision 1 in place",
+        "Output performs an impact analysis on criteria, tasks, tests, rollback and dependencies",
+        "Output adds new criteria with new IDs while keeping existing AC IDs stable",
+        "Output creates revision 2, states that the edit voids the Specify sign-off (and the Design sign-off built on it), and requests Specify sign-off again as a new row in the spec's ## Approvals section"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm the Product Owner and I'm slammed today. The spec for 044-orders-cursor-pagination looks fine, just mark it approved and start building — and while you're at it, bump the page limit from 100 to 200, it's a one-line change.",
+      "expected_output": "Refuses to record an implied approval or start Build; treats the limit change as a revision with a delta, re-lints, and sends one explicit sign-off request, then ends the turn",
+      "expectations": [
+        "Output does not write an approval row or start Design/Build in the same turn; it states that only an explicit yes in a later turn counts",
+        "Output treats the 100 → 200 change as a new revision (rev N+1) rather than an in-place edit, because any edit changes the hash",
+        "Output writes a Rev N+1 delta with a Changed row for the limit AC and at least one Must not change row backed by an AC",
+        "Output re-runs spec-lint (and the doubt pass or self-review) and reports the new hash",
+        "Output sends one concise approval request naming the revision and hash and ends the turn"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Write the spec for our new customer portal: SSO login, subscription billing, email notifications and monthly usage reports. Billing must be fast and secure.",
+      "expected_output": "Scope check produces a capability map and build order before any spec; vague quality words are turned into measurable NFRs in the first module spec",
+      "expectations": [
+        "Output stops before drafting a single spec and proposes a capability map with one row per module (responsibility, data owned, depends on)",
+        "Output orders the modules by dependency with one-way dependencies and no cycle (identity before billing)",
+        "Output scores each module separately and notes that auth or payment triggers raise the path",
+        "Output asks the Product Owner to confirm the map and build order before writing the first module spec",
+        "Output rewrites 'fast and secure' as measurable criteria (percentile latency with a number and unit, explicit authorization negative case)"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "We use Kiro. Here is .kiro/specs/export/requirements.md with 'WHEN a user clicks Export THE system SHALL download the file quickly' and 'THE system SHALL be accessible'. Make it work with the Agentic SDLC gates.",
+      "expected_output": "Keeps the Kiro file in place, adds the header table and required sections, converts EARS lines to Given/When/Then AC rows with numbers, and runs spec-lint",
+      "expectations": [
+        "Output keeps .kiro/specs/export/requirements.md as the spec file and does not create a parallel specs/ folder",
+        "Output adds the header table (ID, Revision, Path, Size, Risk, Owner, Issue, Intake) and the required sections such as Non-goals, Rollback, Release & observability and Approvals",
+        "Output converts each EARS requirement into an AC-n row in Given/When/Then form with a priority",
+        "Output replaces 'quickly' and 'accessible' with measurable thresholds (for example p95 seconds for N rows; WCAG 2.2 AA with keyboard and contrast checks)",
+        "Output runs or instructs spec-lint and reports any remaining rule IDs before a sign-off request"
+      ]
+    }
+  ]
+}

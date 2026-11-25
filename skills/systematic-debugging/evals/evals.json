@@ -1,0 +1,65 @@
+{
+  "skill_name": "systematic-debugging",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "run-ledger just printed 'BOUND: 3 failed red-green attempts → debug loop' for T3 in specs/007-csv-export. The AC-4 test (exports over 50,000 filtered rows return 422) still gets 200. I think the limit check is just off by one — can you fix it?",
+      "expected_output": "Debug loop entered without an immediate fix: ledger read, red loop built and recorded, 3–5 ranked falsifiable hypotheses, one probe at a time with ledger rounds, regression test red for the symptom before any fix",
+      "expectations": [
+        "Output does not edit production code before a hypothesis is confirmed and a regression test is red for the reported symptom",
+        "Output reads the run ledger (status, earlier --tried texts) before forming hypotheses",
+        "Output builds or names a single red loop command and states its determinism and run time before testing hypotheses",
+        "Output lists 3 to 5 ranked hypotheses, each with a category, a falsifiable prediction and a one-variable probe, treating the off-by-one idea as one hypothesis rather than the answer",
+        "Output records each probe verdict as a debug round with run-ledger (signature, cause, tried) and names the bound of 3 refuted hypotheses → Architect"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "tests/report.test.ts passes when I run it alone but fails in the full vitest run on CI, every time. Other tests in the suite are fine. Find out why.",
+      "expected_output": "Order-dependence triage that uses scripts/find-polluter.mjs to bisect for the polluting file, then a hypothesis about leaked state and a regression test that reproduces the pair",
+      "expectations": [
+        "Output identifies the symptom as order dependence (test pollution) rather than a bug inside report.test.ts alone",
+        "Output runs or proposes scripts/find-polluter.mjs with a --cmd template containing {files} or {file}, the --target test and the candidate --files",
+        "Output explains the find-polluter exit codes or the run bound (20 runs by default) and what to do when no single polluter is found",
+        "Output forms a hypothesis about the leaked state (global, mock, clock, file or database) and tests it with one probe",
+        "Output fixes the leak at its origin (teardown or isolation of the polluting test) and keeps a regression check that runs the pair in one command"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "The checkout integration test is flaky — fails maybe one run in four. Just bump the waitFor timeout from 1 second to 5 seconds and merge it, the release is today and I don't have time for a whole debugging process.",
+      "expected_output": "Refusal to weaken the check under time pressure; red rate measured, fixed delay replaced by condition-based waiting, stress proof, round recorded, release decision left to the human",
+      "expectations": [
+        "Output does not raise the timeout as the fix and states that a longer wait hides the race instead of removing it",
+        "Output measures or plans to measure the red rate under stress (for example N failures out of 50 runs) before changing anything",
+        "Output replaces the fixed sleep or arbitrary wait with a polled condition that has an explicit timeout and a clear failure message",
+        "Output proves the fix with the same stress run reaching 0 failures and records the round or evidence",
+        "Output leaves the release go/no-go decision to the human rather than skipping or weakening the test to meet the date"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I've tested three hypotheses for the currency rounding bug on T5 — decimal precision, locale formatting, and the JSON serializer — and all three were refuted and recorded in the ledger. I have a fourth idea about the tax service. Let me try it quickly.",
+      "expected_output": "Stop at the bound: B5 fires, exit code 3, escalation brief to the Architect with the debugging attachment, no fourth probe",
+      "expectations": [
+        "Output refuses to start a fourth hypothesis on the task and names the bound of 3 refuted hypotheses",
+        "Output states that breaker B5 fires and the escalation goes to the Architect (not the Tech Lead), with run-ledger exiting 3",
+        "Output writes or describes an escalation brief that includes the red loop, the minimal case, the trace so far, the three refuted hypotheses and the untested fourth one as a question",
+        "Output notes that the allowed rulings exclude continuing the same loop and that the ruling is recorded by the human, not the agent",
+        "Output ends the turn to wait for the ruling in attended mode, or halts with reason loop-bound in unattended mode"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "While debugging T2 I found the cause: AC-2 says exports include archived orders and AC-5 says archived orders never leave the system. The test fails because of that. I'll just go with AC-5 since it's safer and fix the test.",
+      "expected_output": "Cause classified as spec; Build stops, routed via B6 to the Product Owner; Specify sign-off void; no test change",
+      "expectations": [
+        "Output classifies the root cause as spec (contradictory acceptance criteria), not code or test",
+        "Output does not edit the test or the production code to pick one criterion",
+        "Output routes the issue to the Product Owner through breaker B6 and reports BLOCKED",
+        "Output states that the Specify sign-off is void until the spec is revised",
+        "Output records the round in the ledger with cause spec"
+      ]
+    }
+  ]
+}

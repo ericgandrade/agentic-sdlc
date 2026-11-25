@@ -134,7 +134,7 @@ Examples:
 
 ```bash
 feat: add my-skill
-feat(prompt-engineer): improve framework selection guidance
+feat(skill-creator): improve eval guidance
 fix: correct installer documentation drift
 docs: update contribution workflow
 chore: bump version to X.Y.Z

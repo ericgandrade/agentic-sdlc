@@ -1,0 +1,149 @@
+# Agentic SDLC — CI gates for GitLab CI/CD (mechanisms 3.4, 10.4, 10.5).
+#
+# Equivalent of templates/ci/agentic-sdlc.yml for GitLab. Either copy these jobs into the project's
+# .gitlab-ci.yml or save this file as .gitlab/agentic-sdlc.yml and add to .gitlab-ci.yml:
+#     include:
+#       - local: .gitlab/agentic-sdlc.yml
+# Install it through a plan task whose Files list names it (references/security.md S20).
+# Procedure, merge request approval rules and gate proofs: the deployment-pipeline skill.
+#
+# Jobs (use these names in "Pipelines must succeed" and in the gate-proof table):
+#   agentic-sdlc-dod        every sdlc-dod command + the coverage floor
+#   agentic-sdlc-spec       spec-lint --check-approval on every spec the MR touches or names
+#   agentic-sdlc-approvals  plan-graph --check --check-approval (+ approval-check --pr once vendored)
+#   agentic-sdlc-trace      trace-check once vendored; until then a warning (allowed to pass)
+# GitLab blocks merge on any failed job when "Pipelines must succeed" is enabled; a job with
+# allow_failure: true never blocks, so none of the gate jobs below set it.
+#
+# On merge requests the sdlc-dod block is read from the TARGET branch, so an MR cannot lower the
+# bar it is judged by. The spec and approvals jobs also run the checker scripts from the target
+# branch when they exist there; CODEOWNERS review of CI files guards edits to this file.
+# Untrusted values (MR description, branch names) reach the shell only as
+# quoted variables.
+
+variables:
+  SDLC_BIN: .agentic-sdlc/bin # ADAPT: or a checkout of <skills>/agentic-sdlc/scripts
+  DOD_FILE: AGENTS.md # ADAPT: CLAUDE.md when the block lives there
+  COVERAGE_SUMMARY: coverage/coverage-summary.json # ADAPT: json-summary path (total.lines.pct)
+  GIT_DEPTH: "0"
+
+stages:
+  - agentic-sdlc
+
+.agentic-sdlc-base:
+  stage: agentic-sdlc
+  image: node:20 # ADAPT: an image that also has the project's toolchain
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  before_script:
+    - |
+      set -eu
+      if [ -n "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME:-}" ]; then
+        git fetch --quiet origin "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+        export DIFF_RANGE="FETCH_HEAD...HEAD"
+        export DOD_REF="FETCH_HEAD"
+      else
+        export DIFF_RANGE="${CI_COMMIT_BEFORE_SHA:-HEAD~1}...HEAD"
+        case "$DIFF_RANGE" in 0000000000000000000000000000000000000000*) export DIFF_RANGE="HEAD~1...HEAD" ;; esac
+        export DOD_REF=""
+      fi
+      export GATE_BIN="$SDLC_BIN"
+      if [ -n "$DOD_REF" ] && git cat-file -e "$DOD_REF:$SDLC_BIN/spec-lint.mjs" 2>/dev/null; then
+        mkdir -p .git/agentic-sdlc-base
+        git archive "$DOD_REF" "$SDLC_BIN" | tar -x -C .git/agentic-sdlc-base
+        export GATE_BIN=".git/agentic-sdlc-base/$SDLC_BIN"
+      fi
+      {
+        git diff --name-only "$DIFF_RANGE" -- specs | awk -F/ 'NF>=3 {print $1"/"$2}'
+        printf '%s\n' "${CI_MERGE_REQUEST_DESCRIPTION:-}" | grep -oE 'specs/[0-9]{3}-[a-z0-9-]+' || true
+      } | sort -u > spec-dirs.txt
+
+agentic-sdlc-dod:
+  extends: .agentic-sdlc-base
+  timeout: 30m
+  script:
+    - npm ci # ADAPT: dependency install for the project's stack
+    - |
+      set -eu
+      if [ -n "$DOD_REF" ] && git cat-file -e "$DOD_REF:$DOD_FILE" 2>/dev/null; then
+        git show "$DOD_REF:$DOD_FILE" > dod-source.md
+        echo "sdlc-dod read from the target branch"
+      else
+        cp "$DOD_FILE" dod-source.md
+        echo "WARNING: sdlc-dod read from the checked-out tree (branch pipeline or first install)"
+      fi
+      awk '/^```sdlc-dod[[:space:]]*$/{f=1;next} f&&/^```/{exit} f' dod-source.md > dod.txt
+      if [ ! -s dod.txt ]; then echo "ERROR: no sdlc-dod block in $DOD_FILE — run project-context setup"; exit 2; fi
+      for key in lint typecheck test coverage; do
+        line=$(grep -E "^${key}:" dod.txt | head -n 1 || true)
+        if [ -z "$line" ]; then echo "ERROR: sdlc-dod key '${key}' missing"; exit 1; fi
+        cmd=$(printf '%s' "${line#*:}" | sed 's/^[[:space:]]*//')
+        case "$cmd" in n/a*) echo "NOTICE: ${key} skipped — ${cmd}"; continue ;; esac
+        echo "== ${key}: ${cmd}"
+        bash -c "$cmd"
+      done
+      min=$(grep -E '^coverage_min:' dod.txt | head -n 1 | cut -d: -f2- | sed 's/^[[:space:]]*//' || true)
+      case "$min" in
+        ""|n/a*) echo "NOTICE: coverage_min not enforced — ${min:-missing}" ;;
+        *)
+          if [ ! -f "$COVERAGE_SUMMARY" ]; then echo "ERROR: $COVERAGE_SUMMARY not found; the floor fails closed"; exit 1; fi
+          node -e '
+            const [file, min] = process.argv.slice(1);
+            const pct = Number(require(require("path").resolve(file)).total.lines.pct);
+            if (!Number.isFinite(pct)) { console.error("unreadable coverage value"); process.exit(2); }
+            console.log(`coverage ${pct} vs coverage_min ${min}`);
+            process.exit(pct >= Number(min) ? 0 : 1);
+          ' "$COVERAGE_SUMMARY" "$min"
+          ;;
+      esac
+
+agentic-sdlc-spec:
+  extends: .agentic-sdlc-base
+  timeout: 10m
+  script:
+    - |
+      set -eu
+      status=0
+      while IFS= read -r dir; do
+        [ -n "$dir" ] || continue
+        if [ ! -f "$dir/spec.md" ]; then echo "NOTICE: $dir has no spec.md"; continue; fi
+        echo "== spec-lint $dir/spec.md"
+        node "$GATE_BIN/spec-lint.mjs" "$dir/spec.md" --check-approval || status=$?
+      done < spec-dirs.txt
+      [ -s spec-dirs.txt ] || echo "No spec touched or named (Quick path or code-only change)."
+      exit $status
+
+agentic-sdlc-approvals:
+  extends: .agentic-sdlc-base
+  timeout: 10m
+  script:
+    - |
+      set -eu
+      status=0
+      while IFS= read -r dir; do
+        [ -n "$dir" ] || continue
+        if [ ! -f "$dir/plan.md" ]; then echo "NOTICE: $dir has no plan.md yet"; continue; fi
+        echo "== plan-graph $dir/plan.md"
+        node "$GATE_BIN/plan-graph.mjs" "$dir/plan.md" --check --check-approval || status=$?
+      done < spec-dirs.txt
+      if [ -n "${CI_MERGE_REQUEST_IID:-}" ]; then
+        if [ -f "$GATE_BIN/approval-check.mjs" ]; then
+          node "$GATE_BIN/approval-check.mjs" --pr "$CI_MERGE_REQUEST_IID" || status=$?
+        else
+          echo "WARNING: approval-check not vendored; approver ≠ author relies on MR approval rules"
+        fi
+      fi
+      exit $status
+
+agentic-sdlc-trace:
+  extends: .agentic-sdlc-base
+  timeout: 10m
+  script:
+    - |
+      set -eu
+      if [ -f "$SDLC_BIN/trace-check.mjs" ]; then
+        node "$SDLC_BIN/trace-check.mjs"
+      else
+        echo "WARNING: trace-check not vendored; fill the MR Trace table by hand (references/verification.md §Trace)."
+      fi

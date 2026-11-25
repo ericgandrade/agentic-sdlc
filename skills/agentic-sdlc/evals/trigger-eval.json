@@ -1,0 +1,111 @@
+{
+  "skill_name": "agentic-sdlc",
+  "description": "Triggers for running software work end to end through the Agentic SDLC (7 stages, 4 human sign-offs, Quick/Standard/Full paths), resuming from specs/ artifacts, or handling requirement changes after Specify sign-off",
+  "queries": [
+    {
+      "id": 1,
+      "query": "Let's build the CSV export feature using the Agentic SDLC",
+      "should_trigger": true
+    },
+    {
+      "id": 2,
+      "query": "Take this feature from idea to production the disciplined way — plan, specify, design, build, test, release, operate",
+      "should_trigger": true
+    },
+    {
+      "id": 3,
+      "query": "Where are we on the payments refactor? Which stage comes next?",
+      "should_trigger": true
+    },
+    {
+      "id": 4,
+      "query": "Resume the work in specs/004-payments-refactor",
+      "should_trigger": true
+    },
+    {
+      "id": 5,
+      "query": "Product changed the requirement after we approved the spec — now they want Excel too. How do we handle it?",
+      "should_trigger": true
+    },
+    {
+      "id": 6,
+      "query": "I want to modernize the claims module with spec-first human checkpoints and full traceability",
+      "should_trigger": true
+    },
+    {
+      "id": 7,
+      "query": "Run the Agentic SDLC on this bug: sessions expire after 5 minutes instead of 30",
+      "should_trigger": true
+    },
+    {
+      "id": 8,
+      "query": "Start the Release stage for the reporting feature, the Test sign-off was given yesterday",
+      "should_trigger": true
+    },
+    {
+      "id": 9,
+      "query": "Which skill should I use next now that the plan is approved?",
+      "should_trigger": true
+    },
+    {
+      "id": 10,
+      "query": "Set up a spec-driven delivery flow with human approvals for this new service",
+      "should_trigger": true
+    },
+    {
+      "id": 19,
+      "query": "Exports are timing out in production since yesterday's release — triage it and bring the fix into the delivery cycle",
+      "should_trigger": true
+    },
+    {
+      "id": 20,
+      "query": "Run the Test stage and ask the human reviewer for Test sign-off with the trace table",
+      "should_trigger": true
+    },
+    {
+      "id": 11,
+      "query": "Brainstorm three different ways to design the notification system",
+      "should_trigger": false
+    },
+    {
+      "id": 12,
+      "query": "Write the acceptance criteria for the export feature",
+      "should_trigger": false
+    },
+    {
+      "id": 13,
+      "query": "Review this pull request for bugs and security issues",
+      "should_trigger": false
+    },
+    {
+      "id": 14,
+      "query": "Explain what the V-model is in software testing history",
+      "should_trigger": false
+    },
+    {
+      "id": 15,
+      "query": "Rename this variable from usr to user across the file",
+      "should_trigger": false
+    },
+    {
+      "id": 16,
+      "query": "Debug why this test is flaky on CI",
+      "should_trigger": false
+    },
+    {
+      "id": 17,
+      "query": "Summarize this YouTube video about agile methods",
+      "should_trigger": false
+    },
+    {
+      "id": 18,
+      "query": "Execute the plan in docs/plans/2026-05-10-scripts-cleanup.md",
+      "should_trigger": false
+    },
+    {
+      "id": 21,
+      "query": "Pick the best combination of skills and agents to plan my job search",
+      "should_trigger": false
+    }
+  ]
+}

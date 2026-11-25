@@ -1,0 +1,29 @@
+{
+  "skill_name": "verification-gate",
+  "description": "Triggers for completion claims that need fresh, fingerprint-bound evidence: done, fixed, passing, ready for review, ready to release; filling or auditing the PR Verification and Trace sections; checking the sdlc-dod Definition of Done; treating a PR description or agent report as testimony",
+  "queries": [
+    { "id": 1, "query": "Task T4 is finished — run whatever is needed so I can say it's done", "should_trigger": true },
+    { "id": 2, "query": "Fill in the Verification table of the PR body with fresh evidence for every AC", "should_trigger": true },
+    { "id": 3, "query": "The PR says all tests pass and there are no regressions. Check whether that is actually true", "should_trigger": true },
+    { "id": 4, "query": "Is the evidence in this PR stale? A commit was added after the Developer ran the tests", "should_trigger": true },
+    { "id": 5, "query": "Do the two-way gap check: any AC without a passing test, or code nobody asked for?", "should_trigger": true },
+    { "id": 6, "query": "Run our Definition of Done from the sdlc-dod block and tell me if the PR meets it", "should_trigger": true },
+    { "id": 7, "query": "The subagent reported DONE on the migration task. Can we trust that and move on?", "should_trigger": true },
+    { "id": 8, "query": "AC-3 depends on a third-party API with no sandbox — how do I record that it can't be verified before release?", "should_trigger": true },
+    { "id": 9, "query": "Before I tell the team the bug is fixed, what proof do I need?", "should_trigger": true },
+    { "id": 10, "query": "Re-run the checks and decide whether the evidence supports a GO on this pull request", "should_trigger": true },
+    { "id": 11, "query": "Design the acceptance tests for spec 007 from the spec only, before any code exists", "should_trigger": false },
+    { "id": 12, "query": "Review this diff for correctness, security and design issues across all lenses", "should_trigger": false },
+    { "id": 13, "query": "Write a failing test first for the parser change, then make it pass", "should_trigger": false },
+    { "id": 14, "query": "The test suite started failing after the upgrade — find the root cause", "should_trigger": false },
+    { "id": 15, "query": "Execute the plan in specs/004-invoice-pdf task by task", "should_trigger": false },
+    { "id": 16, "query": "Write the spec with acceptance criteria for the CSV export", "should_trigger": false },
+    { "id": 17, "query": "Plan the staged rollout and rehearse the rollback for tomorrow's release", "should_trigger": false },
+    { "id": 18, "query": "Add an sdlc-dod block and the AGENTS.md project context to this repository", "should_trigger": false },
+    {
+      "id": 19,
+      "query": "Wire the sdlc-dod Definition of Done into GitHub Actions as a required status check",
+      "should_trigger": false
+    }
+  ]
+}

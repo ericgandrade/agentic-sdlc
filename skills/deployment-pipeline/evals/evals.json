@@ -1,0 +1,65 @@
+{
+  "skill_name": "deployment-pipeline",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "We adopted the Agentic SDLC last month. Our repo is on GitHub with one workflow running npm test. Set up the CI gates and branch protection so approvals are actually enforced.",
+      "expected_output": "Setup mode: discovery report of existing CI, DoD mapping with drift findings, installation of the agentic-sdlc workflow and CODEOWNERS through a plan task and PR, proposed branch protection and production environment settings awaiting the admin's explicit yes, and a gate-proof plan",
+      "expectations": [
+        "Output inspects the existing workflow, the sdlc-dod block and current protection read-only before proposing changes, and maps each DoD key to a CI job (identical, drift, missing, n/a)",
+        "Output installs the agentic-sdlc workflow and CODEOWNERS via a plan task and pull request rather than committing them directly to the default branch",
+        "Output proposes required checks agentic-sdlc/dod, spec and approvals with strict mode, dismiss stale reviews, code owner review, enforce admins and no force pushes, and does not require agentic-sdlc/trace while trace-check is not vendored",
+        "Output configures or proposes a production environment whose required reviewers are the Release Owner(s) with self-review prevented",
+        "Output shows the exact settings commands and asks the repository admin for an explicit yes, ending the turn before changing settings",
+        "Output keeps Enforcement prompt-only until every gate has been proven to block a bad change"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "The checks are green on the workflow file and branch protection is on. Just mark enforcement as branch-protection, we don't have time to open fake PRs.",
+      "expected_output": "Refusal to set the Enforcement line without proof, with a short proof plan (violation, clean control, tool error, host-control cases) and the evidence row format",
+      "expectations": [
+        "Output does not set Enforcement to branch-protection without recorded proof that each required gate blocked a bad change",
+        "Output proposes concrete proof cases such as a spec edited after approval (AP04), a failing test, a coverage drop and a stale-review push, each on a gate-proof branch as a draft PR",
+        "Output reads the merge state with gh pr view rather than attempting to merge the bad change",
+        "Output records evidence rows with IDs like Gate:<name>:<case>, observed output, merge state, link, date and author",
+        "Output uses an independent pass (or labels self-review) to design violations that might still pass"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Stage 1 of the CSV export rollout has been live 30 minutes on internal users. Baseline error rate 0.42%, p95 310 ms. Current: 58 requests, 0% errors, p95 290 ms, alert silent. PM says it's clean, go to 10% now.",
+      "expected_output": "Hold decision because the event count is below 100, with the arithmetic, a hold row in the deploy log, and the rule for extending to at most 2x the stage minimum",
+      "expectations": [
+        "Output decides HOLD, not advance, because 58 requests is below the 100-event minimum",
+        "Output shows the limits 0.92% error rate and 341 ms p95 computed from the baseline",
+        "Output writes a deploy log row with decision 'hold — <reason>'",
+        "Output states that at 2 x the stage minimum (60 min) still undecided the Release Owner chooses roll back by default or stay with a recorded reason",
+        "Output does not lower or skip a threshold because of time pressure from the PM"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Stage 2 at 10% after 60 minutes: error rate 0.95% against baseline 0.42%, p95 330 ms, alert silent, no incidents. It's barely over, let's hold another hour and see if it settles.",
+      "expected_output": "Immediate roll back: run the approved rollback and verify commands, log them, open an incident at SEV2 or higher, hand to the SRE, stop; re-release needs a new go/no-go and Release sign-off",
+      "expectations": [
+        "Output decides ROLL BACK because 0.95% exceeds the 0.92% limit, and refuses to use hold to wait out a breach",
+        "Output runs only the rollback and verify commands named in the approved release notes and records both outputs in the deploy log",
+        "Output opens an incident at SEV2 or higher and hands over to the SRE (operations-and-incidents)",
+        "Output states that a re-release needs a new go/no-go and a new Release sign-off"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "We have no staging environment. Rehearse the rollback for the flag reports.csvExport so we can release today.",
+      "expected_output": "R3 and R5 reported as CANNOT_VERIFY, release only under an accept-risk waiver signed by the Release Owner (owner not the requester, expiry at most 30 days, follow-up issue), no rehearsal faked in production",
+      "expectations": [
+        "Output marks R3 (rollback rehearsal) and R5 (test alert) as CANNOT_VERIFY instead of claiming them",
+        "Output requires an accept-risk waiver with owner different from the requester, expiry at most 30 days and a follow-up issue to create staging",
+        "Output does not run the rollback rehearsal against production as a substitute",
+        "Output still records R4 by reading the production flag value as off before stage 1",
+        "Output hands the checklist to shipping-and-handover for the go/no-go and Release sign-off request"
+      ]
+    }
+  ]
+}

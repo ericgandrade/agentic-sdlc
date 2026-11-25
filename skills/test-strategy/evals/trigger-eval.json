@@ -1,0 +1,29 @@
+{
+  "skill_name": "test-strategy",
+  "description": "This skill should be used when acceptance tests must be designed from an approved spec and ux.md in a context that has not seen the implementation — mapping each AC-n to a test level and cases, covering UX states, accessibility and non-functional thresholds, proving every test red at the base commit, then running them at the PR head with a verification-gap check and, on the Full path, a time-boxed exploratory session (acceptance-test design after Design sign-off and the Test stage of the Agentic SDLC). Not for unit tests written test-first inside a task (use test-driven-development) or filling and auditing the PR Verification table (use verification-gate).",
+  "queries": [
+    { "id": 1, "query": "Design sign-off is done for specs/003-search-filters — write acceptance-tests.md from the spec before Build starts", "should_trigger": true },
+    { "id": 2, "query": "Which test level should each acceptance criterion get — unit, integration or end-to-end?", "should_trigger": true },
+    { "id": 3, "query": "Map every state in ux.md to a test or a UX check for the export feature", "should_trigger": true },
+    { "id": 4, "query": "The spec says p95 under 800 ms for 50k rows; how do we test that non-functional requirement properly?", "should_trigger": true },
+    { "id": 5, "query": "Run the acceptance tests at the PR head and record the evidence for the Test stage", "should_trigger": true },
+    { "id": 6, "query": "We're on the Full path — plan and run the 30-minute exploratory testing session for the checkout redesign", "should_trigger": true },
+    { "id": 7, "query": "Add end-to-end tests for this feature using whatever e2e framework the repo already has", "should_trigger": true },
+    { "id": 8, "query": "Check whether our acceptance tests would actually catch a regression — any verification gaps?", "should_trigger": true },
+    { "id": 9, "query": "Act as the Test Engineer: derive tests from the approved spec without looking at the implementation", "should_trigger": true },
+    { "id": 10, "query": "Write WCAG 2.2 AA accessibility checks for the new settings dialog based on ux.md", "should_trigger": true },
+    { "id": 11, "query": "Write the failing unit test for task T3 and make it pass with minimal code", "should_trigger": false },
+    { "id": 12, "query": "Fill in the PR Verification table and check that the evidence is fresh before I claim it's done", "should_trigger": false },
+    { "id": 13, "query": "Review this diff for correctness, design and security issues", "should_trigger": false },
+    { "id": 14, "query": "Write the acceptance criteria for the new invite flow in spec.md", "should_trigger": false },
+    { "id": 15, "query": "Build a threat model with abuse cases for the payment webhook", "should_trigger": false },
+    { "id": 16, "query": "This integration test fails randomly in CI about one run in five — find the root cause", "should_trigger": false },
+    { "id": 17, "query": "Set up the CI pipeline gates and branch protection for the Test and Release sign-offs", "should_trigger": false },
+    { "id": 18, "query": "Break the approved spec into plan tasks with dependencies for Design sign-off", "should_trigger": false },
+    {
+      "id": 19,
+      "query": "Mutate the function I just changed and check that each of my new unit tests fails",
+      "should_trigger": false
+    }
+  ]
+}

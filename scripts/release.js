@@ -52,8 +52,11 @@ fs.writeFileSync(pluginPath, JSON.stringify(pluginJson, null, 2) + '\n');
 // 4. Update README.md
 console.log(`- Updating README.md...`);
 let readme = fs.readFileSync(readmePath, 'utf8');
-// Header title
-readme = readme.replace(new RegExp(`# 🤖 Claude Superskills v${oldVersion.replace(/\./g, '\.')}`, 'g'), `# 🤖 Claude Superskills v${newVersion}`);
+// Header title: the version in the first H1 line, whatever the title wording
+const escapedOld = oldVersion.replace(/\./g, '\\.');
+readme = readme.replace(new RegExp(`^(# [^\\n]*?)v${escapedOld}\\b`, 'm'), `$1v${newVersion}`);
+// Hero line: <b>vX.Y.Z</b>
+readme = readme.split(`<b>v${oldVersion}</b>`).join(`<b>v${newVersion}</b>`);
 // Badge
 readme = readme.replace(new RegExp(`badge/version-${oldVersion.replace(/\./g, '\.')}-blue\.svg`, 'g'), `badge/version-${newVersion}-blue.svg`);
 // Footer

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 #
 # CLI AI Skills Uninstaller
-# https://github.com/ericgandrade/claude-superskills
+# https://github.com/ericgandrade/agentic-sdlc
 #
 # Usage:
 #   bash uninstall.sh
-#   curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/uninstall.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/uninstall.sh | bash
 #
 # Options:
 #   --yes, -y              Skip all confirmations
@@ -19,7 +19,8 @@ set -euo pipefail
 UNINSTALLER_VERSION="1.0.0"
 
 # Configuration
-PACKAGE_NAME="claude-superskills"
+PACKAGE_NAME="agentic-sdlc-method"
+LEGACY_PACKAGE_NAME="claude-superskills"   # npm name before v3.0.0
 
 # Flags
 SKIP_CONFIRMATION=false
@@ -77,7 +78,7 @@ ${BOLD}CLI AI Skills Uninstaller${NC} v${UNINSTALLER_VERSION}
 
 ${BOLD}USAGE:${NC}
     bash uninstall.sh [OPTIONS]
-    curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/uninstall.sh | bash
+    curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/uninstall.sh | bash
 
 ${BOLD}OPTIONS:${NC}
     -y, --yes              Skip all confirmations
@@ -99,7 +100,7 @@ ${BOLD}EXAMPLES:${NC}
     bash uninstall.sh --yes --purge
 
 ${BOLD}WHAT GETS REMOVED:${NC}
-    • npm global package (claude-superskills)
+    • npm global package (agentic-sdlc-method, and claude-superskills if present)
     • Installed skills in ~/.github/skills/
     • Installed skills in ~/.claude/skills/
     • Installed skills in ~/.codex/skills/
@@ -251,6 +252,12 @@ remove_npm_package() {
         return 0
     fi
     
+    if npm list -g "${LEGACY_PACKAGE_NAME}" &> /dev/null; then
+        npm uninstall -g "${LEGACY_PACKAGE_NAME}" > /dev/null 2>&1 && print_success "Legacy package ${LEGACY_PACKAGE_NAME} removed"
+    fi
+    if ! npm list -g "${PACKAGE_NAME}" &> /dev/null; then
+        return 0
+    fi
     if npm uninstall -g "${PACKAGE_NAME}" > /dev/null 2>&1; then
         print_success "Package removed successfully"
         return 0
@@ -362,9 +369,9 @@ show_completion() {
         print_success "CLI AI Skills has been uninstalled"
         echo ""
         print_info "To reinstall, run:"
-        echo "  ${CYAN}npx claude-superskills${NC}"
+        echo "  ${CYAN}npx agentic-sdlc-method${NC}"
         echo "  or"
-        echo "  ${CYAN}curl -fsSL https://raw.githubusercontent.com/ericgandrade/claude-superskills/main/scripts/install.sh | bash${NC}"
+        echo "  ${CYAN}curl -fsSL https://raw.githubusercontent.com/ericgandrade/agentic-sdlc/main/scripts/install.sh | bash${NC}"
     fi
     
     echo ""

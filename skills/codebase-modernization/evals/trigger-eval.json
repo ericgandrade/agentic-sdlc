@@ -1,0 +1,24 @@
+{
+  "skill_name": "codebase-modernization",
+  "description": "Triggers for changing or modernizing existing (brownfield, legacy) code safely: inventory and dependency mapping, value/risk classification, retire/retain/upgrade/re-platform/migrate decisions, characterization tests (CHAR-n) before touching untested code, current-state research with cited evidence, expand-contract schema migrations, strangler cutovers and migration runbooks",
+  "queries": [
+    {"id": 1, "query": "We inherited a legacy monolith with no tests. Build an inventory and decide what to retire, upgrade or migrate", "should_trigger": true},
+    {"id": 2, "query": "Write characterization tests that pin what this untested pricing function does today before I change it", "should_trigger": true},
+    {"id": 3, "query": "Rename a column in the orders table without downtime — expand and contract, please", "should_trigger": true},
+    {"id": 4, "query": "Plan a strangler fig migration from the old quotes endpoint to the new pricing service", "should_trigger": true},
+    {"id": 5, "query": "Research how invoice rounding works in this codebase today and cite file and line for every claim", "should_trigger": true},
+    {"id": 6, "query": "Our app runs on Python 3.6 and Angular 1.x; which parts should we re-platform first and in what order?", "should_trigger": true},
+    {"id": 7, "query": "Map the dependencies between our services and the shared database tables before we split the monolith", "should_trigger": true},
+    {"id": 8, "query": "Write a cutover runbook for moving reports from the old database to the new one, with rollback", "should_trigger": true},
+    {"id": 9, "query": "Can we delete the old fax export job? Nobody seems to use it", "should_trigger": true},
+    {"id": 10, "query": "Run old and new billing side by side and compare outputs before switching traffic", "should_trigger": true},
+    {"id": 11, "query": "Set up the AGENTS.md block and the code map for this repository so agents can start working", "should_trigger": false},
+    {"id": 12, "query": "Implement task T4 from the plan test-first, red then green", "should_trigger": false},
+    {"id": 13, "query": "The nightly job crashes with a null pointer since yesterday's deploy; find the root cause", "should_trigger": false},
+    {"id": 14, "query": "Write the spec with acceptance criteria for a new CSV export feature", "should_trigger": false},
+    {"id": 15, "query": "Compare Kafka and RabbitMQ for our new event bus and write an ADR", "should_trigger": false},
+    {"id": 16, "query": "Set up the staged rollout with feature flags and rehearse the rollback for release 3.2", "should_trigger": false},
+    {"id": 17, "query": "Design the acceptance tests for spec 012 from the approved acceptance criteria", "should_trigger": false},
+    {"id": 18, "query": "Research the market for AI note-taking apps and summarize competitors with sources", "should_trigger": false}
+  ]
+}

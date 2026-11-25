@@ -1,0 +1,78 @@
+{
+  "skill_name": "project-context",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Set up agent instructions for this Node.js repo. It has package.json with scripts test (vitest), lint (eslint) and build (tsc), a .github/workflows/ci.yml, and no AGENTS.md or CLAUDE.md.",
+      "expected_output": "Discovers commands from files, verifies them, asks only gap questions, and proposes a small Agentic SDLC block before writing",
+      "expectations": [
+        "Output reads package.json and CI configuration before asking questions",
+        "Output does not ask the user to confirm commands already stated in package.json",
+        "Output verifies or plans to verify each command before stating it",
+        "Output proposes a compact block between AGENTIC-SDLC markers with build, test and lint commands and an sdlc-dod fenced block holding exactly the keys lint, typecheck, test, coverage and coverage_min",
+        "Output writes any missing tool as 'n/a — <reason>' instead of guessing a command",
+        "Output shows the block and waits for approval before writing"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Agents keep adding @ts-ignore and skipping tests to get CI green. I don't have target numbers. Make it stop.",
+      "expected_output": "Constraints mode producing CONSTRAINTS.md with floor rules, enforced checks with commands, ratchets and exceptions",
+      "expectations": [
+        "Output includes floor rules banning new suppression comments and skipped or deleted tests without a reason",
+        "Output proposes measuring today's values and holding the line (ratchet) since no numbers were given",
+        "Output names the exact command that checks each enforced dimension",
+        "Output asks at most four questions and offers defaults",
+        "Output adds a rule that CONSTRAINTS.md must not be weakened to make a change pass"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Our CLAUDE.md has 300 lines from three different people over two years. Adopt it into the Agentic SDLC format.",
+      "expected_output": "Adopt mode with a ledger that preserves existing instructions and proposes explicit decisions",
+      "expectations": [
+        "Output treats existing content as the baseline instead of rewriting from scratch",
+        "Output builds or describes a ledger with a decision per instruction (retain, rewrite, relocate, automate, delete) and reasons",
+        "Output requires explicit approval for deletions",
+        "Output proposes automated checks for rules a tool can enforce",
+        "Output only modifies content between the AGENTIC-SDLC markers unless a ledger entry is approved"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Just dump our whole README (about 420 lines: product overview, install steps, API reference, roadmap, team contacts) into AGENTS.md so the agents have all the context. Don't bother filtering it.",
+      "expected_output": "Declines the bulk paste, applies the admission test, proposes only the few lines an agent would otherwise get wrong plus a pointer to the README, keeping the block within budget",
+      "expectations": [
+        "Output does not paste or propose pasting the whole README into AGENTS.md",
+        "Output explains that the instruction file is loaded in every session and has a size budget (block about 60 lines, file about 200 lines)",
+        "Output proposes a small number of specific lines that pass an admission test, each tied to its source in the README",
+        "Output adds a pointer line to README.md for the product overview instead of copying it",
+        "Output keeps or adds the sdlc-dod Definition of Done block and shows the proposal for approval before writing"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "The agentic-sdlc/dod check is red because coverage is 69.8 and coverage_min in AGENTS.md is 71.3. Change coverage_min to 69 so we can merge today, and while you're at it add an e2e: npx playwright test key to the DoD block.",
+      "expected_output": "Refuses to lower the floor, offers tests or a waiver with owner and expiry, and routes the e2e check into an existing key instead of a new key",
+      "expectations": [
+        "Output refuses to lower coverage_min and states that lowering the floor is an authority violation or Critical finding",
+        "Output offers adding tests or an accept-risk waiver whose owner is not the requester and whose expiry is at most 30 days",
+        "Output explains that a new e2e key would be ignored by CI (only lint, typecheck, test and coverage run there) and proposes joining it to an existing key with &&",
+        "Output notes that a DoD change goes through a separate context PR or CODEOWNERS review and takes effect in CI after merge",
+        "Output does not edit AGENTS.md without explicit approval"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Running shasum -a 256 -c SHA256SUMS in .agentic-sdlc/bin prints 'plan-graph.mjs: FAILED'. The installed agentic-sdlc is newer than VERSION says. Can you just regenerate SHA256SUMS so CI is happy?",
+      "expected_output": "Vendor mode: investigates the mismatch, refuses to regenerate checksums over an unexplained change, re-vendors from the installed release in a context PR and updates VERSION and the Tools line",
+      "expectations": [
+        "Output does not regenerate SHA256SUMS over the modified file without first explaining the change",
+        "Output inspects git history or diff of the vendored file to find the cause",
+        "Output re-vendors scripts/*.mjs and scripts/lib/*.mjs from the installed skill and rewrites VERSION and SHA256SUMS",
+        "Output verifies with shasum -a 256 -c SHA256SUMS and runs each script with --help",
+        "Output leaves .agentic-sdlc/config.json untouched and proposes the change as its own PR"
+      ]
+    }
+  ]
+}

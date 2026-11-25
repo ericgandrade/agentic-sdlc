@@ -41,10 +41,11 @@ check_equal "README.md version badge" "$README_VERSION_BADGE" "$PACKAGE_VERSION"
 check_equal "cli-installer/README.md version badge" "$CLI_README_VERSION_BADGE" "$PACKAGE_VERSION"
 check_equal "CLAUDE.md overview version" "$CLAUDE_HEADER_VERSION" "$PACKAGE_VERSION"
 
-if printf '%s\n' "$README_TITLE" | grep -q "v$PACKAGE_VERSION"; then
-  echo "✅ README.md title: $README_TITLE"
+# The README shows the version in its first H1 line or in the hero line "<b>vX.Y.Z</b>".
+if printf '%s\n' "$README_TITLE" | grep -q "v$PACKAGE_VERSION" || grep -q "<b>v$PACKAGE_VERSION</b>" README.md; then
+  echo "✅ README.md title or hero shows v$PACKAGE_VERSION"
 else
-  echo "❌ README.md title does not contain v$PACKAGE_VERSION"
+  echo "❌ README.md title or hero line (<b>vX.Y.Z</b>) does not contain v$PACKAGE_VERSION"
   ERRORS=$((ERRORS + 1))
 fi
 

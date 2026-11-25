@@ -1,0 +1,28 @@
+{
+  "skill_name": "multi-axis-code-review",
+  "description": "Triggers for an independent multi-axis review of a pull request against its spec and plan, verify-then-verdict triage, receiving review findings, scoped re-review and Test sign-off preparation",
+  "queries": [
+    { "id": 1, "query": "Review PR #57 against its spec and plan before the human reviewer looks at it", "should_trigger": true },
+    { "id": 2, "query": "Run the spec-compliance, correctness, design and security lenses on this branch diff and give me GO or NO-GO", "should_trigger": true },
+    { "id": 3, "query": "The reviewer left eight findings on my PR — help me work through them properly without just agreeing to everything", "should_trigger": true },
+    { "id": 4, "query": "Re-review only the fixes since commit e55a417 and tell me whether F-1 and F-2 are resolved", "should_trigger": true },
+    { "id": 5, "query": "Prepare the review guide and the questions for the engineer who will give Test sign-off on this pull request", "should_trigger": true },
+    { "id": 6, "query": "Check whether this diff quietly weakened tests, skipped specs or lowered the coverage threshold", "should_trigger": true },
+    { "id": 7, "query": "Two reviewers flagged the same line in export.ts — merge the findings and decide which ones are real before rating them", "should_trigger": true },
+    { "id": 8, "query": "Do an independent code review of this feature branch in fresh contexts; I wrote the code so I can't review it myself", "should_trigger": true },
+    { "id": 9, "query": "This is the third review round and there's still a Critical open — what happens now?", "should_trigger": true },
+    { "id": 10, "query": "Write acceptance tests from the spec for AC-1 to AC-6 before the developer finishes", "should_trigger": false },
+    { "id": 11, "query": "Run the DoD commands and fill the Verification table with fingerprints for this PR", "should_trigger": false },
+    { "id": 12, "query": "Build a STRIDE threat model for the new payments endpoint before we write the spec", "should_trigger": false },
+    { "id": 13, "query": "This test fails intermittently on CI, find the root cause", "should_trigger": false },
+    { "id": 14, "query": "Write the spec with acceptance criteria for the CSV export", "should_trigger": false },
+    { "id": 15, "query": "Implement task T3 test-first from the approved plan", "should_trigger": false },
+    { "id": 16, "query": "Write the release notes and decide whether to merge or keep the branch", "should_trigger": false },
+    { "id": 17, "query": "Explain what this regex in utils.ts does", "should_trigger": false },
+    {
+      "id": 18,
+      "query": "Run only security lens L3 with gitleaks and npm audit on this diff",
+      "should_trigger": false
+    }
+  ]
+}
