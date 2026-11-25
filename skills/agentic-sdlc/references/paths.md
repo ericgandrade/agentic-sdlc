@@ -41,7 +41,7 @@ R is the count of triggers present. Check each one against the diff the change w
 | auth | reads or changes authentication, authorization, sessions, tokens, roles or permission checks | +1 |
 | personal/health data | stores, exports, logs or displays a field that identifies a person (name, email, phone, address, government ID, IP address tied to a user) or any health data | **Full-forcing** |
 | money | computes, stores, displays or moves prices, totals, balances, payments, refunds or invoices | +1 |
-| public API | changes a request, response, event or CLI contract consumed outside the repository | +1 |
+| public API | changes a request, response, event or CLI contract consumed outside the repository; for a published library or package, changes the signature, return shape, thrown errors or documented behaviour of an exported symbol (an addition that leaves existing calls unchanged does not count; e.g. `formatPrice()` rounding 2.005 differently does) | +1 |
 | schema/migration | changes a database schema, adds a migration or changes a stored file format | +1 |
 | irreversible | deletes or overwrites data with no restore path, sends external messages, or performs a one-way migration | **Full-forcing** |
 | regulated | falls under a stated regulation or contract clause (HIPAA, PCI DSS, GDPR, SOX, IEC 62304, a client audit clause) | +1 |
