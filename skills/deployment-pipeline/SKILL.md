@@ -73,7 +73,7 @@ Build the **gate matrix**; every row ends with a required check name:
 |---|---|---|---|---|
 | `agentic-sdlc/dod` | every PR, push to default | `sdlc-dod` block read from the base branch | any key exits ≠ 0; coverage < `coverage_min`; key missing | date + PR |
 | `agentic-sdlc/spec` | every PR | `spec-lint --check-approval` on each spec folder touched or named on the PR `Spec:` line | exit 1 (AP04 void hash, WV05 expired waiver, missing sign-off) | |
-| `agentic-sdlc/approvals` | every PR | `plan-graph --check --check-approval` (+ `approval-check --pr`† when vendored) | stale `graph.json`, plan approved against another spec hash | |
+| `agentic-sdlc/approvals` | every PR | `plan-graph --check --check-approval`; `approval-check --pr --author` | stale `graph.json`, plan approved against another spec hash, stale or invalid sign-off, approver = PR author | |
 | `agentic-sdlc/trace` | every PR | `trace-check`† when vendored | — (warning only until vendored; not required yet) | |
 | Existing project checks | as today | unchanged | as today | |
 
@@ -105,7 +105,7 @@ Settings on the default branch (commands and GitLab/Azure DevOps equivalents in 
 | Include administrators | on | No silent bypass |
 | Force push, branch deletion | off | Evidence and rollback depend on history |
 
-Full-path items need two human reviewers (governance §5). Branch protection is repository-wide: set 2 when most work is Full; otherwise keep 1 and have the Reviewer confirm the second approval in the Test sign-off until `approval-check --pr`† enforces it.
+Full-path items need two human reviewers (governance §5). Branch protection is repository-wide: set 2 when most work is Full; otherwise keep 1 and have the Reviewer confirm the second approval in the Test sign-off (`approval-check` counts two Test approvers only in a no-host review record).
 
 Changing repository settings is an admin action outside the diff. Present the exact commands with the before/after JSON, ask the repository admin (usually the Tech Lead) for an explicit "yes", **end the turn**, run them only after the yes in a later turn. Never lower an existing stricter setting. No admin rights → the manual fallback in `references/branch-protection.md` §5: a settings request issue for an admin, `Enforcement: prompt-only` stays, every PR carries the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`, status `DONE_WITH_CONCERNS`.
 

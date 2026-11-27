@@ -10,7 +10,7 @@
 # Jobs (use these names in "Pipelines must succeed" and in the gate-proof table):
 #   agentic-sdlc-dod        every sdlc-dod command + the coverage floor
 #   agentic-sdlc-spec       spec-lint --check-approval on every spec the MR touches or names
-#   agentic-sdlc-approvals  plan-graph --check --check-approval (+ approval-check --pr once vendored)
+#   agentic-sdlc-approvals  plan-graph --check --check-approval, then approval-check with the MR description
 #   agentic-sdlc-trace      trace-check once vendored; until then a warning (allowed to pass)
 # GitLab blocks merge on any failed job when "Pipelines must succeed" is enabled; a job with
 # allow_failure: true never blocks, so none of the gate jobs below set it.
@@ -131,7 +131,15 @@ agentic-sdlc-approvals:
       done < spec-dirs.txt
       if [ -n "${CI_MERGE_REQUEST_IID:-}" ]; then
         if [ -f "$GATE_BIN/approval-check.mjs" ]; then
-          node "$GATE_BIN/approval-check.mjs" --pr "$CI_MERGE_REQUEST_IID" || status=$?
+          printf '%s\n' "${CI_MERGE_REQUEST_DESCRIPTION:-}" > .git/agentic-sdlc-mr-body.md
+          dirs=""
+          while IFS= read -r dir; do
+            if [ -n "$dir" ] && [ -f "$dir/spec.md" ]; then dirs="$dirs $dir"; fi
+          done < spec-dirs.txt
+          # ADAPT: GitLab has no predefined MR-author variable; GITLAB_USER_LOGIN is the user who started
+          # the pipeline (usually the MR author pushing). Set MR_AUTHOR from the MR API when that differs.
+          # $dirs is unquoted on purpose: spec folder names match specs/NNN-slug (no spaces).
+          node "$GATE_BIN/approval-check.mjs" $dirs --pr .git/agentic-sdlc-mr-body.md --author "${MR_AUTHOR:-${GITLAB_USER_LOGIN:-}}" || status=$?
         else
           echo "WARNING: approval-check not vendored; approver ≠ author relies on MR approval rules"
         fi

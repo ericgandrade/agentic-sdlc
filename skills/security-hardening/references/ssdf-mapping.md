@@ -55,6 +55,6 @@ The profile adds tasks for organizations that build or fine-tune models: protect
 
 ## Building an evidence index for a release
 
-1. List the specs in the release; for each, collect the paths in the Evidence location column that exist.
+1. List the specs in the release; for each, run `node .agentic-sdlc/bin/audit-export.mjs specs/NNN-slug` (JSON + CSV bundle with sign-offs, file hashes and these practice tags; exit 1 when an approval fails) and collect the paths in the Evidence location column that exist.
 2. Mark each practice row `evidence present`, `gap` or `not applicable — reason`. Never mark a practice "met".
 3. Put the index under the release notes' links and list every gap as a residual risk with an owner role. The compliance owner records any conformity decision with the Release sign-off when a contract requires one.

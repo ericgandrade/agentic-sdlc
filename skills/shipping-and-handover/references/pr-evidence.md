@@ -101,7 +101,7 @@ The Reviewer fills `## Review guide`; before the Test sign-off request this skil
 - Self-review labels, or `none`.
 - Deferred findings with issue numbers, and waivers, or `none`.
 
-Missing item → the Test sign-off request waits; `approval-check --pr`† will enforce the same once it ships (`../agentic-sdlc/references/artifacts.md` §Later-release files).
+Missing item → the Test sign-off request waits. `approval-check --pr` checks the sign-off rows and waivers, not these items.
 
 ## 8. Anti-patterns
 

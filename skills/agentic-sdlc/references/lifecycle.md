@@ -48,7 +48,7 @@ Quick path: Discover → Build → Test → (Release when production deploys) �
 
 **Intake decision.** Required when Discover finds a duplicate or a prior rejection; otherwise recorded as `n/a — <reason>` in the issue.
 
-**Roles.** One person can hold several roles; the record names the role exercised. Approver ≠ PR author is enforced by `approval-check`† (mechanism 10.4); in a 1-person team the waiver procedure in `references/governance.md` applies.
+**Roles.** One person can hold several roles; the record names the role exercised. Approver ≠ PR author is enforced by `approval-check` (mechanism 10.4); in a 1-person team the waiver procedure in `references/governance.md` applies.
 
 **Enforcement.** Branch protection with ≥ 1 review, CODEOWNERS on `specs/**`, required checks `agentic-sdlc/{dod,spec,trace,approvals}`, and a `production` environment with required reviewers. A host without these features → `doctor` reports `enforcement: prompt-only` and the PR carries that banner.
 

@@ -10,7 +10,7 @@ Artifact folder for the worked example, written from the templates in `templates
 | `graph.json` | Design | Task graph, waves, file conflicts, plan hash | `scripts/plan-graph.mjs --check` |
 | `acceptance-tests.md` | Test | One or more acceptance tests per AC, designed from the spec by the Test Engineer | `trace-check`† (manual: `references/verification.md` §Trace) |
 | `run-ledger.jsonl` | Build | Archived ledger of run `r1`: preflight, red, round, check and finish events | `scripts/run-ledger.mjs status` and `render` |
-| `pr-body.md` | Test | Verification rows bound to the fingerprint, Trace table, Review triage, GO | `dod-gate`, `approval-check`† (manual: `references/verification.md`, `references/governance.md`) |
+| `pr-body.md` | Test | Verification rows bound to the fingerprint, Trace table, Review triage, GO | `dod-gate`, `approval-check`, `audit-export` |
 | `release-notes.md` | Release | AC list, rollout 10% → 100%, rollback rehearsal output, Release sign-off | release checklist R1–R9 in the file (`references/release-ops.md`) |
 | `retro.md` | Operate | Retro within 5 business days, actions with owners | validity checklist in the file (`references/retrospective.md`); `metrics`† |
 

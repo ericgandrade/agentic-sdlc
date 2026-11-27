@@ -86,7 +86,7 @@ An empty `bypass_actors` is the equivalent of `enforce_admins: true`. A bypass a
 
 CODEOWNERS: copy `../../agentic-sdlc/templates/CODEOWNERS`, replace the team handles, then re-run the `codeowners/errors` call. Teams need write access or GitHub ignores the line silently.
 
-Two reviewers for Full-path PRs (governance §5): host rules cannot vary by path size. Options in order: (a) `required_approving_review_count: 2` when most work is Full; (b) keep 1 and have the Reviewer confirm the second human approval in the Test sign-off until `approval-check --pr`† runs in the `approvals` job.
+Two reviewers for Full-path PRs (governance §5): host rules cannot vary by path size. Options in order: (a) `required_approving_review_count: 2` when most work is Full; (b) keep 1 and have the Reviewer confirm the second human approval in the Test sign-off; `approval-check` counts two Test approvers only in a no-host review record, not host reviews.
 
 ## 3. GitHub: Release sign-off on the `production` environment
 

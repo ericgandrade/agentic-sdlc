@@ -80,7 +80,9 @@ const PLACEHOLDER = /\{\{[^}]*\}\}/;
 const UNRESOLVED = /\b(?:TODO|FIXME|XXX)\b|\?\?\?/;
 const CODE_SPAN = /`[^`\n]+`/g;
 const HAS_CODE = /`[^`\n]+`/;
-const EXPLICIT_YES = /\b(?:yes|approved?)\b/i;
+export const EXPLICIT_YES = /\b(?:yes|approved?)\b/i;
+// Words that never count as approval even next to a "yes" (references/governance.md §2).
+export const NOT_APPROVAL = /\b(?:not approved|rejected|revoked|void|pending|silence|no reply|sounds good|whatever you think|probably fine)\b/i;
 const DATE = /^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/;
 
 function blankComments(md) {
@@ -108,14 +110,14 @@ export function riskRoute(triggers) {
   return 'Standard';
 }
 
-function parseDate(text) {
+export function parseDate(text) {
   const m = String(text || '').trim().match(DATE);
   if (!m) return null;
   const d = Date.UTC(+m[1], +m[2] - 1, +m[3], m[4] ? +m[4] : 0, m[5] ? +m[5] : 0);
   return Number.isNaN(d) ? null : { ms: d, day: `${m[1]}-${m[2]}-${m[3]}`, hasTime: m[4] != null };
 }
 
-function unquote(text) {
+export function unquote(text) {
   return String(text || '').trim().replace(/^["“'‘]+|["”'’]+$/g, '').trim();
 }
 
@@ -405,30 +407,7 @@ export function lintSpec(md, { pathOverride, checkApproval = false, today, readS
   const waiverTable = parseTables(approvalsBody).find((t) => t.header.some((h) => /^kind$/i.test(h)));
   const waivers = waiverTable ? tableToObjects(waiverTable) : [];
   for (const w of waivers) {
-    const id = col(w, /^id$/i) || '(no id)';
-    const kind = col(w, /^kind$/i).toLowerCase().replace(/\s+/g, '-');
-    const sev = col(w, /severity/i).toLowerCase();
-    const granted = parseDate(col(w, /granted/i));
-    const expires = parseDate(col(w, /expir/i));
-    const owner = col(w, /owner/i).trim().toLowerCase();
-    const requester = col(w, /requester/i).trim().toLowerCase();
-    if (!['accept-risk', 'defer', 'emergency'].includes(kind)) err('WV01', `waiver ${id}: kind must be accept-risk, defer or emergency`);
-    if (!hasWords(col(w, /reason/i)) || !hasWords(col(w, /gate/i))) err('WV01', `waiver ${id}: gate waived and reason are required`);
-    if (!/#\d+|https?:\/\/\S+|\b[A-Z][A-Z0-9]+-\d+\b/.test(col(w, /follow/i))) err('WV01', `waiver ${id}: follow-up issue (#n, KEY-n or URL) is required`);
-    const soloTeam = /1-person team/.test(owner);
-    if (!owner || !requester || (owner === requester && !soloTeam)) {
-      err('WV02', `waiver ${id}: owner and requester are required and must differ (1-person team: owner "self · 1-person team")`);
-    }
-    if (sev === 'critical' && kind !== 'emergency') err('WV03', `waiver ${id}: a Critical item can only be waived by an emergency waiver`);
-    if (!granted || !expires) err('WV01', `waiver ${id}: Granted and Expires must be YYYY-MM-DD`);
-    else {
-      const days = (expires.ms - granted.ms) / 86400000;
-      const max = kind === 'emergency' ? 7 : 30;
-      if (days < 0 || days > max) err('WV04', `waiver ${id}: expiry is ${days} days after grant; allowed 0–${max}`);
-      if (todayDate && expires.ms < todayDate.ms) {
-        (checkApproval ? err : warn)('WV05', `waiver ${id} expired on ${expires.day}`);
-      }
-    }
+    for (const f of waiverFindings(w, todayDate)) (f.rule === 'WV05' && !checkApproval ? warn : err)(f.rule, f.message);
   }
 
   let approval = null;
@@ -459,7 +438,7 @@ function checkSpecApproval({ approvalsBody, hash, revision, readSibling, err }) 
   if (!/^approved( with conditions)?$/.test(rec.decision)) err('AP02', `binding Specify sign-off decision is "${rec.decision || 'empty'}", not approved`);
   if (rec.rev !== revision) err('AP03', `approval is for rev ${rec.rev}, spec is rev ${revision}: request approval of rev ${revision}`);
   if (rec.hash !== hash) err('AP04', `approval void: recorded hash ${rec.hash || '(none)'} ≠ current ${hash}; run the change protocol (references/rules.md) and request approval again`);
-  if (!EXPLICIT_YES.test(rec.words)) err('AP05', `exact words "${rec.words}" contain no explicit "yes" or "approved"`);
+  if (!EXPLICIT_YES.test(rec.words) || NOT_APPROVAL.test(rec.words)) err('AP05', `exact words "${rec.words}" contain no explicit "yes" or "approved", or a non-approval phrase`);
   if (!parseDate(rec.date)) err('AP06', `approval date "${rec.date}" is not YYYY-MM-DD[ HH:MM]`);
   for (const [k, v] of [['role', rec.role], ['person', rec.person], ['evidence reviewed', col(row, /evidence/i)], ['residual risks', col(row, /residual/i)]]) {
     if (!hasWords(v)) err('AP06', `approval field "${k}" is empty`);
@@ -481,6 +460,36 @@ function checkSpecApproval({ approvalsBody, hash, revision, readSibling, err }) 
   if (unquote(col(e, /exact words/i)) !== rec.words) err('AP08', 'exact words differ between ## Approvals and approvals.md');
   if (col(e, /asked role/i).trim().toLowerCase() !== rec.role.toLowerCase()) err('AP08', `approval role "${rec.role}" is not the role asked in approvals.md ("${col(e, /asked role/i)}")`);
   return rec;
+}
+
+// Rules WV01–WV05 for one waiver row (references/governance.md §6). Columns are matched by their leading
+// word, so template headers such as "Owner (≠ requester)" or "Kind (accept-risk | defer | emergency)" work.
+export function waiverFindings(w, todayDate = parseDate(new Date().toISOString().slice(0, 10))) {
+  const out = [];
+  const err = (rule, message) => out.push({ rule, message });
+  const id = col(w, /^id$/i) || '(no id)';
+  const kind = col(w, /^kind\b/i).toLowerCase().trim().replace(/\s+/g, '-');
+  const sev = col(w, /^severity/i).toLowerCase();
+  const granted = parseDate(col(w, /^granted/i));
+  const expires = parseDate(col(w, /^expir/i));
+  const owner = col(w, /^owner/i).trim().toLowerCase();
+  const requester = col(w, /^requester/i).trim().toLowerCase();
+  if (!['accept-risk', 'defer', 'emergency'].includes(kind)) err('WV01', `waiver ${id}: kind must be accept-risk, defer or emergency`);
+  if (!hasWords(col(w, /reason/i)) || !hasWords(col(w, /^gate/i))) err('WV01', `waiver ${id}: gate waived and reason are required`);
+  if (!/#\d+|https?:\/\/\S+|\b[A-Z][A-Z0-9]+-\d+\b/.test(col(w, /^follow/i))) err('WV01', `waiver ${id}: follow-up issue (#n, KEY-n or URL) is required`);
+  const soloTeam = /1-person team/.test(owner);
+  if (!owner || !requester || (owner === requester && !soloTeam)) {
+    err('WV02', `waiver ${id}: owner and requester are required and must differ (1-person team: owner "self · 1-person team")`);
+  }
+  if (sev === 'critical' && kind !== 'emergency') err('WV03', `waiver ${id}: a Critical item can only be waived by an emergency waiver`);
+  if (!granted || !expires) err('WV01', `waiver ${id}: Granted and Expires must be YYYY-MM-DD`);
+  else {
+    const days = (expires.ms - granted.ms) / 86400000;
+    const max = kind === 'emergency' ? 7 : 30;
+    if (days < 0 || days > max) err('WV04', `waiver ${id}: expiry is ${days} days after grant; allowed 0–${max}`);
+    if (todayDate && expires.ms < todayDate.ms) err('WV05', `waiver ${id} expired on ${expires.day}`);
+  }
+  return out;
 }
 
 export function lintFile(file, opts = {}) {

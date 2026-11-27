@@ -4,7 +4,7 @@ Load at Step 4. Portable forms for the loop *fingerprint → run → capture →
 
 ## 1. Fingerprint
 
-The fingerprint is the first 12 hex characters of a SHA-256 over the git index plus the content of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`. The function is `fingerprint()` in the agentic-sdlc helper library. Use the file-URL form below; it works with relative and absolute paths on macOS, Linux and Windows:
+The fingerprint is the first 12 hex characters of a SHA-256 over the git index plus the content of every modified or untracked file, excluding `.agentic-sdlc/evidence/**` and `.agentic-sdlc/audit/**`. The function is `fingerprint()` in the agentic-sdlc helper library. Use the file-URL form below; it works with relative and absolute paths on macOS, Linux and Windows:
 
 ```bash
 node --input-type=module -e "const {pathToFileURL}=await import('node:url'); const m=await import(pathToFileURL(process.argv[1]).href); console.log(m.fingerprint().short)" "skills/agentic-sdlc/scripts/lib/git.mjs"

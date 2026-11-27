@@ -42,6 +42,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── runs/<id>/                     # run-ledger + preflight: ledger.jsonl, preflight.json, result.json
     ├── runs/preflight.json            # preflight without --run
     ├── evidence/ledger.jsonl          # fingerprint-bound evidence records (evidence)
+    ├── audit/                         # audit-export bundles (JSON + CSV)
     ├── metrics/history.jsonl          # † (metrics)
     └── doctor.json                    # doctor
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
@@ -75,7 +76,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
 | `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor` (age ≤ 90 days) |
 | `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check`† |
-| PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`†, `trace-check`† |
+| PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`, `trace-check`† |
 | Run ledger | `.agentic-sdlc/runs/<id>/ledger.jsonl`; archived to `specs/NNN-slug/run-ledger.jsonl` | generated | Build · `run-ledger start` … `finish` | every `executing-plans` run | `run-ledger status`, `check` |
 | Preflight record | `.agentic-sdlc/runs/<id>/preflight.json` | generated | Build · `preflight` | every `executing-plans` run | `preflight` exit code |
 | Run worktree | `../<repo>-sdlc-<id>` on `sdlc/NNN-<id>` | generated | Build · `run-ledger start --mode unattended` | unattended runs | `preflight` (isolation) |
@@ -100,8 +101,6 @@ Planned files, marked † where other files name them. The router Module Index l
 |---|---|---|---|
 | `scripts/path-score.mjs`† | v3.3.0 | Path score | `references/paths.md` §Score rubric by hand |
 | `scripts/trace-check.mjs`† | v3.2.0 | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
-| `scripts/approval-check.mjs`† | v3.2.0 | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
-| `scripts/audit-export.mjs`† | v3.2.0 | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
 | `scripts/metrics.mjs`† | v3.3.0 | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
 | `references/faq.md`† | unscheduled | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
 | `references/standards-mapping.md`† | unscheduled | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |

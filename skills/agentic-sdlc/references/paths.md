@@ -73,7 +73,7 @@ The fourth and sixth rows show risk overriding size. The tool form of this rubri
 | Artifacts | Issue with acceptance test, PR with Verification | `spec.md`, `plan.md`, `graph.json`, `acceptance-tests.md`, PR, release notes | Standard set + ADRs, `threat-model.md`, `CONSTRAINTS.md`, runbook |
 | Retro | Batched: every 10 merged items or 14 days, whichever comes first | Within 5 business days of Release, ≤ 15 min | Full retro within 5 business days |
 
-Failure behaviour: an approval missing for the current path → status `BLOCKED` at the next stage entry (`references/lifecycle.md` §1); `approval-check`† (mechanism 10.4) fails the PR check once CI is installed.
+Failure behaviour: an approval missing for the current path → status `BLOCKED` at the next stage entry (`references/lifecycle.md` §1); `approval-check` (mechanism 10.4) fails the PR check.
 
 ## 4. Escalate (mechanism 14.3)
 

@@ -332,6 +332,15 @@ Behaviour:
 - `tail` is the last 40 lines of stdout followed by stderr; `stdoutSha256` hashes stdout only. `check` reuses `specAcIds` from `plan-graph.mjs` (retired ACs skipped).
 - The manual steps moved from `verification.md` §4 to `platforms.md` §4 (off the default path); the default-path total fell from 121,383 to 121,249 tokens; `multi-axis-code-review`, `test-signoff-prep.md` and `executing-plans` Exit now name `evidence check` / `evidence record` too.
 
+**Task 3.2 implementation notes (recorded while executing):**
+
+- Rules are `SO01`–`SO10` (not `AC..`, which reads like AC-n). Each stage binds what its template records: Specify rev + spec hash; Design plan rev + plan hash + spec hash (`planHash`, `contentHash`); Test the head SHA (`--head`) or the 12-hex fingerprint; Release the tag. Release and Test rows have no rev or hash column, so "rev + 12-hex hash" applies only to Specify and Design.
+- The Test row binds only in a no-host review record (`review.md`, `docs/reviews/*.md`). A PR body without a filled row reports `host` (branch protection holds the review), so CI on GitHub stays green before the human review. `pending` counts as not reached until release notes exist. Full needs two distinct Test approvers in a review record.
+- Approver = author applies to the Test and Release sign-offs (the code); a Specify or Design approver may open the PR. A row matches on a normalized full name (`lrocha` = `L. Rocha`) or an `@login` in Person. Only a valid waiver whose Gate waived names the author or self-approval covers it. Waiver rules come from the new `spec-lint` export `waiverFindings`, with column matching anchored so `Owner (≠ requester)` is no longer read as the requester column. An invalid or expired waiver in any record read fails `SO09`.
+- Silence vocabulary: `spec-lint` exports `EXPLICIT_YES` and a new `NOT_APPROVAL` list (governance §2 "never counts", plus not approved, rejected, revoked, void, pending). Unfilled template cells (`<…>`) count as pending.
+- `fingerprint` now also excludes `.agentic-sdlc/audit/`, because an untracked bundle staled every evidence row (test added). The `audit-export` CSV carries no timestamp (`generatedAt` is in the JSON only), so it is byte-stable. The SSDF tags are a static map from `ssdf-mapping.md`.
+- GitLab has no predefined MR-author variable. The job uses `${MR_AUTHOR:-$GITLAB_USER_LOGIN}` and marks it ADAPT. The default-path total fell from 121,249 to 121,186 tokens.
+
 **Dependencies (grill Q16):** 3.3 needs 1.4 (`doctor` reports enforcement); 3.1 needs 1.6 (shared fingerprint record); 3.2 needs 1.5 (the CI approvals job).
 
 ---

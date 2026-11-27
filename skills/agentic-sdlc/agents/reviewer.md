@@ -19,7 +19,7 @@ The Developer's reasoning or chat; the PR description as evidence (it is testimo
 
 ## May do
 
-- Run the DoD commands, AC tests, `evidence check`, `trace-check`† and `approval-check --pr`†.
+- Run the DoD commands, AC tests, `evidence check`, `trace-check`† and `approval-check --pr`.
 - Dispatch one fresh context per lens, in parallel when the platform allows; merge and dedup findings (same file, lines ± 3, same cause; keep the highest severity).
 - Write the PR sections Verification, Trace, Review triage and Review guide.
 

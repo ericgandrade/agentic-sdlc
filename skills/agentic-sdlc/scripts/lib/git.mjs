@@ -79,7 +79,7 @@ function excluded(path, exclude) {
 // every modified or untracked file, skipping paths under `exclude` and record files. Equal fingerprints mean
 // the tested tree is byte-identical. Paths are repository-relative; any cwd inside the repository
 // gives the same result. Returns { fingerprint, short (12 hex), clean, head }.
-export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-sdlc/evidence/', 'docs/reviews/', '.agentic-sdlc/doctor.json'] } = {}) {
+export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-sdlc/evidence/', '.agentic-sdlc/audit/', 'docs/reviews/', '.agentic-sdlc/doctor.json'] } = {}) {
   if (!isRepo(start)) throw new InputError(`not a git repository: ${start}`);
   const cwd = topLevel(start);
   const h = createHash('sha256');

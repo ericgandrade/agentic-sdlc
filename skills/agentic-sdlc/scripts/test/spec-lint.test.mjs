@@ -158,6 +158,7 @@ test('editing the spec after approval voids the approval', () => {
 
 test('approval check fails without an explicit yes, a register, or a later-turn answer', () => {
   assert.ok(rules(lint(edit(SPEC, '"Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint', '"Sounds good" | spec-lint'), { checkApproval: true })).includes('AP05'));
+  assert.ok(rules(lint(edit(SPEC, '"Yes — approved: spec rev 1 and plan rev 1 as presented." | spec-lint', '"Yes, whatever you think" | spec-lint'), { checkApproval: true })).includes('AP05'));
   assert.ok(rules(lint(SPEC, { checkApproval: true, siblings: {} })).includes('AP07'));
   const sameTurn = REGISTER.replace('| 2026-11-23 10:05 | Product Owner | 2026-11-23 14:40 |', '| 2026-11-23 14:40 | Product Owner | 2026-11-23 14:40 |');
   assert.ok(rules(lint(SPEC, { checkApproval: true, siblings: { 'approvals.md': sameTurn } })).includes('AP08'));

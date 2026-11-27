@@ -8,8 +8,8 @@
 #   agentic-sdlc/dod        every sdlc-dod command + the coverage floor
 #   agentic-sdlc/spec       spec-lint --check-approval on every spec the PR touches or names,
 #                           then ext-check on .agentic-sdlc/extensions/ (passes when there are none)
-#   agentic-sdlc/approvals  plan-graph --check --check-approval on the same folders
-#                           (+ approval-check --pr once that script is vendored)
+#   agentic-sdlc/approvals  plan-graph --check --check-approval on the same folders, then
+#                           approval-check on them with the PR body and the PR author
 #   agentic-sdlc/trace      trace-check once vendored; until then it reports a warning and passes,
 #                           so do NOT mark it required before the script exists
 #
@@ -204,7 +204,8 @@ jobs:
       BASE_REF: ${{ github.base_ref }}
       BEFORE_SHA: ${{ github.event.before }}
       PR_BODY: ${{ github.event.pull_request.body }}
-      PR_NUMBER: ${{ github.event.pull_request.number }}
+      PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+      PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -249,15 +250,21 @@ jobs:
             echo "::endgroup::"
           done < "$RUNNER_TEMP/spec-dirs.txt"
           exit $status
-      - name: approval-check --pr (when vendored)
+      - name: approval-check (sign-off rows, hashes, waivers, approver ≠ PR author)
         if: ${{ github.event_name == 'pull_request' }}
         run: |
           set -euo pipefail
-          if [ -f "${GATE_BIN:-$SDLC_BIN}/approval-check.mjs" ]; then
-            node "${GATE_BIN:-$SDLC_BIN}/approval-check.mjs" --pr "$PR_NUMBER"
-          else
-            echo "::warning::approval-check not vendored: approver ≠ author is enforced only by branch protection and CODEOWNERS"
+          bin="${GATE_BIN:-$SDLC_BIN}"
+          if [ ! -f "$bin/approval-check.mjs" ]; then
+            echo "::warning::approval-check.mjs not vendored: approver ≠ author is enforced only by branch protection and CODEOWNERS"
+            exit 0
           fi
+          printf '%s\n' "${PR_BODY:-}" > "$RUNNER_TEMP/pr-body.md"
+          dirs=()
+          while IFS= read -r dir; do
+            if [ -n "$dir" ] && [ -f "$dir/spec.md" ]; then dirs+=("$dir"); fi
+          done < "$RUNNER_TEMP/spec-dirs.txt"
+          node "$bin/approval-check.mjs" ${dirs[@]+"${dirs[@]}"} --pr "$RUNNER_TEMP/pr-body.md" --author "$PR_AUTHOR" --head "$PR_HEAD_SHA"
 
   trace:
     name: agentic-sdlc/trace

@@ -10,14 +10,14 @@ Load this file for any approval request, any approval record, any waiver, and th
 |---|---|---|---|---|---|
 | **Specify** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
 | **Design** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
-| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA (PR host); no PR host → evidence fingerprint (`references/verification.md` §4; record files excluded) | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr`† (10.4) |
+| **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA (PR host); no PR host → evidence fingerprint (`references/verification.md` §4; record files excluded) | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr` (10.4) |
 | **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
 
 Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3). Quick-path items have no `specs/` folder.
 
 **Test sign-off staleness.** With a PR host, a push after the request makes the request stale (the review binds to the head SHA). Without a PR host, the sign-off binds to the fingerprint, so committing the review record does not stale it; any change to code or tests changes the fingerprint and voids it.
 
-**Accountability roles (K12).** One person can hold several roles; every record names the role exercised. Approver ≠ PR author is enforced by `approval-check`† (mechanism 10.4); in a 1-person team the waiver procedure (§6) applies.
+**Accountability roles (K12).** One person can hold several roles; every record names the role exercised. `approval-check --author` (10.4) fails a Test or Release approver = PR author (Person: name or `@login`) unless a valid waiver naming the author covers it (§6); `audit-export` bundles the records with SSDF tags (10.6).
 
 | Role | Accountable for | Never |
 |---|---|---|
@@ -140,7 +140,7 @@ Rules (`spec-lint` rules WV01–WV05): kind is one of the three; gate and reason
 
 The owner is written `self · 1-person team`; the decision is taken in a later session at least 12 hours after the request, and the PR banner shows `self-approved under waiver W<n>`.
 
-**Failure behaviour.** A malformed waiver → `spec-lint` exit 1. An expired waiver → `spec-lint --check-approval` exit 1 (`WV05`), Release go/no-go item R8 false, and `approval-check`† FAIL once CI is installed. Renewal is a new row, never an edited date.
+**Failure behaviour.** A malformed waiver → `spec-lint` exit 1. An expired waiver → `spec-lint --check-approval` exit 1 (`WV05`), Release go/no-go item R8 false, and `approval-check` FAIL. Renewal is a new row, never an edited date.
 
 ## 7. Enforcement (K5)
 
