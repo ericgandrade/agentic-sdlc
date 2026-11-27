@@ -10,6 +10,7 @@ Load when a team adopts the method, when the project already has Spec Kit, Kiro,
 | Install the skills | Any engineer | `npx agentic-sdlc-method` or the platform's plugin flow; router answers "what is next?" |
 | Run `project-context` setup | Any engineer | AGENTS.md block with the `sdlc-dod` commands; `docs/codemap.md` on brownfield repos |
 | Run the Definition of Done once | Any engineer | Every `sdlc-dod` command runs; failures recorded on the block's `Baseline:` line (`paths.md` §5) |
+| Install the day-1 CI gates (`project-context` setup or adopt) | Any engineer with write access | `agentic-sdlc/dod`, `agentic-sdlc/spec` and `agentic-sdlc/approvals` jobs, `security.yml` (secret scan, dependency audit) and `CODEOWNERS` run on every PR; `doctor` shows `ci: present`. No admin rights needed; teams without Node locally get the same gates because CI runs them |
 | Map existing artifacts (§3) | Tech Lead | `Artifacts:` line in the AGENTS.md block |
 
 ## 2. Three-week rollout
@@ -18,11 +19,11 @@ Each week adds one layer. Do not start the next layer until the exit check passe
 
 | Week | Scope | Exit check |
 |---|---|---|
-| 1 — Quick | Bug fixes and small changes only, on the Quick path: Analyst scores, failing acceptance test first, Developer fixes, Reviewer checks, PR with a Verification section | ≥ 3 merged Quick PRs whose Verification sections show fresh command output; one batched retro held |
-| 2 — Standard | One feature on the Standard path: `spec.md` with Specify sign-off, `plan.md` with Design sign-off, task-by-task Build, Test sign-off, Release sign-off | One item reaches Operate with every approval recorded and `spec-lint --check-approval` and `plan-graph --check --check-approval` passing |
-| 3 — CI gates | Install the CI template (`deployment-pipeline` skill), CODEOWNERS for `specs/**` and branch protection; prove each gate blocks a bad change | Each gate shows one blocked change on record; approvals can no longer be bypassed by a merge |
+| 1 — Quick | Bug fixes and small changes only, on the Quick path: Analyst scores, failing acceptance test first, Developer fixes, Reviewer checks, PR with a Verification section. The day-1 CI checks run on every PR; GO requires them green | ≥ 3 merged Quick PRs whose Verification sections show fresh command output and green CI checks; one batched retro held |
+| 2 — Standard | One feature on the Standard path: `spec.md` with Specify sign-off, `plan.md` with Design sign-off, task-by-task Build, Test sign-off, Release sign-off | One item reaches Operate with every approval recorded and the `agentic-sdlc/spec` and `agentic-sdlc/approvals` checks green |
+| 3 — Branch protection | Make the day-1 checks required and turn on branch protection and "Require review from Code Owners" (`deployment-pipeline` skill; needs admin rights); prove each gate blocks a bad change. The Full path and unattended runs open after this week | Each gate shows one blocked change on record; approvals can no longer be bypassed by a merge |
 
-The Full path, unattended mode, extensions and metrics stay off until week 3 is done or someone asks for them (mechanism 1.4).
+The Full path, unattended mode, extensions and metrics stay off until week 3 is done or someone asks for them (mechanism 1.4). A day-1 gate that blocks wrongly is waived with the waiver procedure (`governance.md` §6: owner ≠ requester, expiry ≤ 30 days), never deleted.
 
 ## 3. Existing artifact folders
 

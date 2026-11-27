@@ -251,6 +251,12 @@ Behaviour:
 - the trigger evals in `skills/project-context/evals/` still pass;
 - the default-path budget does not rise.
 
+**Implementation notes (recorded while executing):**
+- The day-1 set is the existing template's `agentic-sdlc/dod`, `agentic-sdlc/spec` and `agentic-sdlc/approvals` jobs. `approval-check` stays Phase 3; the approvals job runs `plan-graph --check --check-approval`.
+- `project-context` gains Step 7b and an `upgrade` mode (`adopt --upgrade`) for repositories adopted before 3.1. Existing CI files are never overwritten.
+- The `Enforcement:` line stays `prompt-only` until week 3, because checks that are not required block nothing.
+- The trigger evals need an LLM runner and were not re-run (`TODO.md` #1). The skill description is unchanged.
+
 **Rollback (grill Q11):** a gate that blocks wrongly is waived with the existing waiver procedure (`references/governance.md` §6: owner ≠ requester, expiry ≤ 30 days). It is never deleted.
 
 ### Task 1.6 · `dod-gate.mjs` (C3 4 → 5)

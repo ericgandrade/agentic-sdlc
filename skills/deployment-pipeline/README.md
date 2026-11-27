@@ -4,7 +4,7 @@ Release-stage skill of the **Agentic SDLC**, used by the Release Engineer. It ma
 
 ## When to use
 
-- When adopting the method (week 3, CI gates) or when the AGENTS.md block says `Enforcement: prompt-only` on a host that offers branch protection.
+- When adopting the method (week 3: required checks and branch protection over the day-1 CI gates) or when the AGENTS.md block says `Enforcement: prompt-only` on a host that offers branch protection.
 - To port the gates to GitLab, Azure Pipelines, Jenkins, CircleCI or Bitbucket.
 - To re-prove the gates after a workflow, protection, CODEOWNERS or `sdlc-dod` change, or every 90 days.
 - Before a release: choose canary, blue-green, rolling, feature flag or expand-contract; rehearse the rollback; record R3, R4 and R5.
