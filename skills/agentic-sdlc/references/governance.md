@@ -152,7 +152,7 @@ The owner is written `self · 1-person team`; the decision is taken in a later s
 | CODEOWNERS | `specs/** @tech-leads @product-owners` | Spec or plan edits without an owner's review |
 | Environment reviewers | GitHub `production` environment with the Release Owner as required reviewer | Deploy without Release sign-off |
 
-**Failure behaviour.** A host or plan without one of these controls → the doctor† reports WARN per missing control, the AGENTS.md block records `Enforcement: prompt-only`, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`. The approval gate in `preflight` still runs wherever Node ≥ 18 exists.
+**Failure behaviour.** A host or plan without one of these controls → `doctor` reports `enforcement: prompt-only` (and fails an `Enforcement:` line that claims more), the AGENTS.md block records `Enforcement: prompt-only`, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`. The approval gate in `preflight` still runs wherever Node ≥ 18 exists.
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 

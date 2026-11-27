@@ -141,6 +141,8 @@ Create or update `.agentic-sdlc/adoption.md` from `templates/adoption.md`: appro
 
 Show the complete block, the instruction ledger (adopt, refresh, audit), the code map summary, the vendored file list and the adoption-ledger rows. Ask for a decision and end the turn; write only after an explicit "yes" in a later turn. Replace only the text between the markers; text outside changes only through an approved ledger row. Changes to `AGENTS.md`, `CLAUDE.md`, CI files, CODEOWNERS or `.agentic-sdlc/bin/` go in their own context PR or in a plan task whose `Files` list names them (`../agentic-sdlc/references/security.md` S20). CI reads the DoD from the base branch, so the block binds after merge. Never commit without the user's go-ahead.
 
+Setup, adopt and refresh end with `node .agentic-sdlc/bin/doctor.mjs`: show its result and fix each `fail` with the printed command before the first Build. `warn` rows go to the adoption ledger. Node absent → record `doctor: not run (no Node)` and `Enforcement: prompt-only`; CI still runs the gates.
+
 ### Enforce mode — inputs for the CI gates
 
 Prepare, do not install (`references/enforcement-setup.md`): re-run the probe; produce the value table for the CI templates (`DOD_FILE`, `SDLC_BIN`, `COVERAGE_SUMMARY`, default branch, install step, image) from `../agentic-sdlc/templates/ci/agentic-sdlc.yml`, `../agentic-sdlc/templates/ci/gitlab-ci.yml` and `../agentic-sdlc/templates/ci/security.yml`; list the CODEOWNERS lines the context depends on (`../agentic-sdlc/templates/CODEOWNERS`); hand off to `deployment-pipeline`. When every control in `governance.md` §7 has a red and a green proof run, propose `Enforcement: branch-protection` and the ledger rows. A file that exists is not a control that works.

@@ -13,7 +13,7 @@ Four readers parse the same block. A block is correct only when all four accept 
 | CI on GitLab (`../../agentic-sdlc/templates/ci/gitlab-ci.yml`, job `agentic-sdlc-dod`) | `DOD_FILE` from the merge request **target** branch | Same `awk` extraction as GitHub | Same four keys | Same rules |
 | Humans and agents | The block in the instruction file | The same lines | The Developer before every completion claim; the Reviewer re-runs; the Release Engineer on the release commit (`verification.md` §1) | A missing row → claim withdrawn, status `BLOCKED` |
 
-`dod-gate`† and the doctor† will read the same block once they ship (`../../agentic-sdlc/references/artifacts.md` §Later-release files).
+`doctor` reads the same block; `dod-gate`† will once it ships (`../../agentic-sdlc/references/artifacts.md` §Later-release files).
 
 ## 2. Format rules that satisfy every reader
 

@@ -1,6 +1,6 @@
 # Agentic SDLC — Platforms: Install, Mapping and Degradation
 
-Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when the doctor† reports a platform WARN. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
+Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when `doctor` reports `enforcement: prompt-only`. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
 
 ## 1. Capability probe (mechanism 15.1)
 
@@ -23,7 +23,7 @@ Load this file during `project-context` setup on a new platform, when the router
 - Enforcement: branch-protection · permissions: enforced
 ```
 
-**Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3 and the doctor† reports it as WARN.
+**Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3.
 
 ## 2. Per-platform mapping
 

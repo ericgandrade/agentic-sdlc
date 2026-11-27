@@ -55,7 +55,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 
 | Artifact | Location | Template | Created in · by | Required on | Validated by |
 |---|---|---|---|---|---|
-| AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor`† |
+| AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor` |
 | Issue with acceptance test | tracker; no tracker → `docs/issues/NNNN-slug.md` | — (Given/When/Then in the issue body) | Discover · Analyst | Quick | Reviewer lens L1 |
 | Out-of-scope record | `docs/out-of-scope/<slug>.md` | `issue-triage` skill, references/templates.md | Discover · Analyst; Product Owner decides | when a request is declined | duplicate search (`issue-triage`) |
 | Discovery brief | `specs/NNN-slug/brief.md`; Quick → issue comment | skill `brainstorming`, templates/brief.md | Discover · Analyst | when `brainstorming` runs | Analyst input to Specify |
@@ -73,7 +73,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | ADR | `docs/adr/NNNN-slug.md` | §ADR below | Design · Architect | Full; Standard when a decision is expensive to reverse | Reviewer lens L2 |
 | `plan.md` | `specs/NNN-slug/` | `templates/plan.md` | Design · Planner | Standard, Full | `plan-graph` |
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
-| `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor`† (age ≤ 90 days, every top-level dir mapped) |
+| `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor` (age ≤ 90 days) |
 | `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check`† |
 | PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`†, `trace-check`† |
 | Run ledger | `.agentic-sdlc/runs/<id>/ledger.jsonl`; archived to `specs/NNN-slug/run-ledger.jsonl` | generated | Build · `run-ledger start` … `finish` | every `executing-plans` run | `run-ledger status`, `check` |
@@ -106,7 +106,7 @@ The router Module Index and other files name the files below; they are added in 
 | `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
 | `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
-| `references/faq.md`†, `upgrading.md`† | Troubleshooting; upgrades | `project-context audit`; re-run `project-context` setup |
+| `references/faq.md`† | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
 | `references/standards-mapping.md`† | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
 | `examples/paths/`† | Path examples | `references/paths.md` examples |
 
@@ -142,7 +142,7 @@ coverage_min: 78.4
 <!-- AGENTIC-SDLC:END -->
 ````
 
-Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `test`, `coverage`, `coverage_min`; a key with no command in the project is written as `<key>: n/a — <reason>`. `coverage_min` defaults to the coverage measured at adoption and is never lowered; a higher measured value becomes the new floor. Missing block → `preflight` and `run-ledger start` exit 2 (`dod-gate`† exit 2 and `doctor`† FAIL once added).
+Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `test`, `coverage`, `coverage_min`; a key with no command in the project is written as `<key>: n/a — <reason>`. `coverage_min` defaults to the coverage measured at adoption and is never lowered; a higher measured value becomes the new floor. Missing block → `preflight` and `run-ledger start` exit 2, `doctor` FAIL (`dod-gate`† exit 2 once added).
 
 ## ADR
 

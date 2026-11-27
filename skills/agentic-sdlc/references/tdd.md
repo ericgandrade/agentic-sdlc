@@ -100,7 +100,7 @@ The left column quotes thoughts to catch; the right column is the rule.
 
 ## 5. Without Node
 
-`run-ledger` absent → paste red and green output into the task report and the PR `## Verification` table; record failed rounds in `plan.md` `## Loop ledger`. The rules and failure behaviour are unchanged; the doctor† reports `enforcement: prompt-only`.
+`run-ledger` absent → paste red and green output into the task report and the PR `## Verification` table; record failed rounds in `plan.md` `## Loop ledger`. The rules and failure behaviour are unchanged; `doctor` reports `enforcement: prompt-only`.
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
