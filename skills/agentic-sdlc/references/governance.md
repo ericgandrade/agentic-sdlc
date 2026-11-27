@@ -1,10 +1,10 @@
 # Agentic SDLC — Governance: Approvals, Revisions and Waivers
 
-Load this file for any approval request, any approval record, any waiver, and the enforcement setup. It implements mechanisms **10.1** (approval records), **2.3** (revision hash and re-open rule), **10.3** (waivers) and states **10.2** (risk-scaled depth, procedure in `references/paths.md` §3). Rule 3 of `references/rules.md` ("Humans approve, agents execute") governs; this file is its procedure.
+Load this file for any approval request or record, any waiver, and the enforcement setup. It implements mechanisms **10.1** (approval records), **2.3** (revision hash and re-open rule), **10.3** (waivers) and states **10.2** (risk-scaled depth, procedure in `references/paths.md` §3). Rule 3 of `references/rules.md` ("Humans approve, agents execute") governs; this file is its procedure.
 
 ## 1. The four sign-offs and their owners
 
-**Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review (no PR host: the `## Test sign-off` row of the review record, `templates/pr-body.md`); the Release sign-off is the `## Approval` section of the release notes. Each sign-off is named after the stage it closes.
+**Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review (no PR host: the `## Test sign-off` row of the review record, `templates/pr-body.md`); the Release sign-off is the `## Approval` section of the release notes.
 
 | Sign-off | Owner role (decides) | Artifact | Bound to | Binding record | Deterministic check |
 |---|---|---|---|---|---|
@@ -13,7 +13,7 @@ Load this file for any approval request, any approval record, any waiver, and th
 | **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA (PR host); no PR host → evidence fingerprint (`references/verification.md` §4; record files excluded) | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr` (10.4) |
 | **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
 
-Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3). Quick-path items have no `specs/` folder.
+Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3).
 
 **Test sign-off staleness.** With a PR host, a push after the request makes the request stale (the review binds to the head SHA). Without a PR host, the sign-off binds to the fingerprint, so committing the review record does not stale it; any change to code or tests changes the fingerprint and voids it.
 
@@ -151,8 +151,9 @@ The owner is written `self · 1-person team`; the decision is taken in a later s
 | Branch protection | ≥ 1 approving review; dismiss stale reviews; required checks `agentic-sdlc/{dod,spec,approvals}` (`trace` once `trace-check`† ships; until then the Reviewer checks the PR Trace section) | Merge without Test sign-off or with a red check |
 | CODEOWNERS | `specs/** @tech-leads @product-owners` | Spec or plan edits without an owner's review |
 | Environment reviewers | GitHub `production` environment with the Release Owner as required reviewer | Deploy without Release sign-off |
+| Host guard | `guard.mjs` hooks (`project-context` Step 7c) | Push, merge, tag, publish; code edits before Design sign-off; S20 paths; sign-off without a human turn |
 
-**Failure behaviour.** A host or plan without one of these controls → `doctor` reports `enforcement: prompt-only` (and fails an `Enforcement:` line that claims more), the AGENTS.md block records `Enforcement: prompt-only`, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`. The approval gate in `preflight` still runs wherever Node ≥ 18 exists.
+**Failure behaviour.** A host or plan without one of these controls → `doctor` reports `enforcement: prompt-only` (failing an `Enforcement:` line that claims more), the block records it, and every PR body starts with the banner `enforcement: prompt-only — approvals are not system-enforced on this repository`.
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 

@@ -83,6 +83,8 @@ Set lower values in `.agentic-sdlc/config.json` `{"budgets": {"max_hours": 2}}` 
 
 The run may: read and search, edit files in the current task's Files, run `sdlc-dod` and test commands, `git add`, `git commit`, `git status`, `git diff` inside the worktree. It may not: push (any branch), merge, rebase the base branch, deploy, release, tag, read or print secrets, install software globally, delete files outside the plan, call the network beyond the package registry the plan approves. Subagents receive a subset of the delegating agent's tools, never more (`references/agents.md`). An attempt → halt `authority`.
 
+Where the host supports hooks (Claude Code), these limits are enforced, not only instructed: the `scripts/guard.mjs` `PreToolUse` hook from `templates/host-config/claude-code/settings.json` refuses push, merge into the default branch, tag, publish, deploy and `--force` before the command runs, and refuses edits of S20 paths (`.agentic-sdlc/bin/`, `config.json`, CI files, CODEOWNERS, host permission files, the AGENTIC-SDLC block). A refusal counts as an attempt: halt `authority`. Copilot CLI, Codex, OpenCode and Gemini CLI enforce the tool restrictions of their templates; Antigravity, Cursor and AdaL stay `prompt-only` (`references/platforms.md` §2).
+
 ## 6. Resume and rulings (8.5)
 
 | Element | Rule |

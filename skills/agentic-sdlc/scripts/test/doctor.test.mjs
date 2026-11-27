@@ -114,6 +114,28 @@ test('check 6: the Enforcement line must match the CI and host permission files 
   assert.equal(r.ci, 'present');
 });
 
+test('check 6: each detected host is reported enforced or prompt-only, and the three hosts without controls are named', () => {
+  const cc = doctor(project({ extra: { '.claude/settings.json': JSON.stringify({ permissions: { deny: ['Bash(git push *)'] }, hooks: { PreToolUse: [{ hooks: [{ command: 'node .agentic-sdlc/bin/guard.mjs pre-tool --host claude-code' }] }] } }) } }));
+  assert.deepEqual(cc.hosts, [{ host: 'claude-code', permissions: 'enforced', evidence: '.claude/settings.json + guard hook' }]);
+  assert.match(check(cc, 'enforcement').detail, /always prompt-only: antigravity, cursor, adal \(no host controls\)/);
+  const copilot = doctor(project({ extra: { '.github/agents/reviewer.agent.md': '---\nname: reviewer\ntools: [\'view\']\n---\n' } }));
+  assert.equal(copilot.hosts.find((h) => h.host === 'copilot-cli').permissions, 'enforced');
+  const cursor = doctor(project({ agents: block({ enforcement: 'Platform: cursor · subagents: no\n- Enforcement: prompt-only · permissions: prompt-only' }), extra: { '.cursor/rules/a.mdc': 'x\n' } }));
+  assert.deepEqual(cursor.hosts, [{ host: 'cursor', permissions: 'prompt-only', evidence: 'no host controls' }]);
+  assert.equal(check(cursor, 'enforcement').status, 'ok');
+  const missing = doctor(project({ agents: block({ enforcement: 'Platform: codex · subagents: yes\n- Enforcement: prompt-only · permissions: prompt-only' }) }));
+  assert.equal(missing.hosts[0].host, 'codex');
+  assert.equal(missing.hosts[0].permissions, 'prompt-only');
+  assert.match(missing.hosts[0].evidence, /templates\/host-config\/codex/);
+  // Claiming enforced while the Platform host has no controls fails, even with another host's config present.
+  const claim = doctor(project({
+    agents: block({ enforcement: 'Platform: adal · subagents: no\n- Enforcement: prompt-only · permissions: enforced' }),
+    extra: { 'opencode.json': JSON.stringify({ permission: { edit: 'ask' } }) },
+  }));
+  assert.equal(check(claim, 'enforcement').status, 'fail');
+  assert.match(check(claim, 'enforcement').detail, /Platform host adal is prompt-only/);
+});
+
 test('check 7: extensions must pass ext-check', () => {
   const dir = project({ extra: { '.agentic-sdlc/extensions/x/extension.json': JSON.stringify({ name: 'x', version: '0.1.0', interface: '^9.0.0', kind: 'review-lens', entry: 'lens.md', attachesTo: 'review.lenses', sha256: 'aa' }), '.agentic-sdlc/extensions/x/lens.md': '# x\n' } });
   const c = check(doctor(dir), 'extensions');

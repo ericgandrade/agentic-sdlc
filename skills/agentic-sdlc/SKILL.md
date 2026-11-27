@@ -136,11 +136,11 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
 | `templates/codemap.md`, `threat-model.md` | Brownfield adoption; risk-triggered spec |
 | `templates/ops-record.md`, `postmortem.md`, `runbook.md` | Operate; SEV1/2 incident; operated-behaviour change |
-| `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS` | `project-context` CI and enforcement setup |
+| `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS`, `host-config/` | `project-context` CI and enforcement setup |
 | `scripts/spec-lint.mjs`, `plan-graph.mjs`, `approval-check.mjs`, `audit-export.mjs` | Before Specify / Design sign-off; CI; audit |
 | `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
 | `scripts/dod-gate.mjs`, `evidence.mjs` | Completion claims; before Reviewer GO and Test sign-off; CI runs `dod-gate` |
-| `scripts/status.mjs`, `doctor.mjs` | Step 0; setup check |
+| `scripts/status.mjs`, `doctor.mjs`, `guard.mjs` | Step 0; setup check; host hooks |
 | `scripts/budget-check.mjs`, `ext-check.mjs` | CI on `skills/**`; before loading any extension |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
 | `examples/worked-example/` | Learning the Standard path; script test fixtures |

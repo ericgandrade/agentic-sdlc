@@ -1,0 +1,14 @@
+{
+  "context": {
+    "fileName": ["AGENTS.md", "GEMINI.md"]
+  },
+  "tools": {
+    "exclude": [
+      "run_shell_command(git push)",
+      "run_shell_command(git merge)",
+      "run_shell_command(git tag)",
+      "run_shell_command(gh pr merge)",
+      "run_shell_command(npm publish)"
+    ]
+  }
+}

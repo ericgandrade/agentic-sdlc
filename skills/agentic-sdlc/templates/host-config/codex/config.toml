@@ -1,0 +1,10 @@
+# Agentic SDLC host guard for OpenAI Codex: copy to .codex/config.toml (project-context Step 7c).
+# Codex runs no guard hook here, so the sign-off gates stay prompt-enforced; these keys are the concrete
+# controls (references/platforms.md §2). Reviewer runs use: codex exec --sandbox read-only
+# Writes stay inside the workspace, the network is off, and any command that needs more (git push,
+# merge, tag, publish, deploy) asks the human first.
+sandbox_mode = "workspace-write"
+approval_policy = "on-request"
+
+[sandbox_workspace_write]
+network_access = false

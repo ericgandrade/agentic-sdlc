@@ -26,7 +26,8 @@ Checks, in order (each ok / warn / fail, with the command that fixes it):
   6 enforcement   the "Enforcement:" line matches the CI files and host permission config present
   7 extensions    every extension passes ext-check
 Writes .agentic-sdlc/doctor.json unless --no-write. Reports enforcement: enforced | prompt-only
-(prompt-only when Node or a host permission config is absent) and ci: present | absent.
+(prompt-only when Node or a host permission config is absent), ci: present | absent, and enforced |
+prompt-only per detected host; antigravity, cursor and adal have no host controls: always prompt-only.
 Exit codes: 0 no check failed · 1 a check failed.`;
 
 const row = (id, status, detail, fix = '') => ({ id, status, detail, fix });
@@ -125,32 +126,67 @@ const CI_FILES = (root) => {
   return out;
 };
 
-// Host permission configs with concrete controls (references/platforms.md §2 Agents, tools and permissions).
-const HOST_FILES = (root) => {
-  const has = (rel, re) => re.test(read(join(root, rel)) ?? '');
-  const out = [];
-  if (has('.claude/settings.json', /"permissions"/)) out.push('.claude/settings.json');
-  const agents = join(root, '.github', 'agents');
-  if (existsSync(agents) && readdirSync(agents).some((f) => f.endsWith('.agent.md'))) out.push('.github/agents/');
-  if (has('.codex/config.toml', /sandbox_mode/)) out.push('.codex/config.toml');
-  if (has('opencode.json', /"permission"/)) out.push('opencode.json');
-  if (has('.gemini/settings.json', /"exclude"/)) out.push('.gemini/settings.json');
-  return out;
-};
+// Host permission configs with concrete controls (references/platforms.md §2 Agents, tools and permissions;
+// templates in templates/host-config/). The other three hosts have none: always prompt-only.
+export const HOST_CONTROLS = Object.freeze([
+  { host: 'claude-code', file: '.claude/settings.json', re: /"permissions"/, alias: /claude/ },
+  { host: 'copilot-cli', file: '.github/agents/', alias: /copilot/ },
+  { host: 'codex', file: '.codex/config.toml', re: /sandbox_mode/, alias: /codex/ },
+  { host: 'opencode', file: 'opencode.json', re: /"permission"/, alias: /opencode/ },
+  { host: 'gemini', file: '.gemini/settings.json', re: /"exclude"/, alias: /^gemini/ },
+]);
+export const PROMPT_ONLY_HOSTS = Object.freeze([
+  { host: 'antigravity', dir: '.agent', alias: /antigravity/ },
+  { host: 'cursor', dir: '.cursor', alias: /cursor/ },
+  { host: 'adal', dir: '.adal', alias: /adal/ },
+]);
+
+function hasControl(root, h) {
+  if (h.host === 'copilot-cli') {
+    const agents = join(root, '.github', 'agents');
+    return existsSync(agents) && readdirSync(agents).some((f) => f.endsWith('.agent.md'));
+  }
+  return h.re.test(read(join(root, h.file)) ?? '');
+}
+
+// Per detected host: { host, permissions: enforced | prompt-only, evidence }. A host is detected by its
+// control file, its directory, or the block's "Platform:" line.
+function hostReport(root, text) {
+  const platform = ((text.match(/Platform:\s*([a-z0-9 -]+?)\s*(?:·|$)/im) || [])[1] || '').toLowerCase();
+  const named = (h) => Boolean(platform) && h.alias.test(platform);
+  const hosts = [];
+  for (const h of HOST_CONTROLS) {
+    if (hasControl(root, h)) {
+      const guard = h.host === 'claude-code' && /guard\.mjs pre-tool/.test(read(join(root, h.file)) ?? '') ? ' + guard hook' : '';
+      hosts.push({ host: h.host, permissions: 'enforced', file: h.file, evidence: h.file + guard });
+    } else if (named(h)) {
+      hosts.push({ host: h.host, permissions: 'prompt-only', file: null, evidence: `no ${h.file}; template templates/host-config/${h.host}/` });
+    }
+  }
+  for (const h of PROMPT_ONLY_HOSTS) {
+    if (named(h) || existsSync(join(root, h.dir))) hosts.push({ host: h.host, permissions: 'prompt-only', file: null, evidence: 'no host controls' });
+  }
+  const current = hosts.find((h) => named([...HOST_CONTROLS, ...PROMPT_ONLY_HOSTS].find((x) => x.host === h.host)));
+  return { hosts, current };
+}
 
 function enforcementCheck(root) {
   const ci = CI_FILES(root);
-  const host = HOST_FILES(root);
   let text = '';
   for (const f of ['AGENTS.md', 'CLAUDE.md']) text += read(join(root, f)) ?? '';
+  const { hosts, current } = hostReport(root, text);
+  const host = hosts.filter((h) => h.file).map((h) => h.file);
   const m = text.match(/Enforcement:\s*([a-z-]+)(?:\s*[·|,]?\s*permissions:\s*([a-z-]+))?/i);
-  const facts = { ci: ci.length ? 'present' : 'absent', host };
-  const fix = 'correct the Enforcement: line, or install the CI jobs (skills/agentic-sdlc/templates/ci/) and a host permission config (references/platforms.md §2)';
-  if (!m) return { ...facts, row: row('enforcement', 'warn', 'no "Enforcement:" line in the AGENTS.md block', fix) };
+  const facts = { ci: ci.length ? 'present' : 'absent', host, hosts: hosts.map(({ file, ...h }) => h) };
+  const fix = 'correct the Enforcement: line, or install the CI jobs (skills/agentic-sdlc/templates/ci/) and a host permission config (templates/host-config/, references/platforms.md §2)';
+  const per = hosts.map((h) => `${h.host} ${h.permissions} (${h.evidence})`).join(', ') || 'none detected';
+  const seen = `CI: ${ci.join(', ') || 'none'}; host config: ${host.join(', ') || 'none'}; hosts: ${per}; always prompt-only: ${PROMPT_ONLY_HOSTS.map((h) => h.host).join(', ')} (no host controls)`;
+  if (!m) return { ...facts, row: row('enforcement', 'warn', `no "Enforcement:" line in the AGENTS.md block (${seen})`, fix) };
   const wrong = [];
+  const claimsEnforced = (m[2] || '').toLowerCase() === 'enforced';
   if (m[1].toLowerCase() === 'branch-protection' && !ci.length) wrong.push('claims branch-protection but no agentic-sdlc CI workflow is present');
-  if ((m[2] || '').toLowerCase() === 'enforced' && !host.length) wrong.push('claims permissions: enforced but no host permission config is present');
-  const seen = `CI: ${ci.join(', ') || 'none'}; host config: ${host.join(', ') || 'none'}`;
+  if (claimsEnforced && !host.length) wrong.push('claims permissions: enforced but no host permission config is present');
+  else if (claimsEnforced && current?.permissions === 'prompt-only') wrong.push(`claims permissions: enforced but the Platform host ${current.host} is prompt-only`);
   return { ...facts, row: wrong.length ? row('enforcement', 'fail', `${wrong.join('; ')} (${seen})`, fix) : row('enforcement', 'ok', seen) };
 }
 
@@ -175,7 +211,7 @@ export function runDoctor({ cwd = process.cwd(), env = process.env, today = new 
   const nodeOk = node.status === 'ok';
   return {
     root, checks, ok: !checks.some((c) => c.status === 'fail'),
-    enforcement: nodeOk && enf.host.length ? 'enforced' : 'prompt-only', ci: enf.ci, host: enf.host,
+    enforcement: nodeOk && enf.host.length ? 'enforced' : 'prompt-only', ci: enf.ci, host: enf.host, hosts: enf.hosts,
   };
 }
 
@@ -197,6 +233,7 @@ export async function main(argv = process.argv.slice(2), out = process.stdout) {
     if (c.status !== 'ok' && c.fix) lines.push(`      fix: ${c.fix}`);
   }
   lines.push(`enforcement: ${r.enforcement} · ci: ${r.ci}`);
+  for (const h of r.hosts) lines.push(`host: ${h.host} ${h.permissions} (${h.evidence})`);
   lines.push(r.ok ? 'Result: PASS' : `Result: FAIL (${r.checks.filter((c) => c.status === 'fail').length} failed)`);
   return report({ ok: r.ok, json: Boolean(flags.json), result: record, lines }, out);
 }

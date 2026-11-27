@@ -57,6 +57,8 @@ The block lives in exactly one file. Every other instruction file the host reads
 
 The capability probe decides at runtime; this table is the expected default. A platform release that adds or renames a tool changes only this table.
 
+**Host guard templates.** `templates/host-config/<host>/` holds a minimal config for each of the five hosts with concrete controls: `claude-code/settings.json` (to `.claude/settings.json`), `copilot-cli/README.md` (the `--deny-tool` flags and a `.github/agents/` `tools:` example), `codex/config.toml` (to `.codex/config.toml`), `opencode/opencode.json` (to `opencode.json`) and `gemini/settings.json` (to `.gemini/settings.json`). `project-context` Step 7c writes the one for the detected host in the context PR. Only the Claude Code template wires `scripts/guard.mjs` hooks: a `PreToolUse` hook (`guard.mjs pre-tool --host claude-code`, `onFailure: block`) that refuses push, merge on the default branch, tag, publish, deploy and `--force` (G01), code writes before a valid Design sign-off on Standard and Full (G02), writes to S20 paths and the AGENTIC-SDLC block (G03), and a new approved sign-off row without an explicit human turn in the last 15 minutes (G04); and a `UserPromptSubmit` hook (`guard.mjs human-turn`) that records each human turn as a prompt hash in `.agentic-sdlc/runs/human-turns.jsonl`. On the other four hosts the templates restrict tools; the guard gates stay prompt-enforced and CI (`approval-check`, S20) backs them. Antigravity, Cursor and AdaL have no concrete controls: the block records `permissions: prompt-only` and `doctor` names them on every run.
+
 ## 3. Degradation rules
 
 | # | Missing capability | Fallback procedure | Record | Failure behaviour |
@@ -67,7 +69,7 @@ The capability probe decides at runtime; this table is the expected default. A p
 | 4 | git | None: commit trailers, fingerprints and approval binding need git | — | Router status `BLOCKED`, next step `git init` and a first commit |
 | 5 | Host enforcement | Approvals stay prompt-enforced; the agent never merges, pushes to the default branch or deploys | Block `Enforcement: prompt-only`; PR body banner | Doctor† WARN on every run until branch protection is set up |
 | 6 | CI | Run every gate locally before opening the PR and paste the output | PR body `ci: none` | Missing local output → PR verdict NO-GO |
-| 7 | Tool restriction | Role limits from `agents/*.md` apply by instruction only | Block `Enforcement:` line `permissions: prompt-only` | A role using a tool outside its list → stop that pass, discard its output, re-run the role |
+| 7 | Tool restriction | Role limits from `agents/*.md` apply by instruction only. Hosts with controls get the §2 host guard template first; Antigravity, Cursor and AdaL always land here | Block `Enforcement:` line `permissions: prompt-only`; `doctor` check 6 lists the host as `prompt-only` | A role using a tool outside its list → stop that pass, discard its output, re-run the role |
 
 ## 4. Markdown-only path (no Node)
 

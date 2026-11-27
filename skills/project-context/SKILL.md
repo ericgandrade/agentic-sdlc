@@ -19,6 +19,7 @@ Give every agent session in a repository the same verified starting context: how
 | `docs/codemap.md` | Module → paths → deploy unit → depends_on → tests | Repositories with code | adopt, codemap | `../agentic-sdlc/templates/codemap.md` |
 | `.agentic-sdlc/bin/` + `VERSION` + `SHA256SUMS` | Vendored gate scripts | Node ≥ 18 projects | vendor | `references/vendoring.md` |
 | `.github/workflows/agentic-sdlc.yml` (GitLab: `.gitlab-ci.yml` jobs), `.github/workflows/security.yml`, `CODEOWNERS` | Day-1 CI gates: `agentic-sdlc/dod`, `agentic-sdlc/spec`, `agentic-sdlc/approvals`, secret scan and dependency audit | Every adopted repository | setup, adopt, upgrade | Step 7b; `references/enforcement-setup.md` |
+| Host config (`.claude/settings.json`, `.codex/config.toml`, `opencode.json`, `.gemini/settings.json`, `.github/agents/`) | Host deny rules; Claude Code `guard.mjs` hooks | Hosts with concrete controls | setup, adopt, upgrade | Step 7c |
 | `.agentic-sdlc/adoption.md` | Approvers, rollout weeks, artifact mapping, instruction-ledger summary, enforcement state, events | Every adopted repository | adopt, audit, enforce | `references/adoption-ledger.md` |
 | `CONSTRAINTS.md` | Floor, enforced checks, ratchets, exceptions | Full path | constraints | `references/constraints-md.md` |
 | `GLOSSARY.md` | Term · definition · avoid · example · source | When Specify defines ≥ 1 domain term | glossary | `references/glossary-and-adr.md` |
@@ -151,6 +152,16 @@ Rules:
 - The checks run on every PR from day 1 and the Reviewer's GO requires them green (`../agentic-sdlc/references/review.md` §4). Making them required, branch protection and gate proofs wait for week 3 (`deployment-pipeline`), so the `Enforcement:` line stays `prompt-only` until then.
 - Node absent locally: install them anyway. The CI runner provides Node, so the gates still run.
 - A gate that blocks wrongly is waived (`../agentic-sdlc/references/governance.md` §6), never deleted.
+
+### Step 7c — Host guard (setup, adopt, upgrade)
+
+Write the host config for the host on the `Platform:` line into the context PR (S20), from `../agentic-sdlc/templates/host-config/<host>/` (`../agentic-sdlc/references/platforms.md` §2): Claude Code `.claude/settings.json` (deny rules plus the `guard.mjs` `PreToolUse` and `UserPromptSubmit` hooks), Codex `.codex/config.toml`, OpenCode `opencode.json`, Gemini CLI `.gemini/settings.json`, Copilot CLI the `--deny-tool` flags and a `.github/agents/` agent with a `tools:` list. Antigravity, Cursor and AdaL have no concrete controls: record `permissions: prompt-only` in the block and the adoption ledger.
+
+Rules:
+- An existing file is never overwritten: show the diff against the template and leave the merge to the Tech Lead, as in Step 7b.
+- The Claude Code hooks run the vendored `.agentic-sdlc/bin/guard.mjs` (Step 7), so vendor first. Node absent or nothing vendored → write only `permissions.deny`: the `PreToolUse` hook blocks on failure and would refuse every edit.
+- After merge the guard refuses agent edits of `.agentic-sdlc/bin/`, `config.json`, CI files, CODEOWNERS, host permission files and the block, and every `git push`. Upgrade, re-vendor and refresh writes to those paths then run as a plan task whose `Files` list them, or by the human; the human pushes.
+- `permissions: enforced` is written only after `doctor` check 6 reports the host `enforced`.
 
 ### Step 8 — Record the adoption ledger
 
