@@ -86,14 +86,22 @@ Every later task adds text, so the plan needs a guard before it starts.
 | The P1–P28 pattern list on `docs/roadmap-runtime-loop` | Keep as generic patterns with no source attribution |
 | The pilot team and a real feature for Phase 2 | Blocks Phase 2 |
 
-### Baseline (fill in during Phase 0)
+**Recorded 2026-11-27 (owner had not decided; defaults assumed, nothing executed):**
+- `docs/independent-rescore`: default assumed is *merge*, but it is **not merged** on this branch. Pending owner action. The round-3 files cited below are read from that branch at `b09f1ac`.
+- `docs/roadmap-runtime-loop`: default assumed is *generic patterns, no source attribution*. The branch is untouched. Pending owner action.
+- Pilot team and feature: not chosen. Phase 2 stays blocked.
+
+### Baseline (recorded 2026-11-27 on `origin/main` @ `22c649f`, v3.0.1)
 
 | Measure | Value | How |
 |---|---|---|
-| Script tests | 127 | `node --test …` summary |
-| Default-path tokens (proxy) | _to record_ | `budget-check --default-path --json` |
-| Reference values from round 3 (tiktoken o200k_base) | T1 4,114 · T2 6,546 · T3 118,364 | `docs/research/scoring/round3-independent/tokens.json` |
-| † items in the router Module Index | _to record_ | `grep -c "†" skills/agentic-sdlc/SKILL.md` |
+| Script tests | 132 (the plan draft said 127; 132 measured) | `node --test skills/agentic-sdlc/scripts/test/*.test.mjs` summary |
+| Default-path tokens (proxy) | 121,502 over 57 files (T2 2 + T3 55) | `budget-check --default-path --json`; pinned as `BUDGETS.defaultPathTokens` |
+| Reference values from round 3 (tiktoken o200k_base) | T1 4,114 · T2 6,546 · T3 118,364 | `docs/research/scoring/round3-independent/tokens.json` (branch `docs/independent-rescore` @ `b09f1ac`) |
+| † items in the router Module Index | 14 lines (23 † characters) | `grep -c "†" skills/agentic-sdlc/SKILL.md` |
+| First-path words | 3,432 / 3,700 | `budget-check` |
+
+**CI note:** `validate.yml` runs on pull requests to `main` and pushes to `main` only. Pushes to a feature branch run no job, so "CI green" for this plan's branch is confirmed only once a pull request is opened. Until then every job's commands are run locally.
 
 ---
 
