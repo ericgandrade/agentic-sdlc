@@ -48,7 +48,7 @@ Show the gauge before each batch and at every checkpoint, with the task count fr
 ### Step 0 — Discovery
 
 1. **Plan.** The path the human named; otherwise glob `specs/*/plan.md` and `docs/plans/*.md`, keep those whose tasks are not all committed (`git log --format=%B | grep "Refs: T"`), ask which one when more than one remains. None → `NEEDS_CONTEXT`: ask for the path or offer `writing-plans`.
-2. **Scripts.** Look in this order: `.agentic-sdlc/bin/` (vendored by `project-context`), `skills/agentic-sdlc/scripts/` in the repository, `../agentic-sdlc/scripts/` next to this skill, then `**/agentic-sdlc/scripts/run-ledger.mjs` under the platform skill directories (`~/.claude/skills`, `~/.copilot/skills`, `~/.codex/skills`, `~/.agent/skills`, `~/.gemini/skills`, `~/.cursor/skills`, `~/.adal/skills`). Found and `node --version` ≥ 18 → **enforced**. Otherwise **prompt-only**: the same rules from the Markdown, ledger rows by hand in `plan.md` `## Loop ledger`, PR header `Enforcement: prompt-only` (`references/modes.md` §6).
+2. **Scripts.** Look in this order: `.agentic-sdlc/bin/` (vendored by `project-context`), `skills/agentic-sdlc/scripts/` in the repository, `../agentic-sdlc/scripts/` next to this skill, then `**/agentic-sdlc/scripts/run-ledger.mjs` under the platform skill directories (`../agentic-sdlc/references/platforms.md` §2). Found and `node --version` ≥ 18 → **enforced**. Otherwise **prompt-only**: the same rules from the Markdown, ledger rows by hand in `plan.md` `## Loop ledger`, PR header `Enforcement: prompt-only` (`references/modes.md` §6).
 3. **DoD.** The fenced `sdlc-dod` block in `AGENTS.md` (`lint`, `typecheck`, `test`, `coverage`, `coverage_min`). Missing → `NEEDS_CONTEXT`; propose a block from `package.json`, `Makefile`, `pyproject.toml` or the CI workflow and wait for the human to confirm it.
 4. **Approvals.** Method plan: `node <scripts>/plan-graph.mjs <plan> --check-approval` exits 0; exit 1 (hash void or row missing) → `BLOCKED`, change protocol (`../agentic-sdlc/references/rules.md`). A `docs/plans/` plan without approvals → ask once "Approve this plan for execution? (yes/no)" and record the exact words in the run report; no explicit yes → stop.
 5. **Mode.** Three independent choices (`references/modes.md`): dispatch **subagent** (platform can start fresh agents) or **inline**; attention **attended** (default) or **unattended** (the human said "run unattended", entry checks in Step 7); enforcement from item 2. Parallel tasks need subagent + attended + enforced (`references/parallel-tasks.md`). Print the choice as one line.
@@ -127,9 +127,9 @@ Then `run-ledger task --run r1 --task T3 --state done --commit <sha>` (refused w
 
 ### Step 5 — Batches, parallel tasks and checkpoints
 
-**Sequential (default).** Take the next frontier task, Steps 2–4, repeat. A batch is ≤ 3 tasks.
+**Parallel when eligible (`references/parallel-tasks.md` §1), otherwise sequential.** Eligible means every condition holds: subagent + attended + enforced, ≤ 3 frontier tasks with pairwise disjoint Files (tests, fixtures, manifests and lockfiles included), no interface edge and no wave conflict between them. Each task gets its own worktree from the feature branch tip (`git worktree add ../<repo>-001-T4 -b feat/001-csv-export-T4`); all Developers are dispatched in one step; the controller is the only ledger writer during the wave. Integration: merge task branches into the feature branch in task-ID order with `git merge --no-ff`, full DoD after **each** merge; a conflict or a red DoD stops the wave and the rest runs sequentially. Unattended runs never run tasks in parallel.
 
-**Parallel.** Allowed only when every condition in `references/parallel-tasks.md` §1 holds: subagent + attended + enforced, ≤ 3 frontier tasks with pairwise disjoint Files (tests, fixtures, manifests and lockfiles included), no interface edge and no wave conflict between them. Each task gets its own worktree from the feature branch tip (`git worktree add ../<repo>-001-T4 -b feat/001-csv-export-T4`); all Developers are dispatched in one step; the controller is the only ledger writer during the wave. Integration: merge task branches into the feature branch in task-ID order with `git merge --no-ff`, full DoD after **each** merge; a conflict or a red DoD stops the wave and the rest runs sequentially. Unattended runs never run tasks in parallel.
+**Sequential.** Take the next frontier task, Steps 2–4, repeat. A batch is ≤ 3 tasks.
 
 **Checkpoint (attended).** After each batch, or each task when the human asked or the task touches a risk trigger: show the gauge, each task's status line, the last ≤ 20 lines of the DoD output and the new ledger rows; ask `Batch 2 done: T3 committed (2 review rounds). Continue with T4, T5?` and end the turn. Silence is not a "continue". Feedback that changes a task, Files or an AC is a plan change: change protocol, `plan-graph --write`, new Design sign-off, then resume.
 
@@ -173,6 +173,8 @@ No `plan.md`: one cycle driven by the issue's acceptance test, inline, attended.
 | Script exit 2 (corrupt ledger, bad input) | `NEEDS_HUMAN`; repair from git history; never hand-edit events |
 | Script exit 3 (bound, halt) | Print the brief; end the turn; record the ruling before any further round |
 | Merge conflict in a parallel wave | `git merge --abort`; remaining tasks sequential; cause `plan` to the Planner |
+
+**Close.** End with the `status.mjs --next` output.
 
 ## Anti-rationalization
 

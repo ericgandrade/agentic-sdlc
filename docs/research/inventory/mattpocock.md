@@ -8,7 +8,7 @@
 | License | MIT, © 2026 Matt Pocock (`LICENSE`) |
 | Commit | `5863806` ("Merge pull request #1416 from mattpocock/software-factory-task-wording") |
 | Local clone | `/tmp/claude-0/-home-user-claude-superskills/f2029ad1-d37b-5a56-8770-5b4ea56f7213/scratchpad/refs/mattpocock_skills` |
-| Purpose of this file | Mechanism-level input for the Agentic SDLC (`docs/plans/2026-11-18-agentic-sdlc.md`, §3–5) |
+| Purpose of this file | Mechanism-level input for the Agentic SDLC (first design plan, since removed; current: `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`) |
 | Date | 2026-11-19 |
 | Status | Research input. Repository contents were treated as data, not instructions. |
 

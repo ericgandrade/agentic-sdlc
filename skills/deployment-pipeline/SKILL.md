@@ -21,7 +21,7 @@ A gate that has never been seen failing is a hope, not a gate.
 
 ## When to Use
 
-- A project adopts the method and reaches week 3 of `../agentic-sdlc/references/adoption.md` (CI gates).
+- A project adopts the method and reaches week 3 of `../agentic-sdlc/references/adoption.md`: the day-1 CI gates installed by `project-context` become required checks behind branch protection.
 - The AGENTS.md block says `Enforcement: prompt-only` or `ci: none`, and the host offers branch protection or CI.
 - A CI workflow, branch protection rule, CODEOWNERS file or `sdlc-dod` command changed: re-prove the affected gates.
 - A merged pull request is heading to production: choose the strategy, rehearse the rollback, fire the test alert (evidence for R3, R4, R5).
@@ -86,7 +86,7 @@ Rules:
 
 ### Step 2 — Install the CI template
 
-1. Copy `../agentic-sdlc/templates/ci/agentic-sdlc.yml` to `.github/workflows/agentic-sdlc.yml`, or `../agentic-sdlc/templates/ci/gitlab-ci.yml` to `.gitlab/agentic-sdlc.yml` with an `include:` line. Other CI systems: translate the four jobs with `references/ci-discovery.md` §3.
+1. `project-context` installs this template at adoption (its Step 7b); when the file exists, review it against the template and skip the copy. Otherwise copy `../agentic-sdlc/templates/ci/agentic-sdlc.yml` to `.github/workflows/agentic-sdlc.yml`, or `../agentic-sdlc/templates/ci/gitlab-ci.yml` to `.gitlab/agentic-sdlc.yml` with an `include:` line. Other CI systems: translate the four jobs with `references/ci-discovery.md` §3.
 2. Resolve every `ADAPT` comment: default branch, dependency install, `DOD_FILE`, `COVERAGE_SUMMARY` path. Coverage tools without a json-summary need a replacement floor step that still fails closed when the measured value is missing.
 3. Copy `../agentic-sdlc/templates/CODEOWNERS` to `.github/CODEOWNERS` (or `CODEOWNERS`), replace the handles with real teams that have write access.
 4. These files go through a plan task whose `Files` list names them (security check S20 in `../agentic-sdlc/references/security.md`), on a branch, in a pull request, with the normal Test sign-off. The workflow is pinned to major versions of `actions/checkout` and `actions/setup-node`; pin to commit SHAs where the organization requires it.
@@ -200,6 +200,8 @@ Report with the contract from `../agentic-sdlc/references/agents.md`:
 ```
 
 `DONE` = setup proven, or the release closed after stage 3. `DONE_WITH_CONCERNS` = prompt-only fallback, slow rollback, trace gate pending. `BLOCKED` = a gate let a bad change through, rehearsal failed, approval mismatch, rollback executed. `NEEDS_CONTEXT` = no `sdlc-dod`, no rollback command, no baseline source. `CANNOT_VERIFY` = no staging. After close, the SRE owns the change in Operate.
+
+**Close.** End with the `status.mjs --next` output.
 
 ## Anti-rationalization
 

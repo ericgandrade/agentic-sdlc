@@ -53,7 +53,7 @@ Modes: **request** (a full round, Steps 0–8 and 10), **re-review** (Step 9), *
 | Security | **L3** security (Security Auditor) | `prompts/axis-security.md` | Standard, Full; Quick with any risk trigger |
 | Context-free adversarial (how does it break, from the diff alone) | **L4** | `prompts/axis-adversarial.md` | Standard, Full |
 
-L2 is one lens: one fresh context loaded with both L2 prompts, one finding list `L2-1..n`, one checks list. Quick path runs L1 + L2 (+ L3 on a risk trigger). An extension-added lens runs only if declared in the project; it never replaces L1–L4.
+L2 is one lens: one fresh context loaded with both L2 prompts, one finding list `L2-1..n`, one checks list. Quick path runs L1 + L2 (+ L3 on a risk trigger). An extension lens runs only when `ext-check` lists it; it never replaces L1–L4.
 
 ### Step 2 — Build each lens package (context-free)
 
@@ -155,6 +155,8 @@ Only after a GO verdict (`references/test-signoff-prep.md`):
 1. Fill `## Review guide`: files riskiest first with the reason; 3–7 questions tied to a file, AC or F-n, including one per `declined to judge` finding; the CANNOT_VERIFY items with verifier and date; every `self-review` label; deferred findings and waivers.
 2. Request the sign-off in one message naming the role, PR, head SHA (no PR host: the fingerprint), verdict, open residual risks and the evidence reviewed. Full path: two human reviewers, at least one not involved in Design. The PR author never gives it; a 1-person team uses the waiver in `../agentic-sdlc/references/governance.md` §6.3.
 3. **End the turn.** Agents never approve. A push after the request makes the request stale: the review binds to the head SHA. Without a PR host it binds to the fingerprint (record files excluded), so committing the review record keeps it valid and a change to code or tests voids it.
+
+**Close.** End with the `status.mjs --next` output.
 
 ## Anti-rationalization
 

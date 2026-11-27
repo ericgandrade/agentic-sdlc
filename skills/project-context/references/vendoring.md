@@ -12,8 +12,9 @@ Load in vendor mode, as the last step of setup and adopt, when the installed `ag
 
 | Source (installed skill) | Destination | Notes |
 |---|---|---|
-| `<skill>/scripts/*.mjs` | `.agentic-sdlc/bin/` | Today: `preflight.mjs`, `run-ledger.mjs`, `spec-lint.mjs`, `plan-graph.mjs`, `budget-check.mjs` |
+| `<skill>/scripts/*.mjs` | `.agentic-sdlc/bin/` | Every gate script, for example `preflight.mjs`, `run-ledger.mjs`, `spec-lint.mjs`, `plan-graph.mjs`, `status.mjs`, `ext-check.mjs` |
 | `<skill>/scripts/lib/*.mjs` | `.agentic-sdlc/bin/lib/` | `cli.mjs`, `git.mjs`, `md.mjs` — imported by relative path, so the layout is kept |
+| `<skill>/references/next-steps.json`, `help-topics.md` | `.agentic-sdlc/bin/` | Data read by `status.mjs`; a vendored copy looks next to itself |
 | `<skill>/scripts/test/` | never copied | Test fixtures are not gates |
 
 `<skill>` is the `agentic-sdlc` directory to copy from, in this order: `$AGENTIC_SDLC_SKILL` when set; `$SUPERSKILLS_REPO/skills/agentic-sdlc` for a checkout of `claude-superskills` (a `--plugin-dir` session); the Claude Code plugin cache `~/.claude/plugins/cache/*/skills/agentic-sdlc`; then the install targets in `../../agentic-sdlc/references/platforms.md` §2 (`~/.*/skills/agentic-sdlc`, `~/.gemini/antigravity/skills/agentic-sdlc`). The procedure below lists every candidate; with several, take the one whose README Metadata `Version` is highest, set `AGENTIC_SDLC_SKILL` to it and name it in `VERSION`.
@@ -30,9 +31,10 @@ SKILL="${AGENTIC_SDLC_SKILL:?set AGENTIC_SDLC_SKILL to one directory listed abov
 SKILL=$(cd "$SKILL" && pwd)                     # absolute: the steps below cd into .agentic-sdlc/bin
 test -f "$SKILL/scripts/preflight.mjs" || { echo "not an agentic-sdlc skill: $SKILL"; exit 1; }
 mkdir -p .agentic-sdlc/bin/lib
-rm -f .agentic-sdlc/bin/*.mjs .agentic-sdlc/bin/lib/*.mjs
+rm -f .agentic-sdlc/bin/*.mjs .agentic-sdlc/bin/lib/*.mjs .agentic-sdlc/bin/next-steps.json .agentic-sdlc/bin/help-topics.md
 cp "$SKILL"/scripts/*.mjs .agentic-sdlc/bin/
 cp "$SKILL"/scripts/lib/*.mjs .agentic-sdlc/bin/lib/
+cp "$SKILL"/references/next-steps.json "$SKILL"/references/help-topics.md .agentic-sdlc/bin/
 cd .agentic-sdlc/bin
 {
   echo "agentic-sdlc $(grep -E '^\| Version \|' "$SKILL/README.md" | head -n 1 | awk -F'|' '{gsub(/ /,"",$3); print $3}')"
@@ -41,11 +43,11 @@ cd .agentic-sdlc/bin
   echo "release: ${r:+v}${r:-unknown}"
   echo "source: $SKILL"
   echo "vendored: $(date +%Y-%m-%d)"
-  # scripts marked † in the router Module Index that this install does not ship
-  m=$(grep -oE '[a-z-]+\.mjs`?†' "$SKILL/SKILL.md" | tr -d '`†' | LC_ALL=C sort -u | while read -r f; do [ -f "$SKILL/scripts/$f" ] || printf '%s\n' "$f"; done | paste -sd, - | sed 's/,/, /g')
+  # planned scripts (marked † in references/artifacts.md §Later-release files) that this install does not ship
+  m=$(grep -oE '[a-z-]+\.mjs`?†' "$SKILL/references/artifacts.md" | tr -d '`†' | LC_ALL=C sort -u | while read -r f; do [ -f "$SKILL/scripts/$f" ] || printf '%s\n' "$f"; done | paste -sd, - | sed 's/,/, /g')
   [ -n "$m" ] && echo "missing: $m"
 } > VERSION
-find . -name '*.mjs' -type f | sed 's|^\./||' | LC_ALL=C sort | xargs shasum -a 256 > SHA256SUMS
+find . -type f \( -name '*.mjs' -o -name 'next-steps.json' -o -name 'help-topics.md' \) | sed 's|^\./||' | LC_ALL=C sort | xargs shasum -a 256 > SHA256SUMS
 shasum -a 256 -c SHA256SUMS
 for f in *.mjs; do node "$f" --help > /dev/null || echo "FAIL --help $f"; done
 ```
@@ -62,7 +64,7 @@ agentic-sdlc 2.1.0
 release: v3.0.0
 source: /home/dev/.claude/skills/agentic-sdlc
 vendored: 2026-11-24
-missing: status.mjs, dod-gate.mjs, doctor.mjs
+missing: approval-check.mjs, evidence.mjs, trace-check.mjs
 ```
 
 The `source:` path is informational and may name a home directory; it carries no secret. Teams that prefer not to commit local paths write `source: agentic-sdlc-method@v3.0.0`.
@@ -72,7 +74,7 @@ The `source:` path is informational and may name a home directory; it carries no
 | Check | Command | Pass |
 |---|---|---|
 | Integrity | `cd .agentic-sdlc/bin && shasum -a 256 -c SHA256SUMS` | Every line `OK`, exit 0 |
-| Completeness | `ls .agentic-sdlc/bin/*.mjs .agentic-sdlc/bin/lib/*.mjs \| wc -l` vs lines in `SHA256SUMS` | Equal (an unlisted extra file is a finding) |
+| Completeness | `ls .agentic-sdlc/bin/*.mjs .agentic-sdlc/bin/lib/*.mjs .agentic-sdlc/bin/next-steps.json .agentic-sdlc/bin/help-topics.md \| wc -l` vs lines in `SHA256SUMS` | Equal (an unlisted extra file is a finding) |
 | Runnable | `node .agentic-sdlc/bin/<script>.mjs --help` for each script | Exit 0 (needs Node ≥ 18) |
 | Block | `Tools:` line names the same version as `VERSION` line 1 | Equal |
 

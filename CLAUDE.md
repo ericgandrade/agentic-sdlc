@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **The Agentic SDLC Method** (repository `agentic-sdlc`, formerly `claude-superskills`) is a software delivery method packaged as AI skills for **8 AI platforms**: GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI. Skills are Markdown-based workflow specifications (`SKILL.md`) that teach AI agents how to perform specific tasks.
 
-- **npm package**: `agentic-sdlc-method` (v3.0.1; named `claude-superskills` up to v2.0.8; that npm name will be reused for a separate skills package, so nothing here may install, alias or uninstall it) — `npx agentic-sdlc-method` — **23 skills**: the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`) plus `skill-creator`, `agent-skill-discovery` and `agent-skill-orchestrator`
+- **npm package**: `agentic-sdlc-method` (v3.1.0; named `claude-superskills` up to v2.0.8; that npm name will be reused for a separate skills package, so nothing here may install, alias or uninstall it) — `npx agentic-sdlc-method` — **23 skills**: the **Agentic SDLC** (router `agentic-sdlc` + 19 stage skills, bundle `agentic-sdlc`) plus `skill-creator`, `agent-skill-discovery` and `agent-skill-orchestrator`
 - **Claude Code plugin**: name `agentic-sdlc` (skills appear as `/agentic-sdlc:<skill>`); `claude --plugin-dir ./agentic-sdlc` — native plugin, no npm needed. Plugin names may not start with `claude-` (`claude plugin validate`)
 - **GitHub**: `https://github.com/ericgandrade/agentic-sdlc` (renamed from `claude-superskills` on 2026-11-25; GitHub redirects the old URL). The npm package is `agentic-sdlc-method` (`agentic-sdlc` is taken on npm by another author); the cache folder stays `~/.claude-superskills/`. `cli-installer/lib/core/downloader.js` `REPO_NAME` must equal the GitHub repo name: the release zip's top folder is `<repo>-<version>/`
 - **Old package** `cli-ai-skills` is deprecated, redirects to this one
@@ -81,8 +81,8 @@ agentic-sdlc/
 │   │   │                     #   tech-writer, release-engineer, sre)
 │   │   ├── references/       # stage contracts: lifecycle, paths, governance, loops, quickstart, adoption…
 │   │   ├── templates/        # spec, plan, acceptance-tests, pr-body, release-notes, runbook, retro, ci/…
-│   │   ├── scripts/          # spec-lint, plan-graph, preflight, run-ledger, budget-check (.mjs) + lib/ + test/
-│   │   └── examples/         # worked-example/ (CSV export, Standard path; script test fixtures)
+│   │   ├── scripts/          # spec-lint, plan-graph, preflight, run-ledger, budget-check, status, doctor, dod-gate, ext-check (.mjs) + lib/ + test/
+│   │   └── examples/         # worked-example/ (CSV export, Standard path; script test fixtures), extensions/ (example extension lens)
 │   ├── brainstorming/
 │   ├── codebase-modernization/
 │   ├── deployment-pipeline/
@@ -258,8 +258,8 @@ Before starting any non-trivial implementation (new skills, architecture changes
 
 ```bash
 # Standard plan file naming
-docs/plans/2026-04-30-ui-ux-pro-max-absorption.md
-docs/plans/2026-05-01-ava-web-skill.md
+docs/plans/2026-11-24-agentic-sdlc-role-model.md
+docs/plans/2026-11-27-agentic-sdlc-improvement-plan.md
 ```
 
 Plans in `docs/plans/` are version-controlled and auditable. Session-state plans are ephemeral and not shared with the team.
@@ -460,7 +460,7 @@ Skills that interact with project structure should include a discovery phase tha
 
 ## Version Management
 
-The package version is defined in `cli-installer/package.json` (currently **v3.0.1**).
+The package version is defined in `cli-installer/package.json` (currently **v3.1.0**).
 `.claude-plugin/plugin.json` `"version"` must always match `package.json` exactly.
 
 - `cli-installer/package.json` — source of truth for npm version

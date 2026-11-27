@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { BUDGETS, checkBudgets, countTokens } from '../budget-check.mjs';
+import { BUDGETS, checkBudgets, checkDefaultPath, countTokens } from '../budget-check.mjs';
 import { InputError } from '../lib/cli.mjs';
 import { makeDir, write, cleanup } from './helpers.mjs';
 
@@ -126,4 +126,75 @@ test('--help prints usage and exits 0', () => {
   const r = exec('--help');
   assert.equal(r.code, 0);
   assert.match(r.stdout, /Usage: node budget-check\.mjs/);
+});
+
+// Default-path token budget (--default-path): ceil(chars / 4) per listed file, each file once.
+
+// A repository root with skills/x/references/default-path.json listing `list`; `files` are written under root.
+function defaultPathRepo(list, files) {
+  const root = makeDir('defpath');
+  write(root, 'skills/x/references/default-path.json', JSON.stringify({ files: list }));
+  for (const [rel, content] of Object.entries(files)) write(root, rel, content);
+  return { root, skillDir: join(root, 'skills', 'x') };
+}
+
+test('default path: tokens are ceil(chars / 4) per file, summed, and a fixture under budget passes', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/SKILL.md', 'skills/y/a.md'], {
+    'skills/x/SKILL.md': 'a'.repeat(9), // 3 tokens
+    'skills/y/a.md': 'b'.repeat(8), // 2 tokens
+  });
+  const r = checkDefaultPath(skillDir, { budget: 5 });
+  assert.equal(r.total, 5);
+  assert.deepEqual(r.files.map((f) => f.tokens), [3, 2]);
+  assert.equal(r.status, 'PASS');
+  const cli = exec(skillDir, '--default-path', '--json');
+  assert.equal(cli.code, 0, cli.stdout + cli.stderr);
+  assert.equal(JSON.parse(cli.stdout).total, 5);
+});
+
+test('default path: a fixture over budget exits 1 with DEFAULT_PATH', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/SKILL.md'], {
+    'skills/x/SKILL.md': 'a'.repeat((BUDGETS.defaultPathTokens + 1) * 4),
+  });
+  assert.equal(checkDefaultPath(skillDir, { budget: 10 }).status, 'FAIL');
+  const r = exec(skillDir, '--default-path', '--json');
+  assert.equal(r.code, 1);
+  const out = JSON.parse(r.stdout);
+  assert.equal(out.rule, 'DEFAULT_PATH');
+  assert.equal(out.total, BUDGETS.defaultPathTokens + 1);
+  assert.match(exec(skillDir, '--default-path').stdout, /DEFAULT_PATH/);
+});
+
+test('default path: a missing listed file or a missing list exits 2', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/SKILL.md', 'skills/x/gone.md'], { 'skills/x/SKILL.md': 'x' });
+  assert.throws(() => checkDefaultPath(skillDir), InputError);
+  const r = exec(skillDir, '--default-path');
+  assert.equal(r.code, 2);
+  assert.match(r.stderr, /gone\.md/);
+  assert.equal(exec(makeDir('nolist'), '--default-path').code, 2);
+});
+
+test('default path: a duplicated entry is counted once', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/SKILL.md', './skills/x/SKILL.md', 'skills/x/SKILL.md'], {
+    'skills/x/SKILL.md': 'a'.repeat(40),
+  });
+  const r = checkDefaultPath(skillDir, { budget: 10 });
+  assert.equal(r.files.length, 1);
+  assert.equal(r.total, 10);
+});
+
+test('default path: --root overrides the repository root', () => {
+  const { root } = defaultPathRepo(['skills/x/SKILL.md'], { 'skills/x/SKILL.md': 'abcd' });
+  const elsewhere = makeDir('listonly');
+  write(elsewhere, 'references/default-path.json', JSON.stringify({ files: ['skills/x/SKILL.md'] }));
+  assert.equal(checkDefaultPath(elsewhere, { root, budget: 1 }).total, 1);
+  assert.equal(exec(elsewhere, '--default-path', '--root', root).code, 0);
+});
+
+test('the shipped default path is within its token budget', () => {
+  const r = exec(SKILL, '--default-path', '--json');
+  assert.equal(r.code, 0, r.stdout + r.stderr);
+  const out = JSON.parse(r.stdout);
+  assert.ok(out.total <= BUDGETS.defaultPathTokens, `default path ${out.total} > ${BUDGETS.defaultPathTokens}`);
+  assert.ok(out.files.length >= 50);
 });

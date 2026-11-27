@@ -31,7 +31,7 @@ Not for one-off explanations or line-by-line edits the user directs. Pure ideati
 
 ### Step 0 — Detect state
 
-Read the files and apply the table below; first match wins. Once `status.mjs --json`† ships (`.agentic-sdlc/bin/` or this skill's `scripts/`), run it instead.
+Run `status.mjs --json` (`.agentic-sdlc/bin/` or `scripts/`): state, evidence, next steps. Node absent → apply this table; first match wins.
 
 | # | State (first match from the top) | Detected by | Next step |
 |---|---|---|---|
@@ -46,13 +46,13 @@ Read the files and apply the table below; first match wins. Once `status.mjs --j
 | 9 | Retro actions open | Retro action without `done` or `dropped: <reason>` | Work the oldest action as a Discover item |
 | — | Nothing open | None of the above | Ask for the next request |
 
-Unparsable artifact → state `UNKNOWN`, recommend `project-context audit`; the status script† exits 2. Confirm a resume in one line before acting (Example 4).
+Unparsable artifact → state `UNKNOWN` (`status.mjs` exit 2), recommend `project-context audit`. Confirm a resume in one line before acting (Example 4).
 
 When the user names a stage, check its entry condition (`references/lifecycle.md` §1) and report each missing prerequisite. Never skip one silently.
 
 ### Step 1 — Choose the path
 
-Score every item with `references/paths.md` §Score (or `scripts/path-score.mjs`†):
+Score every item with `references/paths.md` §Score:
 
 - **Size S** = files (≤ 3: 1 · 4–15: 2 · > 15: 3) + components (1/2/≥ 3 → 1/2/3) + iterations (1/2/≥ 3 → 1/2/3). S ≤ 4 Quick · 5–6 Standard · ≥ 7 Full.
 - **Risk R** = count of triggers: auth, personal/health data, money, public API, schema/migration, irreversible, regulated. R = 0 Quick · R = 1 Standard · R ≥ 2, personal/health data or irreversible → Full.
@@ -104,7 +104,7 @@ Discover ✅ ▸ Specify ✅ Specify sign-off ▸ Design ✅ Design sign-off ▸
 
 ## Module Index
 
-Load a module only at its trigger. A listed file that is absent in the installed version → follow the rule summary in this router, record `module missing: <path>` in the PR body, and continue. † = added in a later release; manual fallback: `references/artifacts.md` §Later-release files.
+Load a module only at its trigger. A listed file that is absent in the installed version → follow the rule summary in this router, record `module missing: <path>` in the PR body, and continue. A file marked † elsewhere is planned: `references/artifacts.md` §Later-release files gives its target version and manual fallback.
 
 **First path** (≤ 3,700 words in total: README install section, `references/quickstart.md`, this file). **Off-first-path rule:** the Full path, unattended mode, extensions and metrics are loaded only after the first merged PR or on explicit request.
 
@@ -127,12 +127,11 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `references/security.md` | Spec Security notes; review lens L3; new dependency |
 | `references/release-ops.md` | Release; alerts; incidents; production intake |
 | `references/retrospective.md` | After Release; Quick batch due |
-| `references/faq.md`† | Status `UNKNOWN`; doctor† FAIL |
-| `references/upgrading.md`† | Skill version changed; doctor† schema WARN |
+| `references/upgrading.md` | Skill version changed; doctor WARN after an upgrade |
 | `references/adoption.md` | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
 | `references/brownfield.md` | Touching code without tests |
-| `references/extension-interface.md`† | Loading or writing an extension |
-| `references/standards-mapping.md`†, skill `security-hardening` | Audit export; regulated work |
+| `references/extension-interface.md` | Writing an extension; `ext-check` exit ≠ 0 (load none) |
+| skill `security-hardening` | Regulated work; SSDF mapping |
 | `templates/spec.md`, `ux.md`, `plan.md`, `acceptance-tests.md` | Specify; UX trigger; Design; acceptance-test design |
 | `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
 | `templates/codemap.md`, `threat-model.md` | Brownfield adoption; risk-triggered spec |
@@ -140,15 +139,14 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS` | `project-context` CI and enforcement setup |
 | `scripts/spec-lint.mjs`, `plan-graph.mjs` | Before Specify / Design sign-off; CI |
 | `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
-| `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs`† | Completion claims; before Test sign-off; CI |
-| `scripts/approval-check.mjs`†, `audit-export.mjs`† | CI on every PR; audit request |
-| `scripts/status.mjs`†, `doctor.mjs`†, `path-score.mjs`† | Step 0; setup check; Discover |
-| `scripts/budget-check.mjs`, `ext-check.mjs`†, `metrics.mjs`† | CI on `skills/**`; extensions; each retro |
+| `scripts/dod-gate.mjs` | Completion claims; before Test sign-off; CI |
+| `scripts/status.mjs`, `doctor.mjs` | Step 0; setup check |
+| `scripts/budget-check.mjs`, `ext-check.mjs` | CI on `skills/**`; before loading any extension |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
 | `examples/worked-example/` | Learning the Standard path; script test fixtures |
-| `examples/paths/`†, `examples/extensions/`† | Checking a path decision; writing an extension |
+| `examples/extensions/` | Writing an extension |
 
-Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. `--json` prints a machine-readable result. Node absent → the method runs from the Markdown rules and the doctor† reports `enforcement: prompt-only`.
+Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. `--json` prints a machine-readable result. Node absent → the method runs from the Markdown rules and `doctor` reports `enforcement: prompt-only`.
 
 ## Critical Rules
 

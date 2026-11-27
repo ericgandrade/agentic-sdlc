@@ -147,6 +147,8 @@ Present the brief path, the recommendation, the open leap-of-faith items, and on
 
 Report in the shared contract (`../agentic-sdlc/references/agents.md` §Report contract): `**Agent:** Analyst · **Task:** Discover brainstorming #n · **Status:** DONE` (brief agreed) · `DONE_WITH_CONCERNS` (agreed with a leap of faith still unchecked) · `NEEDS_CONTEXT` (round budget spent, problem or outcome undefined) · `BLOCKED` (no reachable owner for the decision). Never invoke an implementation skill from brainstorming.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

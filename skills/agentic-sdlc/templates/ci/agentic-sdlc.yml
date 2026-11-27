@@ -6,7 +6,8 @@
 #
 # Required status checks this workflow produces (names = job `name:` fields):
 #   agentic-sdlc/dod        every sdlc-dod command + the coverage floor
-#   agentic-sdlc/spec       spec-lint --check-approval on every spec the PR touches or names
+#   agentic-sdlc/spec       spec-lint --check-approval on every spec the PR touches or names,
+#                           then ext-check on .agentic-sdlc/extensions/ (passes when there are none)
 #   agentic-sdlc/approvals  plan-graph --check --check-approval on the same folders
 #                           (+ approval-check --pr once that script is vendored)
 #   agentic-sdlc/trace      trace-check once vendored; until then it reports a warning and passes,
@@ -188,6 +189,11 @@ jobs:
           done < "$RUNNER_TEMP/spec-dirs.txt"
           if [ ! -s "$RUNNER_TEMP/spec-dirs.txt" ]; then echo "No spec touched or named (Quick path or code-only change)."; fi
           exit $status
+      - name: ext-check (extensions; exits 0 when .agentic-sdlc/extensions/ is absent)
+        run: |
+          set -euo pipefail
+          bin="${GATE_BIN:-$SDLC_BIN}"
+          if [ -f "$bin/ext-check.mjs" ]; then node "$bin/ext-check.mjs"; else echo "::notice::ext-check.mjs not vendored"; fi
 
   approvals:
     name: agentic-sdlc/approvals

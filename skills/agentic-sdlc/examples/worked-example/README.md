@@ -40,6 +40,11 @@ node scripts/spec-lint.mjs examples/worked-example/specs/001-csv-export/spec.md 
 node scripts/plan-graph.mjs examples/worked-example/specs/001-csv-export/plan.md --check --check-approval
 node scripts/run-ledger.mjs status --ledger examples/worked-example/specs/001-csv-export/run-ledger.jsonl
 node scripts/run-ledger.mjs render --ledger examples/worked-example/specs/001-csv-export/run-ledger.jsonl
+node scripts/ext-check.mjs --dir examples/extensions
 ```
+
+## Since 3.1: day-1 gates and an extension lens
+
+The example was recorded on 3.0. On 3.1 the same project gets the CI gates at adoption (`project-context` Step 7b): `agentic-sdlc/dod`, `agentic-sdlc/spec`, `agentic-sdlc/approvals` and `security.yml` run on the PR from the first day, and the Reviewer's GO requires them green (`references/review.md` §4). Branch protection still comes in week 3. The export route sets response headers (`Content-Disposition`), so a project that installs `examples/extensions/security-headers-lens/` would run it after L1–L4 as one more lens, once `ext-check` lists it.
 
 `preflight` runs inside the project repository at run start and resume; its three passing results are the `preflight` events in `run-ledger.jsonl`.

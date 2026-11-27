@@ -165,6 +165,8 @@ Code without tests: write `CHAR-n` tests that pin current behaviour through the 
 
 `run-ledger` absent → paste red and green output into the task report and the PR `## Verification` table; record failed rounds as rows in `plan.md` `## Loop ledger` and count them there. The rules and bounds are unchanged; the PR carries `enforcement: prompt-only`.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

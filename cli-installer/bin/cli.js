@@ -40,7 +40,6 @@ const MIGRATION_PACKAGES = [
   { name: 'career-superskills',   count: 20, label: 'Job search & career development',      cmd: 'npx career-superskills' },
   { name: 'product-superskills',  count: 8,  label: 'Product management & GTM strategy',    cmd: 'npx product-superskills' },
   { name: 'design-superskills',   count: 9,  label: 'UI/UX design, brand & diagrams',       cmd: 'npx design-superskills' },
-  { name: 'avanade-superskills',  count: 3,  label: 'Avanade-branded content (private)',    cmd: 'git clone https://github.com/ericgandrade/avanade-superskills' },
   { name: 'knowledge-superskills', count: 10, label: 'Research, content & documents (v3.0)', cmd: '/plugin marketplace add ericgandrade/knowledge-superskills' },
 ];
 
@@ -371,7 +370,7 @@ async function nuclearUninstall(quiet) {
 
   const cachePackages = [
     '.claude-superskills', '.career-superskills', '.design-superskills',
-    '.obsidian-superskills', '.product-superskills', '.avanade-superskills',
+    '.obsidian-superskills', '.product-superskills',
   ];
   for (const pkg of cachePackages) {
     const cacheDir = path.join(home, pkg, 'cache');

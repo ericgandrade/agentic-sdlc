@@ -72,6 +72,15 @@ The Agentic SDLC keeps the strongest idea of the classic V-model — every defin
 
 All text is original; mechanism IDs and precedents are listed in `docs/research/gap-closure/architect-report.md`.
 
+## What's New in 2.2.0
+
+- `status.mjs`: the router's Step 0 as a script (state, file:line evidence, at most 3 next steps from `references/next-steps.json`; `--next`, `--topic`). Every stage skill closes with `status.mjs --next`.
+- `doctor.mjs`: seven ordered setup checks with fix commands; `references/upgrading.md` per release.
+- `dod-gate.mjs`: the Definition of Done on the current fingerprint; `run-ledger task --state done` and `finish` refuse a red gate.
+- Extension interface 1.0.0 (`references/extension-interface.md`, `ext-check.mjs`, `examples/extensions/security-headers-lens/`).
+- `budget-check --default-path`: a default-path token budget that may never rise.
+- The Module Index lists only shipped files; planned ones are in `references/artifacts.md` §Later-release files with a target version.
+
 ## What's New in 2.1.0
 
 - Role model: 13 functional agents. New roles: Analyst, Product Manager, UX Designer (`ux.md`: journeys, state table, accessibility), Tech Writer and Scrum Master (played by the router). Implementer is renamed Developer; the Planner now owns Design only; the Test Engineer covers UX states and non-functional AC; the Security Auditor maps compliance when `regulated`.
@@ -88,10 +97,10 @@ All text is original; mechanism IDs and precedents are listed in `docs/research/
 
 | Field | Value |
 |-------|-------|
-| Version | 2.1.0 |
+| Version | 2.2.0 |
 | Author | Eric Andrade |
 | Created | 2026-11-19 |
-| Updated | 2026-11-24 |
+| Updated | 2026-11-27 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | orchestration |
 | Tags | agentic-sdlc, sdlc, spec-driven, ai-agents, human-in-the-loop, traceability, workflow, router |

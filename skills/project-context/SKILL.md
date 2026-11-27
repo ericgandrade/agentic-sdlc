@@ -18,6 +18,7 @@ Give every agent session in a repository the same verified starting context: how
 | `sdlc-dod` fence inside the block | `lint`, `typecheck`, `test`, `coverage`, `coverage_min` | Every path | setup, adopt, refresh | `references/dod-block.md` |
 | `docs/codemap.md` | Module → paths → deploy unit → depends_on → tests | Repositories with code | adopt, codemap | `../agentic-sdlc/templates/codemap.md` |
 | `.agentic-sdlc/bin/` + `VERSION` + `SHA256SUMS` | Vendored gate scripts | Node ≥ 18 projects | vendor | `references/vendoring.md` |
+| `.github/workflows/agentic-sdlc.yml` (GitLab: `.gitlab-ci.yml` jobs), `.github/workflows/security.yml`, `CODEOWNERS` | Day-1 CI gates: `agentic-sdlc/dod`, `agentic-sdlc/spec`, `agentic-sdlc/approvals`, secret scan and dependency audit | Every adopted repository | setup, adopt, upgrade | Step 7b; `references/enforcement-setup.md` |
 | `.agentic-sdlc/adoption.md` | Approvers, rollout weeks, artifact mapping, instruction-ledger summary, enforcement state, events | Every adopted repository | adopt, audit, enforce | `references/adoption-ledger.md` |
 | `CONSTRAINTS.md` | Floor, enforced checks, ratchets, exceptions | Full path | constraints | `references/constraints-md.md` |
 | `GLOSSARY.md` | Term · definition · avoid · example · source | When Specify defines ≥ 1 domain term | glossary | `references/glossary-and-adr.md` |
@@ -33,11 +34,12 @@ Locations are indexed in `../agentic-sdlc/references/artifacts.md`; the essentia
 - `.agentic-sdlc/bin/VERSION` differs from the installed `agentic-sdlc`, or `shasum -a 256 -c SHA256SUMS` fails.
 - A Full-path item starts without `CONSTRAINTS.md`, or agents keep weakening checks.
 - Domain words are ambiguous ("account" means three things).
-- Week 3 of the rollout (`../agentic-sdlc/references/adoption.md` §2): the CI gates need their context values and the block's `Enforcement:` line needs evidence.
+- Day 1 of adoption: setup and adopt install the CI gates (Step 7b). Week 3 of the rollout (`../agentic-sdlc/references/adoption.md` §2): branch protection needs the context values and the block's `Enforcement:` line needs evidence.
+- An upgrade left a repository without the day-1 gates (`adopt --upgrade`, `../agentic-sdlc/references/upgrading.md`).
 - An agent made a mistake worth preventing, or a retro action targets the instruction file.
 - Periodic audit: the `Verified:` line is older than 90 days.
 
-**Not for:** writing ADRs (`senior-solution-architect`; this skill only lists retroactive candidates), relentless requirement interviews (`grill-me`), installing CI workflows, branch protection and proving gates (`deployment-pipeline`), running the retro itself (`retrospective`), characterization tests and migration of legacy code (`codebase-modernization`), writing specs (`spec-driven-development`), scoring incoming work (`issue-triage`), inventorying installed skills and MCP servers (`agent-skill-discovery`), end-user READMEs.
+**Not for:** writing ADRs (`senior-solution-architect`; this skill only lists retroactive candidates), relentless requirement interviews (`grill-me`), custom CI and deploy pipelines, branch protection and gate proofs (`deployment-pipeline`; this skill only copies the day-1 gate templates), running the retro itself (`retrospective`), characterization tests and migration of legacy code (`codebase-modernization`), writing specs (`spec-driven-development`), scoring incoming work (`issue-triage`), inventorying installed skills and MCP servers (`agent-skill-discovery`), end-user READMEs.
 
 ## Workflow
 
@@ -50,13 +52,14 @@ Check the rows top to bottom; the first match wins.
 | 1 | User reports, or the session observed, an agent mistake | **pitfall** |
 | 2 | Quality bar requested, agents weakening checks, or a Full-path item without `CONSTRAINTS.md` | **constraints** |
 | 3 | Domain terms requested or ambiguous | **glossary** |
-| 4 | Installed version ≠ `.agentic-sdlc/bin/VERSION`, or `SHA256SUMS` check fails | **vendor** |
-| 5 | CI gates, branch protection or the `Enforcement:` line requested; rollout week 3 | **enforce** |
-| 6 | Top-level source directory added, removed or moved; code map > 90 days | **codemap** |
-| 7 | No block; ≥ 1 source directory with history beyond the initial commit | **adopt** (brownfield) |
-| 8 | No block; no commits, no source directory, or only one initial or scaffold commit (`git rev-list --count HEAD` = 1) | **setup** (greenfield) |
-| 9 | Block exists and "are these still correct?" asked, or `Verified:` > 90 days | **audit** |
-| 10 | Block exists | **refresh** |
+| 4 | `adopt --upgrade` requested, or block exists and a day-1 gate file (Step 7b) is missing after an upgrade | **upgrade**: vendor (Step 7), Step 7b for the missing files only, `doctor` |
+| 5 | Installed version ≠ `.agentic-sdlc/bin/VERSION`, or `SHA256SUMS` check fails | **vendor** |
+| 6 | Branch protection or the `Enforcement:` line requested; rollout week 3 | **enforce** |
+| 7 | Top-level source directory added, removed or moved; code map > 90 days | **codemap** |
+| 8 | No block; ≥ 1 source directory with history beyond the initial commit | **adopt** (brownfield) |
+| 9 | No block; no commits, no source directory, or only one initial or scaffold commit (`git rev-list --count HEAD` = 1) | **setup** (greenfield) |
+| 10 | Block exists and "are these still correct?" asked, or `Verified:` > 90 days | **audit** |
+| 11 | Block exists | **refresh** |
 
 When the stated intent contradicts detection (setup asked but source code exists), show the evidence (`git log --oneline -1`, the source directories) and run adopt: adopt is a superset of setup.
 
@@ -77,7 +80,7 @@ Until adopt completes, no code change starts: the router reports state 1 and cod
 5. **Code map** (Step 6).
 6. **Instruction audit.** Dispatch `prompts/instruction-audit.md` on every existing instruction file (fallback: labelled `self-audit` pass). One row per unit: retain, rewrite, relocate, automate, or delete on a ground G1–G6 with evidence (`references/agents-md-rules.md` §4). Existing content is the baseline; nothing leaves without line-by-line approval.
 7. **Retroactive ADR candidates**: past decisions that pass all three conditions (hard to reverse, surprising without context, real trade-off) go to the ledger for `senior-solution-architect` (`references/glossary-and-adr.md` §2).
-8. **Block, DoD, vendor, ledger** (Steps 4, 5, 7, 8).
+8. **Block, DoD, vendor, day-1 gates, ledger** (Steps 4, 5, 7, 7b, 8).
 
 Failure behaviour:
 
@@ -129,9 +132,25 @@ Failure behaviour: an unclassifiable directory → `excluded` with `reason: unkn
 
 ### Step 7 — Vendor the scripts (last step of setup and adopt)
 
-Copy `scripts/*.mjs` and `scripts/lib/*.mjs` (never `scripts/test/`) from the installed `agentic-sdlc` into `.agentic-sdlc/bin/` and `bin/lib/`; write `VERSION` (`agentic-sdlc <version>`, `release:`, `source:`, `vendored:`, optional `missing:`) and `SHA256SUMS`; verify with `shasum -a 256 -c SHA256SUMS` and `--help` exit 0 per script. The full procedure, Windows fallback and update steps are in `references/vendoring.md`.
+Copy `scripts/*.mjs` and `scripts/lib/*.mjs` (never `scripts/test/`) from the installed `agentic-sdlc` into `.agentic-sdlc/bin/` and `bin/lib/`, plus the `status.mjs` data files `references/next-steps.json` and `references/help-topics.md` into `bin/`; write `VERSION` (`agentic-sdlc <version>`, `release:`, `source:`, `vendored:`, optional `missing:`) and `SHA256SUMS`; verify with `shasum -a 256 -c SHA256SUMS` and `--help` exit 0 per script. The full procedure, Windows fallback and update steps are in `references/vendoring.md`.
 
 Failure behaviour: a checksum mismatch → `BLOCKED`; never patch a vendored file or regenerate checksums over an unexplained change; re-vendor from the pinned release and review the diff. Node absent → vendor anyway, `node: absent`, `Enforcement: prompt-only`, Markdown-only path (`platforms.md` §4). Re-vendoring replaces only `bin/`; `.agentic-sdlc/config.json`, `adoption.md`, `runs/` and the block are never touched.
+
+### Step 7b — Day-1 CI gates (setup, adopt, upgrade)
+
+Install the gates at adoption; they need repository write access only. Copy into the context PR (S20):
+
+| File | From | Values |
+|---|---|---|
+| `.github/workflows/agentic-sdlc.yml` (GitLab: the jobs of `gitlab-ci.yml` into `.gitlab-ci.yml`) | `../agentic-sdlc/templates/ci/` | `references/enforcement-setup.md` §1 (`DOD_FILE`, `SDLC_BIN`, install step, default branch) |
+| `.github/workflows/security.yml` | `../agentic-sdlc/templates/ci/security.yml` | Same table; pin actions by commit SHA (S17) |
+| `CODEOWNERS` | `../agentic-sdlc/templates/CODEOWNERS` | The lines of `references/enforcement-setup.md` §2 with the approvers' handles |
+
+Rules:
+- An existing file is never overwritten. Show the diff against the template, record it in the adoption ledger and leave the merge to the Tech Lead.
+- The checks run on every PR from day 1 and the Reviewer's GO requires them green (`../agentic-sdlc/references/review.md` §4). Making them required, branch protection and gate proofs wait for week 3 (`deployment-pipeline`), so the `Enforcement:` line stays `prompt-only` until then.
+- Node absent locally: install them anyway. The CI runner provides Node, so the gates still run.
+- A gate that blocks wrongly is waived (`../agentic-sdlc/references/governance.md` §6), never deleted.
 
 ### Step 8 — Record the adoption ledger
 
@@ -140,6 +159,8 @@ Create or update `.agentic-sdlc/adoption.md` from `templates/adoption.md`: appro
 ### Step 9 — Show, approve, write
 
 Show the complete block, the instruction ledger (adopt, refresh, audit), the code map summary, the vendored file list and the adoption-ledger rows. Ask for a decision and end the turn; write only after an explicit "yes" in a later turn. Replace only the text between the markers; text outside changes only through an approved ledger row. Changes to `AGENTS.md`, `CLAUDE.md`, CI files, CODEOWNERS or `.agentic-sdlc/bin/` go in their own context PR or in a plan task whose `Files` list names them (`../agentic-sdlc/references/security.md` S20). CI reads the DoD from the base branch, so the block binds after merge. Never commit without the user's go-ahead.
+
+Setup, adopt and refresh end with `node .agentic-sdlc/bin/doctor.mjs`: show its result and fix each `fail` with the printed command before the first Build. `warn` rows go to the adoption ledger. Node absent → record `doctor: not run (no Node)` and `Enforcement: prompt-only`; CI still runs the gates.
 
 ### Enforce mode — inputs for the CI gates
 
@@ -167,6 +188,8 @@ Capture the task, the mistake, the correct behaviour and the evidence. Check whe
 6. Expired exceptions and waivers listed for removal.
 
 Output: findings (line · evidence gone · proposed edit) with severity Critical / Important / Minor. Every removal is shown for approval; `Verified:` changes only after approved edits are written. Report status `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT` or `CANNOT_VERIFY` (a command that could not be run is named with who runs it and when).
+
+**Close.** End with the `status.mjs --next` output.
 
 ## Anti-rationalization
 

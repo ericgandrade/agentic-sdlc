@@ -133,6 +133,7 @@ The skills below map their artifacts to these methods' folder layouts and borrow
 
 - Repository: https://github.com/github/spec-kit — MIT License, Copyright GitHub, Inc.
 - Used in: `spec-driven-development`, `grill-me`, `writing-plans`, `executing-plans`, `senior-solution-architect`, `test-strategy`, `project-context`, `codebase-modernization`
+- Idea only, in `agentic-sdlc` (`references/extension-interface.md`, `scripts/ext-check.mjs`): an extension declares the method version it needs in a manifest, and CI refuses incompatible extensions. The manifest fields, rules and code here are original.
 
 ### AWS AI-DLC workflows
 

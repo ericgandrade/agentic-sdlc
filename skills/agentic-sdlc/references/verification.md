@@ -32,6 +32,7 @@ Decision rules:
 3. `coverage` passes only when the measured value is ≥ `coverage_min`; write the measured value in the `exit` cell as `0 (81.2 ≥ 78.4)`. Below the floor the row fails even when the tool exits 0: write `0 (76.2 < 78.4) — below floor`.
 4. Every AC has ≥ 1 row. An AC with no runnable test is either `CANNOT_VERIFY` (§3) or a gap that returns to the Test Engineer.
 5. The Reviewer re-runs every command; a row whose `by` column names the Developer is testimony and does not count toward GO.
+6. <!-- ext:dod.checks --> Extension DoD checks (`ext-check --point dod.checks --json`) are DoD rows like the `sdlc-dod` keys.
 
 ## 2. Independent test design
 
@@ -79,13 +80,12 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 ## 4. Evidence records and staleness
 
-**Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`, `docs/reviews/**` and the record files under `specs/*/` (`review.md`, `approvals.md`, `run-ledger.jsonl`, `handoff.md`, `impediments.md`, `release-notes.md`); `spec.md`, `plan.md` (read without its `## Loop ledger` rows, like the plan hash) and `acceptance-tests.md` still count, because editing them voids a sign-off. Recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. The function is `fingerprint()` in `scripts/lib/git.mjs`; `node scripts/lib/git.mjs fingerprint` prints it.
+**Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`, `.agentic-sdlc/doctor.json`, `docs/reviews/**` and the record files under `specs/*/` (`review.md`, `approvals.md`, `run-ledger.jsonl`, `handoff.md`, `impediments.md`, `release-notes.md`); `spec.md`, `plan.md` (read without its `## Loop ledger` rows, like the plan hash) and `acceptance-tests.md` still count, because editing them voids a sign-off. Recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. `node scripts/lib/git.mjs fingerprint` prints it.
 
 **Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
 
-1. Compute the fingerprint immediately before running the commands:
-   `node --input-type=module -e "const {pathToFileURL}=await import('node:url'); const m=await import(pathToFileURL(process.argv[1]).href); console.log(m.fingerprint().short)" "<skill-dir>/scripts/lib/git.mjs"` (relative or absolute path, any OS)
-2. Run each DoD and AC command; copy the exit code and the last ≤ 40 output lines.
+1. Compute the fingerprint immediately before running the commands: `node <skill-dir>/scripts/lib/git.mjs fingerprint` (any OS).
+2. Run `dod-gate` for the DoD rows (it records exit, output hash and fingerprint; `dod-gate check` exit 1 = red or stale) and each AC command; copy the exit code and the last ≤ 40 output lines.
 3. Compute the fingerprint again. Different from step 1 → the tree changed during the run → discard the rows and repeat.
 4. Write the rows with the fingerprint and the ISO-8601 time.
 5. Node absent → commit first; the tree must be clean (`git status --porcelain` prints nothing); record `head:<first 12 hex of git rev-parse HEAD>` as the fingerprint.

@@ -112,6 +112,8 @@ agentic-sdlc-spec:
         node "$GATE_BIN/spec-lint.mjs" "$dir/spec.md" --check-approval || status=$?
       done < spec-dirs.txt
       [ -s spec-dirs.txt ] || echo "No spec touched or named (Quick path or code-only change)."
+      # Extensions (references/extension-interface.md): exits 0 when .agentic-sdlc/extensions/ is absent.
+      if [ -f "$GATE_BIN/ext-check.mjs" ]; then node "$GATE_BIN/ext-check.mjs" || status=$?; else echo "NOTICE: ext-check.mjs not vendored"; fi
       exit $status
 
 agentic-sdlc-approvals:

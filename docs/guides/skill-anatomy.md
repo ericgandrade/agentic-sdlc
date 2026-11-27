@@ -118,7 +118,7 @@ skills/agentic-sdlc/
   agents/             # 13 functional agent briefs (scrum-master.md, analyst.md, ... sre.md)
   references/         # normative rules loaded on demand (lifecycle, governance, paths, artifacts, quickstart, ...)
   templates/          # artifact templates (spec, ux, plan, PR body, release notes, runbook, CI, ...)
-  scripts/            # dependency-free Node >= 18 checks: spec-lint, plan-graph, preflight, run-ledger, budget-check
+  scripts/            # dependency-free Node >= 18 checks: spec-lint, plan-graph, preflight, run-ledger, budget-check, status, doctor, dod-gate, ext-check
     lib/              #   shared helpers
     test/             #   node --test suites and fixtures
   examples/

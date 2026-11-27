@@ -8,7 +8,7 @@ Read this once before the first run: one bug from issue to approved pull request
 
 Ask: "Set up the Agentic SDLC here."
 
-`project-context` reads the manifests and CI files, runs the test suite once and writes the AGENTS.md block with the Definition of Done:
+`project-context` reads the manifests and CI files, runs the test suite once, installs the CI gates and writes the AGENTS.md block with the Definition of Done:
 
 ```sdlc-dod
 lint: npm run lint

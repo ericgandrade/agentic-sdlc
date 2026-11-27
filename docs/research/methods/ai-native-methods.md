@@ -1,6 +1,6 @@
 # AI-Native Software Delivery Methods (2025–2026): Structure and Vocabulary
 
-**Purpose:** Evidence base for decision D10 (the final structure of the Agentic SDLC; see `docs/plans/2026-11-19-agentic-sdlc-depth-pass.md`). The question: what stage sequence, artifact names, human checkpoints and right-sizing rules have the AI-native methods that developers actually use converged on? A developer who knows Spec Kit, Kiro or AI-DLC should be able to pick up the Agentic SDLC and feel at home.
+**Purpose:** Evidence base for decision D10 (the final structure of the Agentic SDLC; see `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`). The question: what stage sequence, artifact names, human checkpoints and right-sizing rules have the AI-native methods that developers actually use converged on? A developer who knows Spec Kit, Kiro or AI-DLC should be able to pick up the Agentic SDLC and feel at home.
 
 **Date:** 2026-11-20. **Scope:** GitHub Spec Kit, AWS Kiro, AWS AI-DLC, BMad Method, OpenSpec, Agent OS, Tessl, Google Conductor, Anthropic (Claude Code best practices and the AI-native SDLC playbook), Factory.ai, Sonar AC/DC, Thoughtworks Technology Radar, Martin Fowler / Birgitta Böckeler, the SDAD and Agentic Agile-V papers, and vendor lifecycle diagrams (Microsoft, GitLab, Atlassian, Google).
 

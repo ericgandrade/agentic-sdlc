@@ -160,6 +160,8 @@ When the Product Owner rejects a story or epic, write or update `docs/out-of-sco
 
 For a queue, order: (1) `from-production`, oldest first; (2) retro actions by due date; (3) `needs-info` items whose reporter replied; (4) `needs-triage`, oldest first. Run one fresh-context pass per item with `prompts/triage-pass.md` (no subagents → one labelled inline pass per item, notes cleared between items). Stop after 10 items unless told otherwise and return one table: item · class · path line · state · next. Decisions for the Product Owner are collected into one message at the end of the batch, numbered per item, and the turn ends.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

@@ -9,7 +9,7 @@
 | License | **CC BY-SA 4.0** (share-alike). Adapted text would have to carry the same license, which is incompatible with this repository's MIT license. |
 | Trademark | "Agile V" is a claimed trademark of its author. It must not appear in any skill name, product name, badge or marketing copy of this repository. It may be cited once, factually, as related prior work. |
 | Date | 2026-11-19 |
-| Purpose | Input for the Agentic SDLC plan (`docs/plans/2026-11-18-agentic-sdlc.md`, sections 2.2–2.4, 3 and 4). |
+| Purpose | Input for the Agentic SDLC plan (first design plan, since removed; current: `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`). |
 
 > **Concept-only summary written independently; contains no Agile V text.** Every entry below describes a general engineering idea in this repository's own words, at the level of a textbook treatment of the V-model, requirements traceability or verification independence. No sentence, template, table layout, field list, identifier scheme, skill name or file structure from Agile V is reproduced or proposed for reuse. Where Agile V itself adapted an idea from an MIT-licensed source (its context-engineering material credits the GSD framework), that is noted so the idea can be traced to its permissive origin instead.
 

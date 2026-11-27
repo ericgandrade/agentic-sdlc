@@ -73,6 +73,19 @@ jobs:
             ./scripts/validate-skill-content.sh "$skill"
           done
 
+  method-scripts:
+    name: Method scripts (node --test)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+      - run: node --test skills/agentic-sdlc/scripts/test/*.test.mjs
+      - run: node skills/agentic-sdlc/scripts/budget-check.mjs skills/agentic-sdlc
+      - run: node skills/agentic-sdlc/scripts/budget-check.mjs skills/agentic-sdlc --default-path
+      - run: node skills/agentic-sdlc/scripts/ext-check.mjs --dir skills/agentic-sdlc/examples/extensions
+
   validate-package:
     name: Validate npm Package
     runs-on: ubuntu-latest

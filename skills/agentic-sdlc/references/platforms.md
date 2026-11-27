@@ -1,6 +1,6 @@
 # Agentic SDLC — Platforms: Install, Mapping and Degradation
 
-Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when the doctor† reports a platform WARN. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
+Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when `doctor` reports `enforcement: prompt-only`. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
 
 ## 1. Capability probe (mechanism 15.1)
 
@@ -23,7 +23,7 @@ Load this file during `project-context` setup on a new platform, when the router
 - Enforcement: branch-protection · permissions: enforced
 ```
 
-**Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3 and the doctor† reports it as WARN.
+**Failure behaviour.** A check that errors (no network, no `gh` login) is recorded as `unknown`; `unknown` is treated as absent for every rule in §3.
 
 ## 2. Per-platform mapping
 
@@ -80,7 +80,7 @@ Every script gate has a manual equivalent with the same pass rule. The method's 
 | `spec-lint.mjs` | Check the required sections of `templates/spec.md` one by one; AC IDs contiguous from `AC-1` |
 | Approval hash | Bind the approval to the commit instead: `rev N @ <git log -1 --format=%h -- specs/NNN-slug/spec.md>`; any later commit touching the file voids it |
 | `plan-graph.mjs` | Each `Blocked by` names only lower task IDs (acyclic by construction); list waves by hand in `plan.md` |
-| `dod-gate.mjs`† | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
+| `dod-gate.mjs` | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
 | Evidence fingerprint | `git status --porcelain` empty and `git rev-parse --short=12 HEAD`; a dirty tree gives no valid evidence |
 | `trace-check.mjs`† | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test |
 | `budget-check.mjs` | `sed '/^---$/,/^---$/d' <file> \| wc -w` against the budgets: router 2,200 · quickstart 1,200 · README install section 300 · reference 3,000 · agent file 600 |

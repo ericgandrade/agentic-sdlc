@@ -167,6 +167,8 @@ Fewer than 5 data points → counts, not percentages. No source → `n/a — <re
 
 Return: ops readings recorded · incidents with SEV and state · postmortem path and status · `from-production` issues with numbers · DORA rows when computed. Status: `DONE` reading recorded or incident closed · `DONE_WITH_CONCERNS` indicator below target, SLO `low` or `exhausted`, or a field `not measured` · `BLOCKED` no access to the signal · `NEEDS_CONTEXT` spec lacks an indicator or alert · `CANNOT_VERIFY` indicator source unavailable (name who measures it and when).
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

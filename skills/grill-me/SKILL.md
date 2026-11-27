@@ -138,6 +138,8 @@ Load `references/closing-summary.md`.
 3. Set the status: `DONE`, `DONE_WITH_CONCERNS`, `NEEDS_CONTEXT` or `BLOCKED`. A human stop with a material item open is never `DONE`.
 4. Hand off. In SDLC mode the summary goes to the issue or `specs/NNN-slug/grill-summary.md` and on to `spec-driven-development` in synthesize mode; deferred items go to the spec's Open questions unchanged; a `NEEDS_CONTEXT` ending stops the stage until the named owner answers. When an agent role dispatched the skill, open the reply with the report contract line from `../agentic-sdlc/references/agents.md` (`**Agent:** … · **Status:** …`). Outside the SDLC, ask what the human wants next and do nothing until they choose.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-Rationalization
 
 | Excuse | Reality |

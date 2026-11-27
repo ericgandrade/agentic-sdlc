@@ -43,7 +43,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── runs/preflight.json            # preflight without --run
     ├── evidence/ledger.jsonl          # † fingerprint-bound evidence records (evidence)
     ├── metrics/history.jsonl          # † (metrics)
-    └── doctor.json                    # † (doctor)
+    └── doctor.json                    # doctor
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
 ```
 
@@ -55,7 +55,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 
 | Artifact | Location | Template | Created in · by | Required on | Validated by |
 |---|---|---|---|---|---|
-| AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor`† |
+| AGENTS.md block + `sdlc-dod` | project root | §AGENTS.md block below | Discover · `project-context` | all paths | `preflight` (baseline-dod), `run-ledger start`; `doctor` |
 | Issue with acceptance test | tracker; no tracker → `docs/issues/NNNN-slug.md` | — (Given/When/Then in the issue body) | Discover · Analyst | Quick | Reviewer lens L1 |
 | Out-of-scope record | `docs/out-of-scope/<slug>.md` | `issue-triage` skill, references/templates.md | Discover · Analyst; Product Owner decides | when a request is declined | duplicate search (`issue-triage`) |
 | Discovery brief | `specs/NNN-slug/brief.md`; Quick → issue comment | skill `brainstorming`, templates/brief.md | Discover · Analyst | when `brainstorming` runs | Analyst input to Specify |
@@ -73,7 +73,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | ADR | `docs/adr/NNNN-slug.md` | §ADR below | Design · Architect | Full; Standard when a decision is expensive to reverse | Reviewer lens L2 |
 | `plan.md` | `specs/NNN-slug/` | `templates/plan.md` | Design · Planner | Standard, Full | `plan-graph` |
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
-| `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor`† (age ≤ 90 days, every top-level dir mapped) |
+| `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor` (age ≤ 90 days) |
 | `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check`† |
 | PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`†, `trace-check`† |
 | Run ledger | `.agentic-sdlc/runs/<id>/ledger.jsonl`; archived to `specs/NNN-slug/run-ledger.jsonl` | generated | Build · `run-ledger start` … `finish` | every `executing-plans` run | `run-ledger status`, `check` |
@@ -85,7 +85,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md` | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
 | Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
 | Postmortem | `docs/postmortems/` | `templates/postmortem.md` | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
-| Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs`† overdue check |
+| Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs` (missing retro) |
 | Handoff | `specs/NNN-slug/handoff.md` | `references/phase-boundaries.md` §Handoff | any stage end | when context is cleared or work changes hands | Step 0 state detection |
 | `CONSTRAINTS.md` | project root | §CONSTRAINTS.md below | Discover · `project-context` | Full | Reviewer lens L2 |
 | `GLOSSARY.md` | project root | — (term · definition · source) | Specify · `grill-me` | when Specify defines ≥ 1 domain term | Reviewer lens L1 |
@@ -94,24 +94,19 @@ A template listed above that is absent in the installed version → use the sect
 
 ## Later-release files
 
-The router Module Index and other files name the files below; they are added in a later release and marked †. No Batch-1 script reads them. Until they exist, apply the manual fallback; record `module missing: <path>` in the PR body when a step names one.
+Planned files, marked † where other files name them. The router Module Index lists only shipped files. No shipped script reads these. Until one exists, apply its manual fallback and record `module missing: <path>` in the PR body when a step names it. Target versions come from the improvement plan (`docs/plans/2026-11-27-agentic-sdlc-improvement-plan.md` in the repository) and may move after the pilot.
 
-| File | Purpose | Manual fallback |
-|---|---|---|
-| `scripts/status.mjs`† | Step 0 state table | Apply the router Step 0 table by reading the files |
-| `scripts/doctor.mjs`† | Setup check (`doctor.json`) | Check the AGENTS.md block, the `sdlc-dod` commands (`preflight` baseline-dod) and the code map date by hand |
-| `scripts/path-score.mjs`† | Path score | `references/paths.md` §Score rubric by hand |
-| `scripts/evidence.mjs`† | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
-| `scripts/trace-check.mjs`† | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
-| `scripts/dod-gate.mjs`† | Definition of Done gate | Run every `sdlc-dod` command and paste each exit code; `preflight` runs the same commands as baseline-dod |
-| `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
-| `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
-| `scripts/ext-check.mjs`† | Extension validation | No extensions are loaded until it exists |
-| `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
-| `references/faq.md`†, `upgrading.md`† | Troubleshooting; upgrades | `project-context audit`; re-run `project-context` setup |
-| `references/extension-interface.md`† | Extensions | No extensions are loaded until it exists |
-| `references/standards-mapping.md`† | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
-| `examples/paths/`†, `examples/extensions/`† | Path and extension examples | `references/paths.md` examples; `examples/worked-example/` |
+| File | Target | Purpose | Manual fallback |
+|---|---|---|---|
+| `scripts/path-score.mjs`† | v3.3.0 | Path score | `references/paths.md` §Score rubric by hand |
+| `scripts/evidence.mjs`† | v3.2.0 | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
+| `scripts/trace-check.mjs`† | v3.2.0 | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
+| `scripts/approval-check.mjs`† | v3.2.0 | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
+| `scripts/audit-export.mjs`† | v3.2.0 | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
+| `scripts/metrics.mjs`† | v3.3.0 | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
+| `references/faq.md`† | unscheduled | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
+| `references/standards-mapping.md`† | unscheduled | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
+| `examples/paths/`† | v3.3.0 | Path examples | `references/paths.md` examples |
 
 ## Naming and numbering
 
@@ -145,7 +140,7 @@ coverage_min: 78.4
 <!-- AGENTIC-SDLC:END -->
 ````
 
-Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `test`, `coverage`, `coverage_min`; a key with no command in the project is written as `<key>: n/a — <reason>`. `coverage_min` defaults to the coverage measured at adoption and is never lowered; a higher measured value becomes the new floor. Missing block → `preflight` and `run-ledger start` exit 2 (`dod-gate`† exit 2 and `doctor`† FAIL once added).
+Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `test`, `coverage`, `coverage_min`; a key with no command in the project is written as `<key>: n/a — <reason>`. `coverage_min` defaults to the coverage measured at adoption and is never lowered; a higher measured value becomes the new floor. Missing block → `preflight` and `run-ledger start` exit 2, `doctor` FAIL, `dod-gate` exit 2.
 
 ## ADR
 

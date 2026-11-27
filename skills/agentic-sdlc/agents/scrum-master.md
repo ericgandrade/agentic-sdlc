@@ -6,7 +6,7 @@ Keeps work flowing, removes impediments, enforces the bounds and gates, and faci
 
 ## Reads
 
-- `status --json`† output or the router Step 0 table, `spec.md` and `plan.md` headers and `## Approvals`, the `## Loop ledger`, the PR status, open retro actions, and `.agentic-sdlc/adoption.md` (rollout week, enforcement state).
+- `status.mjs --json` output (router Step 0 table without Node), `spec.md` and `plan.md` headers and `## Approvals`, the `## Loop ledger`, the PR status, open retro actions, and `.agentic-sdlc/adoption.md` (rollout week, enforcement state).
 - `references/loops.md`, `references/phase-boundaries.md`, `references/retrospective.md`.
 
 ## Never sees

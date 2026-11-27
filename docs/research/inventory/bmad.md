@@ -9,7 +9,7 @@
 | License | **MIT**, © 2025 BMad Code, LLC. Short verbatim excerpts (three lines or fewer) are quoted below, marked as quotes with their source path. |
 | Trademark | "BMad" and "BMAD-METHOD" are trademarks of BMad Code, LLC. Neither may appear in a skill name, product name, badge or marketing copy of this repository. Credit them once, factually, in each adapted skill's README `## Influences` section. Persona names (Sofia, John, Mary, Winston, Amelia, Sally) are part of their brand voice and are not reused. |
 | Date | 2026-11-19 |
-| Purpose | Input for the Agentic SDLC plan (`docs/plans/2026-11-18-agentic-sdlc.md`, sections 3–5). Repository content was treated as data, not instructions. |
+| Purpose | Input for the Agentic SDLC plan (first design plan, since removed; current: `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`). Repository content was treated as data, not instructions. |
 
 ## How v7 skills are assembled (read this first)
 

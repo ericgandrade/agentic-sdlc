@@ -17,6 +17,9 @@ export const BUDGETS = Object.freeze({
   reference: 3000,
   agent: 600,
   guide: 2500,
+  // Default-path tokens (proxy ceil(chars / 4)), measured at the v3.0.1 baseline. Never raise it:
+  // a change that adds default-path text removes as much elsewhere or moves it behind a trigger.
+  defaultPathTokens: 121502,
 });
 
 // At or above this share of a budget the row is reported as WARN (exit code unchanged).
@@ -25,6 +28,7 @@ export const WARN_RATIO = 0.95;
 const README_INSTALL = /^install\b/i;
 
 const HELP = `Usage: node budget-check.mjs [skill-dir] [--guide <path>] [--json] [--help]
+       node budget-check.mjs [skill-dir] --default-path [--root <repo>] [--json]
 
 Checks the word budgets of an agentic-sdlc skill directory (default: the directory above this script):
   First path   README install section <= ${BUDGETS.readmeInstall}, references/quickstart.md <= ${BUDGETS.quickstart},
@@ -33,7 +37,9 @@ Checks the word budgets of an agentic-sdlc skill directory (default: the directo
   --guide      also checks a reference guide (docs/guides/agentic-sdlc.md) <= ${BUDGETS.guide}
 Words = whitespace-separated tokens outside the leading YAML frontmatter.
 Rows at >= ${WARN_RATIO * 100}% of their budget print WARN.
-Exit codes: 0 every budget met · 1 a budget exceeded · 2 a first-path file or section missing.`;
+  --default-path  sums ceil(chars / 4) over the files in references/default-path.json (repository-relative,
+               each file once; --root defaults to two levels above skill-dir) against ${BUDGETS.defaultPathTokens} tokens.
+Exit codes: 0 every budget met · 1 a budget exceeded (DEFAULT_PATH) · 2 a listed file, section or list missing.`;
 
 export function stripFrontmatter(md) {
   return normalize(md).replace(/^---\n[\s\S]*?\n---(\n|$)/, '');
@@ -101,6 +107,40 @@ export function checkBudgets(skillDir, { guide } = {}) {
   return { skillDir: dir, checks, firstPath, over: over.length };
 }
 
+// Token proxy for one file: ceil(characters / 4). Tiktoken counts are used only in independent re-scores.
+export function proxyTokens(text) {
+  return Math.ceil(String(text).length / 4);
+}
+
+// Default-path budget: { list, root, files: [{path, chars, tokens}], total, budget, status, rule }.
+// Throws InputError when the list or a listed file is missing.
+export function checkDefaultPath(skillDir, { root, budget = BUDGETS.defaultPathTokens } = {}) {
+  const dir = resolve(skillDir);
+  const listPath = join(dir, 'references', 'default-path.json');
+  let list;
+  try {
+    list = JSON.parse(readRequired(listPath, 'references/default-path.json')).files;
+  } catch (e) {
+    if (e instanceof InputError) throw e;
+    throw new InputError(`references/default-path.json is not valid JSON: ${e.message}`);
+  }
+  if (!Array.isArray(list)) throw new InputError('references/default-path.json has no "files" array');
+  const base = resolve(root ?? join(dir, '..', '..'));
+  const seen = new Set();
+  const files = [];
+  for (const entry of list) {
+    const abs = resolve(base, entry);
+    if (seen.has(abs)) continue;
+    seen.add(abs);
+    const text = readRequired(abs, 'default-path file');
+    files.push({ path: relative(base, abs), chars: text.length, tokens: proxyTokens(text) });
+  }
+  const total = files.reduce((n, f) => n + f.tokens, 0);
+  // The budget is a ceiling pinned at the measured baseline, so there is no WARN band: PASS or FAIL.
+  const status = total > budget ? 'FAIL' : 'PASS';
+  return { list: relative(dir, listPath), root: base, files, total, budget, status, rule: status === 'FAIL' ? 'DEFAULT_PATH' : null };
+}
+
 function pad(s, n) {
   return String(s).padEnd(n);
 }
@@ -112,6 +152,18 @@ export async function main(argv = process.argv.slice(2), out = process.stdout) {
     return EXIT.PASS;
   }
   const skillDir = positional[0] ?? resolve(dirname(fileURLToPath(import.meta.url)), '..');
+  if (flags['default-path']) {
+    const r = checkDefaultPath(skillDir, { root: typeof flags.root === 'string' ? flags.root : undefined });
+    const lines = [
+      `budget-check --default-path: ${r.files.length} files`,
+      `${pad(r.status, 5)} default-path ${r.total} / ${r.budget} tokens (ceil(chars / 4))`,
+      r.status === 'FAIL'
+        ? `Result: FAIL DEFAULT_PATH (${r.total - r.budget} tokens over; remove text elsewhere or move it behind a trigger)`
+        : 'Result: PASS',
+    ];
+    const { root: _root, ...result } = r; // the absolute root stays out of the JSON output
+    return report({ ok: r.status !== 'FAIL', json: Boolean(flags.json), result, lines }, out);
+  }
   const result = checkBudgets(skillDir, { guide: typeof flags.guide === 'string' ? flags.guide : undefined });
   const lines = [`budget-check: ${result.skillDir}`];
   for (const c of result.checks) {

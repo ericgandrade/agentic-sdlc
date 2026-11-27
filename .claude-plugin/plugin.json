@@ -1,6 +1,6 @@
 {
   "name": "agentic-sdlc",
-  "version": "3.0.1",
+  "version": "3.1.0",
   "description": "23 AI skills for Claude Code built around the Agentic SDLC: a router, 13 agents and 19 stage skills from Discover to Operate, with four human sign-offs and evidence-based verification, plus skill creation and resource orchestration.",
   "author": {
     "name": "Eric Andrade",

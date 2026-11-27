@@ -213,6 +213,8 @@ Return the report contract from `../agentic-sdlc/references/agents.md`:
 
 **Critical or high advisory:** in reachable or unanalysed code, a Critical finding; the PR stays NO-GO until upgraded, replaced or removed (no `accept-risk` or `defer` for Critical, `../agentic-sdlc/references/governance.md` §6.1). Non-reachability shown by evidence → Important, waivable ≤ 30 days. The CI gate honours only waivers mirrored in `osv-scanner.toml` with a reason and an expiry date.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

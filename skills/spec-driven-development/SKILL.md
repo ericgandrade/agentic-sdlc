@@ -203,6 +203,8 @@ Any edit to hashed content after approval — an AC, a non-goal, the rollback, t
 
 A new requirement after release is not a revision: open a new Discover item and a new spec that cites the old ID. Recording an approval or a waiver does not change the hash. Delta format, approval states and anti-patterns: `references/revise-mode.md`.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 The left column quotes thoughts to catch, not guidance.
