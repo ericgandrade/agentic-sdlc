@@ -63,9 +63,9 @@ export function defaultBranch(cwd = process.cwd()) {
 }
 
 // Record files cite the fingerprint or log events about the tested tree, so they never feed it:
-// review record, approval register, archived run ledger, hand-off, impediment log, release notes
-// (specs/<slug>/…) and docs/reviews/. spec.md, plan.md and acceptance-tests.md still count.
-const RECORD = /^specs\/[^/]+\/(?:(?:review|approvals|handoff|impediments|release-notes)\.md|run-ledger\.jsonl)$/;
+// review record, approval register, archived run ledger, hand-off, impediment log, release notes,
+// trace matrix (specs/<slug>/…) and docs/reviews/. spec.md, plan.md and acceptance-tests.md still count.
+const RECORD = /^specs\/[^/]+\/(?:(?:review|approvals|handoff|impediments|release-notes|trace)\.md|run-ledger\.jsonl)$/;
 // plan.md gets loop-ledger rows after every task and review round; like the plan hash, the
 // fingerprint reads it without `## Loop ledger`, so those rows never stale the evidence.
 const PLAN = /^specs\/[^/]+\/plan\.md$/;
@@ -119,10 +119,10 @@ export function fingerprint({ cwd: start = process.cwd(), exclude = ['.agentic-s
   return { fingerprint: full, short: full.slice(0, 12), clean: dirty.length === 0, head: headSha(cwd) };
 }
 
-// Commits in a range (e.g. "main..HEAD"), oldest first: [{ sha, subject, body }].
-export function log({ cwd = process.cwd(), range = 'HEAD' } = {}) {
+// Commits in a range (e.g. "main..HEAD"), oldest first: [{ sha, subject, body }]. noMerges skips merge commits.
+export function log({ cwd = process.cwd(), range = 'HEAD', noMerges = false } = {}) {
   const SEP = '\x1e';
-  const out = git(['log', '--reverse', `--format=%H%x1f%s%x1f%b${SEP}`, range], { cwd });
+  const out = git(['log', '--reverse', ...(noMerges ? ['--no-merges'] : []), `--format=%H%x1f%s%x1f%b${SEP}`, range], { cwd });
   return out
     .split(SEP)
     .map((r) => r.replace(/^\n/, ''))
@@ -162,6 +162,11 @@ export function refsFromMessage(message) {
     tasks: uniq(tokens.filter((t) => TASK.test(t))),
     acs: uniq(tokens.filter((t) => AC.test(t))),
   };
+}
+
+// Files one commit changed against its first parent (repository-relative; the root commit lists every file).
+export function commitFiles(sha, { cwd = process.cwd() } = {}) {
+  return git(['diff-tree', '--no-commit-id', '--name-only', '-r', '-z', '--root', sha], { cwd }).split('\0').filter(Boolean);
 }
 
 // Files changed between two refs (three-dot diff from the merge base).

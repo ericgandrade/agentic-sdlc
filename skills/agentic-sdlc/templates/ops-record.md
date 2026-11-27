@@ -1,7 +1,7 @@
 <!--
 Agentic SDLC — ops record. Rules: references/release-ops.md (§Incidents, §Intake), agents/sre.md; procedure: skill operations-and-incidents.
 Location: specs/NNN-slug/ops.md, one per released Standard or Full item. Seeded by the Release Engineer's handover; kept by the SRE agent.
-First indicator reading ≤ 7 days after the release date; no reading 14 days after release → trace-check† WARN, FAIL at the retro.
+First indicator reading ≤ 7 days after the release date; no reading 14 days after release → trace-check exit 1 (TR12).
 Operate monitors what the spec defined: thresholds and alerts here are copied from spec.md, never invented. New numbers are proposals in from-production issues.
 Every reading has a UTC time, a source (query or dashboard panel) and a window. A number without a source is not recorded; write "not measured — <reason>".
 A section with nothing to report says "none — <reason>"; never leave it blank. Keep every heading.

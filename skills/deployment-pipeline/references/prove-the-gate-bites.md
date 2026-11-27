@@ -40,7 +40,7 @@ GitLab: `glab mr view <iid> -F json` (fields `detailed_merge_status`, `head_pipe
 | spec | named, not touched | Code-only PR whose body `Spec:` line names a spec with a void approval | red | BLOCKED |
 | approvals | plan stale | Edit `plan.md` without regenerating `graph.json` | red, `GRAPH_STALE` | BLOCKED |
 | approvals | spec void | Same edit as `spec / edited after approval` | red, `APPROVAL_SPEC_VOID` | BLOCKED |
-| trace | gap | AC without a test row (once `trace-check`† is vendored) | red | BLOCKED |
+| trace | gap | AC without a test row in `acceptance-tests.md` (TR07) | red | BLOCKED |
 | host | workflow edit | Change `agentic-sdlc.yml` so a job always passes | may be green — the workflow runs from the PR head | BLOCKED, `reviewDecision: REVIEW_REQUIRED` from a code owner |
 | host | code owner | Approve a `specs/**` change with a non-owner account | — | BLOCKED |
 | host | stale review | Approve, then push one more commit | — | BLOCKED, approval dismissed |

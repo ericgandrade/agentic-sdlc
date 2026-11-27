@@ -11,12 +11,14 @@
 #   agentic-sdlc-dod        every sdlc-dod command + the coverage floor
 #   agentic-sdlc-spec       spec-lint --check-approval on every spec the MR touches or names
 #   agentic-sdlc-approvals  plan-graph --check --check-approval, then approval-check with the MR description
-#   agentic-sdlc-trace      trace-check once vendored; until then a warning (allowed to pass)
+#   agentic-sdlc-trace      trace-check on the same folders with the MR description (MR pipelines only);
+#                           required once vendored on the target branch (warns and passes while absent);
+#                           an MR description edit starts no pipeline: re-run the job after filling the Trace table
 # GitLab blocks merge on any failed job when "Pipelines must succeed" is enabled; a job with
 # allow_failure: true never blocks, so none of the gate jobs below set it.
 #
 # On merge requests the sdlc-dod block is read from the TARGET branch, so an MR cannot lower the
-# bar it is judged by. The spec and approvals jobs also run the checker scripts from the target
+# bar it is judged by. The spec, approvals and trace jobs also run the checker scripts from the target
 # branch when they exist there; CODEOWNERS review of CI files guards edits to this file.
 # Untrusted values (MR description, branch names) reach the shell only as
 # quoted variables.
@@ -149,11 +151,22 @@ agentic-sdlc-approvals:
 agentic-sdlc-trace:
   extends: .agentic-sdlc-base
   timeout: 10m
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   script:
     - |
       set -eu
-      if [ -f "$SDLC_BIN/trace-check.mjs" ]; then
-        node "$SDLC_BIN/trace-check.mjs"
-      else
-        echo "WARNING: trace-check not vendored; fill the MR Trace table by hand (references/verification.md §Trace)."
+      if [ ! -f "$GATE_BIN/trace-check.mjs" ]; then
+        echo "WARNING: trace-check.mjs not vendored; fill the MR Trace table by hand (references/platforms.md §4)."
+        exit 0
       fi
+      printf '%s\n' "${CI_MERGE_REQUEST_DESCRIPTION:-}" > .git/agentic-sdlc-mr-body.md
+      status=0
+      while IFS= read -r dir; do
+        [ -n "$dir" ] || continue
+        if [ ! -f "$dir/plan.md" ]; then echo "NOTICE: $dir has no plan.md yet"; continue; fi
+        echo "== trace-check $dir"
+        node "$GATE_BIN/trace-check.mjs" "$dir" --base FETCH_HEAD --pr .git/agentic-sdlc-mr-body.md || status=$?
+      done < spec-dirs.txt
+      [ -s spec-dirs.txt ] || echo "No spec touched or named (Quick path: the Reviewer fills the MR Trace table)."
+      exit $status

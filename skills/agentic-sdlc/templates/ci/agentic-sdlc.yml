@@ -10,8 +10,11 @@
 #                           then ext-check on .agentic-sdlc/extensions/ (passes when there are none)
 #   agentic-sdlc/approvals  plan-graph --check --check-approval on the same folders, then
 #                           approval-check on them with the PR body and the PR author
-#   agentic-sdlc/trace      trace-check once vendored; until then it reports a warning and passes,
-#                           so do NOT mark it required before the script exists
+#   agentic-sdlc/trace      trace-check on the same folders with the PR body (pull requests only);
+#                           required once trace-check.mjs is vendored on the base branch (it warns and
+#                           passes while absent). It stays red until the Reviewer fills the PR Trace table;
+#                           editing the PR body does not trigger this workflow, so re-run the trace and
+#                           approvals jobs after filling it
 #
 # Assumptions to adapt (search for "ADAPT"):
 #   - The method's scripts are vendored in .agentic-sdlc/bin/ by project-context (SDLC_BIN).
@@ -27,7 +30,7 @@
 #     A key without a command is written `<key>: n/a — <reason>` and is skipped with a notice.
 #   - On pull requests the sdlc-dod block is read from the BASE branch, so a PR cannot lower the
 #     bar it is judged by. Changes to the block take effect after merge and need CODEOWNERS review.
-#     The spec and approvals jobs likewise run the checker scripts from the BASE branch when they
+#     The spec, approvals and trace jobs likewise run the checker scripts from the BASE branch when they
 #     exist there. This workflow file itself runs from the PR head, so CODEOWNERS review of CI
 #     files (templates/CODEOWNERS) is the control against a PR that edits this file.
 #
@@ -268,18 +271,49 @@ jobs:
 
   trace:
     name: agentic-sdlc/trace
+    if: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    env:
+      BASE_REF: ${{ github.base_ref }}
+      PR_BODY: ${{ github.event.pull_request.body }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: trace-check (when vendored)
+      - name: Use the base branch checker scripts (a PR cannot edit the checker it is judged by)
         run: |
           set -euo pipefail
-          if [ -f "$SDLC_BIN/trace-check.mjs" ]; then
-            node "$SDLC_BIN/trace-check.mjs"
+          if git cat-file -e "origin/$BASE_REF:$SDLC_BIN/spec-lint.mjs" 2>/dev/null; then
+            mkdir -p "$RUNNER_TEMP/base"
+            git archive "origin/$BASE_REF" "$SDLC_BIN" | tar -x -C "$RUNNER_TEMP/base"
+            echo "GATE_BIN=$RUNNER_TEMP/base/$SDLC_BIN" >> "$GITHUB_ENV"
           else
-            echo "::warning::trace-check not vendored; fill the PR Trace table by hand (references/verification.md §Trace). Do not mark agentic-sdlc/trace required yet."
+            echo "::warning::$SDLC_BIN not on $BASE_REF yet (first install): using the copy in this PR"
           fi
+      - name: trace-check (AC → task → commit → test → PR Trace → release notes → ops reading)
+        run: |
+          set -euo pipefail
+          bin="${GATE_BIN:-$SDLC_BIN}"
+          if [ ! -f "$bin/trace-check.mjs" ]; then
+            echo "::warning::trace-check.mjs not vendored; fill the PR Trace table by hand (references/platforms.md §4). Do not mark agentic-sdlc/trace required yet."
+            exit 0
+          fi
+          printf '%s\n' "${PR_BODY:-}" > "$RUNNER_TEMP/pr-body.md"
+          {
+            git diff --name-only "origin/$BASE_REF...HEAD" -- specs | awk -F/ 'NF>=3 {print $1"/"$2}'
+            printf '%s\n' "${PR_BODY:-}" | grep -oE 'specs/[0-9]{3}-[a-z0-9-]+' || true
+          } | sort -u > "$RUNNER_TEMP/spec-dirs.txt"
+          status=0
+          while IFS= read -r dir; do
+            [ -n "$dir" ] || continue
+            if [ ! -f "$dir/plan.md" ]; then echo "::notice::$dir has no plan.md yet"; continue; fi
+            echo "::group::trace-check $dir"
+            node "$bin/trace-check.mjs" "$dir" --base "origin/$BASE_REF" --pr "$RUNNER_TEMP/pr-body.md" || status=$?
+            echo "::endgroup::"
+          done < "$RUNNER_TEMP/spec-dirs.txt"
+          if [ ! -s "$RUNNER_TEMP/spec-dirs.txt" ]; then echo "No spec touched or named (Quick path: the Reviewer fills the PR Trace table)."; fi
+          exit $status

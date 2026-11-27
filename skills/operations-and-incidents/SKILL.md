@@ -31,7 +31,7 @@ Records produced:
 - A spec alert fired, a user reported a failure, or a rollout breached a threshold.
 - An incident needs a severity, an owner, a timeline, status updates or a close decision.
 - A SEV1 or SEV2 postmortem is due, or an existing one must be checked for blame or missing owners.
-- The first indicator reading is due (release + 7 days) or overdue (14 days → trace-check† WARN).
+- The first indicator reading is due (release + 7 days) or overdue (14 days → `trace-check` exit 1, TR12).
 - An alert keeps firing without incidents, or a runbook is stale.
 - A retro is coming and needs production facts and DORA metrics.
 
@@ -104,7 +104,7 @@ Report one of three readings: **advance** (all advance conditions shown with num
 - Read the outcome indicator at release + 7 days by the spec's method; record it; dispatch the Product Manager (`../agentic-sdlc/agents/product-manager.md`) for the verdict: `met` · `missed by <n>` · `on track (partial period)` · `n/a`. No subagents → write the verdict in a separate pass after re-reading only the spec §Indicator and the reading.
 - Review every spec alert with the A1–A8 checklist in `references/alerting-and-runbooks.md` §2.
 - Close the watch period in `ops.md` §Watch period result: `closed clean` · `closed with issues #n` · `open — <reason>`.
-- No reading 14 days after release → trace-check† WARN; at the retro it becomes FAIL. Record the reading late rather than skip it, and state the delay.
+- No reading 14 days after release, or a latest reading older than 14 days while the watch period is open → `trace-check` exit 1 (TR12), which blocks the `agentic-sdlc/trace` check of any PR that touches the spec. Record the reading late rather than skip it, and state the delay.
 
 ### Step 4 — Alert triage
 

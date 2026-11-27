@@ -16,7 +16,7 @@ Full workflow: skill `retrospective`.
 
 **Record:** `docs/retros/YYYY-MM-DD.md` (second retro on the same date: `YYYY-MM-DD-2.md`). The header line `**Covers:**` names the spec folder and release tag, or the batch's PR numbers; `status.mjs`† matches retros to items by this line.
 
-**Failure behaviour.** No valid record by the due date → `status.mjs`† reports `Retro overdue: <spec or batch>` as the next step (router Step 0, state 8), and the next Release in the repository is NO-GO (`references/release-ops.md` checklist R9; `trace-check`† FAIL once it exists) until the retro is held. A retro is never skipped because the cycle "went fine": a 15-minute retro with one action is the minimum.
+**Failure behaviour.** No valid record by the due date → `status.mjs`† reports `Retro overdue: <spec or batch>` as the next step (router Step 0, state 8), and the next Release in the repository is NO-GO (`references/release-ops.md` checklist R9) until the retro is held. A retro is never skipped because the cycle "went fine": a 15-minute retro with one action is the minimum.
 
 ## Procedure
 

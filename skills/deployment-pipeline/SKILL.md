@@ -74,7 +74,7 @@ Build the **gate matrix**; every row ends with a required check name:
 | `agentic-sdlc/dod` | every PR, push to default | `sdlc-dod` block read from the base branch | any key exits ≠ 0; coverage < `coverage_min`; key missing | date + PR |
 | `agentic-sdlc/spec` | every PR | `spec-lint --check-approval` on each spec folder touched or named on the PR `Spec:` line | exit 1 (AP04 void hash, WV05 expired waiver, missing sign-off) | |
 | `agentic-sdlc/approvals` | every PR | `plan-graph --check --check-approval`; `approval-check --pr --author` | stale `graph.json`, plan approved against another spec hash, stale or invalid sign-off, approver = PR author | |
-| `agentic-sdlc/trace` | every PR | `trace-check`† when vendored | — (warning only until vendored; not required yet) | |
+| `agentic-sdlc/trace` | every PR | `trace-check --pr` on each spec folder with a `plan.md` (warns and passes while not vendored) | any orphan, unanchored AC filter, zero-test run, ops reading due (TR01–TR15) | |
 | Existing project checks | as today | unchanged | as today | |
 
 Rules:

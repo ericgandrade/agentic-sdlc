@@ -50,7 +50,7 @@ gh api -X PUT "repos/{owner}/{repo}/branches/$BR/protection" --input - <<'JSON'
 JSON
 ```
 
-`PUT` replaces the whole protection object: merge the existing contexts and any higher review count into the payload first. Add `agentic-sdlc/trace` to `contexts` only once `trace-check.mjs`† is vendored and proven (until then the job warns and passes, so requiring it proves nothing).
+`PUT` replaces the whole protection object: merge the existing contexts and any higher review count into the payload first. Add `agentic-sdlc/trace` to `contexts` only once `trace-check.mjs` is vendored on the base branch and proven (until then the job warns and passes, so requiring it proves nothing).
 
 Repository or organization rulesets (preferred where the organization already uses them):
 

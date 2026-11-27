@@ -34,8 +34,8 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
 │   ├── run-ledger.jsonl               # run ledger archived by run-ledger finish
 │   ├── handoff.md                     # stage hand-off / resume pointer
 │   ├── review.md                      # review record without a PR host (pr-body sections, Test sign-off)
-│   ├── trace.md                       # † written by trace-check
-│   └── ops.md                         # † indicator readings and incidents after release
+│   ├── trace.md                       # written by trace-check --write
+│   └── ops.md                         # indicator readings and incidents after release
 └── .agentic-sdlc/
     ├── bin/  VERSION  SHA256SUMS      # vendored scripts (project-context setup)
     ├── config.json                    # project overrides (budgets read by run-ledger); never touched by upgrades
@@ -75,8 +75,8 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | `plan.md` | `specs/NNN-slug/` | `templates/plan.md` | Design · Planner | Standard, Full | `plan-graph` |
 | `graph.json` | `specs/NNN-slug/` | generated | Design · `plan-graph --write` | Standard, Full | `plan-graph --check` |
 | `codemap.md` | `docs/` | `templates/codemap.md` | Discover (adoption) · `project-context` | brownfield repos | `doctor` (age ≤ 90 days) |
-| `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check`† |
-| PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`, `trace-check`† |
+| `acceptance-tests.md` | `specs/NNN-slug/` | `templates/acceptance-tests.md` | after Design sign-off · Test Engineer | Standard, Full | `trace-check` |
+| PR body (review record) | pull request; no PR host → `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | `templates/pr-body.md` | Build · Developer; Test · Reviewer | all paths | `approval-check --pr`, `trace-check` |
 | Run ledger | `.agentic-sdlc/runs/<id>/ledger.jsonl`; archived to `specs/NNN-slug/run-ledger.jsonl` | generated | Build · `run-ledger start` … `finish` | every `executing-plans` run | `run-ledger status`, `check` |
 | Preflight record | `.agentic-sdlc/runs/<id>/preflight.json` | generated | Build · `preflight` | every `executing-plans` run | `preflight` exit code |
 | Run worktree | `../<repo>-sdlc-<id>` on `sdlc/NNN-<id>` | generated | Build · `run-ledger start --mode unattended` | unattended runs | `preflight` (isolation) |
@@ -84,7 +84,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Evidence ledger | `.agentic-sdlc/evidence/ledger.jsonl` | generated | Build, Test · `evidence record` | all paths | `evidence check` |
 | Release notes | release / `CHANGELOG.md`; neither → `specs/NNN-slug/release-notes.md` (Quick: `docs/releases/<issue>.md`) | `templates/release-notes.md` | Release · Release Engineer | production releases | release checklist |
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md` | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
-| Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
+| Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check` (reading ≤ 14 days) |
 | Postmortem | `docs/postmortems/` | `templates/postmortem.md` | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
 | Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs` (missing retro) |
 | Handoff | `specs/NNN-slug/handoff.md` | `references/phase-boundaries.md` §Handoff | any stage end | when context is cleared or work changes hands | Step 0 state detection |
@@ -100,7 +100,6 @@ Planned files, marked † where other files name them. The router Module Index l
 | File | Target | Purpose | Manual fallback |
 |---|---|---|---|
 | `scripts/path-score.mjs`† | v3.3.0 | Path score | `references/paths.md` §Score rubric by hand |
-| `scripts/trace-check.mjs`† | v3.2.0 | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
 | `scripts/metrics.mjs`† | v3.3.0 | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
 | `references/faq.md`† | unscheduled | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
 | `references/standards-mapping.md`† | unscheduled | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |

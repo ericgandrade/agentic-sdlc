@@ -100,13 +100,7 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 | Output | One matrix row per AC: `AC-n · tasks · commits · tests · Verification rows · status`; an `Orphans` list (`none` when empty) |
 | Failure | Any orphan → NO-GO until resolved as below |
 
-Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
-
-1. ACs: the `AC-n` IDs in `spec.md` (Quick: in the issue).
-2. Tasks: the `## Tasks` rows of `plan.md` and their AC column.
-3. Commits: `git log --format='%h%x09%s%x09%(trailers:key=Refs,valueonly,separator=%x20)' <base>..HEAD`; the bracket form `[T3, AC-2]` in the subject also counts. **Artifact commits are exempt from the Tn rule:** a `docs:`, `chore:` or `test:` commit whose files are all method artifacts (`docs/issues/**`, `docs/reviews/**`, `specs/NNN-slug/**`, `.agentic-sdlc/runs/**`; never `.agentic-sdlc/bin/` or `config.json`, which change the gates) or acceptance-test files listed in `acceptance-tests.md`. Examples: issue, spec, approval register, threat model, acceptance tests (`Refs: AC-n`), `chore: archive run ledger r1`, review record. List them in the matrix as `artifact`; a commit that also touches other files is a code commit.
-4. Tests: search the test directories for `AC-[0-9]+` in test names; match each to its Verification row.
-5. Fill the matrix; list every orphan with its kind.
+`scripts/trace-check.mjs specs/NNN-slug --pr <PR body>` builds the matrix from the files and `git log <base>..HEAD`, writes `trace.md` with `--write` and exits 1 on any orphan (rules TR01–TR15, `--help`); GO requires exit 0. No Node: build it by hand (`references/platforms.md` §4). **Artifact commits are exempt from the Tn rule:** a `docs:`, `chore:` or `test:` commit whose files all sit under `docs/issues/`, `docs/reviews/`, `specs/`, `.agentic-sdlc/runs/` or are acceptance-test files listed in `acceptance-tests.md`; listed as `artifact`.
 
 | Orphan | Resolution |
 |---|---|
@@ -117,9 +111,7 @@ Manual procedure (applies whenever `scripts/trace-check.mjs`† is absent):
 | Changed file or behaviour that no task and no AC asks for | L1 Important finding: remove it, or run the change protocol to add the AC and the task |
 | Unknown AC ID in a task, commit or test | Fix the reference; an ID cited with no spec AC behind it is scope outside the approved spec → L1 Important finding |
 
-**Quick path.** No `plan.md`: commits carry `Refs: AC-n`, and the task checks are recorded as `n/a — Quick`. Every other check applies.
-
-`scripts/trace-check.mjs`† performs steps 1–5 from the files and `git log`, writes `specs/NNN-slug/trace.md` and exits 1 listing the orphans; when present, its output replaces the manual matrix.
+**Quick path** (no spec folder, so the matrix is filled by hand): commits carry `Refs: AC-n`, and the task checks are recorded as `n/a — Quick`. Every other check applies.
 
 ## Red flags
 
@@ -133,8 +125,6 @@ The left column quotes rationalizations; the quoted words are what to catch, not
 | "CI is green, that covers the ACs" | CI runs the DoD. Each AC needs its own test row. |
 | "Only a comment changed since the run" | Any change moves the fingerprint. Re-run. |
 | "I'll write the acceptance test after seeing the code" | Tests designed from the code check what was built, not what was asked. |
-
-† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

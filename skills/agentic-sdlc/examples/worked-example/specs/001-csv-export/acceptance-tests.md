@@ -34,26 +34,26 @@ Non-functional: the spec constraint "p95 ≤ 3 s for 50,000 rows" is not an AC. 
 
 | Test ID | Command | Exit | Failure line (first assertion or error) |
 |---|---|---|---|
-| AT-1a | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-1"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
-| AT-1b | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-1"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
-| AT-1c | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-1"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
+| AT-1a | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-1(?![0-9])"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
+| AT-1b | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-1(?![0-9])"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
+| AT-1c | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-1(?![0-9])"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
 | AT-1d | `npx playwright test e2e/reports/export.spec.ts` | 1 | `locator getByRole('button', { name: 'Export CSV' }) not found` |
-| AT-2a | `npx vitest run server/test/export/csv.test.ts -t "AC-2"` | 1 | `Failed to load url ../../src/export/csv.ts` |
-| AT-2b | `npx vitest run server/test/export/csv.test.ts -t "AC-2"` | 1 | `Failed to load url ../../src/export/csv.ts` |
-| AT-3a | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-3"` | 1 | `expected 403 "Forbidden", got 404 "Not Found"` |
-| AT-3b | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-3"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
-| AT-4a | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"` | 1 | `expected 422, got 404 "Not Found"` |
-| AT-4b | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
+| AT-2a | `npx vitest run server/test/export/csv.test.ts -t "^AC-2(?![0-9])"` | 1 | `Failed to load url ../../src/export/csv.ts` |
+| AT-2b | `npx vitest run server/test/export/csv.test.ts -t "^AC-2(?![0-9])"` | 1 | `Failed to load url ../../src/export/csv.ts` |
+| AT-3a | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-3(?![0-9])"` | 1 | `expected 403 "Forbidden", got 404 "Not Found"` |
+| AT-3b | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-3(?![0-9])"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
+| AT-4a | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"` | 1 | `expected 422, got 404 "Not Found"` |
+| AT-4b | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"` | 1 | `expected 200 "OK", got 404 "Not Found"` |
 
 ## Green at the PR head
 
 | Test ID | Command | Exit | Fingerprint | Time (ISO-8601) |
 |---|---|---|---|---|
-| AT-1a, AT-1b, AT-1c | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-1"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:10-03:00 |
+| AT-1a, AT-1b, AT-1c | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-1(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:10-03:00 |
 | AT-1d | `npx playwright test e2e/reports/export.spec.ts` | 0 | `b7e2a91c04d5` | 2026-11-25T09:44:31-03:00 |
-| AT-2a, AT-2b | `npx vitest run server/test/export/csv.test.ts -t "AC-2"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:18-03:00 |
-| AT-3a, AT-3b | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-3"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:25-03:00 |
-| AT-4a, AT-4b | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 |
+| AT-2a, AT-2b | `npx vitest run server/test/export/csv.test.ts -t "^AC-2(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:18-03:00 |
+| AT-3a, AT-3b | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-3(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:25-03:00 |
+| AT-4a, AT-4b | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 |
 
 ## Not verifiable before release
 

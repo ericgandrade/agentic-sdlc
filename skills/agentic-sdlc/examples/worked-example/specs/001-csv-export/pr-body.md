@@ -16,11 +16,11 @@ DoD (`sdlc-dod`) and acceptance criteria are separate rows. A row counts only wi
 | DoD:typecheck | — | `npm run typecheck` | 0 | `b7e2a91c04d5` | 2026-11-25T09:40:37-03:00 | Reviewer |
 | DoD:test | — | `npm test` | 0 | `b7e2a91c04d5` | 2026-11-25T09:41:48-03:00 | Reviewer |
 | DoD:coverage | — | `npm run coverage -- --json-summary` | 0 (84.1 ≥ 78.4) | `b7e2a91c04d5` | 2026-11-25T09:41:55-03:00 | Reviewer |
-| AC-1 | AT-1a, AT-1b, AT-1c `AC-1 exports only the rows matching the active filters` (+2) | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-1"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:10-03:00 | Reviewer |
+| AC-1 | AT-1a, AT-1b, AT-1c `AC-1 exports only the rows matching the active filters` (+2) | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-1(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:10-03:00 | Reviewer |
 | AC-1 | AT-1d `AC-1 export button downloads the filtered rows shown on the page` | `npx playwright test e2e/reports/export.spec.ts` | 0 | `b7e2a91c04d5` | 2026-11-25T09:44:31-03:00 | Reviewer |
-| AC-2 | AT-2a, AT-2b `AC-2 text cells starting with = + - @ are prefixed with an apostrophe` (+1) | `npx vitest run server/test/export/csv.test.ts -t "AC-2"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:18-03:00 | Reviewer |
-| AC-3 | AT-3a, AT-3b `AC-3 a user without reports:export gets 403 and no file` (+1) | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-3"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:25-03:00 | Reviewer |
-| AC-4 | AT-4a, AT-4b `AC-4 more than 50,000 matching rows returns 422 and no partial file` (+1) | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 | Reviewer |
+| AC-2 | AT-2a, AT-2b `AC-2 text cells starting with = + - @ are prefixed with an apostrophe` (+1) | `npx vitest run server/test/export/csv.test.ts -t "^AC-2(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:18-03:00 | Reviewer |
+| AC-3 | AT-3a, AT-3b `AC-3 a user without reports:export gets 403 and no file` (+1) | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-3(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:42:25-03:00 | Reviewer |
+| AC-4 | AT-4a, AT-4b `AC-4 more than 50,000 matching rows returns 422 and no partial file` (+1) | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 | Reviewer |
 | Docs | Reports help page, export section (`docs/reports/export.md`) | `npm run docs:build && npm run docs:links` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:20-03:00 | Reviewer |
 
 ### CANNOT_VERIFY
@@ -38,7 +38,7 @@ $ npm run coverage -- --json-summary   # ID: DoD:coverage · fingerprint b7e2a91
  % Coverage report from v8
  All files |   84.1 |    79.6 |   86.3 |   84.1 |
 
-$ npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"   # ID: AC-4 · fingerprint b7e2a91c04d5
+$ npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"   # ID: AC-4 · fingerprint b7e2a91c04d5
  ✓ server/test/routes/reports/export.test.ts > AC-4 more than 50,000 matching rows returns 422 and no partial file 812ms
  ✓ server/test/routes/reports/export.test.ts > AC-4 exactly 50,000 matching rows exports 50,000 data rows 1904ms
  Test Files  1 passed (1)

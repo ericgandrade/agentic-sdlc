@@ -5,7 +5,7 @@ import { dirname, join } from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import {
-  isRepo, headSha, currentBranch, defaultBranch, fingerprint, log, parseTrailers, refsFromMessage, changedFiles,
+  isRepo, headSha, currentBranch, defaultBranch, fingerprint, log, parseTrailers, refsFromMessage, changedFiles, commitFiles,
 } from '../lib/git.mjs';
 import { InputError } from '../lib/cli.mjs';
 import { makeDir, makeRepo, write, commit, sh, cleanup } from './helpers.mjs';
@@ -46,7 +46,7 @@ test('fingerprint changes with content and ignores the evidence folder', () => {
   write(repo, 'docs/reviews/142.md', 'fingerprint ' + f0.short);
   commit(repo, 'review records');
   assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'committed review records are excluded');
-  for (const rec of ['approvals.md', 'run-ledger.jsonl', 'handoff.md', 'impediments.md', 'release-notes.md']) {
+  for (const rec of ['approvals.md', 'run-ledger.jsonl', 'handoff.md', 'impediments.md', 'release-notes.md', 'trace.md']) {
     write(repo, `specs/001-x/${rec}`, 'record ' + f0.short);
     commit(repo, `record ${rec}`);
     assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, `committed specs/*/${rec} is excluded`);
@@ -107,6 +107,14 @@ test('log returns commits oldest first with bodies; changedFiles uses the merge 
   assert.equal(commits[0].subject, 'feat: add b [T1, AC-1]');
   assert.match(commits[0].body, /Refs: T1 AC-1$/);
   assert.deepEqual(changedFiles('main', 'HEAD', { cwd: repo }), ['b.txt', 'c.txt']);
+  assert.deepEqual(commitFiles(commits[1].sha, { cwd: repo }), ['c.txt']);
+  sh(repo, 'checkout', '-q', 'main');
+  write(repo, 'd.txt', 'd');
+  commit(repo, 'chore: d');
+  sh(repo, 'checkout', '-q', 'feat');
+  sh(repo, 'merge', '-q', '--no-edit', 'main');
+  assert.equal(log({ cwd: repo, range: 'main..HEAD' }).length, 3, 'the merge commit is listed by default');
+  assert.equal(log({ cwd: repo, range: 'main..HEAD', noMerges: true }).length, 2, 'noMerges skips it');
 });
 
 test('parseTrailers reads the last paragraph only when every line is a trailer', () => {

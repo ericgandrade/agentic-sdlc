@@ -68,13 +68,13 @@ A snapshot test that rewrites its own snapshot during the run is a broken verifi
 ## 5. Row record
 
 ```markdown
-| AC-4 | AT-4a, AT-4b `AC-4 more than 50,000 matching rows returns 422 and no partial file` | `npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 | Reviewer |
+| AC-4 | AT-4a, AT-4b `AC-4 more than 50,000 matching rows returns 422 and no partial file` | `npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"` | 0 | `b7e2a91c04d5` | 2026-11-25T09:43:02-03:00 | Reviewer |
 ```
 
 Excerpt block entry:
 
 ```text
-$ npx vitest run server/test/routes/reports/export.test.ts -t "AC-4"   # ID: AC-4 · fingerprint b7e2a91c04d5
+$ npx vitest run server/test/routes/reports/export.test.ts -t "^AC-4(?![0-9])"   # ID: AC-4 · fingerprint b7e2a91c04d5
  ✓ … > AC-4 more than 50,000 matching rows returns 422 and no partial file 812ms
  ✓ … > AC-4 exactly 50,000 matching rows exports 50,000 data rows 1904ms
  Test Files  1 passed (1)

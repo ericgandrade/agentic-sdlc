@@ -8,7 +8,7 @@
       "expectations": [
         "Output inspects the existing workflow, the sdlc-dod block and current protection read-only before proposing changes, and maps each DoD key to a CI job (identical, drift, missing, n/a)",
         "Output installs the agentic-sdlc workflow and CODEOWNERS via a plan task and pull request rather than committing them directly to the default branch",
-        "Output proposes required checks agentic-sdlc/dod, spec and approvals with strict mode, dismiss stale reviews, code owner review, enforce admins and no force pushes, and does not require agentic-sdlc/trace while trace-check is not vendored",
+        "Output proposes required checks agentic-sdlc/dod, spec and approvals with strict mode, dismiss stale reviews, code owner review, enforce admins and no force pushes, and requires agentic-sdlc/trace only when trace-check.mjs is vendored on the default branch",
         "Output configures or proposes a production environment whose required reviewers are the Release Owner(s) with self-review prevented",
         "Output shows the exact settings commands and asks the repository admin for an explicit yes, ending the turn before changing settings",
         "Output keeps Enforcement prompt-only until every gate has been proven to block a bad change"

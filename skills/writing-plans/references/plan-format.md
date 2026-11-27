@@ -91,7 +91,7 @@ Field rules:
 | Red | Test names contain the AC ID. Exact command scoped to the test file (`-t "AC-2(?![0-9])"` when sharing a file; the lookahead keeps `AC-20` out, `../../agentic-sdlc/references/artifacts.md` §Naming and numbering). The expected failure is the one the missing behaviour causes (`Failed to load url`, `expected 429 to be 200`), never a syntax or import error of the test itself | tdd.md |
 | Green | Minimal code, same command, number of passing tests | tdd.md |
 | Refactor | Concrete or "none beyond naming" | tdd.md |
-| Commit | Conventional Commit subject; trailer `Refs: Tn AC-n` listing every AC the task serves. `executing-plans`, `plan-graph --from-git` and `trace-check`† read the trailer | `../../agentic-sdlc/references/artifacts.md` |
+| Commit | Conventional Commit subject; trailer `Refs: Tn AC-n` listing every AC the task serves. `executing-plans`, `plan-graph --from-git` and `trace-check` read the trailer | `../../agentic-sdlc/references/artifacts.md` |
 | Agent | Optional `**Agent:** Tech Writer` when the docs trigger fires; default is the Developer | `../../agentic-sdlc/references/agents.md` |
 
 Each numbered step is one action of 2–5 minutes. A task with more than 6 steps is two tasks.

@@ -64,7 +64,7 @@ agentic-sdlc 2.1.0
 release: v3.0.0
 source: /home/dev/.claude/skills/agentic-sdlc
 vendored: 2026-11-24
-missing: approval-check.mjs, evidence.mjs, trace-check.mjs
+missing: path-score.mjs, metrics.mjs
 ```
 
 The `source:` path is informational and may name a home directory; it carries no secret. Teams that prefer not to commit local paths write `source: agentic-sdlc-method@v3.0.0`.

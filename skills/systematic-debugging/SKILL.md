@@ -193,7 +193,7 @@ At B5 (3 refuted hypotheses), B2 (anti-thrash) or B6 (cause outside Build): stop
 
 ## Example Usage
 
-**1 — Red-green bound reached (Standard path).** T3 of `specs/007-csv-export` failed red-green three times; `run-ledger` exits 3 and switches to the debug loop. The Developer reads the ledger (three `--tried` fixes), builds `npx vitest run tests/export.test.ts -t "AC-4"` (10/10 red, 1.8 s), minimises to one fixture, ranks H1–H4, runs the challenger pass, refutes H1 and H2, confirms H4 (count before filter join, category `code`), writes the `AC-4` regression test at the repository seam, fixes the query, adds an entry-point guard, and commits with `Refs: T3 AC-4`.
+**1 — Red-green bound reached (Standard path).** T3 of `specs/007-csv-export` failed red-green three times; `run-ledger` exits 3 and switches to the debug loop. The Developer reads the ledger (three `--tried` fixes), builds `npx vitest run tests/export.test.ts -t "^AC-4(?![0-9])"` (10/10 red, 1.8 s), minimises to one fixture, ranks H1–H4, runs the challenger pass, refutes H1 and H2, confirms H4 (count before filter join, category `code`), writes the `AC-4` regression test at the repository seam, fixes the query, adds an entry-point guard, and commits with `Refs: T3 AC-4`.
 
 **2 — Passes alone, fails in CI.** `tests/report.test.ts` passes alone and fails in the full suite. Triage §4 → `node scripts/find-polluter.mjs --cmd "npx vitest run --no-file-parallelism {files}" --target tests/report.test.ts --files "tests/**/*.test.ts" --match "BUG-512"` names `tests/cache.test.ts` after 7 runs (exit 0). H1: the cache test never restores the fake clock. The regression test runs the pair in one command; the fix restores the clock in teardown and the report test gets a fresh fixture.
 

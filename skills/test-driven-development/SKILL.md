@@ -207,7 +207,7 @@ Code without tests: write `CHAR-n` tests that pin current behaviour through the 
 
 ## Example Usage
 
-**1. Standard plan task.** "Implement T3 (AC-4: > 50,000 rows → 422 ROW_LIMIT; `exportCsv(filter, user): Promise<ExportResult>`; Vitest; seeded SQLite)." The Developer finds `npx vitest run`, runs the module baseline green, writes the seam note and `Break: dropping the 50,000 check returns 200 → bug`, seeds 50,001 synthetic rows, runs `npx vitest run test/report/export.test.ts -t "AC-4"` → `expected 422, got 200` (valid red), records it, adds the count check, gets green, refactors the error constructor, kills mutants `> 50000 → > 500000` and `drop throw`, runs the DoD, commits `Refs: T3 AC-4`, reports `DONE`.
+**1. Standard plan task.** "Implement T3 (AC-4: > 50,000 rows → 422 ROW_LIMIT; `exportCsv(filter, user): Promise<ExportResult>`; Vitest; seeded SQLite)." The Developer finds `npx vitest run`, runs the module baseline green, writes the seam note and `Break: dropping the 50,000 check returns 200 → bug`, seeds 50,001 synthetic rows, runs `npx vitest run test/report/export.test.ts -t "^AC-4(?![0-9])"` → `expected 422, got 200` (valid red), records it, adds the count check, gets green, refactors the error constructor, kills mutants `> 50000 → > 500000` and `drop throw`, runs the DoD, commits `Refs: T3 AC-4`, reports `DONE`.
 
 **2. Quick bug.** "BUG-418: empty filter returns zero rows instead of the header row." The Developer writes `BUG-418 empty filter returns the header row` through `exportCsv`, sees `expected 1 line, got 0` (the reported symptom), fixes the early return, watches green, runs the module tests and the manual reproduction, and commits with the `Refs:` trailer that the issue's task line names.
 

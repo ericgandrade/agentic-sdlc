@@ -42,7 +42,7 @@ Do not use it for neighbouring work:
 4. Find `specs/NNN-slug/plan.md` (`## Tasks` rows with their AC column) and `specs/NNN-slug/acceptance-tests.md` (AC → test ID → command). Quick has neither; record `n/a — Quick`.
 5. Find the record: the PR body built from `../agentic-sdlc/templates/pr-body.md`, or `specs/NNN-slug/review.md` when the host has no pull requests.
 6. Find the base: the base branch and the merge-base SHA (`git merge-base <base> HEAD`).
-7. Check which agentic-sdlc helpers exist. `scripts/dod-gate.mjs` (v3.1.0), `scripts/evidence.mjs` (v3.2.0) and `scripts/trace-check.mjs` (later release) may be absent from an older vendored copy: when absent, apply the manual procedures in this skill and write `module missing: <path>` once in the PR body. Never claim a helper ran when it does not exist.
+7. Check which agentic-sdlc helpers exist. `scripts/dod-gate.mjs` (v3.1.0), `scripts/evidence.mjs` and `scripts/trace-check.mjs` (v3.2.0) may be absent from an older vendored copy: when absent, apply the manual procedures in this skill and write `module missing: <path>` once in the PR body. Never claim a helper ran when it does not exist.
 
 ### Step 1 — Name the claim and list the required rows
 
@@ -72,7 +72,7 @@ The DoD and the ACs are separate checks. A green DoD never proves an AC; a passi
 
 - Standard and Full: take the command from `acceptance-tests.md` (`Green at the PR head` or `Red at the base commit` command column). Each test name contains its AC ID.
 - Quick: take the acceptance test from the issue; the regression test name contains `AC-n`.
-- Prefer a command that selects the AC's tests by name (`-t "AC-4"`, `-k AC_4`, `--grep "AC-4"`) so the output shows which tests ran.
+- Prefer a command that selects the AC's tests by name, anchored and ending the ID with a non-digit lookahead (`-t "^AC-4(?![0-9])"`, `--grep "^AC-4(?![0-9])"`), so the output shows which tests ran; `trace-check` fails TR13/TR14 otherwise. pytest `-k` is a substring match without lookahead: name the test node IDs instead (`pytest "<file>::test_ac_4_rejects"`).
 - An AC with no runnable test → either `CANNOT_VERIFY` (Step 6) when the reason is legitimate, or a gap returned to the Test Engineer. Never substitute a DoD row for an AC row.
 
 ### Step 4 — Run fresh, bound to the fingerprint
@@ -189,7 +189,7 @@ The left column quotes thoughts to catch; it is not guidance.
 
 ## Example Usage
 
-**1. Developer closes a task.** T3 serves AC-2 and AC-3. The Developer computes `F1 = 3f0c9e21b7a4`, runs `npm run lint`, `npm run typecheck`, `npm test`, `npm run coverage -- --json-summary`, then `npx vitest run test/invoice.test.ts -t "AC-2"` and `-t "AC-3"`. Coverage reads 80.6 against `coverage_min: 81.0` → `DoD:coverage` exit cell `0 (80.6 < 81.0) — below floor`, a failed row. Status `BLOCKED: coverage below floor`; the Developer adds the missing branch test, re-runs all six commands on the new fingerprint and only then reports `DONE`.
+**1. Developer closes a task.** T3 serves AC-2 and AC-3. The Developer computes `F1 = 3f0c9e21b7a4`, runs `npm run lint`, `npm run typecheck`, `npm test`, `npm run coverage -- --json-summary`, then `npx vitest run test/invoice.test.ts -t "^AC-2(?![0-9])"` and `-t "^AC-3(?![0-9])"`. Coverage reads 80.6 against `coverage_min: 81.0` → `DoD:coverage` exit cell `0 (80.6 < 81.0) — below floor`, a failed row. Status `BLOCKED: coverage below floor`; the Developer adds the missing branch test, re-runs all six commands on the new fingerprint and only then reports `DONE`.
 
 **2. Reviewer audits a confident PR.** The Summary says "All 5 ACs pass, p95 within 300 ms". The Reviewer re-runs every row (`by: Reviewer`). The AC-4 command exits 0 but the output shows `Tests 0 passed | 12 skipped`: the filter `-t "AC4"` matched nothing. Row fails; the corrected filter shows one failing assertion. The latency claim has no row; the catalog requires the AC's own measurement (200 requests, p95 in ms). Claims: 1 falsified, 1 unsupported. Verdict stays NO-GO.
 
