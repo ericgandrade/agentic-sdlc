@@ -1,9 +1,9 @@
 <h1 align="center">The Agentic SDLC Method</h1>
 
-<p align="center"><b>v3.0.1</b> · Open Source · MIT License · Vendor-Agnostic</p>
+<p align="center"><b>v3.1.0</b> · Open Source · MIT License · Vendor-Agnostic</p>
 
 <p align="center">
-  <img alt="Version 3.0.0" src="https://img.shields.io/badge/version-3.0.1-blue.svg">
+  <img alt="Version 3.1.0" src="https://img.shields.io/badge/version-3.1.0-blue.svg">
   <img alt="Open source" src="https://img.shields.io/badge/open%20source-yes-1d3fbf.svg">
   <img alt="MIT License" src="https://img.shields.io/badge/license-MIT-green.svg">
   <img alt="Vendor-agnostic" src="https://img.shields.io/badge/vendor-agnostic-1d3fbf.svg">
@@ -205,15 +205,19 @@ Then, in your project:
 - **Maturity.** v3.0.0 is the first release of the method. The checks are tested; the workflow has been trialled end to end by agents, not yet by a team.
 - **Maintenance.** Maintained by [Eric Andrade](https://github.com/ericgandrade). Issues and pull requests are welcome.
 
-## What's in v3.0.0
+## What's in v3.1.0
 
 | Delivered | |
 |---|---|
 | The method | 20 skills: the `agentic-sdlc` router and 19 stage skills from Discover to Operate |
 | The team | 13 agent briefs, from Scrum Master to SRE |
-| The checks | `spec-lint`, `plan-graph`, `preflight`, `run-ledger`, `budget-check`: dependency-free Node scripts with 127 automated tests |
+| The checks | `spec-lint`, `plan-graph`, `preflight`, `run-ledger`, `budget-check`, plus new in 3.1 `status` ("what now?"), `doctor` (setup check), `dod-gate` (Definition of Done on the current fingerprint) and `ext-check` (extensions): dependency-free Node scripts with 194 automated tests, all run in CI |
+| Extensions | A versioned extension interface (1.0.0) for review lenses, DoD checks and templates, pinned by SHA-256, with a shipped example lens |
+| Gates from day 1 | Adoption installs the CI checks, security scan and CODEOWNERS; branch protection follows in week 3 |
 | The templates | spec, plan, acceptance tests, PR body, release notes, runbook, retro, threat model, CI and CODEOWNERS |
 | The proof | A worked example from spec to retro, a scored comparison with nine methods, an end-to-end trial |
+
+Whether 3.1 changes the scores above is open: it needs a new independent re-score (round 4) under the same locked rules. Upgrading from 3.0: [`upgrading.md`](skills/agentic-sdlc/references/upgrading.md).
 
 ## What's next
 
@@ -249,4 +253,4 @@ MIT. Ideas and adapted content from other projects are credited in [THIRD_PARTY_
 
 ---
 
-*Version 3.0.1 | November 2026*
+*Version 3.1.0 | November 2026*

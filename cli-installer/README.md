@@ -1,4 +1,4 @@
-# agentic-sdlc-method v3.0.1
+# agentic-sdlc-method v3.1.0
 
 Installer for [The Agentic SDLC Method](https://github.com/ericgandrade/agentic-sdlc) (npm package `agentic-sdlc-method`; it was `claude-superskills` up to v2.0.8). Install 23 reusable AI skills — including the 20-skill **Agentic SDLC** — across GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, and AdaL CLI from one command.
 
@@ -6,7 +6,7 @@ Research, content and document skills moved to [knowledge-superskills](https://g
 
 If Claude Desktop is detected, the installer can also generate a Claude Cowork plugin zip for manual upload.
 
-![Version](https://img.shields.io/badge/version-3.0.1-blue.svg)
+![Version](https://img.shields.io/badge/version-3.1.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D14.0.0-green.svg)
 

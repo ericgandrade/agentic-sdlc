@@ -6,6 +6,34 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [3.1.0] - 2026-11-27
+
+Behaviour changes with a migration path, so this is a minor release. Whether these changes move the independent score is not claimed here: that needs a new independent re-score (round 4) under the same locked rules.
+
+### Added
+- **Extension interface 1.0.0** (`agentic-sdlc` 2.2.0): three extension points (`review.lenses`, `dod.checks`, `templates`), a manifest that names the interface range it needs and pins its entry file by SHA-256, precedence project > team > core, and one marker line per point in the core files. `ext-check.mjs` validates every extension (rules EX01–EX07) and lists the valid ones per point; CI runs it on the shipped example `examples/extensions/security-headers-lens/`. Extensions load only from the repository, and an extension that fails `ext-check` is not loaded.
+- **`status.mjs`**, the "what now?" command: it applies the router Step 0 table to the artifacts and prints the state, the file:line evidence and at most 3 next steps from `references/next-steps.json`. `--next` prints only the next step; `--topic` prints a short help topic from `references/help-topics.md`. A test fails when the router table and the data file drift. Every stage skill now closes with `status.mjs --next`.
+- **`doctor.mjs`**: seven ordered setup checks (Node, vendored checksums, `sdlc-dod` block, DoD commands on the PATH, brownfield code map age, `Enforcement:` line against the CI and host permission files present, extensions), each with its fix command. It writes `.agentic-sdlc/doctor.json` and reports `enforcement: enforced | prompt-only` and `ci: present | absent`. `references/upgrading.md` lists the breaking changes, migration commands and `doctor` findings per release.
+- **`dod-gate.mjs`**: runs every `sdlc-dod` command and every `dod.checks` extension in the current worktree and records `{name, cmd, exit, stdoutSha256, fingerprint, agent}`. `dod-gate check` fails on a red, missing or stale record.
+- **Default-path token budget**: `budget-check --default-path` sums `ceil(chars / 4)` over the 57 files the Standard path loads (`references/default-path.json`) and fails above the 3.0.1 baseline of 121,502 tokens. The budget may never rise.
+- **CI**: a `method-scripts` job runs the method's script tests on Node 18, the word and default-path budgets, and `ext-check`.
+
+### Changed
+- **CI gates at adoption** (`project-context` 1.3.0): setup and adopt install the `agentic-sdlc/dod`, `agentic-sdlc/spec` and `agentic-sdlc/approvals` jobs, `security.yml` and `CODEOWNERS` on day 1, with write access only. Branch protection and required checks stay in week 3 (`deployment-pipeline`). A new `upgrade` mode installs what an older adoption is missing. Setup, adopt and refresh end with `doctor`.
+- **Review**: the Reviewer's GO requires the repository's CI checks green on the reviewed SHA, or waived. A gate that blocks wrongly is waived with the existing waiver procedure, never deleted. The PR body gains an SSDF line.
+- **`run-ledger`**: `task --state done` and a DONE `finish` run `dod-gate` in-process and are refused while it is red.
+- **`executing-plans` 4.0.1**: Step 5 names the real default, which is parallel when eligible (`references/parallel-tasks.md` §1) and sequential otherwise.
+- **Honest index**: the router Module Index lists only shipped files. Planned files move to `references/artifacts.md` §Later-release files with a target version, and router lines marked † go from 14 to 1. Default-path tokens go from 121,502 to 121,372.
+- The evidence fingerprint also excludes `.agentic-sdlc/doctor.json`.
+
+### Migration
+Existing adopters:
+1. Update the skills, then re-vendor the scripts (`project-context` vendor mode). This adds `status`, `doctor`, `ext-check`, `dod-gate` and the two data files `next-steps.json` and `help-topics.md`.
+2. Run `project-context adopt --upgrade`. It installs the CI jobs, `security.yml` and `CODEOWNERS` that are missing and never overwrites an existing file.
+3. Run `node .agentic-sdlc/bin/doctor.mjs`. It lists whatever is still missing, with the command that fixes it. Details: `skills/agentic-sdlc/references/upgrading.md`.
+
+
+
 ## [3.0.1] - 2026-11-25
 
 ### Changed

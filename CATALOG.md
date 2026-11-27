@@ -1,6 +1,6 @@
 # 📚 Claude Superskills Catalog
 
-**Generated:** 2026-11-25T19:09:27.759095Z  
+**Generated:** 2026-11-27T13:43:14.877041Z  
 **Total Skills:** 23  
 **Platforms:** GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI
 

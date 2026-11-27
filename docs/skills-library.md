@@ -236,9 +236,9 @@ Important:
 ### 🔁 Agentic SDLC
 | Skill | Version | Stage | Purpose |
 |-------|---------|-------|---------|
-| **agentic-sdlc** | v2.1.0 | Router | Scrum Master router: detects state, scores the path (Quick, Standard, Full), hands each stage to its agent and skills, enforces the 4 human sign-offs |
+| **agentic-sdlc** | v2.2.0 | Router | Scrum Master router: detects state, scores the path (Quick, Standard, Full), hands each stage to its agent and skills, enforces the 4 human sign-offs |
 | **issue-triage** | v1.0.0 | Discover | Turns an incoming item into a decision-ready intake record: duplicate search, classification, path score, indicator |
-| **project-context** | v1.2.0 | Discover | Verified starting context for every agent session: commands, `sdlc-dod` Definition of Done, code map, conventions, pitfalls |
+| **project-context** | v1.3.0 | Discover | Verified starting context for every agent session: commands, `sdlc-dod` Definition of Done, code map, conventions, pitfalls |
 | **brainstorming** | v3.1.0 | Discover | Pre-implementation design clarification before any spec or code |
 | **spec-driven-development** | v2.1.0 | Specify | Writes `specs/NNN-slug/spec.md` with numbered acceptance criteria, non-goals, security notes, rollback and indicator |
 | **grill-me** | v2.2.0 | Specify | Relentless Socratic interview to stress-test a spec, plan or design |
@@ -246,7 +246,7 @@ Important:
 | **security-hardening** | v1.0.0 | Specify, Test | Data classification, STRIDE threat model, secure-build guidance and security review |
 | **senior-solution-architect** | v2.3.0 | Design | C4 modeling, ADRs and system reviews |
 | **writing-plans** | v3.2.0 | Design | `plan.md` task graph of vertical slices with dependencies and files, validated by `plan-graph` |
-| **executing-plans** | v4.0.0 | Build | Executes plan tasks one per fresh context, test-first, with per-task review and a run ledger |
+| **executing-plans** | v4.0.1 | Build | Executes plan tasks one per fresh context, test-first, with per-task review and a run ledger |
 | **test-driven-development** | v1.0.0 | Build | Red-green-refactor under the iron law: no production code before a failing test |
 | **systematic-debugging** | v1.0.0 | Build | Proven root cause inside a bounded debug loop of falsifiable hypotheses |
 | **test-strategy** | v1.0.0 | Test | Acceptance tests designed from the spec by a context that never saw the implementation |

@@ -104,7 +104,7 @@ The ID chain makes "every requirement is proven" checkable: `AC-n` in the spec �
 
 Quick items create no `specs/` folder: the issue holds the acceptance test, the PR the evidence. Templates: `skills/agentic-sdlc/templates/`; index: `references/artifacts.md`.
 
-**Scripts.** `spec-lint`, `plan-graph`, `preflight`, `run-ledger` and `budget-check` are dependency-free Node ≥ 18 modules (exit `0` pass · `1` fail · `2` input missing · `3` bound reached), vendored by `project-context`. Without Node, the checks run by hand.
+**Scripts.** `spec-lint`, `plan-graph`, `preflight`, `run-ledger`, `budget-check`, `status`, `doctor`, `dod-gate` and `ext-check` are dependency-free Node ≥ 18 modules (exit `0` pass · `1` fail · `2` input missing · `3` bound reached), vendored by `project-context`. Without Node, the checks run by hand.
 
 ## 6. Worked example
 

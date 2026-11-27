@@ -32,6 +32,11 @@ Not for writing the plan (`writing-plans`), single-change TDD discipline (`test-
 - "Resume the build from the ledger."
 - "Execute the plan in `docs/plans/2026-11-20-auth.md` and pause after each task."
 
+## What's New in v4.0.1
+
+- Step 5 names the real default: parallel when eligible (`references/parallel-tasks.md` §1), otherwise sequential.
+- `run-ledger task --state done` runs `dod-gate`; the workflow closes with `status.mjs --next`.
+
 ## What's New in v4.0
 
 - **Per-task review** — fresh reviewer per task: spec compliance (Missing/Misunderstood → Critical, Extra → Important), then quality; verify-then-rate; scoped re-review of the fix delta (`prompts/task-reviewer.md`, `prompts/re-review.md`)
@@ -101,10 +106,10 @@ No inventory IDs exist for Spec Kit, Kiro and AI-DLC; the methods-doc section is
 
 | Field | Value |
 |-------|-------|
-| Version | 4.0.0 |
+| Version | 4.0.1 |
 | Author | Eric Andrade |
 | Created | 2026-02-20 |
-| Updated | 2026-11-24 |
+| Updated | 2026-11-27 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | planning |
 | Tags | planning, execution, build, subagents, run-ledger, agentic-sdlc |

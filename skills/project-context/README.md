@@ -40,6 +40,12 @@ Not for writing ADRs (`senior-solution-architect`), installing CI and branch pro
 - "Agents keep adding ts-ignore — write a quality bar."
 - "Record this mistake so it doesn't happen again."
 
+## What's New in 1.3.0
+
+- Step 7b: setup and adopt install the day-1 CI gates (`agentic-sdlc/dod`, `spec`, `approvals`, `security.yml`, CODEOWNERS) with write access only; branch protection stays in week 3.
+- `upgrade` mode (`adopt --upgrade`) for repositories adopted before 3.1.
+- Setup, adopt and refresh end with `doctor`; vendoring adds the `status.mjs` data files.
+
 ## What's New in 1.2.0
 
 - Depth pass to the Agentic SDLC standard: seven reference files, two fresh-context prompts, five templates.
@@ -86,10 +92,10 @@ Script vendoring with `VERSION` and `SHA256SUMS`, the four-parser DoD format and
 
 | Field | Value |
 |-------|-------|
-| Version | 1.2.0 |
+| Version | 1.3.0 |
 | Author | Eric Andrade |
 | Created | 2026-11-19 |
-| Updated | 2026-11-24 |
+| Updated | 2026-11-27 |
 | Platforms | GitHub Copilot CLI, Claude Code, OpenAI Codex, OpenCode, Gemini CLI, Antigravity, Cursor IDE, AdaL CLI |
 | Category | development |
 | Tags | agentic-sdlc, agents-md, claude-md, definition-of-done, constraints, glossary, adoption, context-engineering |
