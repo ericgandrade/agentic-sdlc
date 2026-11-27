@@ -83,6 +83,7 @@ jobs:
           node-version: '18'
       - run: node --test skills/agentic-sdlc/scripts/test/*.test.mjs
       - run: node skills/agentic-sdlc/scripts/budget-check.mjs skills/agentic-sdlc
+      - run: node skills/agentic-sdlc/scripts/budget-check.mjs skills/agentic-sdlc --default-path
 
   validate-package:
     name: Validate npm Package
