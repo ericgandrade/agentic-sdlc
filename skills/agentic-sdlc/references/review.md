@@ -61,7 +61,7 @@ Tie-break: when two severities fit, take the higher one. For an L3 finding, the 
 
 ## 4. Verdict — reviewer side
 
-- **Default NO-GO.** GO requires all of: every AC has a fresh passing row or a waived `CANNOT_VERIFY` (`references/verification.md`); the Trace has no orphans; 0 open Critical findings (each Critical is `fixed`, or `rejected` with the human reviewer's ruling recorded); every other confirmed finding has a disposition (an Important `deferred` only with owner acceptance); every required lens ran or is waived; the repository's CI checks (`agentic-sdlc/dod`, `agentic-sdlc/approvals`, `security`) are green on the reviewed SHA, or waived.
+- **Default NO-GO.** GO requires all of: every AC has a fresh passing row or a waived `CANNOT_VERIFY` (`references/verification.md`); the Trace has no orphans; 0 open Critical findings (each Critical is `fixed`, or `rejected` with the human reviewer's ruling recorded); every other confirmed finding has a disposition (an Important `deferred` only with owner acceptance); every required lens ran or is waived; the repository's CI checks (`agentic-sdlc/dod`, `agentic-sdlc/spec`, `agentic-sdlc/approvals`, `secret-scan`, `dependency-audit`) are green on the reviewed SHA, or waived.
 - **No bare approval.** "LGTM", "looks good" or GO is written only together with the list of checks performed per lens. A GO without that list is treated as NO-GO.
 - **No praise filler.** The triage holds findings, checks and evidence. Statements about effort or quality of the author do not appear.
 - **Never fix.** The Reviewer reports; the Developer fixes. A Reviewer that edits code becomes an author and is replaced by a fresh Reviewer for that round.

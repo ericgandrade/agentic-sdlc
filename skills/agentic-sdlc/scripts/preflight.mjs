@@ -16,7 +16,7 @@ export const MIN_NODE = 18;
 export const DEFAULT_TIMEOUT_MIN = 30;
 export const TAIL_LINES = 20;
 // Paths written by the run itself; they never make the tree dirty.
-const RUN_PATHS = ['.agentic-sdlc/runs/', '.agentic-sdlc/evidence/', '.agentic-sdlc/preflight.json'];
+const RUN_PATHS = ['.agentic-sdlc/runs/', '.agentic-sdlc/evidence/', '.agentic-sdlc/preflight.json', '.agentic-sdlc/doctor.json'];
 const PROTECTED = new Set(['main', 'master', 'trunk', 'develop']);
 
 const HELP = `preflight — Build gate at run start and at every resume
@@ -26,7 +26,7 @@ Usage: node preflight.mjs [--run <id>] [--plan <specs/NNN-slug/plan.md>] [--mode
 
 Checks (each PASS, FAIL or SKIP):
   node          Node.js >= ${MIN_NODE}
-  clean-tree    no uncommitted or untracked files (run state under .agentic-sdlc/runs|evidence ignored)
+  clean-tree    no uncommitted or untracked files (run state under .agentic-sdlc/runs|evidence and doctor.json ignored)
   branch        a named branch that is not the default branch (or main/master/trunk/develop)
   isolation     unattended: a linked worktree on an sdlc/* branch (created by run-ledger start)
   tools         the first program of every DoD command resolves on PATH

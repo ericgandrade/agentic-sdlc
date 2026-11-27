@@ -98,6 +98,13 @@ test('Loop ledger rows never void the Design sign-off', () => {
   assert.equal(statusOf(r, 'approvals'), 'PASS');
 });
 
+test('an untracked .agentic-sdlc/doctor.json (written by doctor) does not fail clean-tree', () => {
+  const dir = project();
+  write(dir, '.agentic-sdlc/doctor.json', '{"ok":true}\n');
+  const r = preflight(dir, '--plan', PLAN, '--json');
+  assert.equal(statusOf(r, 'clean-tree'), 'PASS', r.out);
+});
+
 test('a red baseline fails with the last output lines', () => {
   const dir = project();
   write(dir, 'RED', '1');

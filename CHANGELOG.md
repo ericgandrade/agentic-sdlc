@@ -24,7 +24,8 @@ Behaviour changes with a migration path, so this is a minor release. Whether the
 - **`run-ledger`**: `task --state done` and a DONE `finish` run `dod-gate` in-process and are refused while it is red.
 - **`executing-plans` 4.0.1**: Step 5 names the real default, which is parallel when eligible (`references/parallel-tasks.md` §1) and sequential otherwise.
 - **Honest index**: the router Module Index lists only shipped files. Planned files move to `references/artifacts.md` §Later-release files with a target version, and router lines marked † go from 14 to 1. Default-path tokens go from 121,502 to 121,372.
-- The evidence fingerprint also excludes `.agentic-sdlc/doctor.json`.
+- The evidence fingerprint and `preflight`'s clean-tree check also ignore `.agentic-sdlc/doctor.json`, so running `doctor` never blocks the next Build.
+- The CI templates (`agentic-sdlc.yml`, `gitlab-ci.yml`) run `ext-check` in the `agentic-sdlc/spec` job with the base-branch checker, so an adopter's CI refuses an invalid or re-pinned extension.
 
 ### Migration
 Existing adopters:
