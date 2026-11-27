@@ -2,9 +2,9 @@
 
 Load in Step 0.6 (full diff) and Step 9.5 (every fix delta) of `../SKILL.md`. Rule 9 of `../../agentic-sdlc/references/rules.md`: never weaken a test, threshold or check to get green. `../../agentic-sdlc/references/tdd.md` §1 rule 6 calls it an authority violation; in unattended mode it is halt reason `authority` (`../../agentic-sdlc/references/autonomous.md`).
 
-The scan finds candidates; L1 (test files) and L2 (thresholds, suppressions, CI) judge them; the Reviewer verifies them like any finding. The scan never produces a verdict by itself.
-
 ## Scan
+
+The scan finds candidates; L1 (test files) and L2 (thresholds, suppressions, CI) judge them; the Reviewer verifies them like any finding. The scan never produces a verdict by itself.
 
 Run from the repository root with the pinned base (Step 0). POSIX shell and git; on Windows use Git Bash. Without a shell, read the diff for the same patterns.
 

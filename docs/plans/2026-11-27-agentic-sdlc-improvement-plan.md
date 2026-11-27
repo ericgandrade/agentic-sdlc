@@ -385,6 +385,15 @@ Behaviour:
 | 4.8 | Optional: reviewers on a different model | C5 robustness | One review lens may run on a second model when the host allows it. Opt-in |
 | 4.9 | Release v3.3.0 | — | — |
 
+**Task 4.1 implementation notes (recorded while executing):**
+
+- Measurement: `default-path.json` entries may be `path#Heading` (one entry per section; heading, body and subsections counted; a whole-file entry wins; a missing section exits 2). Prompt briefs get an advisory 400-word row (WARN only). Proxy total 120,907 → 112,478 tokens; `BUDGETS.defaultPathTokens` is locked at 112,478. The ≤ 60k target is not reached: the four stage `SKILL.md` files, agents, prompts and templates alone total about 60k and are loaded whole, so further cuts would remove rules.
+- Section-anchored (loader text and entry changed together): `artifacts.md`, `paths.md`, `security.md`, `release-ops.md`, `modes.md`, `resume-and-isolation.md`, `ac-rubric.md`, `weakened-bar-guard.md`, `fix-loop-and-escalation.md`. `artifacts.md` keeps §AGENTS.md block because the `sdlc-dod` key and ratchet rules are stated only there. Left out sections load on their own trigger (brownfield, compliance, package profile, inline/unattended/prompt-only modes, resume, Quick path, EARS, examples). Rules stated only in an intro were moved into a kept section first. `governance.md`, `rules.md`, `verification.md`, `review.md`, `loops.md` and `tdd.md` stay whole: their non-default parts are small or carry failure behaviour.
+- De-duplicated: router sign-off definition and path table (→ `governance.md` §1, `paths.md` §3), the `multi-axis-code-review` severity table (→ `review.md` §3), the `spec-driven-development` approval steps (→ `governance.md` §2), the `executing-plans` bounds table (→ `loops.md` §1, §7). The product-manager pointer `release-ops.md §Indicator` named no existing section; it now points to §Intake.
+- Router: 3,722 → 3,154 tokens, about 2,950 without frontmatter (1,803 words). Scripts, CI templates, examples, upgrade, adoption, brownfield and extension rows moved to the new `references/module-index.md`, which the router Module Index names; later scripts are listed there. The ≤ 2.5k target is not met: the 9-row Step 0 table, the Stage table, the Critical Rules and the remaining triggers need the rest.
+- Dropped: human-triggered orchestration skills. A field such as `disable-model-invocation` passes `validate-skill-yaml.sh` (it only rejects eight named fields) but contradicts the CLAUDE.md rule that frontmatter holds only `name`, `description` and `license`. Not cut: the 10 default-path prompts (453–966 words). Each one is the whole input of a fresh-context subagent, so its checks cannot become pointers; the dispatched text block alone is 62–670 words, and the rest of each file is the controller's dispatch rules.
+- Model per role: guidance table in `platforms.md` §5 (tiers, no vendor), off the default path.
+
 ---
 
 ## Phase 5 · v3.4.0 (more than 90 days)

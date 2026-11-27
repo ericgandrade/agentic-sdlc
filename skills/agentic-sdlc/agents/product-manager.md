@@ -22,7 +22,7 @@ Production databases, secrets, personal data. The implementation.
 
 ## Skills and modules
 
-`brainstorming` (outcome or scope still open) · `grill-me` (product critique, ≤ 3 question rounds) · `references/release-ops.md` §Indicator.
+`brainstorming` (outcome or scope still open) · `grill-me` (product critique, ≤ 3 question rounds) · `references/release-ops.md` §Intake (indicator below target).
 
 ## May do
 

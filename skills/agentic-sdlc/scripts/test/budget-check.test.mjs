@@ -191,6 +191,63 @@ test('default path: --root overrides the repository root', () => {
   assert.equal(exec(elsewhere, '--default-path', '--root', root).code, 0);
 });
 
+// Section entries: "path#Heading" counts only that section (heading line + body, subsections included).
+const SECTIONED = '# Title\nintro\n## A\naaaa\n### A1\nbbbb\n## B\ncccccccc\n## C\nd\n';
+
+test('default path: a "path#Heading" entry counts only that section, heading line included', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/r.md#A'], { 'skills/x/r.md': SECTIONED });
+  const r = checkDefaultPath(skillDir, { budget: 100 });
+  const text = '## A\naaaa\n### A1\nbbbb';
+  assert.equal(r.files.length, 1);
+  assert.deepEqual(r.files[0].sections, ['A']);
+  assert.equal(r.files[0].chars, text.length);
+  assert.equal(r.total, Math.ceil(text.length / 4));
+});
+
+test('default path: several sections of one file form one row; repeats and nested sections count once', () => {
+  const { skillDir } = defaultPathRepo(
+    ['skills/x/r.md#A', 'skills/x/r.md#B', './skills/x/r.md#A', 'skills/x/r.md#A1'],
+    { 'skills/x/r.md': SECTIONED },
+  );
+  const r = checkDefaultPath(skillDir, { budget: 100 });
+  assert.equal(r.files.length, 1);
+  assert.deepEqual(r.files[0].sections, ['A', 'B', 'A1']);
+  assert.equal(r.files[0].chars, '## A\naaaa\n### A1\nbbbb\n## B\ncccccccc'.length);
+});
+
+test('default path: a whole-file entry wins over section entries of the same file', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/r.md#A', 'skills/x/r.md'], { 'skills/x/r.md': SECTIONED });
+  const r = checkDefaultPath(skillDir, { budget: 100 });
+  assert.equal(r.files.length, 1);
+  assert.equal(r.files[0].sections, undefined);
+  assert.equal(r.files[0].chars, SECTIONED.length);
+});
+
+test('default path: a missing section exits 2 and names the file and the heading', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/r.md#Nope'], { 'skills/x/r.md': SECTIONED });
+  assert.throws(() => checkDefaultPath(skillDir), InputError);
+  const r = exec(skillDir, '--default-path');
+  assert.equal(r.code, 2);
+  assert.match(r.stderr, /section missing: .*r\.md #Nope/);
+});
+
+test('default path: a prompt brief over 400 words warns and never fails', () => {
+  const { skillDir } = defaultPathRepo(['skills/x/prompts/long.md', 'skills/x/prompts/short.md', 'skills/x/SKILL.md'], {
+    'skills/x/prompts/long.md': `# Brief\n${words(400)}\n`, // 402 words with the heading
+    'skills/x/prompts/short.md': `# Brief\n${words(398)}\n`, // 400 words
+    'skills/x/SKILL.md': words(900),
+  });
+  const r = checkDefaultPath(skillDir, { budget: 100000 });
+  assert.equal(r.status, 'PASS');
+  assert.deepEqual(r.prompts.map((p) => [p.path, p.words, p.status]), [
+    ['skills/x/prompts/long.md', 402, 'WARN'],
+    ['skills/x/prompts/short.md', 400, 'PASS'],
+  ]);
+  const cli = exec(skillDir, '--default-path');
+  assert.equal(cli.code, 0, cli.stdout + cli.stderr);
+  assert.match(cli.stdout, /^WARN\s+prompt\s+skills\/x\/prompts\/long\.md/m);
+});
+
 test('the shipped default path is within its token budget', () => {
   const r = exec(SKILL, '--default-path', '--json');
   assert.equal(r.code, 0, r.stdout + r.stderr);

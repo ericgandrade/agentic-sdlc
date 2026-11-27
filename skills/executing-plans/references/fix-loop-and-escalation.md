@@ -1,10 +1,10 @@
 # Fix Loop and Escalation — Rounds, Causes, Breakers, Rulings
 
-Load this file at the first failed round of any task, at every review round, and whenever `run-ledger` exits 3. It is the working procedure behind `../../agentic-sdlc/references/loops.md` (the contract: catalogue, routing, breakers B1–B6, ledger format). Where this file and the contract differ, the contract wins and the gap is reported.
+Load this file at the first failed round of any task, at every review round, and whenever `run-ledger` exits 3. It is the working procedure behind `../../agentic-sdlc/references/loops.md` (the contract: catalogue, routing, breakers B1–B6, ledger format).
 
 ## 1. Anatomy of a round
 
-A **round** is one fix attempt followed by its re-check. It is recorded once, after the re-check, pass or fail.
+Where this file and `loops.md` differ, the contract wins and the gap is reported. A **round** is one fix attempt followed by its re-check. It is recorded once, after the re-check, pass or fail.
 
 1. **Read the ledger first:** `node <scripts>/run-ledger.mjs status --run <id>` (or the plan's `## Loop ledger` rows without Node). Note the round number per loop, every failure signature seen and every approach already tried on this task.
 2. **Classify the failure** (§3) before choosing a fix. The cause decides where the work goes, not how hard to try.

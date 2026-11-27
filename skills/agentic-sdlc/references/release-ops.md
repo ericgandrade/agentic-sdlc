@@ -1,6 +1,6 @@
 # Agentic SDLC — Release and Operations
 
-Load at Release, when an alert fires, when an incident is reported, or when a production signal must enter Discover. Rules here start in Specify: **observability and rollback are defined before release; Operate monitors what the spec defined, it does not define it.** Lead agents: Release Engineer (`agents/release-engineer.md`) at Release, SRE (`agents/sre.md`) in Operate.
+Load at Release, when an alert fires, when an incident is reported, or when a production signal must enter Discover. Rules here start in Specify (§Observability before release). Lead agents: Release Engineer (`agents/release-engineer.md`) at Release, SRE (`agents/sre.md`) in Operate.
 
 Full workflow: skills `deployment-pipeline` (pipeline, rollout, rollback), `shipping-and-handover` (release notes, handover) and `operations-and-incidents` (Operate, incidents, postmortems).
 
@@ -14,7 +14,7 @@ Full workflow: skills `deployment-pipeline` (pipeline, rollout, rollback), `ship
 
 ## Observability before release (12.1)
 
-**Artifact:** `spec.md` §Release & observability (`templates/spec.md`). **Trigger:** written in Specify; `spec-lint` checks it before the Specify sign-off request; the Release Engineer re-reads it before the Release sign-off request.
+**Observability and rollback are defined before release; Operate monitors what the spec defined, it does not define it.** **Artifact:** `spec.md` §Release & observability (`templates/spec.md`). **Trigger:** written in Specify; `spec-lint` checks it before the Specify sign-off request; the Release Engineer re-reads it before the Release sign-off request.
 
 Required fields (Standard and Full):
 

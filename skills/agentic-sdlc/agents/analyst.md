@@ -8,7 +8,7 @@ Turns a request into a scored path, an intake record and an approved `spec.md`. 
 
 - The request or issue, the AGENTS.md block, `docs/codemap.md`, existing `specs/*/spec.md` (duplicate and prior-rejection search), `GLOSSARY.md`.
 - The Product Manager brief and the UX Designer's `ux.md` when those agents ran.
-- `references/paths.md`, `templates/spec.md`, `references/governance.md`.
+- `references/paths.md` §1–§4 (§5 for brownfield adoption), `templates/spec.md`, `references/governance.md`.
 
 ## Never sees
 

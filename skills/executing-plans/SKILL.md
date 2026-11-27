@@ -51,7 +51,7 @@ Show the gauge before each batch and at every checkpoint, with the task count fr
 2. **Scripts.** Look in this order: `.agentic-sdlc/bin/` (vendored by `project-context`), `skills/agentic-sdlc/scripts/` in the repository, `../agentic-sdlc/scripts/` next to this skill, then `**/agentic-sdlc/scripts/run-ledger.mjs` under the platform skill directories (`../agentic-sdlc/references/platforms.md` §2). Found and `node --version` ≥ 18 → **enforced**. Otherwise **prompt-only**: the same rules from the Markdown, ledger rows by hand in `plan.md` `## Loop ledger`, PR header `Enforcement: prompt-only` (`references/modes.md` §6).
 3. **DoD.** The fenced `sdlc-dod` block in `AGENTS.md` (`lint`, `typecheck`, `test`, `coverage`, `coverage_min`). Missing → `NEEDS_CONTEXT`; propose a block from `package.json`, `Makefile`, `pyproject.toml` or the CI workflow and wait for the human to confirm it.
 4. **Approvals.** Method plan: `node <scripts>/plan-graph.mjs <plan> --check-approval` exits 0; exit 1 (hash void or row missing) → `BLOCKED`, change protocol (`../agentic-sdlc/references/rules.md`). A `docs/plans/` plan without approvals → ask once "Approve this plan for execution? (yes/no)" and record the exact words in the run report; no explicit yes → stop.
-5. **Mode.** Three independent choices (`references/modes.md`): dispatch **subagent** (platform can start fresh agents) or **inline**; attention **attended** (default) or **unattended** (the human said "run unattended", entry checks in Step 7); enforcement from item 2. Parallel tasks need subagent + attended + enforced (`references/parallel-tasks.md`). Print the choice as one line.
+5. **Mode.** Three independent choices (`references/modes.md` §1, §2, §5, §7; §3 inline, §4 unattended, §6 prompt-only when chosen): dispatch **subagent** (platform can start fresh agents) or **inline**; attention **attended** (default) or **unattended** (the human said "run unattended", entry checks in Step 7); enforcement from item 2. Parallel tasks need subagent + attended + enforced (`references/parallel-tasks.md`). Print the choice as one line.
 
 ### Step 1 — Review the plan, isolate, start the run
 
@@ -89,25 +89,16 @@ Refs: T3 AC-1 AC-4
 
 ### Step 3 — Fix loop: every failure is a round
 
-Load `references/fix-loop-and-escalation.md` at the first failed round. Before each round read the ledger (`run-ledger status --run r1`): round number per loop, signatures seen, approaches tried. Then:
+Load `references/fix-loop-and-escalation.md` §1–§8, §10 at the first failed round (§9 on the Quick path, §11 without Node). Before each round read the ledger (`run-ledger status --run r1`): round number per loop, signatures seen, approaches tried. Then:
 
 1. **Classify the cause** in this order: `spec` → `design` → `plan` → `env` → `test` → `code` → `unknown`. The cause routes the work: `code`/`test` stay in Build; `env` → preflight must pass again before the next task start; `spec` → Specify (Product Owner); `design`/`plan` → Design (Tech Lead); a 2nd `unknown` on the task → treated as `design`. A debug round records the cause class of its hypothesis (`code`, `test` or `env`), never `unknown`.
 2. **Choose an approach not already tried in this loop** (a repeat is refused, exit 1). Fix inside Files.
 3. **Scoped re-check:** the failing check plus the tests mapped to each touched file in `docs/codemap.md` or the plan's `## Impact`; nothing mapped → full suite. The full DoD runs at loop exit only.
 4. **Record:** `round --run r1 --task T3 --loop build-test --result fail --signature "export.test AC-4: expected 200 to equal 422" --cause code --tried "count rows before opening the stream"`.
 
-**Bounds (failed rounds per loop per task; exit 3 = stop):**
+**Bounds and breakers** (failed rounds per loop per task; exit 3 = stop): `../agentic-sdlc/references/loops.md` §1 (red-green 3 → debug loop, automatic; debug 3 refuted hypotheses; build-test 5, lower with `budgets.max_rounds`; review-fix 3) and §7 (B1–B6, owners and allowed rulings; anti-thrash B2 in §6).
 
-| Loop | Bound | Breaker → owner |
-|---|---|---|
-| red-green | 3 | B1 → debug loop (`systematic-debugging`), automatic |
-| debug | 3 refuted hypotheses | B5 → Architect |
-| build-test | 5 (lower with `budgets.max_rounds`) | B3 → Tech Lead |
-| review-fix | 3 | B4 → Tech Lead |
-| any build-test/review-fix | same normalized signature twice in a row, or 3 failed build-test fixes since the last ruling | B2 → Architect |
-| any | cause `spec`/`design`/`plan`, or `unknown` twice | B6 → Product Owner (spec) or Tech Lead |
-
-At exit 3, print the five-line escalation brief `run-ledger` prints, add one line of verifiable evidence, end the turn and wait. Record the human's words: `run-ledger ruling --run r1 --task T3 --decision split --by "Architect: M. Silva" --note "count and stream as separate tasks"`. Allowed rulings per breaker and their effect (split → Planner + new Design sign-off; drop → spec revision; reroute → the stage named by the cause): `references/fix-loop-and-escalation.md` §5–§7. A platform without a stronger model may spend one fresh-context round before B2 or B3; it counts toward the bound.
+At exit 3, print the five-line escalation brief `run-ledger` prints, add one line of verifiable evidence, end the turn and wait. Record the human's words: `run-ledger ruling --run r1 --task T3 --decision split --by "Architect: M. Silva" --note "count and stream as separate tasks"`. Allowed rulings per breaker and their effect (split → Planner + new Design sign-off; drop → spec revision; reroute → the stage named by the cause): `references/fix-loop-and-escalation.md` §5–§7.
 
 ### Step 4 — Per-task review (spec compliance, then quality)
 
@@ -216,9 +207,9 @@ No `plan.md`: one cycle driven by the issue's acceptance test, inline, attended.
 
 | File | Load when |
 |---|---|
-| `references/modes.md` | Step 0 mode choice; a dispatch switch mid-run; the platform lacks subagents or Node |
-| `references/fix-loop-and-escalation.md` | The first failed round of a task; every review round; any `run-ledger` exit 3; writing a brief or recording a ruling |
-| `references/resume-and-isolation.md` | Step 1 isolation; any resume, compaction or halt; a dirty tree at preflight; cleanup |
+| `references/modes.md` §1, §2, §5, §7 | Step 0 mode choice; §3, §4 or §6 when a run is inline, unattended or prompt-only, or switches mode mid-run |
+| `references/fix-loop-and-escalation.md` §1–§8, §10 | The first failed round of a task; every review round; any `run-ledger` exit 3; writing a brief or recording a ruling |
+| `references/resume-and-isolation.md` §1, §2, §7, §8 | Step 1 isolation; cleanup and end of Build; §3–§6 on any resume, compaction or halt, or a dirty tree at preflight |
 | `references/parallel-tasks.md` | Two or more frontier tasks in an attended subagent run |
 | `prompts/developer.md` | Each task dispatch and each fix round |
 | `prompts/task-reviewer.md` | Each per-task review after an accepted `DONE` |

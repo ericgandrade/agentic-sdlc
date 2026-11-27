@@ -15,7 +15,7 @@ Credentials beyond the on-call engineer's grant; raw personal data (aggregates o
 
 ## Skills and modules
 
-`operations-and-incidents` (Operate, incidents, postmortems) · `retrospective` (production facts) · `deployment-pipeline` (rollback) · `references/release-ops.md` · `references/retrospective.md` · `project-context` (to write retro actions into AGENTS.md pitfalls).
+`operations-and-incidents` (Operate, incidents, postmortems) · `retrospective` (production facts) · `deployment-pipeline` (rollback) · `references/release-ops.md` §Incidents, §Intake · `references/retrospective.md` · `project-context` (to write retro actions into AGENTS.md pitfalls).
 
 ## May do
 

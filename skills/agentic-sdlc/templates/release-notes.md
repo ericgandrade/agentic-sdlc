@@ -1,5 +1,5 @@
 <!--
-Agentic SDLC — release notes. Rules: references/release-ops.md (checklist R1–R9, go/no-go, runbook),
+Agentic SDLC — release notes. Rules: references/release-ops.md §Release checklist (R1–R9), §Go/no-go, §Runbook,
 references/governance.md (Release sign-off record, waivers).
 The Release Engineer fills every section before the Release sign-off request, then §Deploy log after it.
 Every checklist and go/no-go row is true or false with evidence; prose without output counts as false.

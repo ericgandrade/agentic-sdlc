@@ -11,7 +11,7 @@ Load this file for any approval request or record, any waiver, and the enforceme
 | **Specify** | Product Owner | `specs/NNN-slug/spec.md` | spec rev + 12-hex hash | `spec.md` → `## Approvals` | `spec-lint --check-approval` |
 | **Design** | Tech Lead | `specs/NNN-slug/plan.md` | plan rev + hash + the spec hash it was built on | `plan.md` → `## Approvals` | `plan-graph --check-approval` |
 | **Test** | Human reviewer (engineer, not the PR author) | Pull request | head commit SHA (PR host); no PR host → evidence fingerprint (`references/verification.md` §4; record files excluded) | PR review on the host; no host → `## Test sign-off` row in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`) | branch protection; `approval-check --pr` (10.4) |
-| **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md`) |
+| **Release** | Release Owner | Release notes | release tag + rehearsal output | release notes → `## Approval` | release checklist (`references/release-ops.md` §Release checklist) |
 
 Every request is also logged in the register `specs/NNN-slug/approvals.md` (§3).
 
@@ -110,7 +110,7 @@ Field rules checked by `spec-lint --check-approval`: Sign-off is `Specify` or `S
 | Standard | Product Owner | Tech Lead; one combined review when the plan has ≤ 5 tasks, otherwise two | 1 human reviewer | Release Owner |
 | Full | Product Owner, separate review | Tech Lead, separate review | 2 human reviewers, ≥ 1 not involved in Design | Release Owner, after the rehearsal output is attached |
 
-Path selection and escalation: `references/paths.md`. Escalating up during Build requires the approvals of the new path before Build resumes.
+Path selection and escalation: `references/paths.md` §1, §4. Escalating up during Build requires the approvals of the new path before Build resumes.
 
 ## 6. Waivers (10.3)
 

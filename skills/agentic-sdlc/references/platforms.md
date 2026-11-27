@@ -1,6 +1,6 @@
 # Agentic SDLC — Platforms: Install, Mapping and Degradation
 
-Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, and when `doctor` reports `enforcement: prompt-only`. It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
+Load this file during `project-context` setup on a new platform, when the router finds that the host lacks subagents, shell access, permissions or CI, when `doctor` reports `enforcement: prompt-only`, and when choosing a model per role (§5). It maps the method's abstract actions (dispatch an agent, read, edit, run a command, restrict a tool) onto the eight supported platforms and states exactly what the method does when a capability is missing. The method itself is plain Markdown: Node ≥ 18 is needed only for the script gates, and every gate has a Markdown-only equivalent (§4).
 
 ## 1. Capability probe (mechanism 15.1)
 
@@ -89,6 +89,19 @@ Every script gate has a manual equivalent with the same pass rule. The method's 
 | `budget-check.mjs` | `sed '/^---$/,/^---$/d' <file> \| wc -w` against the budgets: router 2,200 · quickstart 1,200 · README install section 300 · reference 3,000 · agent file 600 |
 
 † Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
+
+## 5. Model per role
+
+Guidance only: the method names no vendor and runs on any model the host offers. When the host lets a dispatch choose its model, pick the tier by the cost of a wrong answer, not by the size of the task.
+
+| Role | Tier | Why |
+|---|---|---|
+| Architect, Reviewer, Security Auditor | Largest available | Judgement errors here escape every later gate |
+| Analyst, Product Manager, UX Designer, Planner, Test Engineer | Largest available, or the default | Spec, plan and acceptance tests set the baseline every later stage checks against |
+| Developer | Default; fast for a task sized S with a fixed interface | The DoD, the AC tests and the independent review catch its errors |
+| Tech Writer, Release Engineer, SRE (routine readings), Scrum Master (progress lines) | Fast | Template-driven output with checks after it |
+
+Prefer a review lens on a tier no smaller than the one that wrote the code. The tier never changes a bound, an approval or the evidence rule.
 
 ## Sources
 

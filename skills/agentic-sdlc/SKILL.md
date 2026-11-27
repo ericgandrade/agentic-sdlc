@@ -10,16 +10,16 @@ license: MIT
 
 Run software delivery through the standard life cycle with AI agents: **7 stages** (Discover → Specify → Design → Build → Test → Release → Operate), **4 human sign-offs** (Specify, Design, Test, Release), **13 agents** named by function; specialists run only on their triggers (`references/agents.md`) and **3 paths** sized by a scored rubric (Quick, Standard, Full). Agents execute; named humans approve. Operate feeds the next Discover.
 
-**Sign-off** — a recorded human approval that closes a stage: Specify, Design, Test and Release sign-off. Specify and Design sign-offs are rows in the `## Approvals` section of `spec.md` and `plan.md`; the Test sign-off is the approving PR review; the Release sign-off is the `## Approval` section of the release notes.
+**Sign-off** — a recorded human approval that closes a stage (Specify, Design, Test, Release); owners and records: `references/governance.md` §1.
 
 One rule ties the cycle together: **every requirement is proven.** Acceptance-criterion IDs (`AC-n`) trace from `spec.md` through plan tasks, commit trailers, test names, fingerprint-bound evidence and the PR to the release notes and the production record.
 
-This file is the router. It detects state, picks the path, dispatches the agent for the current stage, enforces the approvals and loads modules just in time from the Module Index. It never paraphrases one stage's output for the next: each stage reads the artifacts directly.
+This file is the router: it detects state, picks the path, dispatches the stage agent, enforces the approvals and loads modules just in time. It never paraphrases one stage's output for the next; each stage reads the artifacts directly.
 
 ## When to Use
 
-- Starting a feature, change, bug fix, migration or modernization with a path from request to production.
-- Asking "what's next?", "where are we?" or "which stage now?" on software work.
+- Starting a feature, change, bug fix, migration or modernization from request to production.
+- Asking "what's next?" or "where are we?" on software work.
 - Resuming in a repository that contains `specs/NNN-slug/` folders, `.agentic-sdlc/` or the AGENTS.md block `<!-- AGENTIC-SDLC:BEGIN -->`.
 - A requirement changes after Specify sign-off.
 - Entering one stage directly (specify, design, build, test, release, operate).
@@ -46,39 +46,27 @@ Run `status.mjs --json` (`.agentic-sdlc/bin/` or `scripts/`): state, evidence, n
 | 9 | Retro actions open | Retro action without `done` or `dropped: <reason>` | Work the oldest action as a Discover item |
 | — | Nothing open | None of the above | Ask for the next request |
 
-Unparsable artifact → state `UNKNOWN` (`status.mjs` exit 2), recommend `project-context audit`. Confirm a resume in one line before acting (Example 4).
+Unparsable artifact → state `UNKNOWN` (`status.mjs` exit 2), recommend `project-context audit`. Confirm a resume in one line before acting (Example 3).
 
 When the user names a stage, check its entry condition (`references/lifecycle.md` §1) and report each missing prerequisite. Never skip one silently.
 
 ### Step 1 — Choose the path
 
-Score every item with `references/paths.md` §Score:
-
-- **Size S** = files (≤ 3: 1 · 4–15: 2 · > 15: 3) + components (1/2/≥ 3 → 1/2/3) + iterations (1/2/≥ 3 → 1/2/3). S ≤ 4 Quick · 5–6 Standard · ≥ 7 Full.
-- **Risk R** = count of triggers: auth, personal/health data, money, public API, schema/migration, irreversible, regulated. R = 0 Quick · R = 1 Standard · R ≥ 2, personal/health data or irreversible → Full.
-- **Path = the higher route.** Write the score line in the issue or spec header: `Path: Standard · S=5 · R=1 (money)`.
-
-Missing inputs → Standard, recorded as `default: inputs missing`. During Build, more files than the path bound (Quick > 3, Standard > 15) or a new trigger → stop, re-score, route up and log a Revision entry. Never route down silently.
-
-| Path | Sign-offs | Artifacts |
-|---|---|---|
-| Quick | Test (+ Release when production deploys) | Issue with acceptance test, PR with Verification |
-| Standard | Specify + Design (one combined review when ≤ 5 tasks), Test, Release | `spec.md`, `plan.md`, `acceptance-tests.md`, PR, release notes, retro |
-| Full | All four separately + second human reviewer on the Test sign-off (PR) | Standard set + ADRs, threat model, `CONSTRAINTS.md`, runbook |
+Score Size S and Risk R with `references/paths.md` §2; **path = the higher route** (§1). Write the score line in the issue or spec header: `Path: Standard · S=5 · R=1 (money)`. Missing inputs → Standard, recorded `default: inputs missing`. During Build, a file bound (Quick > 3, Standard > 15) or a new risk trigger → stop, re-score, route up and log a Revision entry (§4). Never route down silently. Sign-offs and artifacts per path: §3 (Full adds a second human reviewer on the Test sign-off).
 
 ### Step 2 — Run the stage
 
-Dispatch the lead agent with its file from `agents/` and only the inputs it lists (`references/phase-boundaries.md` §Context hygiene). No subagents on the platform → run a separate labeled pass and mark every check of the author's own work `self-review` in the PR.
+Dispatch the lead agent with its `agents/` file and only the inputs it lists (`references/phase-boundaries.md` §Context hygiene). No subagents → a separate labeled pass; every check of the author's own work is marked `self-review` in the PR.
 
 | Stage | Lead agent (helpers) | Load | Exit record |
 |---|---|---|---|
-| Discover | Analyst (Product Manager) | `references/paths.md` | Score line, intake record |
+| Discover | Analyst (Product Manager) | `references/paths.md` §1–§4 | Score line, intake record |
 | Specify | Analyst (Product Manager, UX Designer, Security Auditor) | `templates/spec.md`, `references/governance.md` | `spec.md`, `spec-lint` exit 0 |
 | Design | Planner (Architect) | `templates/plan.md` | `plan.md`, `graph.json`, ADRs |
 | Build | Developer, one per task (Tech Writer: docs task) | `references/tdd.md`, `references/loops.md` | Commits `Refs: Tn AC-n`, DoD green, PR |
 | Test | Reviewer (Test Engineer, Security Auditor, UX Designer) | `references/verification.md`, `references/review.md` | PR Verification, Trace, Review triage; GO/NO-GO |
-| Release | Release Engineer (Tech Writer) | `references/release-ops.md` | Release notes, rehearsal output |
-| Operate | SRE | `references/release-ops.md`, `references/retrospective.md` | `ops.md`, postmortems, retro |
+| Release | Release Engineer (Tech Writer) | `references/release-ops.md` §Observability, §Release checklist, §Go/no-go, §Runbook | Release notes, rehearsal output |
+| Operate | SRE | `references/release-ops.md` §Incidents, §Intake; `references/retrospective.md` | `ops.md`, postmortems, retro |
 
 Stage skills: `project-context` (Discover), `brainstorming` and `grill-me` (Discover/Specify), `spec-driven-development` (Specify), `senior-solution-architect` and `writing-plans` (Design), `executing-plans` (Build).
 
@@ -104,49 +92,34 @@ Discover ✅ ▸ Specify ✅ Specify sign-off ▸ Design ✅ Design sign-off ▸
 
 ## Module Index
 
-Load a module only at its trigger. A listed file that is absent in the installed version → follow the rule summary in this router, record `module missing: <path>` in the PR body, and continue. A file marked † elsewhere is planned: `references/artifacts.md` §Later-release files gives its target version and manual fallback.
+Load a module only at its trigger; `§` names the sections to read. A listed file absent in the installed version → follow this router's rule summary, record `module missing: <path>` in the PR body and continue. A file marked † is planned: `references/artifacts.md` §Later-release files gives its version and manual fallback.
 
-**First path** (≤ 3,700 words in total: README install section, `references/quickstart.md`, this file). **Off-first-path rule:** the Full path, unattended mode, extensions and metrics are loaded only after the first merged PR or on explicit request.
+**First path** (≤ 3,700 words: README install section, `references/quickstart.md`, this file). The Full path, unattended mode, extensions and metrics load only after the first merged PR or on request.
 
 | File | Load when |
 |---|---|
 | `references/quickstart.md` | First use; one Quick-path bug fix end to end |
 | `references/lifecycle.md` | A stage's entry or exit condition is in question |
 | `references/rules.md` | Any rule conflict; requirement change after approval |
-| `references/artifacts.md` | Creating the first artifact in a project |
+| `references/artifacts.md` §Step 0, §Default layout, §Naming and numbering, §AGENTS.md block, §ADR | First artifact in a project (§Artifact table, §CONSTRAINTS.md when that artifact is in doubt or made) |
 | `references/agents.md`, `agents/<name>.md` | Dispatching that agent |
 | `references/phase-boundaries.md` | Stage end, context ≥ 70%, hand-off, resume |
-| `references/paths.md` | Discover; escalation in Build |
-| `references/platforms.md` | Host lacks subagents, permissions or CI |
+| `references/paths.md` §1–§4 | Discover; escalation in Build; §5 brownfield adoption |
+| `references/platforms.md` | Host lacks subagents, permissions or CI; model per role |
 | `references/governance.md` | Any approval or waiver; enforcement setup |
-| `references/tdd.md` | Each Build task |
-| `references/loops.md` | A test or review round fails |
-| `references/autonomous.md` | User asks to run unattended (after Design sign-off) |
+| `references/tdd.md` · `loops.md` | Each Build task · a test or review round fails |
+| `references/autonomous.md` | Run unattended (after Design sign-off) |
 | `references/verification.md` | Any completion claim; PR Verification and Trace |
 | `references/review.md` | Test stage; receiving findings |
-| `references/security.md` | Spec Security notes; review lens L3; new dependency |
-| `references/release-ops.md` | Release; alerts; incidents; production intake |
+| `references/security.md` §Data classification, §Secrets, §Dependencies, §Review checklist | Spec Security notes; lens L3; new dependency; §Compliance when `regulated` fires |
+| `references/release-ops.md` | Release; alerts; incidents; intake (sections in Step 2); §Package or library profile when nothing deploys |
 | `references/retrospective.md` | After Release; Quick batch due |
-| `references/upgrading.md` | Skill version changed; doctor WARN after an upgrade |
-| `references/adoption.md` | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
-| `references/brownfield.md` | Touching code without tests |
-| `references/extension-interface.md` | Writing an extension; `ext-check` exit ≠ 0 (load none) |
-| skill `security-hardening` | Regulated work; SSDF mapping |
 | `templates/spec.md`, `ux.md`, `plan.md`, `acceptance-tests.md` | Specify; UX trigger; Design; acceptance-test design |
-| `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
-| `templates/codemap.md`, `threat-model.md` | Brownfield adoption; risk-triggered spec |
+| `templates/pr-body.md`, `release-notes.md`, `retro.md`, `codemap.md`, `threat-model.md` | PR; Release; retro; brownfield adoption; risk-triggered spec |
 | `templates/ops-record.md`, `postmortem.md`, `runbook.md` | Operate; SEV1/2 incident; operated-behaviour change |
-| `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS`, `host-config/` | `project-context` CI and enforcement setup |
-| `scripts/spec-lint.mjs`, `plan-graph.mjs`, `approval-check.mjs`, `audit-export.mjs` | Before Specify / Design sign-off; CI; audit |
-| `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
-| `scripts/dod-gate.mjs`, `evidence.mjs`, `trace-check.mjs` | Completion claims; before Reviewer GO and Test sign-off; CI |
-| `scripts/status.mjs`, `doctor.mjs`, `guard.mjs` | Step 0; setup check; host hooks |
-| `scripts/budget-check.mjs`, `ext-check.mjs` | CI on `skills/**`; before loading any extension |
-| `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
-| `examples/worked-example/` | Learning the Standard path; script test fixtures |
-| `examples/extensions/` | Writing an extension |
+| `references/module-index.md` | Scripts, CI templates, examples, upgrade, adoption, brownfield, extensions, `security-hardening` |
 
-Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. `--json` prints a machine-readable result. Node absent → the method runs from the Markdown rules and `doctor` reports `enforcement: prompt-only`.
+Script exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. Node absent → the Markdown rules apply and `doctor` reports `enforcement: prompt-only`.
 
 ## Critical Rules
 
@@ -162,12 +135,10 @@ Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` 
 
 ## Example Usage
 
-**1. Feature, Standard path.** "Add CSV export of order IDs, dates and totals to the reports page." S = 2 + 2 + 1 = 5, R = 1 (money) → Standard. Specify: AC-1..4 (filtered rows only, formula-injection escaping, permission check, 50k row limit), rollback = flag off, alert on export error rate > 2% over 15 min. Combined Specify + Design sign-off (5 tasks). Build T1–T5 test-first; Test: acceptance tests designed from the spec, lenses L1–L4, GO. Test sign-off; Release at 10% then 100%; retro within 5 business days. Files: `examples/worked-example/`.
+**1. Feature, Standard path.** "Add CSV export of order IDs, dates and totals to the reports page." S = 5, R = 1 (money) → Standard. AC-1..4, rollback = flag off, alert on export error rate > 2% over 15 min; combined Specify + Design sign-off (5 tasks); Build T1–T5 test-first; lenses L1–L4, GO; Test sign-off; Release 10% then 100%; retro within 5 business days. Files: `examples/worked-example/`.
 
-**2. Bug, Quick path.** "The date column shows UTC instead of the user's time zone." S = 3, R = 0 → Quick. Acceptance test in the issue; failing regression test pasted; fix; PR with Verification rows; lenses L1 + L2; Test sign-off. Retro batched.
+**2. Bug, risk beats size.** "Sessions expire after 5 minutes instead of 30." S = 3 but R = 1 (auth) → Standard: short spec, combined approval, lens L3. With R = 0 it is Quick: acceptance test in the issue, lenses L1 + L2, Test sign-off.
 
-**3. Risk beats size.** "Sessions expire after 5 minutes instead of 30." S = 3 but R = 1 (auth) → Standard: short spec, combined approval, security lens L3.
+**3. Resume.** "Continue the payments refactor." Step 0: spec rev 2 approved with a matching hash, plan approved, T1–T5 committed → "Resume Build at T6?"
 
-**4. Resume.** "Continue the payments refactor." Step 0: spec rev 2 approved with a matching hash, plan approved, T1–T5 committed → "Resume Build at T6?"
-
-**5. Change after approval.** "Product now wants Excel export too." The edit voids the Specify sign-off hash. Change protocol: impact (AC-5, T6, tests), Revision 2, Specify and Design sign-off again, resume at Build.
+**4. Change after approval.** "Product now wants Excel export too." The edit voids the Specify sign-off hash: change protocol (impact on AC-5, T6, tests), Revision 2, both sign-offs again, resume at Build.

@@ -97,21 +97,9 @@ Severity is not ranked across axes: each finding is rated on its own definition,
 
 ### Step 6 — Verify, then rate
 
-Re-check every merged finding against the code at the reviewed SHA before any severity is final (`references/triage-and-routing.md` §Verify):
+Re-check every merged finding against the code at the reviewed SHA before any severity is final: result `confirmed`, `not reproduced` or `declined to judge`, with the evidence and effect in `../agentic-sdlc/references/review.md` §3 (methods: `references/triage-and-routing.md` §Verify). Every item from a lens's Declined to judge list is either verified here or recorded that way.
 
-- `confirmed` — a failing command output, or the cited code line plus the violated AC, rule or checklist item.
-- `not reproduced` — what was tried and its result; closed, no severity.
-- `declined to judge` — the reason (domain knowledge, production data, legal judgement); no severity; becomes a question in the Review guide. Every item from a lens's Declined to judge list is either verified here or recorded this way.
-
-Only confirmed findings get a severity, from `../agentic-sdlc/references/review.md` §3:
-
-| Severity | Definition | Effect |
-|---|---|---|
-| **Critical** | An AC is violated, data is lost or corrupted, a security weakness is exploitable, a secret is exposed, or the DoD is red | Blocks Test and Release sign-off; never deferred |
-| **Important** | Correct today but fragile or misleading (missing negative test, test anti-pattern, design rule broken, ADR still `Proposed`, missing dependency note) | Fixed, or deferred only with owner acceptance and a follow-up issue |
-| **Minor** | Readability or convention not enforced by a linter | Deferred list |
-
-Rating rules: two severities fit → take the higher. Grade by effect on the user, not by whether the spec mentioned the case ("the spec was silent" never lowers a rating). L3 findings take the checklist's `Severity if FAIL` as the floor; shown exploitable by a command → Critical. A finding the plan itself mandates is still rated by the rubric and labelled `plan-mandated` with cause `plan`; the plan does not grade its own defects. The Reviewer never runs the full suite to verify a claim the Verification table already covers; it runs one focused command per specific doubt.
+Only confirmed findings get a severity (Critical · Important · Minor), with the definitions, effects, tie-break and L3 floor of `review.md` §3. Two more rules: grade by effect on the user, not by whether the spec mentioned the case ("the spec was silent" never lowers a rating); a finding the plan itself mandates is still rated by the rubric and labelled `plan-mandated` with cause `plan` (the plan does not grade its own defects). The Reviewer never runs the full suite to verify a claim the Verification table already covers; it runs one focused command per specific doubt.
 
 ### Step 7 — Route each confirmed finding by root cause
 
@@ -213,7 +201,7 @@ Only after a GO verdict (`references/test-signoff-prep.md`):
 | `prompts/axis-adversarial.md` | Step 4: building the L4 package (diff only) |
 | `prompts/re-review.md` | Step 9: scoped re-review of a fix delta |
 | `references/triage-and-routing.md` | Steps 5–8: merging, verification methods, rating examples, routing and the cascade, record formats |
-| `references/weakened-bar-guard.md` | Step 0.6 and Step 9.5: scan commands, legitimacy test, severities |
+| `references/weakened-bar-guard.md` §Scan, §Legitimacy test, §Severity | Step 0.6 and Step 9.5: scan commands, legitimacy test, severities (§Example on doubt) |
 | `references/receive-mode.md` | Developer receiving findings; disputes; rejected Critical rulings |
 | `references/test-signoff-prep.md` | Step 10: Review guide, risk ordering, question writing, the sign-off request |
 | `../agentic-sdlc/references/review.md` | Contract check whenever a bound, format or severity is in doubt |

@@ -1,6 +1,6 @@
 # Execution Modes — Dispatch, Attention and Enforcement
 
-Load this file in Step 0 when choosing how to run the plan, when a run switches mode mid-flight, and whenever the platform cannot start subagents. Every mode runs the same task cycle (`../../agentic-sdlc/references/tdd.md` per task, `../../agentic-sdlc/references/loops.md` per failure); modes change **who** holds the context and **who** writes the ledger, never the bounds, the evidence rule or the approvals.
+Load this file in Step 0 when choosing how to run the plan, when a run switches mode mid-flight, and whenever the platform cannot start subagents. Every mode runs the same task cycle (`../../agentic-sdlc/references/tdd.md` per task, `../../agentic-sdlc/references/loops.md` per failure).
 
 Paths in this file are relative to `skills/executing-plans/references/`; the stage contract lives in `../../agentic-sdlc/`.
 
@@ -12,7 +12,7 @@ Paths in this file are relative to `skills/executing-plans/references/`; the sta
 | **Attention** | `attended` · `unattended` | The human's words ("run unattended") plus the entry checks in §4 | `attended` |
 | **Enforcement** | `enforced` · `prompt-only` | Node ≥ 18 and the scripts found in Step 0 | `enforced` when both are present |
 
-The three combine freely except: unattended requires enforced; parallel tasks require subagent dispatch and attended attention (`parallel-tasks.md` §1).
+Modes change **who** holds the context and **who** writes the ledger, never the bounds, the evidence rule or the approvals. The three combine freely except: unattended requires enforced; parallel tasks require subagent dispatch and attended attention (`parallel-tasks.md` §1).
 
 Record the choice in the first progress line and in the PR body header: `Mode: subagent · attended · enforced (run r1)`.
 

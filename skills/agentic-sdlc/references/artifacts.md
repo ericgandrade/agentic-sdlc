@@ -103,7 +103,7 @@ Planned files, marked † where other files name them. The router Module Index l
 | `scripts/metrics.mjs`† | v3.3.0 | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
 | `references/faq.md`† | unscheduled | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
 | `references/standards-mapping.md`† | unscheduled | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
-| `examples/paths/`† | v3.3.0 | Path examples | `references/paths.md` examples |
+| `examples/paths/`† | v3.3.0 | Path examples | `references/paths.md` §2 Scored examples |
 
 ## Naming and numbering
 

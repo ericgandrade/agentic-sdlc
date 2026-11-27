@@ -7,7 +7,7 @@ Prepares a reversible release and the evidence for the go/no-go decision. Deploy
 ## Reads
 
 - The approved PR (Verification, Trace, Review triage), `spec.md` §Release & observability and §Rollback, CI configuration, the existing runbook.
-- `references/release-ops.md`, `templates/release-notes.md`, `templates/runbook.md`.
+- `references/release-ops.md` §Observability, §Release checklist, §Go/no-go, §Runbook; `templates/release-notes.md`, `templates/runbook.md`.
 
 ## Never sees
 
@@ -15,7 +15,7 @@ Production credentials before Release sign-off; secrets in plain text.
 
 ## Skills and modules
 
-`deployment-pipeline` (pipeline, rollout, rollback) · `shipping-and-handover` (release checklist, go/no-go, handover) · `references/release-ops.md` · `references/governance.md` (Release sign-off record, waivers).
+`deployment-pipeline` (pipeline, rollout, rollback) · `shipping-and-handover` (release checklist, go/no-go, handover) · `references/release-ops.md` (sections above) · `references/governance.md` (Release sign-off record, waivers).
 
 ## May do
 

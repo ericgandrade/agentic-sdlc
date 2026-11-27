@@ -120,7 +120,7 @@ Each `AC-n` is **observable**, **testable**, **single**, **bounded**, **formatte
 | AC-5 | Given 250,000 earlier orders, when a page of 200 is requested on staging, then p95 latency over 1,000 requests is ≤ 600 ms. | normal |
 ```
 
-Run the unhappy-path checklist on every story — permission, invalid input, limit + 1, empty state, concurrency, dependency failure, retry, time zones, data lifecycle — and turn each hit into an AC or a non-goal. EARS sentences are welcome as a drafting form; convert them to Given/When/Then unless they already carry a number and a unit. Twelve good/bad pairs and the EARS conversion table: `references/ac-rubric.md`.
+Run the unhappy-path checklist on every story — permission, invalid input, limit + 1, empty state, concurrency, dependency failure, retry, time zones, data lifecycle — and turn each hit into an AC or a non-goal. EARS sentences are welcome as a drafting form; convert them to Given/When/Then unless they already carry a number and a unit. Twelve good/bad pairs: `references/ac-rubric.md` §1–§3, §5, §6; the EARS conversion table, only when EARS is used: §4.
 
 Turn every quality word into a number. Each NFR is metric + comparator + number + unit + condition + method, placed where it is enforced: a Test-time threshold is an AC, a builder rule is a Constraint, a production threshold is an Alert, a business outcome is the Indicator, an accessibility check is a `ux.md` row. `spec-lint` V01 flags 30 vague terms (*fast*, *scalable*, *robust*, *user-friendly*, *large*, *many*, *gracefully* …) unless a number with a unit sits in the same sentence. Catalog by category (performance, capacity, reliability, security, privacy, accessibility, observability, compliance, compatibility): `references/nfr-catalog.md`.
 
@@ -171,15 +171,12 @@ Rule families: header and routing (H), placeholders (P), sections (S), ACs (AC),
 
 ### Step 8 — Specify sign-off
 
-Follow `../agentic-sdlc/references/governance.md` § 2 exactly:
+Follow `../agentic-sdlc/references/governance.md` § 2 exactly (pre-check, request, register row, end of turn, which replies count, record). Specify specifics:
 
-1. Print the hash: `spec-lint --hash specs/NNN-slug/spec.md`.
-2. Present one message: path, revision, hash, lint result, critique summary, `ux.md` and `threat-model.md` revisions, residual risks, and one question to the named role — `Product Owner: approve spec.md rev 1 (hash 2aef8f23fc84) as the build baseline? Reply "yes" or list changes.`
-3. Log the request in `specs/NNN-slug/approvals.md` (Requested at in UTC, Asked role).
-4. **End the turn.** Do not start Design in the same turn.
-5. In a later turn, count only an explicit `yes` / `approve` / `approved` that lists no changes. Silence, "sounds good" about something else, "whatever is best" or an agent statement is never approval. A yes mixed with changes is a rejection: apply the changes as a new revision and ask again.
-6. Record the row in `## Approvals` (Sign-off, Rev, Hash, Date, Role, Person, Exact words, Evidence reviewed, Residual risks, Decision) and complete the register row (Answered at, Exact words).
-7. Confirm with `spec-lint --check-approval specs/NNN-slug/spec.md` (exit 0).
+1. The hash comes from `spec-lint --hash specs/NNN-slug/spec.md`.
+2. The one request message also carries the critique summary and the `ux.md` and `threat-model.md` revisions, and asks the named role: `Product Owner: approve spec.md rev 1 (hash 2aef8f23fc84) as the build baseline? Reply "yes" or list changes.`
+3. **End the turn.** Do not start Design in the same turn. A yes mixed with changes is a rejection: apply the changes as a new revision and ask again.
+4. After recording the `## Approvals` row and the register row, confirm with `spec-lint --check-approval specs/NNN-slug/spec.md` (exit 0).
 
 **Combined review (Standard, plan with ≤ 5 tasks).** Fix the spec hash first, hand off to `writing-plans` for `plan.md`, then send one request covering both artifacts; record `Specify + Design (combined)` in each artifact and one register row per artifact. On Full the four sign-offs are separate (`../agentic-sdlc/references/lifecycle.md` § 3).
 
@@ -268,7 +265,7 @@ The scope check builds a four-module capability map; the Product Owner confirms 
 
 | File | Load when |
 |---|---|
-| `references/ac-rubric.md` | Writing or critiquing ACs (Step 5), converting EARS, or fixing AC01–AC04 and V01 findings |
+| `references/ac-rubric.md` §1–§3, §5, §6 | Writing or critiquing ACs (Step 5), or fixing AC01–AC04 and V01 findings; §4 when converting EARS |
 | `references/nfr-catalog.md` | A story implies speed, load, uptime, privacy, accessibility, audit or compliance, or checklist item 11 fails |
 | `references/capability-map.md` | The scope check finds an epic: ≥ 2 independent subsystems, > 5 stories or > 15 ACs |
 | `references/revise-mode.md` | A spec changes after a sign-off request or approval, or a re-score moves the path |

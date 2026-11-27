@@ -17,9 +17,11 @@ export const BUDGETS = Object.freeze({
   reference: 3000,
   agent: 600,
   guide: 2500,
-  // Default-path tokens (proxy ceil(chars / 4)), measured at the v3.0.1 baseline. Never raise it:
-  // a change that adds default-path text removes as much elsewhere or moves it behind a trigger.
-  defaultPathTokens: 121502,
+  promptWords: 400, // subagent briefs (prompts/*.md) on the default path; advisory, WARN only
+  // Default-path tokens (proxy ceil(chars / 4)), measured after the section-anchored token diet
+  // (v3.0.1 baseline 121,502). Never raise it: a change that adds default-path text removes as much
+  // elsewhere or moves it behind a trigger.
+  defaultPathTokens: 112478,
 });
 
 // At or above this share of a budget the row is reported as WARN (exit code unchanged).
@@ -37,8 +39,10 @@ Checks the word budgets of an agentic-sdlc skill directory (default: the directo
   --guide      also checks a reference guide (docs/guides/agentic-sdlc.md) <= ${BUDGETS.guide}
 Words = whitespace-separated tokens outside the leading YAML frontmatter.
 Rows at >= ${WARN_RATIO * 100}% of their budget print WARN.
-  --default-path  sums ceil(chars / 4) over the files in references/default-path.json (repository-relative,
+  --default-path  sums ceil(chars / 4) over the entries in references/default-path.json (repository-relative,
                each file once; --root defaults to two levels above skill-dir) against ${BUDGETS.defaultPathTokens} tokens.
+               An entry "path#Heading" counts only that section (heading line, body and subsections); list one
+               entry per section; a whole-file entry wins. Each prompts/*.md entry over ${BUDGETS.promptWords} words prints WARN.
 Exit codes: 0 every budget met · 1 a budget exceeded (DEFAULT_PATH) · 2 a listed file, section or list missing.`;
 
 export function stripFrontmatter(md) {
@@ -126,19 +130,47 @@ export function checkDefaultPath(skillDir, { root, budget = BUDGETS.defaultPathT
   }
   if (!Array.isArray(list)) throw new InputError('references/default-path.json has no "files" array');
   const base = resolve(root ?? join(dir, '..', '..'));
-  const seen = new Set();
-  const files = [];
+  // One row per file, in first-mention order. A whole-file entry wins over section entries of that file.
+  const byPath = new Map();
   for (const entry of list) {
-    const abs = resolve(base, entry);
-    if (seen.has(abs)) continue;
-    seen.add(abs);
-    const text = readRequired(abs, 'default-path file');
-    files.push({ path: relative(base, abs), chars: text.length, tokens: proxyTokens(text) });
+    const raw = String(entry);
+    const hash = raw.indexOf('#');
+    const abs = resolve(base, hash < 0 ? raw : raw.slice(0, hash));
+    const section = hash < 0 ? null : raw.slice(hash + 1).trim();
+    if (!byPath.has(abs)) byPath.set(abs, { whole: false, sections: [] });
+    const item = byPath.get(abs);
+    if (section === null || section === '') item.whole = true;
+    else if (!item.sections.includes(section)) item.sections.push(section);
+  }
+  const files = [];
+  const prompts = [];
+  for (const [abs, item] of byPath) {
+    const path = relative(base, abs);
+    const text = normalize(readRequired(abs, 'default-path file'));
+    const counted = item.whole ? text : sectionText(text, item.sections, path);
+    files.push({ path, ...(item.whole ? {} : { sections: item.sections }), chars: counted.length, tokens: proxyTokens(counted) });
+    if (/(^|\/)prompts\/[^/]+\.md$/.test(path)) {
+      const words = countTokens(counted);
+      prompts.push({ path, words, budget: BUDGETS.promptWords, status: words > BUDGETS.promptWords ? 'WARN' : 'PASS' });
+    }
   }
   const total = files.reduce((n, f) => n + f.tokens, 0);
-  // The budget is a ceiling pinned at the measured baseline, so there is no WARN band: PASS or FAIL.
+  // The budget is a ceiling pinned at the measured total, so there is no WARN band: PASS or FAIL.
+  // Prompt rows are advisory: a brief over its word budget warns and never changes the status.
   const status = total > budget ? 'FAIL' : 'PASS';
-  return { list: relative(dir, listPath), root: base, files, total, budget, status, rule: status === 'FAIL' ? 'DEFAULT_PATH' : null };
+  return { list: relative(dir, listPath), root: base, files, prompts, total, budget, status, rule: status === 'FAIL' ? 'DEFAULT_PATH' : null };
+}
+
+// Text of the named sections (heading line + body, subsections included), each line counted once.
+function sectionText(text, titles, path) {
+  const lines = text.split('\n');
+  const keep = new Array(lines.length).fill(false);
+  for (const title of titles) {
+    const s = findSection(text, title);
+    if (!s) throw new InputError(`default-path section missing: ${path} #${title}`);
+    for (let i = s.line; i < s.end; i++) keep[i] = true;
+  }
+  return lines.filter((_, i) => keep[i]).join('\n');
 }
 
 function pad(s, n) {
@@ -155,7 +187,8 @@ export async function main(argv = process.argv.slice(2), out = process.stdout) {
   if (flags['default-path']) {
     const r = checkDefaultPath(skillDir, { root: typeof flags.root === 'string' ? flags.root : undefined });
     const lines = [
-      `budget-check --default-path: ${r.files.length} files`,
+      `budget-check --default-path: ${r.files.length} files (${r.files.filter((f) => f.sections).length} by section)`,
+      ...r.prompts.map((p) => `${pad(p.status, 5)} ${pad('prompt', 15)} ${pad(p.path, 64)} ${p.words} / ${p.budget} words`),
       `${pad(r.status, 5)} default-path ${r.total} / ${r.budget} tokens (ceil(chars / 4))`,
       r.status === 'FAIL'
         ? `Result: FAIL DEFAULT_PATH (${r.total - r.budget} tokens over; remove text elsewhere or move it behind a trigger)`
