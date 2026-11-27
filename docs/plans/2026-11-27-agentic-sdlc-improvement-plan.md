@@ -313,6 +313,16 @@ Behaviour:
 - [ ] **Round 4** independent re-score, same protocol as round 3 (new scorers calibrated on BMad, red team, lenses). The expected check is that S4 holds (grill Q5, Q18).
 - [ ] An issue "Score your method with our yardstick" is opened, inviting external scorers (grill Q5).
 
+**Exit-gate status (2026-11-27, branch `feat/v3.1-superior`):**
+
+| Item | Status |
+|---|---|
+| CI jobs green | Every `validate.yml` job passes when run locally on Node 24. GitHub has not run them, because the workflow triggers only on PRs to `main` (`TODO.md` #2) |
+| `doctor` on two fixture projects | Passing in `doctor.test.mjs`: a healthy Node project, and a non-Node project (ruff, pytest, mypy) with GitLab CI |
+| Worked example re-run end to end with the new gates | Not done. It needs an agent trial in a separate project; the trial report is not updated (`TODO.md` #3) |
+| Round 4 independent re-score | Pending. It is outside this branch, and the owner launches it |
+| "Score your method" issue | Not opened. It is a public action for the owner |
+
 ---
 
 ## Phase 2 · Pilot with a human team (2–3 weeks, between v3.1 and v3.2) (grill Q1, Q10)
