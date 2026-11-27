@@ -4,7 +4,7 @@
 
 ## 1. Header and Scope
 
-Research input for the **Agentic SDLC** (`docs/plans/2026-11-18-agentic-sdlc.md`, §3–5).
+Research input for the **Agentic SDLC** (first design plan, since removed; current: `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`).
 
 | Field | Value |
 |---|---|

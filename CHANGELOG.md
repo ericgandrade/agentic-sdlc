@@ -188,10 +188,10 @@ Existing adopters:
 - Removed 20 career/resume skills → now available at `npx career-superskills` (github.com/ericgandrade/career-superskills)
 - Removed 8 product/strategy skills → now available at `npx product-superskills` (github.com/ericgandrade/product-superskills)
 - Removed 9 design/UI skills → now available at `npx design-superskills` (github.com/ericgandrade/design-superskills)
-- Removed `ava-pptx` and `ava-web` (renamed to `avanade-pptx`/`avanade-web`) → now in private repo ericgandrade/avanade-superskills
+- Removed 2 company-branded content skills (a deck generator and a web generator) → moved to a private repository
 
 ### Removed
-- Deleted low-value skills: `code-method`, `ai-native-product`, `docling-converter`
+- Deleted low-value skills: `ai-native-product`, `docling-converter` and one retired method skill
 
 ### Changed
 - claude-superskills is now a focused core: 18 skills across meta/orchestration, planning, research, and content
@@ -210,7 +210,7 @@ Existing adopters:
 
 ### Added
 
-- **ava-web skill**: Generate Avanade-branded websites, landing pages, and web components. Supports 4 stacks (HTML+CSS, HTML+Tailwind, React+Tailwind, Next.js+Tailwind) and 5 page types (Landing, Service, About, Case Study, Contact). Includes 12 reusable components with HTML, Tailwind, and React variants. Uses the same Ava brand system as `ava-pptx` — orange gradient `#FF5800→#B43C14→#870032`, Segoe UI, wave SVG decorators, and "Do what matters" tagline. Includes WCAG accessibility guidance (orange as text rules). References: `web-brand-guidelines.md`, `components.md`, `tailwind-config.md`.
+- **Branded web skill**: generated company-branded web pages and components (4 stacks, 5 page types). Removed from this repository later.
 
 ---
 
@@ -232,7 +232,7 @@ Existing adopters:
 
 ### Added
 
-- **ava-pptx skill**: generates and re-brands PowerPoint presentations using the official Ava visual identity. Supports create-from-scratch mode (pptxgenjs) and rebrand-existing mode. Enforces Avanade orange palette, Segoe UI typography, wave decoration, and logo placement on every slide.
+- **Branded deck skill**: generated and re-branded PowerPoint presentations in a company visual identity. Removed from this repository later.
 
 ## [1.22.0] - 2026-04-03
 
@@ -416,7 +416,7 @@ Existing adopters:
 ## [1.20.5] - 2026-03-19
 
 ### Fixed
-- **pptx-translator: false-negative slide skip (langdetect misclassification)** — replaced `detect_slide_language()` (per-slide langdetect) with `has_source_language_content()` (per-block regex); slides like "CiberSegurança Avanade Brasil" were misclassified as Catalan ("ca") and skipped untranslated; fix uses accented-char + PT stop-word patterns evaluated per block
+- **pptx-translator: false-negative slide skip (langdetect misclassification)** — replaced `detect_slide_language()` (per-slide langdetect) with `has_source_language_content()` (per-block regex); Portuguese slide titles with brand names were misclassified as Catalan ("ca") and skipped untranslated; fix uses accented-char + PT stop-word patterns evaluated per block
 - **pptx-translator: mixed-language slides incorrectly skipped** — a slide is now skipped only when ZERO text blocks match the source language; previously any misclassification of the concatenated slide text caused the entire slide to be skipped
 - **pptx-translator: redundant backup in Safe mode** — removed `_backup_{timestamp}.pptx` creation from Safe mode; output is always a new file so the original is already preserved; backup is now created only in YOLO mode before overwriting the original
 

@@ -6,7 +6,7 @@
 
 > **For the executing agent (Codex, Claude Code or any other):** this document is self-contained and is the **single source of truth for execution** from 2026-11-20. Read it fully, then the files in §2.3, before touching anything. Execute task by task with the `executing-plans` discipline: one task at a time, verify, commit, move on. **Stop at every Checkpoint and wait for the owner.**
 >
-> **Supersedes** the structure and execution order of `docs/plans/2026-11-18-agentic-sdlc.md` (master plan, V-shaped design) and `docs/plans/2026-11-19-agentic-sdlc-depth-pass.md` (8-stage cycle). Those remain for history; the depth standard and license rules from them are restated here.
+> **Supersedes** the structure and execution order of the first master plan (V-shaped design) and the depth-pass plan (8-stage cycle), both since removed from the repository; the depth standard and license rules from them are restated here.
 
 **Goal:** Turn claude-superskills into the home of the **Agentic SDLC** — a method that follows the standard software development life cycle with AI agents: seven standard stages, four named human sign-offs, eight agents named by function, three paths sized by risk, and standard artifacts — built at real depth from the five reference frameworks, released as v3.0.0 with 33 skills.
 
@@ -131,18 +131,18 @@ Traceability past the PR to production; Release and Operate covered by default; 
 
 | ID | Decision | Date |
 |---|---|---|
-| D1 | Name **Agentic SDLC** (generic term; present it as "a method that follows the standard SDLC with AI agents"). Dropped: "CODE / Context Engineering Development for Enterprise" (employer's term — never reintroduce), "Agentic V-Method". Never use "Agile" in the name. | 2026-11-20 |
+| D1 | Name **Agentic SDLC** (generic term; present it as "a method that follows the standard SDLC with AI agents"). Dropped: earlier working names, including "Agentic V-Method". Never use "Agile" in the name. | 2026-11-20 |
 | D2 | Lives inside claude-superskills; package/repo/marketplace names unchanged | 2026-11-18 |
 | D3 | Release 3.0.0 | 2026-11-18 |
 | D4 | Keep existing skill names; new skills get descriptive names | 2026-11-18 |
-| D5 | Domain-neutral; healthcare content stays in `acs-health-maturity-kit` | 2026-11-18 |
+| D5 | Domain-neutral; no industry-specific content | 2026-11-18 |
 | D6 | Agile V (CC BY-SA 4.0) concepts only, never text | 2026-11-18 |
 | D8 | ~~8-stage cycle with codes and CP1–CP5~~ — superseded by D10 | 2026-11-20 |
 | **D10** | Structure §1.1–1.6: 7 standard stages, 4 approvals, 8 agents named by function (option C, no human names), 3 paths, standard artifacts | 2026-11-20 |
 | D10a | Terminology change (2026-11-22, owner): stage Plan → Discover; approvals renamed Specify / Design / Test / Release sign-off; rule: each sign-off is named after the stage it closes | 2026-11-22 |
 | D10b | Role model (2026-11-24, owner): 13 functional agents (no personas) — Scrum Master (router; first named Delivery Lead), Analyst, Product Manager, UX Designer, Planner (Design only), Architect, Developer (renamed from Implementer), Test Engineer (one widened Tester role), Reviewer, Security Auditor (absorbs compliance on `regulated`), Tech Writer, Release Engineer, SRE; human sign-offs stay at 4; RACI in `references/governance.md`. Analysis `docs/research/roles/2026-11-22-role-analysis.md`; plan `docs/plans/2026-11-24-agentic-sdlc-role-model.md` | 2026-11-24 |
 | D12 | Stage skills vs modules (2026-11-24, owner chose "full plan, checkpoints automatic"): each `skills/agentic-sdlc/references/<module>.md` stays in place as the compact **stage contract** that the router and agents load (bounds, gates, formats, owners); the new stage skill (Phases B–D) is the **full workflow** and cites the module instead of moving it. Reason: a pure move would break ~125 cross-references and change the tree scored in round 2. Checkpoints 0–5 are run without stopping; the run stops before PR, tag and release (owner actions). Matrix: `docs/research/2026-11-24-mechanism-matrix.md` | 2026-11-24 |
-| **D11** | Launch audience: **developers in general** (healthcare IT is a secondary audience via the Business Plan, not the launch focus). Launch is planned as Phase H; its *how* (channels, content, calendar) is deliberately **not decided yet** and will be discussed with the owner after the v3.0.0 release. | 2026-11-22 |
+| **D11** | Launch audience: **developers in general** . Launch is planned as Phase H; its *how* (channels, content, calendar) is deliberately **not decided yet** and will be discussed with the owner after the v3.0.0 release. | 2026-11-22 |
 
 Open design questions to confirm at Checkpoint 1 (recommendations in brackets): Q1 small refactors inside TDD [allow; structural refactors become tasks] · Q2 file paths [none in spec.md; allowed in the `plan.md` task table] · Q3 debugging hypotheses [rank 3–5, test one at a time] · Q4 regression test exception [if no proper seam, record the missing seam as a finding] · Q5 user-only skills [strict descriptions, no extra frontmatter] · Q6 path selection [risk signals first, size second] · Q7 agent files [source in `skills/agentic-sdlc/agents/`; generating Claude Code plugin `agents/` in Phase F is a packaging decision — not part of the method; not scored] · Q8 acceptance-criteria format [Given/When/Then default, EARS accepted].
 
@@ -312,9 +312,7 @@ Follow `CLAUDE.md` New Skill Checklist and Documentation Consistency Rule:
 - `node scripts/release.js major` → 3.0.0; `CHANGELOG.md`; `./scripts/package-plugin.sh`; `graphify update .` if available.
 - Push the branch. **Stop.** PR, merge, tag and GitHub About are the owner's actions.
 
-### Phase G — Business Plan text (outside the repo, owner-led)
-
-After the release exists: update the private Business Plan draft to the D10 structure with the real release date and version; owner runs a USPTO check and counsel review. Never commit Business Plan content.
+### Phase G — (removed: owner-only work outside the repository)
 
 ---
 
@@ -333,7 +331,7 @@ After the release exists: update the private Business Plan draft to the D10 stru
 
 **Open questions for the discussion:** language(s) (English primary, Portuguese secondary?); which channels and in what order; what evidence to publish (research, methodology, scorecards); who the first 3–5 real users are and how feedback is collected; what adoption numbers are tracked and how they are verified.
 
-**Guardrails (already agreed):** no purchased or inflated engagement; no claims of regulatory compliance or "best method" without supporting scores; publish in the owner's own name without employer materials or marks (check the employer's external-publication policy); publish only verifiable adoption numbers.
+**Guardrails (already agreed):** no purchased or inflated engagement; no claims of regulatory compliance or "best method" without supporting scores; publish in the owner's own name without third-party materials or marks; publish only verifiable adoption numbers.
 
 ## 6. Per-task procedure
 
@@ -363,8 +361,8 @@ After the release exists: update the private Business Plan draft to the D10 stru
 
 ## 8. Never
 
-- Commit the Business Plan, its drafts, case numbers or personal data.
-- Reintroduce "CODE / Context Engineering Development for Enterprise", "Agentic V-Method", stage codes (PL, AN…) or CP-ids; use "Agile" in the name.
+- Commit personal data or private owner documents.
+- Reintroduce a dropped working name ("Agentic V-Method"), stage codes (PL, AN…) or CP-ids; use "Agile" in the name.
 - Copy Agile V text, templates or structures.
 - Add frontmatter fields other than `name`, `description`, `license`.
 - Push to `main`, tag, publish, or edit GitHub repo metadata.

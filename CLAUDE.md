@@ -258,8 +258,8 @@ Before starting any non-trivial implementation (new skills, architecture changes
 
 ```bash
 # Standard plan file naming
-docs/plans/2026-04-30-ui-ux-pro-max-absorption.md
-docs/plans/2026-05-01-ava-web-skill.md
+docs/plans/2026-11-24-agentic-sdlc-role-model.md
+docs/plans/2026-11-27-agentic-sdlc-improvement-plan.md
 ```
 
 Plans in `docs/plans/` are version-controlled and auditable. Session-state plans are ephemeral and not shared with the team.

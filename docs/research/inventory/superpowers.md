@@ -2,7 +2,7 @@
 
 > **Naming note (2026-11-20):** this research was written when the method was the V-shaped, six-stage "Agentic V-Method". On 2026-11-20 the owner replaced it with the **Agentic SDLC** — a continuous cycle of eight stages (PL · AN · DE · BU · TE · RV · DP · OP), one AI agent role per stage and named human checkpoints CP1–CP5 (see `skills/agentic-sdlc/references/lifecycle.md`). Names were updated mechanically; read any remaining V-specific wording ("left arm", "right arm", "the V") as the cycle, and old Gate 1 / 2 / 3 as CP2 (SPEC) / CP3 (design and plan) / CP4 (PR approval).
 
-> Research input for the Agentic SDLC (`docs/plans/2026-11-18-agentic-sdlc.md`, sections 3–5).
+> Research input for the Agentic SDLC (first design plan, since removed; current: `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`).
 > This document catalogs concrete, re-implementable mechanisms. It is analysis, not a copy of the source.
 
 | Field | Value |

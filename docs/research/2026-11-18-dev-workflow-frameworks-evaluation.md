@@ -2,7 +2,7 @@
 
 > **Naming note (2026-11-20):** this research was written when the method was the V-shaped, six-stage "Agentic V-Method". On 2026-11-20 the owner replaced it with the **Agentic SDLC** — a continuous cycle of eight stages (PL · AN · DE · BU · TE · RV · DP · OP), one AI agent role per stage and named human checkpoints CP1–CP5 (see `skills/agentic-sdlc/references/lifecycle.md`). Names were updated mechanically; read any remaining V-specific wording ("left arm", "right arm", "the V") as the cycle, and old Gate 1 / 2 / 3 as CP2 (SPEC) / CP3 (design and plan) / CP4 (PR approval).
 
-**Purpose:** Evidence base for the Agentic SDLC (see `docs/plans/2026-11-18-agentic-sdlc.md`). Records which public AI-assisted development frameworks were reviewed, how they compare, and which ideas were absorbed into which skill.
+**Purpose:** Evidence base for the Agentic SDLC (see `docs/plans/2026-11-20-agentic-sdlc-execution-plan.md`; the first design plan it fed was removed). Records which public AI-assisted development frameworks were reviewed, how they compare, and which ideas were absorbed into which skill.
 
 **Method:** Shallow clones of each repository's default branch, reading every stable `SKILL.md`, the README and routing/meta skills. Scores are the reviewer's judgment on a 1–5 scale; they compare fitness for this repository's goals (portable, spec-first, enterprise-grade delivery across 8 platforms), not overall quality.
 
@@ -106,7 +106,7 @@ Sources reviewed (shallow clones, November 18, 2026):
 
 - The method name is **Agentic SDLC**. "V-Model" is a generic software engineering term (German V-Modell, 1980s); the word "Agile" is never part of our name, to stay clearly distinct from Agile V™ and the `agentic-agile-v` project.
 - README includes a short "Relationship to other V-model approaches" note crediting Agile V as related prior work.
-- Before the name is cited in the Business Plan, the owner runs a USPTO trademark search (ideally with counsel). A web search is not a trademark clearance.
+- Before the name is used commercially, the owner runs a trademark search (ideally with counsel). A web search is not a trademark clearance.
 
 ---
 
