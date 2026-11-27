@@ -1,0 +1,188 @@
+{
+ "round": "3 (independent re-score of the built method)",
+ "method": "Agentic SDLC v3.0.1 @ 22c649f",
+ "methodology_sha256": "a6e3953725b67db0189e188c1495ee9b54975e48f65c28baaa01f459b69cf9a4",
+ "rubric_v2_sha256": "8d5b63ea22847d44bb2f60a8fb9f55f7f87d30d68af6cac76d79bebd51057b84",
+ "benchmarks": "the nine methods of rounds 1-2, same reconciled scores (docs/research/scoring/results.md)",
+ "scorers": {
+  "R3-1": 86.2,
+  "R3-2": 85.0
+ },
+ "calibration_bmad_e435a22": {
+  "round_1_2_reconciled": 66.8,
+  "R3-1": 53.0,
+  "R3-2": 59.6
+ },
+ "krippendorff_alpha_ordinal": 0.873,
+ "reconciled_scores": {
+  "C1": 4,
+  "C2": 5,
+  "C3": 4,
+  "C4": 4,
+  "C5": 5,
+  "C6": 5,
+  "C7": 5,
+  "C8": 4,
+  "C9": 4,
+  "C10": 4,
+  "C11": 4,
+  "C12": 4,
+  "C13": 5,
+  "C14": 4,
+  "C15": 2,
+  "C16": 4
+ },
+ "u_per_criterion": {
+  "C1": 0.5,
+  "C2": 0.5,
+  "C3": 0.5,
+  "C4": 0.5,
+  "C5": 0.5,
+  "C6": 0.5,
+  "C7": 0.5,
+  "C8": 0.5,
+  "C9": 0.5,
+  "C10": 0.5,
+  "C11": 0.5,
+  "C12": 0.5,
+  "C13": 0.5,
+  "C14": 0.5,
+  "C15": 1.0,
+  "C16": 0.5
+ },
+ "profiles": {
+  "baseline": {
+   "agentic_sdlc": 85.0,
+   "U": 2.7,
+   "best_other": "ai-dlc",
+   "best_other_score": 68.6,
+   "delta": 16.4,
+   "margin_required": 8.2,
+   "holds": true
+  },
+  "equal": {
+   "agentic_sdlc": 83.8,
+   "U": 2.7,
+   "best_other": "ai-dlc",
+   "best_other_score": 66.2,
+   "delta": 17.6,
+   "margin_required": 8.2,
+   "holds": true
+  },
+  "startup": {
+   "agentic_sdlc": 83.8,
+   "U": 2.9,
+   "best_other": "bmad",
+   "best_other_score": 68.8,
+   "delta": 15.0,
+   "margin_required": 7.9,
+   "holds": true
+  },
+  "regulated": {
+   "agentic_sdlc": 85.4,
+   "U": 2.8,
+   "best_other": "ai-dlc",
+   "best_other_score": 68.4,
+   "delta": 17.0,
+   "margin_required": 8.4,
+   "holds": true
+  },
+  "autonomous": {
+   "agentic_sdlc": 87.4,
+   "U": 2.8,
+   "best_other": "ai-dlc",
+   "best_other_score": 72.0,
+   "delta": 15.4,
+   "margin_required": 8.4,
+   "holds": true
+  }
+ },
+ "benchmark_median": {
+  "C1": 3,
+  "C2": 3,
+  "C3": 3,
+  "C4": 3,
+  "C5": 3,
+  "C6": 2,
+  "C7": 2,
+  "C8": 2,
+  "C9": 2,
+  "C10": 2,
+  "C11": 2,
+  "C12": 1,
+  "C13": 4,
+  "C14": 3,
+  "C15": 3,
+  "C16": 2
+ },
+ "benchmark_best": {
+  "C1": 5,
+  "C2": 4,
+  "C3": 5,
+  "C4": 5,
+  "C5": 4,
+  "C6": 4,
+  "C7": 3,
+  "C8": 4,
+  "C9": 3,
+  "C10": 4,
+  "C11": 3,
+  "C12": 3,
+  "C13": 5,
+  "C14": 4,
+  "C15": 5,
+  "C16": 3
+ },
+ "superiority_test": {
+  "S1": true,
+  "S2": true,
+  "S3_P_first": {
+   "uniform_weights": 0.955,
+   "centred_weights": 0.997
+  },
+  "S4_below_benchmark_median": [
+   "C15"
+  ],
+  "S5_best_or_tied": [
+   "C2",
+   "C5",
+   "C6",
+   "C7",
+   "C8",
+   "C9",
+   "C10",
+   "C11",
+   "C12",
+   "C13",
+   "C14",
+   "C16"
+  ],
+  "S5_core_C2_C6_best_or_tied": [
+   "C2",
+   "C5",
+   "C6"
+  ],
+  "S6_audit_applied": true,
+  "S7_alpha": 0.873,
+  "verdict": "First place with margin; not 'Superior' \u2014 S4 fails on C15 (portability and extensibility)"
+ },
+ "lenses": {
+  "L2_ceiling_baseline": 91.0,
+  "L3_autonomy": "A3",
+  "L4_features_points_of_68": 63,
+  "L4_below_2": {
+   "F6": 1,
+   "F18": 1,
+   "F21": 1,
+   "F32": 1,
+   "F34": 1
+  },
+  "L5_tokens_o200k_base": {
+   "T1": 4114,
+   "T2": 6546,
+   "T3": 118364,
+   "T0": 730124
+  }
+ },
+ "p_first_note": "10,000 draws; weights Dirichlet(1) or Dirichlet(0.8*baseline), scores perturbed N(0,u); benchmarks use u = U/3 per criterion (approximation)"
+}

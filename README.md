@@ -73,30 +73,31 @@ This repository started as Claude Superskills, a library of useful AI skills. In
 | What stops an agent going in circles? | Numeric loop limits, then escalation to a person |
 | Is a one-line fix buried in ceremony? | Three paths sized by change size and risk |
 
-We did not want another opinion. We wanted a method that could be measured against the best existing ones, so we fixed the rules first and let the scores decide.
+We did not want another opinion. We wanted a method that could be measured against the best existing ones, so we studied the market first, fixed the rules before scoring anything, and let the scores decide what to build.
 
-![How we built it: research, a frozen scoring method, a failed first round at 53.2, gap closure, a second round at 88.5, and an end-to-end trial](docs/assets/journey.svg)
+![How we built it: research, a frozen scoring method, a failed first round at 53.2, gap closure, a self-assessed second round at 88.5, an end-to-end trial, and an independent re-score of the built method at 85.0 in first place](docs/assets/journey.svg)
 
 1. **Research.** We studied nine leading methods and inventoried more than 400 of their mechanisms ([inventory](docs/research/inventory/), [methods](docs/research/methods/)).
 2. **Freeze the rules.** The [scoring methodology](docs/research/scoring/methodology.md) was written and locked before any scoring, without reading our own proposal.
 3. **Round 1 failed.** Our design scored 53.2 and ranked 6th ([round 1](docs/research/scoring/round1-agentic-sdlc/results-round1.md)). That told us exactly what was missing.
 4. **Close the gaps.** We built the missing mechanisms as skills and tested scripts, not as promises.
-5. **Round 2: first place.** 88.5 against 68.6 for the runner-up ([results](docs/research/scoring/results.md)).
+5. **Round 2: first place on the design.** 88.5 against 68.6 for the runner-up ([results](docs/research/scoring/results.md)). We scored that round ourselves, on a partly built design.
 6. **End-to-end trial.** We ran the method on a real change, with agents playing every role. It found 1 Critical and 14 Important gaps; all are fixed and the Critical one was re-tested ([trial report](docs/research/2026-11-25-dogfood-report.md)).
+7. **Round 3: independent re-score of the released code.** Two new scorers who never saw our earlier result, a red team, and four extra lenses (capability ceiling, autonomy, 34 features, tokens). **85.0, still first of ten, 16.4 points ahead** ([round 3](docs/research/scoring/round3-independent/)). It also told us what is still missing: portability and extensibility.
 
-All of this happened in one week. The method has not yet been piloted by a human team; that is the first item under [What's next](#whats-next).
+All of this happened in one week, and every rule, scorecard and audit is published. The method has not yet been piloted by a human team; that is the first item under [What's next](#whats-next).
 
 ## How it measures up
 
-![Bar chart of baseline scores for ten methods: Agentic SDLC 88.5 in first place, AWS AI-DLC 68.6, Agile V 67.0, BMad Method 66.8, Addy Osmani agent-skills 57.6, Superpowers 56.0, AWS Kiro 44.4, Matt Pocock skills 43.8, GitHub Spec Kit 43.2, OpenSpec 38.8](docs/assets/scores.svg)
+![Bar chart of baseline scores for ten methods, round 3: Agentic SDLC 85.0 in first place, AWS AI-DLC 68.6, Agile V 67.0, BMad Method 66.8, Addy Osmani agent-skills 57.6, Superpowers 56.0, AWS Kiro 44.4, Matt Pocock skills 43.8, GitHub Spec Kit 43.2, OpenSpec 38.8](docs/assets/scores.svg)
 
-**Read the score with these limits.** It is an internal evaluation: our methodology, AI agents as scorers, no external review, and the method's owner ran the scoring round. The Agentic SDLC was scored as a partly built design, the others as released products; a fresh re-score of the built method by new scorers is planned. It compares documented and implemented mechanisms, not productivity or defect rates in the field.
+**Read the score with these limits.** It is our evaluation: our methodology, AI agents as scorers, no external review. Round 3 scorers were new and never saw our earlier self-score, but the round was still briefed by us. The Agentic SDLC was built after, and against, this published rubric; the other nine were not. The score compares documented and implemented mechanisms on a reference scenario, not productivity or defect rates in the field. Treat it as a reproducible standard you can check, not as a verdict.
 
-**How the scoring works.** 16 criteria (C1–C16 in the charts), from ease of adoption to release and operations, each with levels that need evidence such as a quoted rule, a script or a template. Five weightings (balanced, equal, startup, regulated enterprise, autonomous scale), so no single weighting decides the result. Two AI scorers rated each method separately and agreed closely (Krippendorff's α = 0.877, where 0.8 or more counts as reliable), and a red team audited every scorecard. Features we had designed but not built yet scored lower.
+**How the scoring works.** 16 criteria (C1–C16 in the charts), from ease of adoption to release and operations, each with levels that need evidence such as a quoted rule, a script or a template. Five weightings (balanced, equal, startup, regulated enterprise, autonomous scale), so no single weighting decides the result. Two AI scorers rated each method separately and agreed closely (Krippendorff's α = 0.877 in rounds 1–2 and 0.873 in round 3, where 0.8 or more counts as reliable), and a red team audited every scorecard. In round 3 both new scorers first re-scored BMad at the same commit as a calibration check: they were stricter than rounds 1–2 (53.0 and 59.6 against 66.8), and still placed the Agentic SDLC 25 to 33 points above it.
 
 | Method | Maker | Score | Why it scored this way |
 |---|---|---:|---|
-| **Agentic SDLC** | This repository | **88.5** | Top marks on spec quality, code quality, verification, review, loop control, task graphs and context management. Lowest on human governance (3.0) and traceability (3.5), where enforcement scripts are not built yet. No criterion below 3. |
+| **Agentic SDLC** | This repository | **85.0** | Top marks on spec quality, review, loop control, task graphs and context management; checked specs, bounded loops and an evidence chain that run as scripts. Lowest on portability (2): its extension interface is not released yet. Heaviest to read by construction. |
 | [AWS AI-DLC](https://github.com/awslabs/aidlc-workflows) | AWS Labs | 68.6 | Evidence bound to commits, good context management. Heavy to adopt (about 19k words to start), security is conditional, needs its own runtime. |
 | [Agile V](https://agile-v.org) | Christopher Koch | 67.0 | Strong verification and portability, solid human governance. No non-goals in specs, human-gated by design, little on release and learning. |
 | [BMad Method](https://github.com/bmad-code-org/BMAD-METHOD) | BMad Code | 66.8 | Easiest to adopt: one entry point and a short core. Security is opt-in, the flow ends at a local commit, needs Python tooling. |
@@ -107,13 +108,26 @@ All of this happened in one week. The method has not yet been piloted by a human
 | [GitHub Spec Kit](https://github.com/github/spec-kit) | GitHub | 43.2 | Three commands to start, runs on 40+ agents. Tests optional, weak review, no learning loop. |
 | [OpenSpec](https://github.com/Fission-AI/OpenSpec) | Fission AI | 38.8 | Precise change specs (SHALL / WHEN-THEN deltas). No unattended mode, no learning loop, little traceability or security. |
 
-Balanced weighting, 0–100. All weightings, per-criterion tables and every scorecard: [results](docs/research/scoring/results.md) · [scorecards](docs/research/scoring/scores/).
+Balanced weighting, 0–100. Agentic SDLC from round 3; the nine others from rounds 1–2, the same pinned versions throughout. All weightings, per-criterion tables and every scorecard: [round 3](docs/research/scoring/round3-independent/) · [rounds 1–2](docs/research/scoring/results.md) · [scorecards](docs/research/scoring/scores/).
+
+**Beyond the single number.** Round 3 added four lenses, frozen before measuring ([rubric v2](docs/research/scoring/round3-independent/rubric-v2.pt-BR.md)). They describe; they are not added to the score.
+
+| Lens | Agentic SDLC | Best of the nine |
+|---|---|---|
+| Capability ceiling (best path shipped, even opt-in) | **91.0** | 73.2 (Agile V) |
+| Autonomy, A0–A5 | A3: fresh-context subagents, tasks chained without a human per task | A3 (AI-DLC, Agile V, Superpowers, Kiro, Matt Pocock) |
+| Features shipped, of 68 points | **63** | 57 (AI-DLC) |
+| Tokens read on the default path for a medium feature | 118k, **the heaviest of the ten** | 10.6k (Matt Pocock) |
+
+### Use the same yardstick on your method
+
+Everything needed to score any agentic development method is in this repository: the frozen [methodology](docs/research/scoring/methodology.md) with 16 criteria and level anchors, the [scorer brief](docs/research/scoring/evaluator-agent.md), the [lenses rubric](docs/research/scoring/round3-independent/rubric-v2.pt-BR.md), the [aggregation script](docs/research/scoring/aggregate.py), and every scorecard as a worked example. If you maintain a method, score it and open an issue with your cards; if you think we scored yours wrong, open an issue with the file and line that shows it. Corrections with evidence change the numbers.
 
 ### Where the lead comes from
 
 ![Dot plot of the 16 criteria: the Agentic SDLC leads on 8, ties on 5 and is behind on ease of adoption, human governance and portability](docs/assets/criteria.svg)
 
-It is **first under all five weightings**, 19.9 points ahead of second place, and best or tied on 13 of 16 criteria, including the five core ones: spec quality, code quality, verification, review rigor and loop control. The lead comes from mechanisms that run:
+It is **first under all five weightings**, 16.4 points ahead of second place, and leads on 8 of 16 criteria, ties on 4 and trails on 4. The lead comes from mechanisms that run:
 
 - **Specs that are checked.** `spec-lint` rejects a spec without testable criteria, non-goals, a rollback command or an alert threshold.
 - **Evidence bound to the code.** Every claim carries the command, its exit code and the fingerprint of the tested tree; stale evidence is re-run, never reused.
@@ -121,7 +135,7 @@ It is **first under all five weightings**, 19.9 points ahead of second place, an
 - **A task graph.** `plan-graph` checks dependencies and cycles and shows which tasks can run in parallel.
 - **End to end.** It continues past the merge into rollback rehearsal, alerts, incidents and retrospectives that change files.
 
-Others still lead on three criteria: **ease of adoption** (BMad), **human governance** (Agile V) and **portability** (Agile V and Spec Kit). Those gaps are on the [roadmap](#whats-next).
+Others still lead on four criteria: **ease of adoption** (BMad), **code quality** (Addy Osmani), **verification** (AI-DLC and Agile V) and **portability** (Agile V and Spec Kit). The last one is why the pre-registered test does not yet call the method "superior": no criterion may sit below the median of the others, and portability does. Those gaps are on the [roadmap](#whats-next).
 
 ## How it works
 
@@ -213,17 +227,19 @@ Then, in your project:
 | The team | 13 agent briefs, from Scrum Master to SRE |
 | The checks | `spec-lint`, `plan-graph`, `preflight`, `run-ledger`, `budget-check`: dependency-free Node scripts with 127 automated tests |
 | The templates | spec, plan, acceptance tests, PR body, release notes, runbook, retro, threat model, CI and CODEOWNERS |
-| The proof | A worked example from spec to retro, a scored comparison with nine methods, an end-to-end trial |
+| The proof | A worked example from spec to retro, a scored comparison with nine methods in three rounds, an end-to-end trial |
 
 ## What's next
 
 | Next | Why |
 |---|---|
-| Pilot with a real team | Measures time, cost and rework in practice; the trial so far was run by agents |
-| Independent re-score of the built method | New scorers, same locked rules |
-| Approval and traceability checks in CI | Closes the two criteria scored lower today, human governance and traceability |
+| A versioned extension interface | Add a review lens, a Definition-of-Done check or a template without forking; closes portability, the one criterion below the median |
+| Checks on the current change | A Definition-of-Done gate and a machine-checked evidence ledger; closes code quality and verification |
+| Limits enforced by the host | Push, merge and deploy blocked by settings and hooks, not only by instructions; CI, security and approval jobs installed at adoption |
+| A lighter default path | The method reads the most context of the ten; load references by section, not by file |
+| A "what now?" command | A script that reads the project state and recommends the next step, plus a setup check |
 | Unattended loop driver | Lets a run continue across fresh agent sessions without a person pressing Enter, inside the same limits and sign-offs ([study](docs/research/2026-11-25-ralph-loop-study.md)) |
-| Easier adoption | The criterion where BMad still leads |
+| Pilot with a real team | Measures time, cost and rework in practice; the trial so far was run by agents |
 
 Full plan with projected score gains: [roadmap](docs/plans/2026-11-25-roadmap-v3.md).
 

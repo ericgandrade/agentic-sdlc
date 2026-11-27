@@ -1,0 +1,110 @@
+{
+ "method": "agentic-sdlc",
+ "auditor": "AUD-asdlc",
+ "pin": "v3.0.1 @ 22c649f",
+ "date": "2026-11-26",
+ "L1_reconciled": [
+  4,
+  5,
+  4,
+  4,
+  5,
+  5,
+  5,
+  4,
+  4,
+  4,
+  4,
+  4,
+  5,
+  4,
+  2,
+  4
+ ],
+ "L1_final": [
+  4,
+  5,
+  4,
+  4,
+  5,
+  5,
+  5,
+  4,
+  4,
+  4,
+  4,
+  4,
+  5,
+  4,
+  2,
+  4
+ ],
+ "L1_total_base": 85.0,
+ "L1_changes": [],
+ "L1_contests_note": "19 challenges, 0 upheld. Closest call C7=5 (type d): executing-plans/SKILL.md:130 labels sequential '(default)', but parallel-tasks.md:3 and SKILL.md:220 load the parallel procedure whenever an attended subagent run has >= 2 frontier tasks without a human request, and parallel-tasks.md:30 runs T4/T5 of the Standard worked example in parallel; parallel is the default when eligible on Claude Code -> rejected, Low confidence.",
+ "L2": {
+  "selected_cells": [
+   "C3",
+   "C4",
+   "C7",
+   "C10",
+   "C11"
+  ],
+  "selection_rule": "cells whose scorecard rationale or first-unmet cites the opt-in cap, the default path, the route for R or an optional mechanism (R3-1 and R3-2), C7 selected via R3-1 (opt-in CI --check) with ceiling equal to L1",
+  "ceiling": {
+   "C1": 4,
+   "C2": 5,
+   "C3": 5,
+   "C4": 5,
+   "C5": 5,
+   "C6": 5,
+   "C7": 5,
+   "C8": 4,
+   "C9": 4,
+   "C10": 5,
+   "C11": 5,
+   "C12": 4,
+   "C13": 5,
+   "C14": 4,
+   "C15": 2,
+   "C16": 4
+  },
+  "total_base": 91.0,
+  "cites": {
+   "C3": "skills/agentic-sdlc/templates/ci/agentic-sdlc.yml:57-135 (job agentic-sdlc/dod runs every sdlc-dod command: lint, typecheck, test, coverage, and enforces coverage_min on each PR; DoD read from the base branch, :27)",
+   "C4": "skills/agentic-sdlc/templates/ci/agentic-sdlc.yml:57-135 (required check refuses merge without passing DoD on the PR head) + verification.md:93 staleness rule",
+   "C7": "skills/executing-plans/references/parallel-tasks.md:1-40 (frontier <= 3, disjoint Files, worktree per task, merge in ID order with DoD after each merge) + scripts/plan-graph.mjs (graph.json, cycles, waves, frontier, --check)",
+   "C10": "templates/ci/agentic-sdlc.yml:193-255 (agentic-sdlc/approvals: plan-graph --check --check-approval from base-branch scripts) + templates/CODEOWNERS + governance.md:145-157 (enforcement with proof runs); audit trail mapped to a named standard: skills/security-hardening/references/ssdf-mapping.md:16,34 (## Approvals rows mapped to SSDF PO.2, PW.2 with evidence locations; PO.2 marked partial only for organisational training records, PW.2 marked method; the anchor asks that the trail be mapped to a named standard, not that the standard be fully met; Medium confidence)",
+   "C11": "skills/agentic-sdlc/templates/ci/security.yml:58-113 (gitleaks secret scan and osv-scanner dependency audit, pinned and checksum-verified, fail on critical/high)"
+  }
+ },
+ "L3": "A3",
+ "L3_note": "confirmed. A3: fresh Developer subagent per task with explicit brief (executing-plans/references/modes.md:11,32-33) and several tasks chained without a human per task (per-batch checkpoint of <= 3 tasks, modes.md:77; 'End only', modes.md:79; unattended sequential run without checkpoints, executing-plans/SKILL.md:155). A4 unmet: no shipped runner opens a new session per task; run-ledger persists state and supports resume but is invoked from inside the session (executing-plans/SKILL.md:159).",
+ "L4_overrides": {
+  "F6": 1,
+  "F30": 2,
+  "F31": 2
+ },
+ "L4_citation_fixes": {
+  "F34": "value 1 kept; cited docs/research/2026-11-25-eval-check.md does not exist in the pinned copy (docs/research/ is empty). Re-cite: skills/agentic-sdlc/evals/evals.json + skills/skill-creator/scripts/run_eval.py (definitions and runner shipped, no recorded result)"
+ },
+ "L4_total_lens": 62,
+ "L4_total_final": 63,
+ "L4_coverage_final": 0.926,
+ "L5_correcoes": {
+  "T1_add": [],
+  "T1_remove": [],
+  "T2_add": [],
+  "T2_remove": [],
+  "T3_add": [
+   "skills/executing-plans/references/fix-loop-and-escalation.md"
+  ],
+  "T3_remove": []
+ },
+ "L5_note": "T3_add: the executing-plans References table (skills/executing-plans/SKILL.md:218) loads fix-loop-and-escalation.md on 'every review round'; the per-task review (SKILL.md:112-126) runs a review round on every task of R, so the trigger certainly fires. All 80 listed paths exist; no duplicates; T2 and T3 disjoint; the 23 T1 skills match skills/ exactly.",
+ "concordancia": {
+  "L1": 1.0,
+  "L3": 1,
+  "L4": 0.9118
+ }
+}

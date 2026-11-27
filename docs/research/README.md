@@ -20,6 +20,7 @@ This folder holds the evidence behind the Agentic SDLC method. Read this page fi
 | Scoring of the Agentic SDLC (design-only) | `scoring/scores/S-A/` and `S-C/` `agentic-sdlc.md` | ✅ Done (S-A, S-C) | Design score × realization factor |
 | Red-team audit | `scoring/audit-log.md`, `scoring/audit/adjustments.json` | ✅ Done (AUD-1: 81 challenges, 10 upheld, 4 to adjudicator) | Upheld changes applied by `aggregate.py` |
 | Aggregation and verdict | `scoring/results.md` (generated) | ✅ **Round 2 verdict: Superior** (RA 88.5 vs AWS AI-DLC 68.6; S1–S7 hold) | Round 1 was Not superior (RA 53.2, archived in `scoring/round1-agentic-sdlc/`); round 2 audited by AUD-2 (`scoring/audit-log-round2.md`), robust to the open C3 adjudication item |
+| Round 3: independent re-score of the built method (v3.0.1) | `scoring/round3-independent/` | ✅ **85.0, 1st of 10, +16.4; not "Superior": S4 fails on C15 portability** | Two new scorers (calibrated on BMad), red team, rubric v2 lenses (ceiling 91.0, autonomy A3, features 63/68, tokens). Supersedes the round-2 verdict for the built method |
 | Earlier framework evaluation | `2026-11-18-dev-workflow-frameworks-evaluation.md` | 🕰 Historical | Written for the V-shaped design; the framework comparison and absorption map remain useful |
 
 ---

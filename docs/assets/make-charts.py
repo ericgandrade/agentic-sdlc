@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Generate the README figures in docs/assets/ (pure SVG, no dependencies).
 
-Data comes from docs/research/scoring/results.md and the trial report. Re-run after
+Data comes from docs/research/scoring/results.md (rounds 1-2), docs/research/scoring/round3-independent/results.json (round 3) and the trial report. Re-run after
 those change:  python3 docs/assets/make-charts.py
 """
 from pathlib import Path
@@ -57,35 +57,36 @@ def hero():
 def journey():
     steps = [
         ("1", "Research", None, ["9 methods studied", "400+ mechanisms"], "plain"),
-        ("2", "Freeze the rules", None, ["16 criteria, 5 profiles", "hashed before scoring"], "plain"),
+        ("2", "Lock the rules", None, ["16 criteria, 5 profiles", "hashed before scoring"], "plain"),
         ("3", "Round 1", "53.2", ["6th of 10", "failed the test"], "amber"),
         ("4", "Close the gaps", None, ["stage skills and", "tested scripts"], "plain"),
-        ("5", "Round 2", "88.5", ["1st of 10", "under all 5 profiles"], "blue"),
+        ("5", "Round 2", "88.5", ["1st of 10", "self-assessed design"], "plain"),
         ("6", "Real trial", None, ["1 Critical, 14 Important", "all fixed, re-tested"], "plain"),
+        ("7", "Independent", "85.0", ["new scorers, built code", "1st of 10, +16.4"], "blue"),
     ]
-    w, h, cw, gap, x0, y0, ch = 1200, 330, 170, 16, 50, 92, 196
-    b = [t(40, 52, "How we built it", 28, INK, 700), t(1160, 52, "Nov 18–25, 2026", 16, BLUE, 700, "end")]
+    w, h, cw, gap, x0, y0, ch = 1200, 330, 148, 14, 34, 92, 196
+    b = [t(40, 52, "How we built it", 28, INK, 700), t(1160, 52, "Nov 18–26, 2026", 16, BLUE, 700, "end")]
     for i, (n, title, big, lines, kind) in enumerate(steps):
         x = x0 + i * (cw + gap)
         fill, stroke = {"plain": (CARD, "none"), "amber": (AMBER_SOFT, AMBER), "blue": (BLUE_SOFT, BLUE)}[kind]
         b.append(rect(x, y0, cw, ch, fill, 10, stroke, 2 if stroke != "none" else 1))
         b.append(f'<circle cx="{x + 26}" cy="{y0 + 28}" r="13" fill="{BLUE}"/>' + t(x + 26, y0 + 33, n, 13, "#fff", 700, "middle"))
-        b.append(t(x + 48, y0 + 33, title, 16, INK, 700))
+        b.append(t(x + 46, y0 + 33, title, 15, INK, 700))
         if big:
             b.append(t(x + cw / 2, y0 + 106, big, 46, AMBER_INK if kind == "amber" else BLUE, 800, "middle"))
             ly = y0 + 140
         else:
             ly = y0 + 92
         for k, line in enumerate(lines):
-            b.append(t(x + cw / 2, ly + k * 22, line, 14, MUTED, 400, "middle"))
+            b.append(t(x + cw / 2, ly + k * 22, line, 12.5, MUTED, 400, "middle"))
         if i < len(steps) - 1:
             b.append(arrow(x + cw + 2, y0 + ch / 2, x + cw + gap - 2, y0 + ch / 2))
-    b.append(t(40, 316, "The failed first round showed exactly what was missing; the second measured whether it was built.", 14, MUTED))
-    svg("journey.svg", w, h, "How the Agentic SDLC was built: research, a frozen scoring method, a failed first round at 53.2, gap closure, a second round at 88.5 in first place, and an end-to-end trial", b)
+    b.append(t(40, 316, "Round 1 showed what was missing, round 2 checked the design, round 3 re-scored the released code with new scorers.", 14, MUTED))
+    svg("journey.svg", w, h, "How the Agentic SDLC was built: research, a frozen scoring method, a failed first round at 53.2, gap closure, a self-assessed second round at 88.5, an end-to-end trial, and an independent re-score of the built method at 85.0 in first place", b)
 
 
 # 2. Ranking -------------------------------------------------------------------------------
-SCORES = [("Agentic SDLC", 88.5), ("AWS AI-DLC", 68.6), ("Agile V", 67.0), ("BMad Method", 66.8),
+SCORES = [("Agentic SDLC", 85.0), ("AWS AI-DLC", 68.6), ("Agile V", 67.0), ("BMad Method", 66.8),
           ("Addy Osmani agent-skills", 57.6), ("Superpowers", 56.0), ("AWS Kiro", 44.4),
           ("Matt Pocock skills", 43.8), ("GitHub Spec Kit", 43.2), ("OpenSpec", 38.8)]
 
@@ -106,27 +107,27 @@ def ranking():
         b.append(t(bx - 14, y + 21, name, 15, INK, 700 if ours else 400, "end"))
         b.append(rect(bx, y + 6, bw * s / 100, 22, BLUE if ours else OTHER, 4))
         b.append(t(bx + bw * s / 100 + 10, y + 23, f"{s:.1f}", 15, INK, 700 if ours else 400))
-    b.append(t(40, h - 22, "First under all five weighting profiles · 19.9 points ahead of second place · uncertainty band on 88.5: ±4.1 · internal evaluation by AI scorers", 13, MUTED))
-    svg("scores.svg", w, h, "Bar chart of baseline scores: Agentic SDLC 88.5, AWS AI-DLC 68.6, Agile V 67.0, BMad Method 66.8, Addy Osmani agent-skills 57.6, Superpowers 56.0, AWS Kiro 44.4, Matt Pocock skills 43.8, GitHub Spec Kit 43.2, OpenSpec 38.8", b)
+    b.append(t(40, h - 22, "Round 3 (independent re-score of v3.0.1) · first under all five weighting profiles · 16.4 points ahead of second place · ±2.7 · AI scorers", 13, MUTED))
+    svg("scores.svg", w, h, "Bar chart of baseline scores: Agentic SDLC 85.0, AWS AI-DLC 68.6, Agile V 67.0, BMad Method 66.8, Addy Osmani agent-skills 57.6, Superpowers 56.0, AWS Kiro 44.4, Matt Pocock skills 43.8, GitHub Spec Kit 43.2, OpenSpec 38.8", b)
 
 
 # 3. Criteria ------------------------------------------------------------------------------
 CRITERIA = [  # id, name, ours, best other, leader(s)
     ("C1", "Ease of adoption", 4, 5, "BMad"),
     ("C2", "Spec quality", 5, 4, "BMad, AI-DLC, OpenSpec"),
-    ("C3", "Code quality practices", 5, 5, "Addy Osmani"),
-    ("C4", "Verification and evidence", 5, 5, "Agile V, AI-DLC"),
+    ("C3", "Code quality practices", 4, 5, "Addy Osmani"),
+    ("C4", "Verification and evidence", 4, 5, "Agile V, AI-DLC"),
     ("C5", "Code review rigor", 5, 4, "BMad, Superpowers, Agile V, AI-DLC"),
     ("C6", "Loop control", 5, 4, "BMad, Superpowers, Agile V, AI-DLC"),
     ("C7", "Task and code graphs", 5, 3, "BMad, Agile V, AI-DLC, Kiro"),
     ("C8", "Autonomous-run safety", 4, 4, "AI-DLC"),
-    ("C9", "Traceability", 3.5, 3, "BMad, Agile V, AI-DLC"),
-    ("C10", "Human governance", 3, 4, "Agile V"),
+    ("C9", "Traceability", 4, 3, "BMad, Agile V, AI-DLC"),
+    ("C10", "Human governance", 4, 4, "Agile V"),
     ("C11", "Security by default", 4, 3, "Addy Osmani, Agile V"),
     ("C12", "Release and operations", 4, 3, "Addy Osmani, AI-DLC"),
     ("C13", "Context management", 5, 5, "Addy Osmani, Superpowers, AI-DLC"),
     ("C14", "Right-sizing and brownfield", 4, 4, "Agile V"),
-    ("C15", "Portability", 4, 5, "Agile V, Spec Kit"),
+    ("C15", "Portability", 2, 5, "Agile V, Spec Kit"),
     ("C16", "Learning loop", 4, 3, "BMad, AI-DLC"),
 ]
 
@@ -156,8 +157,8 @@ def criteria():
         tag, col = (f"leads +{d:g}", BLUE) if d > 0 else (("tie", MUTED) if d == 0 else (f"behind {d:g}", AMBER_INK))
         b.append(t(sx + sw + 28, y + 5, tag, 14, col, 700))
         b.append(t(sx + sw + 128, y + 5, who, 13, MUTED))
-    b.append(t(40, h - 18, "Leads on 8, ties on 5, behind on 3 (adoption: BMad; governance: Agile V; portability: Agile V and Spec Kit). C9 and C10 are discounted until their scripts ship.", 13, MUTED))
-    svg("criteria.svg", w, h, "Dot plot of the 16 criteria: the Agentic SDLC leads on 8, ties on 5 and is behind on ease of adoption, human governance and portability", b)
+    b.append(t(40, h - 18, "Round 3. Leads on 8, ties on 4, behind on 4 (adoption: BMad; code quality: Addy Osmani; verification: Agile V, AI-DLC; portability: Agile V, Spec Kit).", 13, MUTED))
+    svg("criteria.svg", w, h, "Dot plot of the 16 criteria, round 3: the Agentic SDLC leads on 8, ties on 4 and is behind on ease of adoption, code quality, verification and portability", b)
 
 
 # 4. Guardrails ----------------------------------------------------------------------------

@@ -1,0 +1,656 @@
+{
+ "method": "agentic-sdlc",
+ "name": "Agentic SDLC",
+ "pin": "v3.0.1 @ 22c649f",
+ "host": "Claude Code",
+ "evidence_limit": "I",
+ "L2": {
+  "selected_cells": [
+   "C3",
+   "C4",
+   "C7",
+   "C10",
+   "C11"
+  ],
+  "selection_rule": "cells whose scorecard rationale or first-unmet cites the opt-in cap, the default path, the route for R or an optional mechanism (R3-1 and R3-2), C7 selected via R3-1 (opt-in CI --check) with ceiling equal to L1",
+  "ceiling": {
+   "C1": 4,
+   "C2": 5,
+   "C3": 5,
+   "C4": 5,
+   "C5": 5,
+   "C6": 5,
+   "C7": 5,
+   "C8": 4,
+   "C9": 4,
+   "C10": 5,
+   "C11": 5,
+   "C12": 4,
+   "C13": 5,
+   "C14": 4,
+   "C15": 2,
+   "C16": 4
+  },
+  "total_base": 91.0,
+  "cites": {
+   "C3": "skills/agentic-sdlc/templates/ci/agentic-sdlc.yml:57-135 (job agentic-sdlc/dod runs every sdlc-dod command: lint, typecheck, test, coverage, and enforces coverage_min on each PR; DoD read from the base branch, :27)",
+   "C4": "skills/agentic-sdlc/templates/ci/agentic-sdlc.yml:57-135 (required check refuses merge without passing DoD on the PR head) + verification.md:93 staleness rule",
+   "C7": "skills/executing-plans/references/parallel-tasks.md:1-40 (frontier <= 3, disjoint Files, worktree per task, merge in ID order with DoD after each merge) + scripts/plan-graph.mjs (graph.json, cycles, waves, frontier, --check)",
+   "C10": "templates/ci/agentic-sdlc.yml:193-255 (agentic-sdlc/approvals: plan-graph --check --check-approval from base-branch scripts) + templates/CODEOWNERS + governance.md:145-157 (enforcement with proof runs); audit trail mapped to a named standard: skills/security-hardening/references/ssdf-mapping.md:16,34 (## Approvals rows mapped to SSDF PO.2, PW.2 with evidence locations; PO.2 marked partial only for organisational training records, PW.2 marked method; the anchor asks that the trail be mapped to a named standard, not that the standard be fully met; Medium confidence)",
+   "C11": "skills/agentic-sdlc/templates/ci/security.yml:58-113 (gitleaks secret scan and osv-scanner dependency audit, pinned and checksum-verified, fail on critical/high)"
+  }
+ },
+ "L3": {
+  "level": "A3",
+  "conf": "H",
+  "evidence": [
+   {
+    "level": "A1",
+    "cite": "skills/agentic-sdlc/SKILL.md:87",
+    "note": "multi-stage workflow; agent ends the turn at each sign-off and waits for the human"
+   },
+   {
+    "level": "A2",
+    "cite": "skills/executing-plans/SKILL.md:73",
+    "note": "per-task plan->red->green->refactor->DoD->commit with numeric loop bounds and exit-3 stop conditions (loops.md:9-14)"
+   },
+   {
+    "level": "A3",
+    "cite": "skills/executing-plans/references/modes.md:32",
+    "note": "fresh Developer subagent per task with explicit brief (agents.md:53); chaining without a human per task: attended checkpoint only per batch of <=3 tasks or 'end only' (modes.md:77-79), unattended mode runs all plan tasks sequentially with no checkpoints (executing-plans/SKILL.md:155, autonomous.md:3)"
+   }
+  ],
+  "first_unmet": "A4: no shipped external runner opens a new agent session per task. run-ledger.mjs (help text run-ledger.mjs:932-960) persists state, enforces halts/budgets and supports resume, but it is a ledger invoked from inside the agent's session; a new session after interruption is started by a human (resume-and-isolation.md:37). Per-task fresh processes (codex exec / gemini -p) are only documented (platforms.md:51,53)."
+ },
+ "L4": {
+  "F1": {
+   "v": 2,
+   "cite": "skills/spec-driven-development/SKILL.md:89",
+   "why": "Specify (Standard route for R) Step 3: list assumptions, ask one round at a time, max 4 questions with recommended answers; stop rule max 3 rounds (SKILL.md:152). Runs per feature, not only at project creation."
+  },
+  "F2": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/templates/spec.md:61",
+   "why": "spec template requires AC-1..n in Given/When/Then or measurable form; spec-lint enforces before sign-off (lifecycle.md:25)."
+  },
+  "F3": {
+   "v": 2,
+   "cite": "skills/spec-driven-development/SKILL.md:131",
+   "why": "fresh-context challenger subagent with 12-item checklist on every draft; also PM critique (lifecycle.md:25)."
+  },
+  "F4": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/rules.md:27",
+   "why": "change protocol: Revision log, impact analysis, Revision N+1, re-approval; approval hash voids on edit (governance.md:96-103)."
+  },
+  "F5": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/templates/plan.md:32",
+   "why": "plan tasks carry Blocked by; plan-graph rejects cycles/unknown IDs and builds waves (lifecycle.md:26)."
+  },
+  "F6": {
+   "v": 1,
+   "cite": "skills/agentic-sdlc/agents/planner.md:41",
+   "why": "Planner (always dispatched on Standard Design) must dispatch the Architect for every decision expensive to reverse (schema, public API, new component, cross-service contract), who writes ADRs docs/adr/NNNN (lifecycle.md:26, artifacts.md:73, ADR template artifacts.md:150-152). Same rule as F10/F26: mandatory under a stated criterion by an always-dispatched agent.",
+   "audit": "AUD-asdlc"
+  },
+  "F7": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/paths.md:105",
+   "why": "brownfield adopt mode before first change: baseline tests + docs/codemap.md; Planner/Analyst read codemap (phase-boundaries.md:53,56)."
+  },
+  "F8": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/paths.md:33",
+   "why": "scored size rubric (S) and 7 risk triggers (R), path = higher route (paths.md:49, SKILL.md:57-59)."
+  },
+  "F9": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/tdd.md:18",
+   "why": "red first with pasted failing output per task; run-ledger refuses done without red event (tdd.md:14)."
+  },
+  "F10": {
+   "v": 2,
+   "cite": "skills/systematic-debugging/SKILL.md:19",
+   "why": "debug loop entered automatically at B1 (3 failed red-green, loops.md:11); ranked falsifiable hypotheses, bound 3 refuted, root cause proven by test."
+  },
+  "F11": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/agents.md:5",
+   "why": "13 function-named agent briefs with tools, reads, never-sees; Standard activates Analyst, Planner, Developer, Test Engineer, Reviewer, SRE etc. (agents.md:39)."
+  },
+  "F12": {
+   "v": 2,
+   "cite": "skills/executing-plans/references/modes.md:32",
+   "why": "one fresh Developer per task, brief with pointers and exact values only (modes.md:33); subagent is default dispatch (modes.md:11); dispatch rules agents.md:53."
+  },
+  "F13": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/verification.md:15",
+   "why": "completion claim needs DoD + AC command output run after last change, bound to fingerprint; stale rows never count (verification.md:93)."
+  },
+  "F14": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/review.md:27",
+   "why": "one fresh context per lens, never the Developer's reasoning; Reviewer re-runs commands (verification.md:34); per-task reviewer subagent (executing-plans/SKILL.md:116)."
+  },
+  "F15": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/review.md:35",
+   "why": "lenses L1-L4 on the code diff (review.md:18-21) with merge/dedup into F-n findings, verify-then-rate; L1-L4 on Standard (paths.md:72)."
+  },
+  "F16": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/review.md:20",
+   "why": "security lens L3 (20-item checklist) on every Standard/Full PR; Security notes in spec; threat model on risk-flagged items (security.md:12,38)."
+  },
+  "F17": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/loops.md:11",
+   "why": "red-green 3, build-test 5, review 3, debug 3 with named escalation at bound; run-ledger exits 3 (loops.md:21)."
+  },
+  "F18": {
+   "v": 1,
+   "cite": "skills/agentic-sdlc/references/platforms.md:51",
+   "why": "No shipped runner opening a fresh session per task; unattended mode runs inside one controller session (autonomous.md:3). Only documented: one `codex exec`/`gemini -p` process per agent on hosts without subagents (platforms.md:51,53) and Cursor Background Agents (platforms.md:55). Contestable 0/1; brief rule F18=1 for documented-only."
+  },
+  "F19": {
+   "v": 2,
+   "cite": "skills/executing-plans/SKILL.md:59",
+   "why": "attended: feature branch, never commit on default branch (preflight branch check, autonomous.md:31); unattended: linked worktree created by run-ledger start (autonomous.md:23)."
+  },
+  "F20": {
+   "v": 2,
+   "cite": "skills/executing-plans/references/resume-and-isolation.md:27",
+   "why": "append-only run ledger survives compaction/session loss; resume algorithm (resume-and-isolation.md:35-46); ledger on every executing-plans run (artifacts.md:79)."
+  },
+  "F21": {
+   "v": 1,
+   "cite": "skills/agentic-sdlc/references/platforms.md:50",
+   "why": "Claude Code permissions.deny / PreToolUse hooks only documented as mapping, no shipped settings or hooks; branch protection/CODEOWNERS/CI templates are opt-in enforce mode (governance.md:149-155, project-context/SKILL.md:146 'Prepare, do not install'). Default is Enforcement: prompt-only."
+  },
+  "F22": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/governance.md:72",
+   "why": "approval row: Rev, Hash, Date, Role, Person, Exact words, Decision; register with Requested/Answered at (governance.md:88); checked by spec-lint --check-approval (governance.md:84)."
+  },
+  "F23": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/lifecycle.md:74",
+   "why": "AC-n -> plan task Tn -> commit trailer Refs: Tn AC-n -> test name contains AC-n -> PR Verification; two-way gap analysis before Test sign-off (verification.md:105)."
+  },
+  "F24": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/scripts/spec-lint.mjs:470",
+   "why": "approval register and rows tool-checked (AP07 etc.) by spec-lint --check-approval, run by preflight before Build (governance.md:149); run ledger checked by run-ledger. audit-export is a later-release (dagger) file and not counted."
+  },
+  "F25": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/release-ops.md:44",
+   "why": "spec must name rollback command (spec-lint, rules.md:12); release checklist R3 rollback rehearsed in staging; staged rollout with thresholds and immediate rollback (release-ops.md:87,93)."
+  },
+  "F26": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/release-ops.md:109",
+   "why": "SEV1-4 with postmortem required for SEV1/2 within 5 business days from templates/postmortem.md; SRE dispatched for production release on Standard (agents.md:32,39)."
+  },
+  "F27": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/retrospective.md:57",
+   "why": "Standard retro within 5 business days; each action names a target file (AGENTS.md, checklist, test, CI check) closed by a commit Refs: RA-... (retrospective.md:60); rules.md:18."
+  },
+  "F28": {
+   "v": 2,
+   "cite": "skills/project-context/SKILL.md:158",
+   "why": "AGENTS.md block (read every session) holds Pitfalls updated from mistakes/retro actions, plus docs/codemap.md, GLOSSARY, ADRs (artifacts.md:125,143)."
+  },
+  "F29": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/references/platforms.md:32",
+   "why": "install targets and per-platform mapping for 8 platforms (Copilot CLI, Claude Code, Codex, OpenCode, Gemini CLI, Antigravity, Cursor, AdaL)."
+  },
+  "F30": {
+   "v": 2,
+   "cite": "skills/project-context/SKILL.md:132",
+   "why": "Inside the method boundary (skills/ + root instruction files): scripts are vendored into .agentic-sdlc/bin with VERSION + SHA256SUMS and re-vendored when the installed version differs (project-context/SKILL.md:20,33,134); the versioned skills installer (npx agentic-sdlc-method, platforms.md:32-35) is only documented in-boundary; its implementation (cli-installer/, with an update command at cli-installer/bin/cli.js:749) lies outside the brief's method boundary -> lower value under the ambiguity rule.",
+   "audit": "AUD-asdlc"
+  },
+  "F31": {
+   "v": 2,
+   "cite": "skills/agentic-sdlc/scripts/test/spec-lint.test.mjs:1",
+   "why": "In-boundary: unit test suites for every gate script (skills/agentic-sdlc/scripts/test/*.test.mjs) and budget-check.mjs for skill word budgets (SKILL.md:146 'CI on skills/**', platforms.md:86), but no in-boundary CI wires them; the repo CI (.github/workflows/validate.yml:73) is outside the brief's method boundary -> lower value under the ambiguity rule.",
+   "audit": "AUD-asdlc"
+  },
+  "F32": {
+   "v": 1,
+   "cite": "skills/agentic-sdlc/scripts/run-ledger.mjs:954",
+   "why": "only a cumulative --tokens/--turns counter supplied by the agent for budgets; max_tokens off unless configured (autonomous.md:78, run-ledger.mjs:20). No measured telemetry; unattended (opt-in) context."
+  },
+  "F33": {
+   "v": 2,
+   "cite": "skills/spec-driven-development/SKILL.md:112",
+   "why": "spec word budget 1,500 words on Standard, enforced by spec-lint BUD01 (spec-lint.mjs:378); Developer report <= 15 lines (executing-plans/references/modes.md:38); agent briefs <= 600 words (agents.md:3); evidence excerpt <= 40 lines (verification.md:16)."
+  },
+  "F34": {
+   "v": 1,
+   "cite": "skills/agentic-sdlc/evals/evals.json:1",
+   "why": "every skill ships evals.json/trigger-eval.json with expectations and a runner (skill-creator/scripts/run_eval.py), but the only recorded run is a trigger eval marked INCONCLUSIVE (docs/research/2026-11-25-eval-check.md:15); no measured behaviour result."
+  }
+ },
+ "L5": {
+  "T1": [
+   {
+    "path": "skills/agent-skill-discovery/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/agent-skill-orchestrator/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/agentic-sdlc/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/brainstorming/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/codebase-modernization/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/deployment-pipeline/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/executing-plans/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/grill-me/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/issue-triage/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/multi-axis-code-review/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/operations-and-incidents/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/project-context/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/retrospective/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/security-hardening/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/senior-solution-architect/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/shipping-and-handover/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/skill-creator/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/spec-driven-development/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/systematic-debugging/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/test-driven-development/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/test-strategy/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/verification-gate/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/writing-plans/SKILL.md",
+    "frontmatter_only": true,
+    "why": "plugin skill; Claude Code preloads name+description; no skill sets disable-model-invocation"
+   },
+   {
+    "path": "skills/project-context/templates/agents-md-block.md",
+    "frontmatter_only": false,
+    "why": "PROXY, contestable: the AGENTIC-SDLC block that project-context writes into the user's AGENTS.md and imports into CLAUDE.md via @AGENTS.md (platforms.md:35, agents-md-rules.md:43); injected every session in R's project. Real file is project-specific; this template (29 lines, only a 4-line authoring comment beyond the block itself) is its stand-in."
+   }
+  ],
+  "T2": [
+   {
+    "path": "skills/agentic-sdlc/SKILL.md",
+    "frontmatter_only": false,
+    "why": "entry router body, loaded on invocation"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/paths.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:55 Step 1 'Score every item with references/paths.md §Score' + Module Index SKILL.md:119 (Discover) — required at every activation on a new request"
+   }
+  ],
+  "T3": [
+   {
+    "path": "skills/agentic-sdlc/references/artifacts.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:162 ALWAYS reuse conventions (artifacts.md §Discover) before creating specs/; Module Index SKILL.md:116 first artifact"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/scrum-master.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:98 router acts as Scrum Master at every stage transition"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/agents.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:117 load when dispatching an agent (every stage)"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/phase-boundaries.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:71 dispatch with only listed inputs (§Context hygiene); SKILL.md:118 every stage end"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/loops.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:78 Build Load column; scrum-master.md Reads; developer.md Reads"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/retrospective.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:81 Operate Load column; Standard retro (lifecycle.md:96)"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/analyst.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:75-76 Discover/Specify lead agent"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/product-manager.md",
+    "frontmatter_only": false,
+    "why": "agents.md:25 trigger: new feature on Standard"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/spec.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:76 Specify Load; analyst.md Reads"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/governance.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:76 Specify Load; SKILL.md:121 any approval"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/rules.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:163 ALWAYS follow references/rules.md; SDD References (sign-off, change protocol)"
+   },
+   {
+    "path": "skills/spec-driven-development/SKILL.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:83 Specify stage skill; analyst.md Skills"
+   },
+   {
+    "path": "skills/spec-driven-development/prompts/doubt-pass.md",
+    "frontmatter_only": false,
+    "why": "SDD SKILL.md:131 Step 6 fresh-context challenger on every draft"
+   },
+   {
+    "path": "skills/spec-driven-development/references/ac-rubric.md",
+    "frontmatter_only": false,
+    "why": "SDD References: load when writing ACs (Step 5), every spec"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/security-auditor.md",
+    "frontmatter_only": false,
+    "why": "agents.md:29 lens L3 at Test on every Standard PR (review.md:20)"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/security.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:127 review lens L3; reviewer.md Reads §Review checklist"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/planner.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:77 Design lead agent"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/plan.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:77 Design Load; writing-plans References 'Always'"
+   },
+   {
+    "path": "skills/writing-plans/SKILL.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:83 Design stage skill; planner.md Skills"
+   },
+   {
+    "path": "skills/writing-plans/references/plan-format.md",
+    "frontmatter_only": false,
+    "why": "writing-plans References: Steps 2-4"
+   },
+   {
+    "path": "skills/writing-plans/references/slicing.md",
+    "frontmatter_only": false,
+    "why": "writing-plans References: Step 2"
+   },
+   {
+    "path": "skills/writing-plans/references/self-review-and-readiness.md",
+    "frontmatter_only": false,
+    "why": "writing-plans References: Steps 6-8"
+   },
+   {
+    "path": "skills/writing-plans/prompts/task-brief.md",
+    "frontmatter_only": false,
+    "why": "writing-plans References: Step 6 dry run and Step 9 handoff"
+   },
+   {
+    "path": "skills/writing-plans/prompts/plan-reviewer.md",
+    "frontmatter_only": false,
+    "why": "writing-plans References: Step 6 fresh-context plan review"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/tdd.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:78 Build Load; SKILL.md:122 each Build task; writing-plans Step 3"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/test-engineer.md",
+    "frontmatter_only": false,
+    "why": "agents.md:28 trigger Standard; phase-boundaries.md:42 Design sign-off -> acceptance tests"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/acceptance-tests.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:136 acceptance-test design; test-engineer.md Reads"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/verification.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:79 Test Load; SKILL.md:125 any completion claim"
+   },
+   {
+    "path": "skills/executing-plans/SKILL.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:83 Build stage skill; developer.md Skills"
+   },
+   {
+    "path": "skills/executing-plans/references/modes.md",
+    "frontmatter_only": false,
+    "why": "executing-plans References: Step 0 mode choice"
+   },
+   {
+    "path": "skills/executing-plans/references/resume-and-isolation.md",
+    "frontmatter_only": false,
+    "why": "executing-plans References: Step 1 isolation"
+   },
+   {
+    "path": "skills/executing-plans/prompts/developer.md",
+    "frontmatter_only": false,
+    "why": "executing-plans SKILL.md:73 each task dispatch"
+   },
+   {
+    "path": "skills/executing-plans/prompts/task-reviewer.md",
+    "frontmatter_only": false,
+    "why": "executing-plans SKILL.md:116 per-task review after each accepted DONE"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/developer.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:78 Build lead agent, one per task"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/pr-body.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:137 opening a PR; executing-plans SKILL.md:142"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/reviewer.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:79 Test lead agent"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/review.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:79 Test Load"
+   },
+   {
+    "path": "skills/multi-axis-code-review/SKILL.md",
+    "frontmatter_only": false,
+    "why": "executing-plans SKILL.md:143 explicit hand-off to the Test stage (multi-axis-code-review); reviewer.md Skills"
+   },
+   {
+    "path": "skills/multi-axis-code-review/prompts/axis-spec-compliance.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 3 L1 package"
+   },
+   {
+    "path": "skills/multi-axis-code-review/prompts/axis-correctness.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 4 L2 package"
+   },
+   {
+    "path": "skills/multi-axis-code-review/prompts/axis-design-simplicity.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 4 L2 package"
+   },
+   {
+    "path": "skills/multi-axis-code-review/prompts/axis-security.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 4 L3 package (L3 runs on Standard)"
+   },
+   {
+    "path": "skills/multi-axis-code-review/prompts/axis-adversarial.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 4 L4 package (L4 runs on Standard)"
+   },
+   {
+    "path": "skills/multi-axis-code-review/references/triage-and-routing.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Steps 5-8 merge/verify/route"
+   },
+   {
+    "path": "skills/multi-axis-code-review/references/weakened-bar-guard.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 0.6 and 9.5"
+   },
+   {
+    "path": "skills/multi-axis-code-review/references/test-signoff-prep.md",
+    "frontmatter_only": false,
+    "why": "MACR References: Step 10 Test sign-off request"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/release-engineer.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:80 Release lead agent; agents.md:31 production deploy (R is a production service)"
+   },
+   {
+    "path": "skills/agentic-sdlc/references/release-ops.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:80-81 Release/Operate Load"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/release-notes.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:137 Release; release-engineer.md Reads"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/runbook.md",
+    "frontmatter_only": false,
+    "why": "release-engineer.md Reads (unconditional list)"
+   },
+   {
+    "path": "skills/agentic-sdlc/agents/sre.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:81 Operate lead agent; agents.md:32 production release"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/ops-record.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:139 Operate"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/postmortem.md",
+    "frontmatter_only": false,
+    "why": "sre.md Reads (unconditional list)"
+   },
+   {
+    "path": "skills/agentic-sdlc/templates/retro.md",
+    "frontmatter_only": false,
+    "why": "SKILL.md:137 retro; sre.md Reads"
+   },
+   {
+    "path": "skills/executing-plans/references/fix-loop-and-escalation.md",
+    "frontmatter_only": false,
+    "why": "executing-plans/SKILL.md:218 (auditoria AUD-asdlc)"
+   }
+  ],
+  "T0_root": "",
+  "notes": "T0 inclusion set: skills/** plus root CLAUDE.md, AGENTS.md, GEMINI.md (the brief's method boundary); exclude CHANGELOG.md, docs/, cli-installer/, scripts/, resources/, .github/ and all other repo files. T1: root CLAUDE.md (36 KB), AGENTS.md and GEMINI.md excluded: they are maintainer guidance for the method repo ('when working with code in this repository'); nothing in cli-installer/lib/claude.js or the plugin copies them into a user project, so Claude Code does not inject them in R. skills/*/agents/*.md are briefs inside a skill, not host-registered agents, so not preloaded. The AGENTS.md block proxy is flagged contestable. T3 rule: a file is included only when an imperative on the Standard route names it unconditionally or under a trigger R certainly fires (every stage, task, approval, completion claim, stage end; Standard-path specialist triggers PM, Test Engineer, Security Auditor via L3, Release Engineer and SRE for a production service). Excluded: all dagger (later-release, broken-reference) files; 'Full workflow: skill X' pointers without a hand-off imperative (verification-gate, test-strategy, deployment-pipeline, shipping-and-handover, operations-and-incidents, retrospective skill); failure-only or conditional loads (systematic-debugging, fix-loop-and-escalation.md, re-review prompts, receive-mode.md, parallel-tasks.md, autonomous.md, brownfield.md, UX Designer/ux.md, Architect/ADR, threat-model.md, grill-me, brainstorming); one-time project-context adopt/setup (treated as pre-feature setup, consistent with the F1 rule); first-use quickstart.md; agent 'Skills and modules' lists without a load imperative; scripts (executed, not read). Each file listed once."
+ },
+ "notes": "Route for R: Standard. R touches 5-20 files so Quick's file bound (>3 files, paths.md:86) is exceeded even at S=4; risk inputs unknown default to Standard (SKILL.md:61); 'Typical item: Story, feature' is Standard (lifecycle.md:60) and the worked example is Standard. Specify+Design combined review if plan <=5 tasks, else separate (paths.md:69). Triggers assumed firing: Product Manager (new feature on Standard), Test Engineer, Security Auditor via lens L3, Release Engineer and SRE (production service). Not assumed: UX Designer, Architect, Tech Writer, Full-path triggers. Contestable readings: F6=1 (ADR conditional on an expensive-to-reverse decision); F18=1 vs 0 (only documented per-agent processes on non-reference hosts); F21=1 (enforcement controls opt-in, default prompt-only); F24=2 rests on spec-lint --check-approval (shipped, read), not on dagger audit-export; F30 and F31 valued only from in-boundary evidence (skills/ + root instruction files) and set to 1; with cli-installer/ and .github/workflows/validate.yml counted they would be 2 each (total 64). F29 cites platforms.md inside skills/. Event-triggered mechanisms (F6 ADR, F10 debugging, F26 incident) are valued 2 when an always-dispatched agent on R must run them under a stated criterion. T1 excludes the 36 KB root CLAUDE.md (maintainer guidance not injected into R's project; largest L5 swing, about 9k tokens). L3 A3 relies on opt-in unattended mode or attended per-batch checkpoints for chaining; scripts were read, never executed."
+}
