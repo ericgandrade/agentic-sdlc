@@ -43,7 +43,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── runs/preflight.json            # preflight without --run
     ├── evidence/ledger.jsonl          # † fingerprint-bound evidence records (evidence)
     ├── metrics/history.jsonl          # † (metrics)
-    └── doctor.json                    # † (doctor)
+    └── doctor.json                    # doctor
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
 ```
 
@@ -94,20 +94,19 @@ A template listed above that is absent in the installed version → use the sect
 
 ## Later-release files
 
-The router Module Index and other files name the files below; they are added in a later release and marked †. No Batch-1 script reads them. Until they exist, apply the manual fallback; record `module missing: <path>` in the PR body when a step names one.
+Planned files, marked † where other files name them. The router Module Index lists only shipped files. No shipped script reads these. Until one exists, apply its manual fallback and record `module missing: <path>` in the PR body when a step names it. Target versions come from the improvement plan (`docs/plans/2026-11-27-agentic-sdlc-improvement-plan.md` in the repository) and may move after the pilot.
 
-| File | Purpose | Manual fallback |
-|---|---|---|
-| `scripts/doctor.mjs`† | Setup check (`doctor.json`) | Check the AGENTS.md block, the `sdlc-dod` commands (`preflight` baseline-dod) and the code map date by hand |
-| `scripts/path-score.mjs`† | Path score | `references/paths.md` §Score rubric by hand |
-| `scripts/evidence.mjs`† | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
-| `scripts/trace-check.mjs`† | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
-| `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
-| `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
-| `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
-| `references/faq.md`† | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
-| `references/standards-mapping.md`† | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
-| `examples/paths/`† | Path examples | `references/paths.md` examples |
+| File | Target | Purpose | Manual fallback |
+|---|---|---|---|
+| `scripts/path-score.mjs`† | v3.3.0 | Path score | `references/paths.md` §Score rubric by hand |
+| `scripts/evidence.mjs`† | v3.2.0 | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
+| `scripts/trace-check.mjs`† | v3.2.0 | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
+| `scripts/approval-check.mjs`† | v3.2.0 | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
+| `scripts/audit-export.mjs`† | v3.2.0 | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
+| `scripts/metrics.mjs`† | v3.3.0 | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
+| `references/faq.md`† | unscheduled | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
+| `references/standards-mapping.md`† | unscheduled | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
+| `examples/paths/`† | v3.3.0 | Path examples | `references/paths.md` examples |
 
 ## Naming and numbering
 

@@ -43,8 +43,8 @@ cd .agentic-sdlc/bin
   echo "release: ${r:+v}${r:-unknown}"
   echo "source: $SKILL"
   echo "vendored: $(date +%Y-%m-%d)"
-  # scripts marked † in the router Module Index that this install does not ship
-  m=$(grep -oE '[a-z-]+\.mjs`?†' "$SKILL/SKILL.md" | tr -d '`†' | LC_ALL=C sort -u | while read -r f; do [ -f "$SKILL/scripts/$f" ] || printf '%s\n' "$f"; done | paste -sd, - | sed 's/,/, /g')
+  # planned scripts (marked † in references/artifacts.md §Later-release files) that this install does not ship
+  m=$(grep -oE '[a-z-]+\.mjs`?†' "$SKILL/references/artifacts.md" | tr -d '`†' | LC_ALL=C sort -u | while read -r f; do [ -f "$SKILL/scripts/$f" ] || printf '%s\n' "$f"; done | paste -sd, - | sed 's/,/, /g')
   [ -n "$m" ] && echo "missing: $m"
 } > VERSION
 find . -type f \( -name '*.mjs' -o -name 'next-steps.json' -o -name 'help-topics.md' \) | sed 's|^\./||' | LC_ALL=C sort | xargs shasum -a 256 > SHA256SUMS
