@@ -127,9 +127,9 @@ Then `run-ledger task --run r1 --task T3 --state done --commit <sha>` (refused w
 
 ### Step 5 — Batches, parallel tasks and checkpoints
 
-**Sequential (default).** Take the next frontier task, Steps 2–4, repeat. A batch is ≤ 3 tasks.
+**Parallel when eligible (`references/parallel-tasks.md` §1), otherwise sequential.** Eligible means every condition holds: subagent + attended + enforced, ≤ 3 frontier tasks with pairwise disjoint Files (tests, fixtures, manifests and lockfiles included), no interface edge and no wave conflict between them. Each task gets its own worktree from the feature branch tip (`git worktree add ../<repo>-001-T4 -b feat/001-csv-export-T4`); all Developers are dispatched in one step; the controller is the only ledger writer during the wave. Integration: merge task branches into the feature branch in task-ID order with `git merge --no-ff`, full DoD after **each** merge; a conflict or a red DoD stops the wave and the rest runs sequentially. Unattended runs never run tasks in parallel.
 
-**Parallel.** Allowed only when every condition in `references/parallel-tasks.md` §1 holds: subagent + attended + enforced, ≤ 3 frontier tasks with pairwise disjoint Files (tests, fixtures, manifests and lockfiles included), no interface edge and no wave conflict between them. Each task gets its own worktree from the feature branch tip (`git worktree add ../<repo>-001-T4 -b feat/001-csv-export-T4`); all Developers are dispatched in one step; the controller is the only ledger writer during the wave. Integration: merge task branches into the feature branch in task-ID order with `git merge --no-ff`, full DoD after **each** merge; a conflict or a red DoD stops the wave and the rest runs sequentially. Unattended runs never run tasks in parallel.
+**Sequential.** Take the next frontier task, Steps 2–4, repeat. A batch is ≤ 3 tasks.
 
 **Checkpoint (attended).** After each batch, or each task when the human asked or the task touches a risk trigger: show the gauge, each task's status line, the last ≤ 20 lines of the DoD output and the new ledger rows; ask `Batch 2 done: T3 committed (2 review rounds). Continue with T4, T5?` and end the turn. Silence is not a "continue". Feedback that changes a task, Files or an AC is a plan change: change protocol, `plan-graph --write`, new Design sign-off, then resume.
 
