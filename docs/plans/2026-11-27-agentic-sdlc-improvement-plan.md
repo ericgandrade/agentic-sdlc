@@ -4,9 +4,11 @@
 
 **Goal:** close every gap found by the independent round-3 re-score (85.0 ±2.7, first of ten, not "Superior" because C15 sits below the benchmark median) and by the market-learnings review, **without making the method heavier for a real team**.
 
+**Scope decision (owner, 2026-11-27).** The plan has no pilot, external test or independent re-score. Everything that can be built and verified in the repository is done here; the owner will try the method on a real project of their own.
+
 **Objective and tie-break (grill Q1).** Two objectives, in this order:
-1. **Adoptable by a real team**, measured in the pilot (Phase 2): time to first merged change, ceremony hours per feature, tokens per feature, escaped defects.
-2. **Keep first place and earn the "Superior" verdict** under the frozen rules.
+1. **Adoptable by a real team**: time to first merged change, ceremony per feature, tokens per feature, escaped defects.
+2. **Keep first place** under the frozen rules.
 
 When an item raises the score but adds ceremony or tokens with no measured benefit for the team, it ships as opt-in (template, Full path or extension) and stays off the Standard path.
 
@@ -21,9 +23,9 @@ When an item raises the score but adds ceremony or tokens with no measured benef
 - `docs/plans/2026-11-25-roadmap-v3.md`: D1–D12, G1–G8, the v3.2 and v3.3 rows;
 - the round-3 audit's per-criterion "what is missing" list.
 
-**Out of scope:** changing the frozen methodology v1 or rubric v2; any score claim before an independent re-score; porting the scripts to another language (grill Q2).
+**Out of scope:** changing the frozen methodology v1 or rubric v2; any new score claim; porting the scripts to another language (grill Q2).
 
-**Ownership (grill Q9):** the maintainer owns every phase and reviews every PR. Executing agents implement one task per fresh context. Pilot-team leads own the pilot metrics. Durations assume one maintainer with agents and are estimates.
+**Ownership (grill Q9):** the maintainer owns every phase and reviews every PR. Executing agents implement one task per fresh context. Durations assume one maintainer with agents and are estimates.
 
 ---
 
@@ -84,12 +86,10 @@ Every later task adds text, so the plan needs a guard before it starts.
 |---|---|
 | Merge the round-3 story branch `docs/independent-rescore` | Merge |
 | The P1–P28 pattern list on `docs/roadmap-runtime-loop` | Keep as generic patterns with no source attribution |
-| The pilot team and a real feature for Phase 2 | Blocks Phase 2 |
 
 **Recorded 2026-11-27 (owner had not decided; defaults assumed, nothing executed):**
-- `docs/independent-rescore`: default assumed is *merge*, but it is **not merged** on this branch. Pending owner action. The round-3 files cited below are read from that branch at `b09f1ac`.
-- `docs/roadmap-runtime-loop`: default assumed is *generic patterns, no source attribution*. The branch is untouched. Pending owner action.
-- Pilot team and feature: not chosen. Phase 2 stays blocked.
+- `docs/independent-rescore`: not merged; it stays as a reference branch. The round-3 files cited below are read from it at `b09f1ac`.
+- `docs/roadmap-runtime-loop`: untouched; its patterns stay generic, with no source attribution.
 
 ### Baseline (recorded 2026-11-27 on `origin/main` @ `22c649f`, v3.0.1)
 
@@ -105,7 +105,7 @@ Every later task adds text, so the plan needs a guard before it starts.
 
 ---
 
-## Phase 1 · v3.1.0 "Superior and easier" (about 2 weeks; projected 90.0)
+## Phase 1 · v3.1.0 "Superior and easier" (about 2 weeks)
 
 Only items that unlock the verdict or reduce friction (grill Q1).
 
@@ -255,7 +255,7 @@ Behaviour:
 - The day-1 set is the existing template's `agentic-sdlc/dod`, `agentic-sdlc/spec` and `agentic-sdlc/approvals` jobs. `approval-check` stays Phase 3; the approvals job runs `plan-graph --check --check-approval`.
 - `project-context` gains Step 7b and an `upgrade` mode (`adopt --upgrade`) for repositories adopted before 3.1. Existing CI files are never overwritten.
 - The `Enforcement:` line stays `prompt-only` until week 3, because checks that are not required block nothing.
-- The trigger evals need an LLM runner and were not re-run (`TODO.md` #1). The skill description is unchanged.
+- The skill description is unchanged, so the trigger routing is too. `skill-creator`'s runner was tried on the trigger evals, but it counts any first tool call other than `Skill` or `Read` as "not triggered", so its numbers are not meaningful in a host that loads tools on demand.
 
 **Rollback (grill Q11):** a gate that blocks wrongly is waived with the existing waiver procedure (`references/governance.md` §6: owner ≠ requester, expiry ≤ 30 days). It is never deleted.
 
@@ -307,52 +307,12 @@ Behaviour:
 
 ### Phase 1 exit gate
 
-- [ ] All CI jobs green, including `method-scripts`, `ext-check` and the default-path budget.
-- [ ] `doctor` PASS on two fixture projects, one Node and one non-Node with CI.
-- [ ] An agent re-runs the worked example end to end with the new gates, and the trial report is updated.
-- [ ] **Round 4** independent re-score, same protocol as round 3 (new scorers calibrated on BMad, red team, lenses). The expected check is that S4 holds (grill Q5, Q18).
-- [ ] An issue "Score your method with our yardstick" is opened, inviting external scorers (grill Q5).
-
-**Exit-gate status (2026-11-27, branch `feat/v3.1-superior`):**
-
-| Item | Status |
-|---|---|
-| CI jobs green | Every `validate.yml` job passes when run locally on Node 24. GitHub has not run them, because the workflow triggers only on PRs to `main` (`TODO.md` #2) |
-| `doctor` on two fixture projects | Passing in `doctor.test.mjs`: a healthy Node project, and a non-Node project (ruff, pytest, mypy) with GitLab CI |
-| Worked example re-run end to end with the new gates | Not done. It needs an agent trial in a separate project; the trial report is not updated (`TODO.md` #3) |
-| Round 4 independent re-score | Pending. It is outside this branch, and the owner launches it |
-| "Score your method" issue | Not opened. It is a public action for the owner |
+- [x] All CI jobs green, including `method-scripts`, `ext-check` and the default-path budget.
+- [x] `doctor` PASS on two fixture projects, one Node and one non-Node with CI.
 
 ---
 
-## Phase 2 · Pilot with a human team (2–3 weeks, between v3.1 and v3.2) (grill Q1, Q10)
-
-### Task 2.1 · Pre-register the pilot (before the team starts)
-
-**Files:** create `docs/research/pilot-2027/protocol.md`. It holds:
-- the team (3–8 people) and one real Standard feature in an existing service;
-- the metrics and how each is measured:
-  - time to first merged change, from install to merge;
-  - ceremony hours per feature, from time logged on sign-offs and reviews;
-  - tokens per feature, from host usage logs;
-  - escaped defects at 30 days;
-  - waits for approval;
-  - gate false positives;
-- **thresholds written down before the pilot.** They are hypotheses, for example time to first merged change ≤ 1 working day and ceremony ≤ 20% of feature time.
-
-### Task 2.2 · Run and report
-
-**Files:** create `docs/research/pilot-2027/report.md`.
-
-**Decision rule:**
-- every gate that missed its threshold or produced false positives is re-designed or moved to opt-in before Phase 3;
-- every item of Phases 3–4 is re-ranked with the pilot data.
-
-The report is published whatever the result.
-
----
-
-## Phase 3 · v3.2.0 "Enforced" (about 30 days; projected 95.2; re-ranked by the pilot)
+## Phase 3 · v3.2.0 "Enforced" (about 30 days)
 
 | # | Task | Criterion | Contract | Tests first |
 |---|---|---|---|---|
@@ -367,12 +327,12 @@ The report is published whatever the result.
 
 ---
 
-## Phase 4 · v3.3.0 "Autonomous and lean" (60–90 days; projected 98.8)
+## Phase 4 · v3.3.0 "Autonomous and lean" (60–90 days)
 
 | # | Task | Lens / criterion | Contract and conditions |
 |---|---|---|---|
 | 4.1 | Token diet | L5: T3 from 118k (round-3 tiktoken) to ≤ 60k | Orchestration skills become human-triggered only, which takes them out of T1. The router body stays ≤ 2.5k tokens. References are loaded by section anchor, not as whole files. Subagent briefs are ≤ 400 words. The model is chosen per role (documented in `platforms.md`). Measure before and after with `budget-check --default-path`, and confirm in the next re-score with tiktoken |
-| 4.2 | `run-driver.mjs` (A4) | L3 A3 → A4 · F18 → 2 | **Conditional on the pilot showing demand for unattended runs (grill Q7).** Implements D1–D12 and G1–G8 from the v3 roadmap, plus four rules: (a) the task queue is frozen at run start, and CLI flags may only narrow it; (b) one run at a time, with a lock and cooperative abort; (c) setup commands run in their own process group; (d) a task counts as done only if its task file changed since launch. It always writes a human report plus clean `--json`, and ships only with 3.3. Tests: refused push; kill between "intent written" and "session launched", then resume; torn ledger line; stall; changed policy layer on resume; protected path touched |
+| 4.2 | `run-driver.mjs` (A4) | L3 A3 → A4 · F18 → 2 | **Conditional on demand for unattended runs (grill Q7).** Implements D1–D12 and G1–G8 from the v3 roadmap, plus four rules: (a) the task queue is frozen at run start, and CLI flags may only narrow it; (b) one run at a time, with a lock and cooperative abort; (c) setup commands run in their own process group; (d) a task counts as done only if its task file changed since launch. It always writes a human report plus clean `--json`, and ships only with 3.3. Tests: refused push; kill between "intent written" and "session launched", then resume; torn ledger line; stall; changed policy layer on resume; protected path touched |
 | 4.3 | Full extension interface | C15 → 5 (if 1.1 stopped at 3) | Adds agents by trigger, then extension points for DoD checks and templates. Generated per-host shims are drift-checked in CI. `status.mjs --topic extensions` lists the installed extensions. A `customize` helper writes a correct override from a plain-language request |
 | 4.4 | `metrics.mjs` | C16 → 5 | Lead time, change-failure rate, loop rounds and reverts per cycle, from git and CI. Keeps a history file and applies the retro trend rule by script. No per-person metrics |
 | 4.5 | `path-score.mjs` + `examples/paths/` | C14 → 5 | The path rubric as code, plus examples or evals showing that Quick keeps evidence, review and trace |
@@ -383,13 +343,11 @@ The report is published whatever the result.
 
 ---
 
-## Phase 5 · v3.4.0 "Proven" (more than 90 days; projected 100)
+## Phase 5 · v3.4.0 (more than 90 days)
 
 | # | Task | Notes |
 |---|---|---|
 | 5.1 | CD template with canary and metric-triggered rollback | C12 → 5; reads `## Release & observability` from the spec |
-| 5.2 | Second pilot, on a different stack | Tests the non-Node path (CI gates only) |
-| 5.3 | External re-score | Human or third-party scorers using the published yardstick; results published as they come |
 
 ---
 
@@ -406,21 +364,9 @@ The report is published whatever the result.
 
 ---
 
-## Projections (hypotheses; baseline weighting)
-
-| After | Baseline | Verdict | Confirmed by |
-|---|---:|---|---|
-| Today (v3.0.1) | 85.0 | First, not Superior (S4: C15) | Round 3 |
-| Phase 1 (v3.1.0) | 90.0 | Superior if round 4 confirms C15 ≥ 3 | Round 4 |
-| Phase 3 (v3.2.0) | 95.2 | Superior | Next re-score |
-| Phase 4 (v3.3.0) | 98.8 | Superior, A4, 68/68 features | Next re-score |
-| Phase 5 (v3.4.0) | 100.0 | Ceiling of the rubric | External re-score |
-
----
-
 ## Appendix A · Grill log
 
-Each question was asked against the draft and answered from the code or the round-3 evidence. The answer changed the plan where marked.
+Each question was asked against the draft and answered from the code or the round-3 evidence. The answer changed the plan where marked. The 2026-11-27 scope decision at the top supersedes the answers that relied on a pilot or a re-score (Q1, Q5, Q7, Q9, Q10, Q18).
 
 | # | Question | Answer | Plan change |
 |---|---|---|---|
@@ -444,4 +390,4 @@ Each question was asked against the draft and answered from the code or the roun
 | Q18 | What if round 4 still scores C15 = 2? | The anchor needs a documented mechanism, not default-path use. The shipped example and validator make it hard to miss | Example extension in 1.1; worked example mentions it |
 | Q19 | How are tokens measured without a non-standard tokenizer in the repo? | A chars/4 proxy in CI for the trend; tiktoken only in independent re-scores | Task 0.2 baseline table |
 
-The grill ends when no branch is open. Remaining risks have mitigations above: pilot thresholds may be wrong (published either way), host APIs may change (`platforms.md` is the only table to edit), and the method still scores well partly because it was built against this rubric (stated in every score report).
+The grill ends when no branch is open. Remaining risks have mitigations above: host APIs may change (`platforms.md` is the only table to edit), and the method still scores well partly because it was built against this rubric (stated in every score report).

@@ -8,7 +8,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [3.1.0] - 2026-11-27
 
-Behaviour changes with a migration path, so this is a minor release. Whether these changes move the independent score is not claimed here: that needs a new independent re-score (round 4) under the same locked rules.
+Behaviour changes with a migration path, so this is a minor release.
 
 ### Added
 - **Extension interface 1.0.0** (`agentic-sdlc` 2.2.0): three extension points (`review.lenses`, `dod.checks`, `templates`), a manifest that names the interface range it needs and pins its entry file by SHA-256, precedence project > team > core, and one marker line per point in the core files. `ext-check.mjs` validates every extension (rules EX01–EX07) and lists the valid ones per point; CI runs it on the shipped example `examples/extensions/security-headers-lens/`. Extensions load only from the repository, and an extension that fails `ext-check` is not loaded.
