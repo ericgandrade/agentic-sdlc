@@ -18,7 +18,7 @@ Load this file when the installed skill version changes or `doctor` reports a wa
 - **CI gates at adoption.** `project-context` adopt mode now installs the `agentic-sdlc/dod`, `agentic-sdlc/spec` and `agentic-sdlc/approvals` CI jobs, `security.yml` and `CODEOWNERS` on day 1 (repository write access only). Branch protection still waits for week 3 of the rollout. The Reviewer's GO requires those checks green.
 - **Extensions load through `ext-check`.** Extension interface 1.0.0 (`references/extension-interface.md`). An extension that fails `ext-check` is not loaded.
 - **`status.mjs`** replaces reading the Step 0 table by hand; stage skills end with `status.mjs --next`.
-- **`dod-gate.mjs`** runs the `sdlc-dod` commands on the current fingerprint; `run-ledger task --state done` and `finish` are refused while it is red or stale.
+- **`dod-gate.mjs`** runs the `sdlc-dod` commands on the current fingerprint; `run-ledger task --state done` and `finish` run it and are refused while it is red.
 - The vendored set adds `next-steps.json` and `help-topics.md` next to the scripts.
 
 **Migrate:**

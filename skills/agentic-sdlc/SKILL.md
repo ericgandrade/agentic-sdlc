@@ -140,7 +140,7 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS` | `project-context` CI and enforcement setup |
 | `scripts/spec-lint.mjs`, `plan-graph.mjs` | Before Specify / Design sign-off; CI |
 | `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
-| `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs`† | Completion claims; before Test sign-off; CI |
+| `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs` | Completion claims; before Test sign-off; CI |
 | `scripts/approval-check.mjs`†, `audit-export.mjs`† | CI on every PR; audit request |
 | `scripts/status.mjs`, `doctor.mjs`, `path-score.mjs`† | Step 0; setup check; Discover |
 | `scripts/budget-check.mjs`, `ext-check.mjs`, `metrics.mjs`† | CI on `skills/**`; before loading any extension; each retro |

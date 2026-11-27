@@ -102,7 +102,6 @@ The router Module Index and other files name the files below; they are added in 
 | `scripts/path-score.mjs`† | Path score | `references/paths.md` §Score rubric by hand |
 | `scripts/evidence.mjs`† | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
 | `scripts/trace-check.mjs`† | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
-| `scripts/dod-gate.mjs`† | Definition of Done gate | Run every `sdlc-dod` command and paste each exit code; `preflight` runs the same commands as baseline-dod |
 | `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
 | `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
@@ -142,7 +141,7 @@ coverage_min: 78.4
 <!-- AGENTIC-SDLC:END -->
 ````
 
-Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `test`, `coverage`, `coverage_min`; a key with no command in the project is written as `<key>: n/a — <reason>`. `coverage_min` defaults to the coverage measured at adoption and is never lowered; a higher measured value becomes the new floor. Missing block → `preflight` and `run-ledger start` exit 2, `doctor` FAIL (`dod-gate`† exit 2 once added).
+Rules for `sdlc-dod`: one `key: command` per line; keys `lint`, `typecheck`, `test`, `coverage`, `coverage_min`; a key with no command in the project is written as `<key>: n/a — <reason>`. `coverage_min` defaults to the coverage measured at adoption and is never lowered; a higher measured value becomes the new floor. Missing block → `preflight` and `run-ledger start` exit 2, `doctor` FAIL, `dod-gate` exit 2.
 
 ## ADR
 

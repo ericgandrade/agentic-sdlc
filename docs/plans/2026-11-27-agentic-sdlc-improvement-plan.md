@@ -279,6 +279,13 @@ Behaviour:
 - a file edited after green → 1 `STALE`;
 - `run-ledger task --state done` is refused (exit 1) while the gate is red, and accepted once it is green.
 
+**Implementation notes (recorded while executing):**
+- `dod-gate run` writes `.agentic-sdlc/evidence/dod-gate.json`, a path the fingerprint excludes. `dod-gate check` fails with `NO_RECORD`, `RED` or `STALE`, and `STALE` also covers a DoD command added or changed after the record.
+- `run-ledger task --state done` and a DONE `finish` run the gate fresh in-process, so ledger events never make that result stale. A standalone `check` does go stale after ledger writes, because `.agentic-sdlc/runs/` still counts in the fingerprint. Run `dod-gate` right before a claim.
+- The agent context comes from `AGENTIC_SDLC_HOST` and `AGENTIC_SDLC_MODEL` (`unknown` when unset); there is no host detection.
+- Extension `dod.checks` that pass `ext-check` run as extra rows (`ext:<name>:<key>`).
+- The CI template's `agentic-sdlc/dod` job is unchanged. It reads the DoD from the base branch and enforces the coverage floor, which is stronger than running `dod-gate` on the PR head.
+
 ### Task 1.7 · Honest index ∥
 
 **Files:** router `SKILL.md` Module Index and `references/artifacts.md` §Later-release files.

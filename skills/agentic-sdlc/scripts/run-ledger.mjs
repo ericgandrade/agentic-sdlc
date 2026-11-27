@@ -7,6 +7,7 @@ import { basename, dirname, join, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { EXIT, InputError, parseArgs, report, run } from './lib/cli.mjs';
 import { git, headSha, currentBranch, isRepo, topLevel } from './lib/git.mjs';
+import { gateFailureLines, runGate } from './dod-gate.mjs';
 import {
   contentHash, extractFencedBlocks, findSection, parseKeyValueBlock, parseSections, parseTables, readMarkdownFile,
 } from './lib/md.mjs';
@@ -624,6 +625,9 @@ function cmdTask(flags, out) {
       if (!flags['no-red'] || flags['no-red'] === true) return out({ ok: false, code: EXIT.FAIL, lines: [`${id}: no red output recorded → task not done (references/tdd.md). Record it with: run-ledger red`, 'A task that changes no executable behaviour passes --no-red "<reason>"; the Reviewer checks that reason.'] });
       fields.noRed = String(flags['no-red']);
     }
+    const gate = runGate({ cwd: ctx.root });
+    if (!gate.ok) return out({ ok: false, code: EXIT.FAIL, result: { gate }, lines: [`${id}: Definition of Done gate red on ${gate.fingerprint} → task not done (references/verification.md)`, ...gateFailureLines(gate)] });
+    fields.gate = gate.fingerprint;
     fields.commit = flags.commit ? String(flags.commit) : headSha(ctx.root);
   } else if (state === 'blocked') {
     fields.note = need(flags, 'note', 'what blocks the task and what unblocks it');
@@ -916,6 +920,11 @@ function cmdFinish(flags, out) {
     const open = [...st.tasks.values()].filter((t) => t.rounds.at(-1)?.result === 'fail').map((t) => `${t.id} ${t.rounds.at(-1).loop} r${t.rounds.at(-1).round} failed`);
     const notDone = planTasks.filter((t) => t.state !== 'done').map((t) => `${t.id}=${t.state}`);
     reason = lp && !lp.ok ? `preflight failed: ${(lp.failed || []).join(', ')}` : [notDone.length && `tasks not done: ${notDone.join(', ')}`, open.length && `open failures: ${open.join(', ')}`].filter(Boolean).join('; ');
+  }
+  // A DONE close needs the Definition of Done green on the current fingerprint; the run stays open otherwise.
+  if (status === 'DONE') {
+    const gate = runGate({ cwd: ctx.root });
+    if (!gate.ok) return out({ ok: false, code: EXIT.FAIL, result: { gate }, lines: [`REFUSED: finish needs the Definition of Done gate green on ${gate.fingerprint}; the run stays open`, ...gateFailureLines(gate)] });
   }
   // finish is terminal: a BLOCKED result with no halt behind it (tasks still open, preflight red) needs explicit consent.
   if (status === 'BLOCKED' && !st.halt && !flags['confirm-blocked']) {

@@ -80,7 +80,7 @@ Every script gate has a manual equivalent with the same pass rule. The method's 
 | `spec-lint.mjs` | Check the required sections of `templates/spec.md` one by one; AC IDs contiguous from `AC-1` |
 | Approval hash | Bind the approval to the commit instead: `rev N @ <git log -1 --format=%h -- specs/NNN-slug/spec.md>`; any later commit touching the file voids it |
 | `plan-graph.mjs` | Each `Blocked by` names only lower task IDs (acyclic by construction); list waves by hand in `plan.md` |
-| `dod-gate.mjs`† | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
+| `dod-gate.mjs` | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
 | Evidence fingerprint | `git status --porcelain` empty and `git rev-parse --short=12 HEAD`; a dirty tree gives no valid evidence |
 | `trace-check.mjs`† | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test |
 | `budget-check.mjs` | `sed '/^---$/,/^---$/d' <file> \| wc -w` against the budgets: router 2,200 · quickstart 1,200 · README install section 300 · reference 3,000 · agent file 600 |

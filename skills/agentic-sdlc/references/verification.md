@@ -84,9 +84,8 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 **Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
 
-1. Compute the fingerprint immediately before running the commands:
-   `node --input-type=module -e "const {pathToFileURL}=await import('node:url'); const m=await import(pathToFileURL(process.argv[1]).href); console.log(m.fingerprint().short)" "<skill-dir>/scripts/lib/git.mjs"` (relative or absolute path, any OS)
-2. Run each DoD and AC command; copy the exit code and the last ≤ 40 output lines.
+1. Compute the fingerprint immediately before running the commands: `node <skill-dir>/scripts/lib/git.mjs fingerprint` (any OS).
+2. Run `dod-gate` for the DoD rows (it records exit, output hash and fingerprint; `dod-gate check` exit 1 = red or stale) and each AC command; copy the exit code and the last ≤ 40 output lines.
 3. Compute the fingerprint again. Different from step 1 → the tree changed during the run → discard the rows and repeat.
 4. Write the rows with the fingerprint and the ISO-8601 time.
 5. Node absent → commit first; the tree must be clean (`git status --porcelain` prints nothing); record `head:<first 12 hex of git rev-parse HEAD>` as the fingerprint.
