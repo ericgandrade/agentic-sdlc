@@ -82,19 +82,13 @@ A silent pass is forbidden: a check that did not run is reported as `CANNOT_VERI
 
 **Fingerprint.** SHA-256 over the index (`git ls-files -s`) plus the content hash of every modified or untracked file, excluding `.agentic-sdlc/evidence/**`, `.agentic-sdlc/doctor.json`, `docs/reviews/**` and the record files under `specs/*/` (`review.md`, `approvals.md`, `run-ledger.jsonl`, `handoff.md`, `impediments.md`, `release-notes.md`); `spec.md`, `plan.md` (read without its `## Loop ledger` rows, like the plan hash) and `acceptance-tests.md` still count, because editing them voids a sign-off. Recorded as the first 12 hex characters. Equal fingerprints mean the tested tree is byte-identical. `node scripts/lib/git.mjs fingerprint` prints it.
 
-**Manual procedure (applies whenever `scripts/evidence.mjs`† is absent from the installed version):**
-
-1. Compute the fingerprint immediately before running the commands: `node <skill-dir>/scripts/lib/git.mjs fingerprint` (any OS).
-2. Run `dod-gate` for the DoD rows (it records exit, output hash and fingerprint; `dod-gate check` exit 1 = red or stale) and each AC command; copy the exit code and the last ≤ 40 output lines.
-3. Compute the fingerprint again. Different from step 1 → the tree changed during the run → discard the rows and repeat.
-4. Write the rows with the fingerprint and the ISO-8601 time.
-5. Node absent → commit first; the tree must be clean (`git status --porcelain` prints nothing); record `head:<first 12 hex of git rev-parse HEAD>` as the fingerprint.
+**Procedure.** Run `dod-gate` for the DoD rows and `node <skill-dir>/scripts/evidence.mjs record --ac AC-n -- <cmd>` for each AC command; it records exit, output hash, last 40 lines, fingerprint, time and agent, and a row whose run changed the tree never counts. `evidence check --spec specs/NNN-slug/spec.md` exit 1 → Reviewer NO-GO, and the Test sign-off is not requested. Node absent → `references/platforms.md` §4.
 
 **Staleness rule.** A row is **stale** when its fingerprint differs from the current fingerprint, when the fingerprint cell is empty or unknown, or when a `head:` row was recorded and the tree is now dirty. Stale → re-run; a stale row never counts.
 
 **When to check staleness:** before every completion claim; before the Reviewer issues GO; before the Test sign-off request; after any commit, rebase or merge from the base branch; before the Release sign-off request.
 
-**Persistence.** The PR body is the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`), committed on the feature branch. `scripts/evidence.mjs record|check`† writes `.agentic-sdlc/evidence/ledger.jsonl` (cmd, exit, stdout sha256, last 40 lines, fingerprint, time) and renders the same table; when present, it replaces steps 1–5 and its `check` exit 1 is a Reviewer NO-GO.
+**Persistence.** `evidence record` appends to `.agentic-sdlc/evidence/ledger.jsonl`; copy its rows into the PR `## Verification` table, the record at this tier. Without a PR host the same table lives in `specs/NNN-slug/review.md` (Quick: `docs/reviews/<issue>.md`), committed on the feature branch.
 
 ## 5. Trace — two-way gap analysis
 

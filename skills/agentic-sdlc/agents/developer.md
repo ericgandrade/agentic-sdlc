@@ -21,7 +21,7 @@ Other tasks' conversations; acceptance-test design reasoning; production credent
 ## May do
 
 - Create and edit the files listed in the task, plus their unit tests.
-- Run the DoD commands, the task's tests and `evidence record`†.
+- Run the DoD commands, the task's tests and `evidence record`.
 - Commit on the feature branch with the trailer `Refs: Tn AC-n`.
 - Attended mode only: push the feature branch and open the PR from `templates/pr-body.md` after the human says to open it.
 
@@ -42,7 +42,7 @@ Read and search · edit within the task's `Files` · run the commands in `sdlc-d
 1. Confirm the task is unblocked and the Design sign-off hash is valid; otherwise `BLOCKED`.
 2. Red: write the test named after its AC; run it; paste the failing output; it must fail for the expected reason.
 3. Green: minimal code; run the test. Refactor with tests green.
-4. Run the full DoD block; record evidence with `evidence record`† (or a Verification row with the fingerprint).
+4. Run the full DoD block; record evidence with `evidence record` (or a Verification row with the fingerprint).
 5. Commit; update the loop ledger row.
 
 ## Receive mode (findings)

@@ -77,7 +77,7 @@ Subagent mode: dispatch a fresh Developer with `prompts/developer.md` filled for
 3. **Green.** Minimal code; run the test; `round --run r1 --task T3 --loop red-green --result pass`.
 4. **Refactor** with the tests green; mocks only at process boundaries; no abstraction without ≥ 2 call sites.
 5. **Scope guard.** A file outside Files → stop, `NEEDS_CONTEXT: file <path> not in Files`. > 3 such files, a manifest or lockfile change not in Files, or a path-bound overrun → stop, re-plan, new approval. `run-ledger check --run r1` at each task boundary detects these plus secrets and approval drift.
-6. **Exit.** Full DoD block once, on a committed clean tree; record evidence (`../agentic-sdlc/references/verification.md` §4: command, exit code, fingerprint). Commit:
+6. **Exit.** Full DoD block once, on a committed clean tree; record AC evidence (`evidence record --ac AC-n -- <cmd>`, `../agentic-sdlc/references/verification.md` §4). Commit:
 
 ```text
 feat(export): stream rows with the 50,000-row limit

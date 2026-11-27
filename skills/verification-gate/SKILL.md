@@ -42,7 +42,7 @@ Do not use it for neighbouring work:
 4. Find `specs/NNN-slug/plan.md` (`## Tasks` rows with their AC column) and `specs/NNN-slug/acceptance-tests.md` (AC → test ID → command). Quick has neither; record `n/a — Quick`.
 5. Find the record: the PR body built from `../agentic-sdlc/templates/pr-body.md`, or `specs/NNN-slug/review.md` when the host has no pull requests.
 6. Find the base: the base branch and the merge-base SHA (`git merge-base <base> HEAD`).
-7. Check which agentic-sdlc helpers exist. `scripts/evidence.mjs`, `scripts/trace-check.mjs` and `scripts/dod-gate.mjs` are later-release files: when absent, apply the manual procedures in this skill and write `module missing: <path>` once in the PR body. Never claim a helper ran when it does not exist.
+7. Check which agentic-sdlc helpers exist. `scripts/dod-gate.mjs` (v3.1.0), `scripts/evidence.mjs` (v3.2.0) and `scripts/trace-check.mjs` (later release) may be absent from an older vendored copy: when absent, apply the manual procedures in this skill and write `module missing: <path>` once in the PR body. Never claim a helper ran when it does not exist.
 
 ### Step 1 — Name the claim and list the required rows
 
@@ -86,7 +86,7 @@ Follow `references/fresh-run-protocol.md` for portable shell forms. The loop is:
 3. Compute the fingerprint again (`F2`). `F1 ≠ F2` → the tree changed during the run (a formatter, a generated file, a snapshot update) → discard every row and repeat from step 1.
 4. Each row gets `F1`, an ISO-8601 time with offset, and `by` = the role that ran it (`Developer`, `Reviewer`, `Test Engineer`, `Release Engineer`) or `self-review` when the author checked its own work in a separate pass.
 
-When `scripts/evidence.mjs` exists in the installed agentic-sdlc version, `evidence record` replaces steps 1–4 and `evidence check` replaces the staleness test in Step 8.
+When `scripts/evidence.mjs` exists, `evidence record --ac AC-n -- <cmd>` replaces steps 1–4 and `evidence check --spec specs/NNN-slug/spec.md` replaces the staleness test in Step 8; its exit 1 is a NO-GO.
 
 ### Step 5 — Read the output and compare it with the claim
 

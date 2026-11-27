@@ -41,7 +41,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── config.json                    # project overrides (budgets read by run-ledger); never touched by upgrades
     ├── runs/<id>/                     # run-ledger + preflight: ledger.jsonl, preflight.json, result.json
     ├── runs/preflight.json            # preflight without --run
-    ├── evidence/ledger.jsonl          # † fingerprint-bound evidence records (evidence)
+    ├── evidence/ledger.jsonl          # fingerprint-bound evidence records (evidence)
     ├── metrics/history.jsonl          # † (metrics)
     └── doctor.json                    # doctor
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
@@ -80,7 +80,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Preflight record | `.agentic-sdlc/runs/<id>/preflight.json` | generated | Build · `preflight` | every `executing-plans` run | `preflight` exit code |
 | Run worktree | `../<repo>-sdlc-<id>` on `sdlc/NNN-<id>` | generated | Build · `run-ledger start --mode unattended` | unattended runs | `preflight` (isolation) |
 | Project config | `.agentic-sdlc/config.json` | — (`budgets` keys, `references/autonomous.md` §4) | Discover · `project-context` | when budgets differ from the defaults | `run-ledger start` |
-| Evidence ledger | `.agentic-sdlc/evidence/ledger.jsonl` | generated | Build, Test · `evidence record`† | all paths | `evidence check`† |
+| Evidence ledger | `.agentic-sdlc/evidence/ledger.jsonl` | generated | Build, Test · `evidence record` | all paths | `evidence check` |
 | Release notes | release / `CHANGELOG.md`; neither → `specs/NNN-slug/release-notes.md` (Quick: `docs/releases/<issue>.md`) | `templates/release-notes.md` | Release · Release Engineer | production releases | release checklist |
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md` | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
 | Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
@@ -99,7 +99,6 @@ Planned files, marked † where other files name them. The router Module Index l
 | File | Target | Purpose | Manual fallback |
 |---|---|---|---|
 | `scripts/path-score.mjs`† | v3.3.0 | Path score | `references/paths.md` §Score rubric by hand |
-| `scripts/evidence.mjs`† | v3.2.0 | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
 | `scripts/trace-check.mjs`† | v3.2.0 | Trace table, `trace.md`, ops reading age | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test (`references/verification.md` §Trace) |
 | `scripts/approval-check.mjs`† | v3.2.0 | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | v3.2.0 | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |

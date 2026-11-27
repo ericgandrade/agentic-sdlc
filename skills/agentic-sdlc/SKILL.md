@@ -139,7 +139,7 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `templates/ci/agentic-sdlc.yml`, `ci/gitlab-ci.yml`, `ci/security.yml`, `CODEOWNERS` | `project-context` CI and enforcement setup |
 | `scripts/spec-lint.mjs`, `plan-graph.mjs` | Before Specify / Design sign-off; CI |
 | `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
-| `scripts/dod-gate.mjs` | Completion claims; before Test sign-off; CI |
+| `scripts/dod-gate.mjs`, `evidence.mjs` | Completion claims; before Reviewer GO and Test sign-off; CI runs `dod-gate` |
 | `scripts/status.mjs`, `doctor.mjs` | Step 0; setup check |
 | `scripts/budget-check.mjs`, `ext-check.mjs` | CI on `skills/**`; before loading any extension |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |

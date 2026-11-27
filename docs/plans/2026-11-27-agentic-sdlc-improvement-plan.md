@@ -323,6 +323,15 @@ Behaviour:
 | 3.5 | Decisions on Standard | F6 → 2 | `plan.md` `## Decisions` is required on Standard for any task that adds a component, data model or integration. `plan-graph --check` exit 1 when such a task has no decision row | plan without decisions on a new component → 1 |
 | 3.6 | Release v3.2.0 | — | As in Task 1.8 | — |
 
+**Task 3.1 implementation notes (recorded while executing):**
+
+- `--ac` is repeatable and accepts comma lists; `lib/cli.mjs` `parseArgs` keeps only the last value of a flag, so `evidence.mjs` collects `--ac` itself.
+- The latest row on the current fingerprint decides an AC: a later failing run overrides an earlier pass (a flaky test is not green). Rows only on older fingerprints, passing or failing, are `stale`; no ledger means every AC is `missing` (exit 1). Exit 2 is reserved for unparsable input.
+- `record` computes the fingerprint before and after the command. A change marks the row `treeChanged`, exits 1 and never counts as green (the manual "discard and repeat" rule).
+- A torn last line is ignored by `check` and cut off by the next `record` before it appends, so a crash never turns into a permanent exit 2.
+- `tail` is the last 40 lines of stdout followed by stderr; `stdoutSha256` hashes stdout only. `check` reuses `specAcIds` from `plan-graph.mjs` (retired ACs skipped).
+- The manual steps moved from `verification.md` §4 to `platforms.md` §4 (off the default path); the default-path total fell from 121,383 to 121,249 tokens; `multi-axis-code-review`, `test-signoff-prep.md` and `executing-plans` Exit now name `evidence check` / `evidence record` too.
+
 **Dependencies (grill Q16):** 3.3 needs 1.4 (`doctor` reports enforcement); 3.1 needs 1.6 (shared fingerprint record); 3.2 needs 1.5 (the CI approvals job).
 
 ---

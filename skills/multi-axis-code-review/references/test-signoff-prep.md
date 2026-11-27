@@ -9,7 +9,7 @@ All must hold; any miss → no request, fix the record first.
 - [ ] Verdict GO recorded in the Rounds table with the head SHA it was reached on, and `git rev-parse HEAD` equals that SHA.
 - [ ] Every Findings row has a disposition; no `to human` item is missing from the questions; every Critical is `fixed` or carries a recorded ruling.
 - [ ] Every lens row lists its checks performed, or reads `lens not run` with a waiver ID.
-- [ ] Verification rows fresh on the head fingerprint; each `CANNOT_VERIFY` has a reason, a verifier and a date.
+- [ ] Verification rows fresh on the head fingerprint (`evidence check` exit 0); each `CANNOT_VERIFY` has a reason, a verifier and a date.
 - [ ] Waivers valid: owner ≠ requester (except §6.3), expiry within the kind's maximum, follow-up issue present. A Critical is never under `accept-risk` or `defer`.
 - [ ] `node skills/agentic-sdlc/scripts/spec-lint.mjs --check-approval specs/NNN-slug/spec.md` exit 0 on Standard/Full (manual: the Approvals hash equals the current spec hash).
 

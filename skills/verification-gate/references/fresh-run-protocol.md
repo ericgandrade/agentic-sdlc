@@ -1,6 +1,6 @@
 # Fresh-Run Protocol
 
-Load at Step 4. Portable forms for the loop *fingerprint → run → capture → fingerprint → record*, defined by `../../agentic-sdlc/references/verification.md` §4. When `scripts/evidence.mjs` exists in the installed agentic-sdlc version, `evidence record` and `evidence check` replace this file; until then this is the procedure.
+Load at Step 4. Portable forms for the loop *fingerprint → run → capture → fingerprint → record*, defined by `../../agentic-sdlc/references/verification.md` §4. When `scripts/evidence.mjs` exists in the installed agentic-sdlc version (v3.2.0 and later), `evidence record` and `evidence check` replace this file; without it this is the procedure.
 
 ## 1. Fingerprint
 

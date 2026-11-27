@@ -82,6 +82,7 @@ Every script gate has a manual equivalent with the same pass rule. The method's 
 | `plan-graph.mjs` | Each `Blocked by` names only lower task IDs (acyclic by construction); list waves by hand in `plan.md` |
 | `dod-gate.mjs` | Run every `sdlc-dod` command; paste each exit code; any non-zero → fail |
 | Evidence fingerprint | `git status --porcelain` empty and `git rev-parse --short=12 HEAD`; a dirty tree gives no valid evidence |
+| `evidence.mjs record` / `check` | Commit first; the tree must be clean (`git status --porcelain` prints nothing). Run each DoD and AC command; copy its exit code and the last ≤ 40 output lines into the PR `## Verification` table with `head:<first 12 hex of git rev-parse HEAD>` as the fingerprint and the ISO-8601 time. With Node but an older vendored copy, compute the fingerprint (`node <skill-dir>/scripts/lib/git.mjs fingerprint`) before and after the run; different → the tree changed, discard the rows and repeat. `check`: every AC needs a passing row on the current fingerprint (`references/verification.md` §4 Staleness rule) |
 | `trace-check.mjs`† | Fill the PR Trace table: every AC has ≥ 1 task, commit and passing test |
 | `budget-check.mjs` | `sed '/^---$/,/^---$/d' <file> \| wc -w` against the budgets: router 2,200 · quickstart 1,200 · README install section 300 · reference 3,000 · agent file 600 |
 
