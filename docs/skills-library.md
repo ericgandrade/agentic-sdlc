@@ -1,10 +1,6 @@
-# Claude Superskills: installation and skills library
+# The Agentic SDLC Method: installation and skills library
 
-Installer, platforms, bundles and the full skill catalog. The project overview is in the [root README](../README.md).
-
-> Research, content and document skills (deep-research, webpage-reader, youtube-summarizer, pptx-translator, document-converter, storytelling-expert and others) moved to [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills).
-
-> From v3.0.0, `npx agentic-sdlc-method` and the install script ship the Agentic SDLC from `main`.
+Installer, platforms, bundles and the full catalog of the 23 skills in this repository. The project overview is in the [root README](../README.md).
 
 ## 🚀 Quick Install
 
@@ -169,7 +165,7 @@ npx agentic-sdlc-method
 The installer will generate a zip like:
 
 ```text
-~/.claude-superskills/plugin-output/claude-superskills-v2.0.3.zip
+~/.claude-cowork/plugin-output/agentic-sdlc-v3.1.0.zip
 ```
 
 Then update Cowork manually:
@@ -333,8 +329,8 @@ gh copilot -p "create a skill for PDF processing"
 # Review a change
 claude -p "review this branch on all five axes"
 
-# Orchestrate complex tasks
-gemini -p "design a solution for processing meeting notes and creating Jira tickets"
+# Plan a multi-step change with the available skills
+gemini -p "plan the migration of our payments module to the new API"
 ```
 
 ## 💻 Supported Platforms
@@ -397,9 +393,9 @@ npx agentic-sdlc-method --list-bundles # Show available bundles
 
 ## 📋 System Requirements
 
-- Node.js 14+ (for installer)
+- Node.js 14+ for the installer; Node.js 18+ to run the method's gate scripts (without it the checks run from the Markdown rules)
 - One or more supported platforms installed
-- Python 3.8+ (for some skills with dependencies)
+- Python 3.8+ only for the `skill-creator` eval tooling
 
 ## 🤝 Contributing
 
@@ -414,11 +410,10 @@ We welcome contributions! Check [CONTRIBUTING.md](../CONTRIBUTING.md) for guidel
 The Agentic SDLC Method does not collect, store, transmit, or share any user data.
 
 - **No external servers** — the plugin has no backend, no telemetry, and no network requests of its own
-- **No API keys required** — all skills run entirely within Claude Code using Claude's native tools (WebSearch, WebFetch, Bash, Read/Write)
-- **No logging** — nothing is recorded outside of your local Claude Code session
+- **No API keys required** — the skills run inside your AI tool with its own file and shell tools; the gate scripts are local, dependency-free Node modules that make no network requests
+- **No logging** — the method writes only its own artifacts in your repository (`specs/`, `.agentic-sdlc/`)
 - **Open source** — all skill logic is fully auditable at [github.com/ericgandrade/agentic-sdlc](https://github.com/ericgandrade/agentic-sdlc)
 
-Any web searches or document fetches performed by skills use Claude Code's built-in tools, subject to Anthropic's own privacy policy.
 
 ## 📄 License
 
@@ -454,18 +449,6 @@ See [detailed comparison](bundles/bundles.md#bundle-comparison).
 - **[Skill Anatomy](guides/skill-anatomy.md)** - How to build skills
 - **[Skills Development](../resources/skills-development.md)** - Advanced creation
 - **[Changelog](../CHANGELOG.md)** - Version history
-
-## Part of the Superskills Family
-
-| Package | Skills | Focus | Install |
-|---------|--------|-------|---------|
-| **agentic-sdlc** | 23 | Core: Agentic SDLC, skill creation, discovery & orchestration | `npx agentic-sdlc-method` |
-| [knowledge-superskills](https://github.com/ericgandrade/knowledge-superskills) | 10 | Research, content, documents, strategy & prompts | Claude Code plugin (no npm package yet) |
-| [obsidian-superskills](https://github.com/ericgandrade/obsidian-superskills) | 6 | Obsidian knowledge management | `npx obsidian-superskills` |
-| [career-superskills](https://github.com/ericgandrade/career-superskills) | 20 | Job search & career development | `npx career-superskills` |
-| [product-superskills](https://github.com/ericgandrade/product-superskills) | 8 | Product management & GTM strategy | `npx product-superskills` |
-| [design-superskills](https://github.com/ericgandrade/design-superskills) | 9 | UI/UX design, brand & diagrams | `npx design-superskills` |
-| [avanade-superskills](https://github.com/ericgandrade/avanade-superskills) | 3 | Avanade-branded content (private) | `git clone git@github.com:ericgandrade/avanade-superskills.git` |
 
 ---
 
