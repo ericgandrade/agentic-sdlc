@@ -32,6 +32,7 @@ Decision rules:
 3. `coverage` passes only when the measured value is ≥ `coverage_min`; write the measured value in the `exit` cell as `0 (81.2 ≥ 78.4)`. Below the floor the row fails even when the tool exits 0: write `0 (76.2 < 78.4) — below floor`.
 4. Every AC has ≥ 1 row. An AC with no runnable test is either `CANNOT_VERIFY` (§3) or a gap that returns to the Test Engineer.
 5. The Reviewer re-runs every command; a row whose `by` column names the Developer is testimony and does not count toward GO.
+6. <!-- ext:dod.checks --> Extension DoD checks (`ext-check --point dod.checks --json`) are DoD rows like the `sdlc-dod` keys.
 
 ## 2. Independent test design
 

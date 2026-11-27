@@ -53,7 +53,7 @@ Modes: **request** (a full round, Steps 0–8 and 10), **re-review** (Step 9), *
 | Security | **L3** security (Security Auditor) | `prompts/axis-security.md` | Standard, Full; Quick with any risk trigger |
 | Context-free adversarial (how does it break, from the diff alone) | **L4** | `prompts/axis-adversarial.md` | Standard, Full |
 
-L2 is one lens: one fresh context loaded with both L2 prompts, one finding list `L2-1..n`, one checks list. Quick path runs L1 + L2 (+ L3 on a risk trigger). An extension-added lens runs only if declared in the project; it never replaces L1–L4.
+L2 is one lens: one fresh context loaded with both L2 prompts, one finding list `L2-1..n`, one checks list. Quick path runs L1 + L2 (+ L3 on a risk trigger). An extension lens runs only when `ext-check` lists it; it never replaces L1–L4.
 
 ### Step 2 — Build each lens package (context-free)
 

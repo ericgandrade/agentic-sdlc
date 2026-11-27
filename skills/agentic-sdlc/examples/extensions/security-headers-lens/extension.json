@@ -1,0 +1,9 @@
+{
+  "name": "security-headers-lens",
+  "version": "0.1.0",
+  "interface": "^1.0.0",
+  "kind": "review-lens",
+  "entry": "lens.md",
+  "attachesTo": "review.lenses",
+  "sha256": "2f1b758df01d27608b4a3db86a41e777e4e6c6d8e2d7c8772da45ba1a7ca3093"
+}

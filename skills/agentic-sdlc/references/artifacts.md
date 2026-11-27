@@ -106,12 +106,10 @@ The router Module Index and other files name the files below; they are added in 
 | `scripts/dod-gate.mjs`† | Definition of Done gate | Run every `sdlc-dod` command and paste each exit code; `preflight` runs the same commands as baseline-dod |
 | `scripts/approval-check.mjs`† | Test sign-off binding in CI | `spec-lint --check-approval` and `plan-graph --check-approval`; the human checks the Test sign-off: the PR review, or without a PR host the `## Test sign-off` row of the review record (`references/governance.md`) |
 | `scripts/audit-export.mjs`† | Audit bundle | Zip `specs/NNN-slug/` with the PR body and release notes |
-| `scripts/ext-check.mjs`† | Extension validation | No extensions are loaded until it exists |
 | `scripts/metrics.mjs`† | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
 | `references/faq.md`†, `upgrading.md`† | Troubleshooting; upgrades | `project-context audit`; re-run `project-context` setup |
-| `references/extension-interface.md`† | Extensions | No extensions are loaded until it exists |
 | `references/standards-mapping.md`† | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
-| `examples/paths/`†, `examples/extensions/`† | Path and extension examples | `references/paths.md` examples; `examples/worked-example/` |
+| `examples/paths/`† | Path examples | `references/paths.md` examples |
 
 ## Naming and numbering
 

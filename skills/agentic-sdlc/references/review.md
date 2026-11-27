@@ -9,7 +9,7 @@ Full workflow: skill `multi-axis-code-review`.
 1. **Spec compliance** (lens L1, alone): does the diff do what the approved spec asks, all of it and nothing more, with tests that prove each AC?
 2. **Quality** (lenses L2, L3, L4, in parallel): is the change correct, well designed, secure and robust?
 
-Stage 2 is dispatched only when L1 returns 0 confirmed Critical findings. L1 with ≥ 1 confirmed Critical → the round ends NO-GO with the L1 findings only; the round counts toward the 3-round bound. Quality review on a change that fails its spec wastes effort: the fix rewrites the code being reviewed.
+Stage 2 is dispatched only when L1 returns 0 confirmed Critical findings. L1 with ≥ 1 confirmed Critical → the round ends NO-GO with the L1 findings only; the round counts toward the 3-round bound.
 
 ## 1. Lenses
 
@@ -21,6 +21,8 @@ Stage 2 is dispatched only when L1 returns 0 confirmed Critical findings. L1 wit
 | **L4** | Context-free adversarial | **The diff only**: no spec, no plan, no PR text | "How does this break?": hostile input, resource exhaustion, race, partial failure, wrong assumption visible in the diff itself | Standard, Full |
 
 Quick path: L1 + L2 (+ L3 with a risk trigger).
+
+<!-- ext:review.lenses --> Extension lenses: `ext-check --point review.lenses --json`; each runs after L1–L4 as one more lens and never replaces one.
 
 Rules:
 

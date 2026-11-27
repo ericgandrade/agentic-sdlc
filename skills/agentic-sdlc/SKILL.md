@@ -131,7 +131,7 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `references/upgrading.md`† | Skill version changed; doctor† schema WARN |
 | `references/adoption.md` | Team rollout; existing Spec Kit, Kiro or OpenSpec folders |
 | `references/brownfield.md` | Touching code without tests |
-| `references/extension-interface.md`† | Loading or writing an extension |
+| `references/extension-interface.md` | Writing an extension; `ext-check` exit ≠ 0 (load none) |
 | `references/standards-mapping.md`†, skill `security-hardening` | Audit export; regulated work |
 | `templates/spec.md`, `ux.md`, `plan.md`, `acceptance-tests.md` | Specify; UX trigger; Design; acceptance-test design |
 | `templates/pr-body.md`, `release-notes.md`, `retro.md` | Opening a PR; Release; retro |
@@ -143,10 +143,11 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs`† | Completion claims; before Test sign-off; CI |
 | `scripts/approval-check.mjs`†, `audit-export.mjs`† | CI on every PR; audit request |
 | `scripts/status.mjs`†, `doctor.mjs`†, `path-score.mjs`† | Step 0; setup check; Discover |
-| `scripts/budget-check.mjs`, `ext-check.mjs`†, `metrics.mjs`† | CI on `skills/**`; extensions; each retro |
+| `scripts/budget-check.mjs`, `ext-check.mjs`, `metrics.mjs`† | CI on `skills/**`; before loading any extension; each retro |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
 | `examples/worked-example/` | Learning the Standard path; script test fixtures |
-| `examples/paths/`†, `examples/extensions/`† | Checking a path decision; writing an extension |
+| `examples/extensions/` | Writing an extension |
+| `examples/paths/`† | Checking a path decision |
 
 Scripts are dependency-free Node ≥ 18 ES modules. Exit codes: `0` pass · `1` check failed · `2` input missing or unparsable · `3` bound reached, escalate. `--json` prints a machine-readable result. Node absent → the method runs from the Markdown rules and the doctor† reports `enforcement: prompt-only`.
 

@@ -84,6 +84,7 @@ jobs:
       - run: node --test skills/agentic-sdlc/scripts/test/*.test.mjs
       - run: node skills/agentic-sdlc/scripts/budget-check.mjs skills/agentic-sdlc
       - run: node skills/agentic-sdlc/scripts/budget-check.mjs skills/agentic-sdlc --default-path
+      - run: node skills/agentic-sdlc/scripts/ext-check.mjs --dir skills/agentic-sdlc/examples/extensions
 
   validate-package:
     name: Validate npm Package

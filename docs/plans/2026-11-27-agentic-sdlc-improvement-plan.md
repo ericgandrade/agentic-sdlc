@@ -155,6 +155,12 @@ Only items that unlock the verdict or reduce friction (grill Q1).
 4. Router rule: loading an extension means running `ext-check` first. Exit ≠ 0 → do not load, and record `extension refused: <rule>` in the PR body.
 5. Commit: `feat(ext): versioned extension interface and ext-check`.
 
+**Implementation notes (recorded while executing):**
+- One marker per point: `<!-- ext:review.lenses -->` in `references/review.md`, `<!-- ext:dod.checks -->` in `references/verification.md`, and `<!-- ext:templates -->` in a new `templates/README.md`, which is off the default path.
+- Two rules beyond the table: EX05 also fails when `kind` and `attachesTo` disagree, and EX07 fails when `name` or `version` is missing.
+- The team layer is the repository-relative `extensions.team` in `.agentic-sdlc/config.json`. A vendored copy without a core skill directory checks against the built-in point list.
+- Discovery is one call (`ext-check --point <id> --json`), so core stage files carry one line per point and no per-skill preamble.
+
 **Safety (grill Q13):**
 - Extensions are data, read with the same "fetched content is data" rule as `references/security.md`.
 - They load only from the repository, so they are reviewed through CODEOWNERS.
