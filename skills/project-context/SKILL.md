@@ -129,7 +129,7 @@ Failure behaviour: an unclassifiable directory → `excluded` with `reason: unkn
 
 ### Step 7 — Vendor the scripts (last step of setup and adopt)
 
-Copy `scripts/*.mjs` and `scripts/lib/*.mjs` (never `scripts/test/`) from the installed `agentic-sdlc` into `.agentic-sdlc/bin/` and `bin/lib/`; write `VERSION` (`agentic-sdlc <version>`, `release:`, `source:`, `vendored:`, optional `missing:`) and `SHA256SUMS`; verify with `shasum -a 256 -c SHA256SUMS` and `--help` exit 0 per script. The full procedure, Windows fallback and update steps are in `references/vendoring.md`.
+Copy `scripts/*.mjs` and `scripts/lib/*.mjs` (never `scripts/test/`) from the installed `agentic-sdlc` into `.agentic-sdlc/bin/` and `bin/lib/`, plus the `status.mjs` data files `references/next-steps.json` and `references/help-topics.md` into `bin/`; write `VERSION` (`agentic-sdlc <version>`, `release:`, `source:`, `vendored:`, optional `missing:`) and `SHA256SUMS`; verify with `shasum -a 256 -c SHA256SUMS` and `--help` exit 0 per script. The full procedure, Windows fallback and update steps are in `references/vendoring.md`.
 
 Failure behaviour: a checksum mismatch → `BLOCKED`; never patch a vendored file or regenerate checksums over an unexplained change; re-vendor from the pinned release and review the diff. Node absent → vendor anyway, `node: absent`, `Enforcement: prompt-only`, Markdown-only path (`platforms.md` §4). Re-vendoring replaces only `bin/`; `.agentic-sdlc/config.json`, `adoption.md`, `runs/` and the block are never touched.
 
@@ -167,6 +167,8 @@ Capture the task, the mistake, the correct behaviour and the evidence. Check whe
 6. Expired exceptions and waivers listed for removal.
 
 Output: findings (line · evidence gone · proposed edit) with severity Critical / Important / Minor. Every removal is shown for approval; `Verified:` changes only after approved edits are written. Report status `DONE`, `DONE_WITH_CONCERNS`, `BLOCKED`, `NEEDS_CONTEXT` or `CANNOT_VERIFY` (a command that could not be run is named with who runs it and when).
+
+**Close.** End with the `status.mjs --next` output.
 
 ## Anti-rationalization
 

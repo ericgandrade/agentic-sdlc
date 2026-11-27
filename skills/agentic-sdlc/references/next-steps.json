@@ -1,0 +1,78 @@
+{
+  "description": "Next steps per state for scripts/status.mjs. Source of truth for the recommendations; the router Step 0 table lists the same states (field router) and a test fails when they drift. At most 3 recommendations per state.",
+  "states": [
+    {
+      "state": "NO_BLOCK", "row": "1", "router": "No AGENTS.md block",
+      "primary": { "skill": "project-context", "reason": "Write the AGENTS.md block and the sdlc-dod commands (adopt mode on an existing codebase)" },
+      "secondary": []
+    },
+    {
+      "state": "NO_SPEC", "row": "2", "router": "No spec",
+      "primary": { "skill": "spec-driven-development", "reason": "Score the path (references/paths.md), then Specify with the Analyst" },
+      "secondary": [
+        { "skill": "issue-triage", "condition": "the score is Quick (S <= 4, R = 0)", "reason": "Write the acceptance test in the issue; no specs/ folder" },
+        { "skill": "brainstorming", "condition": "the request is still an idea", "reason": "Shape it into a discovery brief first" }
+      ]
+    },
+    {
+      "state": "SPEC_UNAPPROVED", "row": "3", "router": "Spec unapproved",
+      "primary": { "skill": "spec-driven-development", "reason": "Run spec-lint, then request the Specify sign-off and end the turn" },
+      "secondary": [
+        { "skill": "grill-me", "condition": "open questions remain in the spec", "reason": "Resolve them before asking for approval" }
+      ]
+    },
+    {
+      "state": "PLAN_MISSING", "row": "4", "router": "Plan missing",
+      "primary": { "skill": "writing-plans", "reason": "Design with the Planner: tasks, files, dependencies" },
+      "secondary": [
+        { "skill": "senior-solution-architect", "condition": "a decision is expensive to reverse", "reason": "Write the ADR with the Architect" }
+      ]
+    },
+    {
+      "state": "PLAN_UNAPPROVED", "row": "5", "router": "Plan unapproved",
+      "primary": { "skill": "writing-plans", "reason": "Run plan-graph, then request the Design sign-off and end the turn" },
+      "secondary": []
+    },
+    {
+      "state": "TASKS_OPEN", "row": "6", "router": "Tasks open",
+      "primary": { "skill": "executing-plans", "reason": "Build the next unblocked task with the Developer" },
+      "secondary": [
+        { "skill": "systematic-debugging", "condition": "a task failed red-green 3 times", "reason": "Enter the debug loop" }
+      ]
+    },
+    {
+      "state": "PR_WITHOUT_EVIDENCE", "row": "7", "router": "PR without evidence",
+      "primary": { "skill": "verification-gate", "reason": "Re-run the DoD and AC commands on the current fingerprint and fill the PR Verification rows" },
+      "secondary": [
+        { "skill": "multi-axis-code-review", "condition": "the Verification rows are fresh", "reason": "Run lenses L1-L4 and request the Test sign-off" },
+        { "skill": "deployment-pipeline", "condition": "the Test sign-off is recorded", "reason": "Release with the Release Engineer" }
+      ]
+    },
+    {
+      "state": "RELEASED_WITHOUT_RETRO", "row": "8", "router": "Released without retro",
+      "primary": { "skill": "retrospective", "reason": "Hold the retro within 5 business days of the release" },
+      "secondary": [
+        { "skill": "operations-and-incidents", "condition": "an alert or incident happened since the release", "reason": "Record it in ops.md first" }
+      ]
+    },
+    {
+      "state": "RETRO_ACTIONS_OPEN", "row": "9", "router": "Retro actions open",
+      "primary": { "skill": "issue-triage", "reason": "Work the oldest open retro action as a Discover item" },
+      "secondary": [
+        { "skill": "retrospective", "condition": "an action is open for more than 2 cycles", "reason": "Ask the Tech Lead for a ruling" }
+      ]
+    },
+    {
+      "state": "NOTHING_OPEN", "row": "—", "router": "Nothing open",
+      "primary": { "skill": "issue-triage", "reason": "Ask for the next request and triage it" },
+      "secondary": [
+        { "skill": "brainstorming", "condition": "the next request is still an idea", "reason": "Shape it first" }
+      ]
+    },
+    {
+      "state": "UNKNOWN", "row": null, "router": null,
+      "primary": { "skill": "project-context", "reason": "An artifact is unparsable: run project-context audit and fix the file it names" },
+      "secondary": []
+    }
+  ]
+}

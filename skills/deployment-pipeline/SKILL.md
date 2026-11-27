@@ -201,6 +201,8 @@ Report with the contract from `../agentic-sdlc/references/agents.md`:
 
 `DONE` = setup proven, or the release closed after stage 3. `DONE_WITH_CONCERNS` = prompt-only fallback, slow rollback, trace gate pending. `BLOCKED` = a gate let a bad change through, rehearsal failed, approval mismatch, rollback executed. `NEEDS_CONTEXT` = no `sdlc-dod`, no rollback command, no baseline source. `CANNOT_VERIFY` = no staging. After close, the SRE owns the change in Operate.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

@@ -150,6 +150,8 @@ Return the shared status:
 
 A Reviewer starts from NO-GO and moves to GO only when every AC has a fresh passing row or a waived `CANNOT_VERIFY` and the Orphans list is `none`; the remaining GO conditions (findings, lenses) belong to `multi-axis-code-review`. Agents never give Test sign-off; the human reviewer does.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 The left column quotes thoughts to catch; it is not guidance.

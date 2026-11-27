@@ -156,6 +156,8 @@ For the top untested hypothesis:
 
 At B5 (3 refuted hypotheses), B2 (anti-thrash) or B6 (cause outside Build): stop. Print or write the escalation brief and attach the debugging context — red loop, minimal case, trace so far, untested hypotheses, and the design question (`references/escalation-report.md` §3). Before B2 only, one extra round in a fresh context with only the task, ledger rows and failing output is allowed when no stronger model exists; it counts toward the same bound. Attended mode: end the turn and wait for the ruling. Unattended mode: the escalation is also a halt with reason `loop-bound` (`../agentic-sdlc/references/autonomous.md` §3). Rulings are recorded by the human, never by the agent.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

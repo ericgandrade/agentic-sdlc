@@ -145,6 +145,8 @@ The human facilitator commits the record (`docs: retro YYYY-MM-DD for specs/NNN-
 - Indicator misses, `not accepted` outcomes and production gaps go out as `from-production` issues for `issue-triage`.
 - Between retros, the Scrum Master agent checks the open actions at each transition: closed by a merged commit that changes the target file with the trailer `Refs: RA-YYYYMMDD-n` (or `Refs: PA-YYYYMMDD-n`); open for more than 2 later retros of the track → the Tech Lead rules `do by <date>`, `re-own to <person>` or `drop: <reason>`, written in the next retro's §Prior actions.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

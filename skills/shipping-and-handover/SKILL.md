@@ -177,6 +177,8 @@ When the last stage closes, write the handover (format in `references/release-an
 
 Report `DONE` and name the SRE as the next agent. The SRE monitors what the spec defined; the handover never adds new alerts or thresholds.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

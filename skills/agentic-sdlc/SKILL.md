@@ -31,7 +31,7 @@ Not for one-off explanations or line-by-line edits the user directs. Pure ideati
 
 ### Step 0 — Detect state
 
-Read the files and apply the table below; first match wins. Once `status.mjs --json`† ships (`.agentic-sdlc/bin/` or this skill's `scripts/`), run it instead.
+Run `status.mjs --json` (`.agentic-sdlc/bin/` or `scripts/`): state, evidence, next steps. Node absent → apply this table; first match wins.
 
 | # | State (first match from the top) | Detected by | Next step |
 |---|---|---|---|
@@ -46,7 +46,7 @@ Read the files and apply the table below; first match wins. Once `status.mjs --j
 | 9 | Retro actions open | Retro action without `done` or `dropped: <reason>` | Work the oldest action as a Discover item |
 | — | Nothing open | None of the above | Ask for the next request |
 
-Unparsable artifact → state `UNKNOWN`, recommend `project-context audit`; the status script† exits 2. Confirm a resume in one line before acting (Example 4).
+Unparsable artifact → state `UNKNOWN` (`status.mjs` exit 2), recommend `project-context audit`. Confirm a resume in one line before acting (Example 4).
 
 When the user names a stage, check its entry condition (`references/lifecycle.md` §1) and report each missing prerequisite. Never skip one silently.
 
@@ -142,7 +142,7 @@ Load a module only at its trigger. A listed file that is absent in the installed
 | `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
 | `scripts/evidence.mjs`†, `trace-check.mjs`†, `dod-gate.mjs`† | Completion claims; before Test sign-off; CI |
 | `scripts/approval-check.mjs`†, `audit-export.mjs`† | CI on every PR; audit request |
-| `scripts/status.mjs`†, `doctor.mjs`†, `path-score.mjs`† | Step 0; setup check; Discover |
+| `scripts/status.mjs`, `doctor.mjs`†, `path-score.mjs`† | Step 0; setup check; Discover |
 | `scripts/budget-check.mjs`, `ext-check.mjs`, `metrics.mjs`† | CI on `skills/**`; before loading any extension; each retro |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
 | `examples/worked-example/` | Learning the Standard path; script test fixtures |

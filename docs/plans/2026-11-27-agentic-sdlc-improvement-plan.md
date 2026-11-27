@@ -200,6 +200,13 @@ Only items that unlock the verdict or reduce friction (grill Q1).
 
 **Token rule:** `budget-check --default-path` must not rise. Step 0 now reads one script result instead of the state table.
 
+**Implementation notes (recorded while executing):**
+- Each spec folder gets a row of the table. The earliest open stage wins (ties go to the lowest `NNN`), retro actions are checked across all retros, and a missing AGENTS.md block always wins.
+- Row 2 ("No spec") is reported when no `specs/*/spec.md` exists and no retro action is open, because a script cannot see an unrecorded request.
+- Row 7 has no PR-host signal locally. It is detected when every task has a commit and no `release-notes.md` exists. `evidenceFresh` says whether the `## Verification` rows of `review.md` or `pr-body.md` are all on the current fingerprint. Only `review.md` is excluded from the fingerprint, so a committed `pr-body.md` row goes stale on its next edit.
+- The stage-skill closing line is the short `**Close.** End with the \`status.mjs --next\` output.`, and a test enforces it on all 19 stage skills. Offsets: the platform-directory list in `executing-plans` Step 0 now points to `platforms.md` §2, plus the removed † prose.
+- `next-steps.json` and `help-topics.md` are vendored next to the scripts (`project-context` Step 7, `references/vendoring.md`).
+
 ### Task 1.4 · `doctor.mjs` + `references/upgrading.md` (C1 4 → 5) ∥
 
 **Files:** create `scripts/doctor.mjs`, `scripts/test/doctor.test.mjs` and `references/upgrading.md`. Modify `skills/project-context/SKILL.md` (setup ends with `doctor`).

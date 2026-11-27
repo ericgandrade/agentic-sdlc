@@ -151,6 +151,8 @@ The Test Engineer never decides GO/NO-GO and never gives the Test sign-off; the 
 
 Spec AC-3 (`critical`): a user without `reports:export` sees no Export CSV button, and a direct GET of `/api/reports/export` returns HTTP 403 with no file body. Testability: T1–T6 pass (literal 403, observable "no file body"); T2 allows splitting the server outcome and the button outcome into separate rows. Cases: user without the permission → 403 (negative, `AT-3a`); user with it → 200 `text/csv` (`AT-3b`, guards against a check that blocks everyone); no session → 401 belongs to the existing auth middleware, not AC-3, so no case. Level: both outcomes are observable at the HTTP route → integration in `server/test/routes/reports/export.test.ts`. Oracle: status 403 **and** an empty body — the mutation check shows a status-only assertion would miss "403 written after the stream started". Red at base: `expected 403 "Forbidden", got 404 "Not Found"` — the route does not exist yet, which is the defect "route serves the file without the permission check" in its earliest form. `ux.md` UX-6 (button not rendered, AC-3) maps to a component or end-to-end assertion where the harness reaches the reports page; otherwise to a UX Designer check `UX-6`.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

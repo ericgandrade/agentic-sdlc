@@ -201,6 +201,8 @@ For requirements outside the Agentic SDLC (no `specs/` folder):
 2. Validate: `plan-graph <plan> --no-spec --write --out docs/plans/YYYY-MM-DD-<feature>.graph.json`. `--no-spec` skips AC existence and coverage; run the coverage check by hand.
 3. Run Step 6 as written. Ask the requester for approval with the same record fields; Spec rev and Spec hash `n/a`; no combined review.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

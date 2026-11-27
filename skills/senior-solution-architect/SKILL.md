@@ -157,6 +157,8 @@ Load `references/adr.md`; template `templates/adr.md`.
 4. A design change reruns Steps 2–4 for the affected decision only; a new ADR supersedes the old one.
 5. An escalation still unresolved after 1 ruling → the Tech Lead decides.
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

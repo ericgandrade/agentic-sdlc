@@ -185,6 +185,14 @@ export function approvalState(planPath) {
   return out;
 }
 
+// Specify sign-off validity for a spec.md alone (no plan yet): { hash, section, valid }.
+export function specApproval(specPath) {
+  const spec = readMarkdownFile(specPath);
+  const hash = specHashOf(spec);
+  const rows = approvedRows(spec);
+  return { hash, section: rows !== null, valid: (rows || []).some((r) => binds(r, 'specHash', hash)) };
+}
+
 // The sdlc-dod block from AGENTS.md or CLAUDE.md: { file, entries }.
 export function readDod(root) {
   for (const f of ['AGENTS.md', 'CLAUDE.md']) {

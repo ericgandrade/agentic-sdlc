@@ -179,6 +179,8 @@ Fill `specs/NNN-slug/migration-runbook.md` from `templates/migration-runbook.md`
 | `NEEDS_CONTEXT` | No seam reachable, or a question only a person can answer (owner, consumer list) |
 | `CANNOT_VERIFY` | Zero-use or support evidence only available in production; name who checks and when |
 
+**Close.** End with the `status.mjs --next` output.
+
 ## Anti-rationalization
 
 | Thought | Reality |

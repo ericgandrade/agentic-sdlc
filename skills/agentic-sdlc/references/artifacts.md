@@ -85,7 +85,7 @@ Quick-path items create no `specs/` folder: the issue holds the acceptance test 
 | Runbook | `docs/runbooks/<service>.md` | `templates/runbook.md` | Release · Release Engineer | operated behaviour changes; always on Full | Release NO-GO when "last verified" > 90 days |
 | Ops record | `specs/NNN-slug/ops.md` | `templates/ops-record.md` | Operate · SRE | released Standard/Full items | `trace-check`† (reading ≤ 14 days) |
 | Postmortem | `docs/postmortems/` | `templates/postmortem.md` | Operate · SRE | SEV1/SEV2 incidents | due ≤ 5 business days |
-| Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs`† overdue check |
+| Retro record | `docs/retros/` | `templates/retro.md` | Operate · Scrum Master + SRE | all paths (Quick batched) | `status.mjs` (missing retro) |
 | Handoff | `specs/NNN-slug/handoff.md` | `references/phase-boundaries.md` §Handoff | any stage end | when context is cleared or work changes hands | Step 0 state detection |
 | `CONSTRAINTS.md` | project root | §CONSTRAINTS.md below | Discover · `project-context` | Full | Reviewer lens L2 |
 | `GLOSSARY.md` | project root | — (term · definition · source) | Specify · `grill-me` | when Specify defines ≥ 1 domain term | Reviewer lens L1 |
@@ -98,7 +98,6 @@ The router Module Index and other files name the files below; they are added in 
 
 | File | Purpose | Manual fallback |
 |---|---|---|
-| `scripts/status.mjs`† | Step 0 state table | Apply the router Step 0 table by reading the files |
 | `scripts/doctor.mjs`† | Setup check (`doctor.json`) | Check the AGENTS.md block, the `sdlc-dod` commands (`preflight` baseline-dod) and the code map date by hand |
 | `scripts/path-score.mjs`† | Path score | `references/paths.md` §Score rubric by hand |
 | `scripts/evidence.mjs`† | Evidence ledger | Paste command, exit code and fingerprint into the PR Verification table (`references/verification.md`) |
