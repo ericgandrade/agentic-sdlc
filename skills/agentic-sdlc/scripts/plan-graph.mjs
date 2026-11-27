@@ -2,7 +2,8 @@
 // plan-graph — mechanism 7.2 of the Agentic SDLC (Design stage).
 // Parses the `## Tasks` table of specs/NNN-slug/plan.md into a DAG, detects cycles, unknown
 // dependencies and AC gaps, computes waves (frontiers), serializes same-wave tasks whose Files
-// overlap, and writes graph.json. Node >= 18, no dependencies.
+// overlap, checks that each task whose Adds cell names a component, data model or integration has a
+// ## Decisions row (Standard/Full; an ADR link on Full), and writes graph.json. Node >= 18, no dependencies.
 // Exit codes: 0 pass · 1 check failed · 2 input missing or unparsable.
 
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
@@ -26,6 +27,9 @@ const REQUIRED_COLUMNS = ['ID', 'Title', 'AC', 'Blocked by', 'Files', 'Size'];
 const HASH_EXCLUDE = ['Approvals', 'Loop ledger'];
 const NONE = /^(—|–|-|none|n\/a)?$/i;
 const TASK_ID = /^T\d+$/;
+const ADDS_KIND = /^(component|data[ -]model|integration)$/i;
+const DECISION_COLUMNS = ['ID', 'Decision', 'Task(s)', 'Options considered', 'ADR'];
+const ADR_LINK = /\bdocs\/adr\/\d{4}-[\w.-]+\.md\b/i;
 
 const USAGE = `Usage: plan-graph <plan.md> [options]
 
@@ -37,6 +41,7 @@ Options:
   --write              write graph.json next to the plan (or to --out)
   --out <path>         graph.json destination
   --check              fail when the committed graph.json differs from the regenerated graph
+                       (every run also fails a task whose Adds cell has no ## Decisions row)
   --check-approval     fail unless ## Approvals holds a valid row for the current plan and spec hashes,
                        matching the approvals.md register row when that file exists next to the plan
   --done T1,T2         tasks already committed
@@ -99,9 +104,11 @@ export function parsePlan(md) {
   const missing = REQUIRED_COLUMNS.filter((c) => idx[c.toLowerCase()] == null);
   if (missing.length) throw new InputError(`"## Tasks" table lacks column(s): ${missing.join(', ')}`);
   const cell = (row, col) => (row[idx[col.toLowerCase()]] ?? '').trim();
+  const hasAdds = idx.adds != null;
   const tasks = table.rows.map((row, i) => {
     const blockedCell = cell(row, 'Blocked by');
     return {
+      ...(hasAdds ? { adds: parseAdds(cell(row, 'Adds')) } : {}),
       row: i + 1,
       id: cell(row, 'ID').replace(/\*/g, ''),
       title: cell(row, 'Title'),
@@ -112,7 +119,64 @@ export function parsePlan(md) {
       sizeHours: parseSize(cell(row, 'Size')),
     };
   });
-  return { tasks, path: parsePathOf(text), hash: planHash(md) };
+  return { tasks, path: parsePathOf(text), hash: planHash(md), hasAdds, decisions: parseDecisions(text) };
+}
+
+// "component, data model" → { raw, kinds, valid }; "—" or "none" → no kinds; an empty cell is invalid.
+export function parseAdds(raw) {
+  if (!raw) return { raw, kinds: [], valid: false };
+  if (NONE.test(raw)) return { raw, kinds: [], valid: true };
+  const kinds = raw.split(/[,;]/).map((k) => k.trim()).filter(Boolean);
+  return { raw, kinds: kinds.map((k) => k.toLowerCase().replace('-', ' ')), valid: kinds.every((k) => ADDS_KIND.test(k)) };
+}
+
+// ## Decisions table rows, [] for a "none — <reason>" line, null without the section;
+// { missing: [...] } when the table lacks a column.
+function parseDecisions(text) {
+  const sec = findSection(text, 'Decisions', { level: 2 });
+  if (!sec) return null;
+  const table = parseTables(sec.body)[0];
+  if (!table) return [];
+  const idx = headerIndex(table.header);
+  const missing = DECISION_COLUMNS.filter((c) => idx[c.toLowerCase()] == null);
+  if (missing.length) return { missing };
+  const get = (row, col) => (row[idx[col.toLowerCase()]] ?? '').trim();
+  return table.rows.map((row, i) => ({
+    row: i + 1,
+    id: get(row, 'ID').replace(/\*/g, ''),
+    decision: get(row, 'Decision'),
+    tasks: [...new Set(get(row, 'Task(s)').match(/\bT\d+\b/g) || [])],
+    adr: get(row, 'ADR'),
+  }));
+}
+
+// Decisions on Standard and Full (Quick has no plan): each task whose Adds cell names a component,
+// data model or integration is covered by ≥ 1 ## Decisions row; on Full that row links an ADR.
+function checkDecisions(plan, path, ids, err, warnings) {
+  if (!plan.hasAdds) {
+    warnings.push({ code: 'DECISIONS_UNKNOWN', message: '"## Tasks" has no Adds column; tasks adding a component, data model or integration cannot be checked for a ## Decisions row' });
+    return;
+  }
+  const dec = plan.decisions || [];
+  if (dec.missing) { err('DECISION_COLUMNS', `"## Decisions" table lacks column(s): ${dec.missing.join(', ')}`); return; }
+  for (const d of dec) {
+    const label = `## Decisions row ${d.row}`;
+    if (!/^D-\d+$/.test(d.id)) err('DECISION_ROW', `${label}: ID "${d.id}" is not D-<n>`);
+    if (!d.decision || NONE.test(d.decision)) err('DECISION_ROW', `${label}: Decision is empty`);
+    if (!d.tasks.length) err('DECISION_ROW', `${label}: Task(s) names no task`);
+    for (const t of d.tasks) if (!ids.has(t)) err('DECISION_ROW', `${label}: unknown task ${t}`);
+  }
+  for (const t of plan.tasks) {
+    if (!TASK_ID.test(t.id)) continue;
+    if (!t.adds.valid) { err('ADDS_INVALID', `${t.id} Adds "${t.adds.raw}" is not component, data model, integration or —`, t.id); continue; }
+    if (!t.adds.kinds.length) continue;
+    const rows = dec.filter((d) => d.tasks.includes(t.id));
+    const what = t.adds.kinds.join(', ');
+    if (!rows.length) err('DECISION_MISSING', `${t.id} adds ${what} but no ## Decisions row names it`, t.id);
+    else if (path === 'Full' && !rows.some((d) => ADR_LINK.test(d.adr))) {
+      err('DECISION_ADR', `${t.id} adds ${what}: on Full its decision row links an ADR (docs/adr/NNNN-slug.md)`, t.id);
+    }
+  }
 }
 
 function stripComments(md) {
@@ -235,6 +299,8 @@ export function analyze(plan, { specAcs = null } = {}) {
       if (d === t.id) { err('CYCLE', `${t.id} is blocked by itself`, t.id); structural = true; } else if (!ids.has(d)) { err('UNKNOWN_DEP', `${t.id} is blocked by unknown task ${d}`, t.id); structural = true; }
     }
   }
+
+  if (path !== 'Quick') checkDecisions(plan, path, ids, err, warnings);
 
   if (specAcs) {
     const covered = new Set(tasks.flatMap((t) => t.acs));

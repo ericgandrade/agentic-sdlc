@@ -22,6 +22,12 @@ Matt Pocock `to-tickets` (MIT) and Addy Osmani `planning-and-task-breakdown` (MI
 
 **Tech stack:** <languages, frameworks, test runner, the DoD commands from the AGENTS.md `sdlc-dod` block>
 
+## Decisions
+
+| ID | Decision | Task(s) | Options considered | ADR |
+|---|---|---|---|---|
+| D-1 | <choice made> | T1 | <option A · option B> | <— or `docs/adr/NNNN-slug.md` (Full)> |
+
 ## Tasks
 
 <!--
@@ -34,12 +40,13 @@ Rules (checked by plan-graph, exit 1 on any violation):
   Two tasks in the same wave that share a file are serialized by plan-graph (the lower ID goes first).
 - Size: hours or days, ≤ 1 day (8h). A larger task is split before the plan is presented.
 - Count: ≤ 15 tasks per plan; more → split the spec into two specs.
+- Adds: component, data model, integration or —; a value needs a ## Decisions row (Full: ADR link).
 -->
 
-| ID | Title | AC | Blocked by | Files | Size |
-|---|---|---|---|---|---|
-| T1 | <verb + object, one vertical slice> | AC-1 | — | `src/<module>/<file>`, `test/<module>/<file>` | 4h |
-| T2 | <verb + object, one vertical slice> | AC-2 | T1 | `src/<module>/<file>`, `test/<module>/<file>` | 1d |
+| ID | Title | AC | Blocked by | Files | Size | Adds |
+|---|---|---|---|---|---|---|
+| T1 | <verb + object, one vertical slice> | AC-1 | — | `src/<module>/<file>`, `test/<module>/<file>` | 4h | component |
+| T2 | <verb + object, one vertical slice> | AC-2 | T1 | `src/<module>/<file>`, `test/<module>/<file>` | 1d | — |
 
 ## Task details
 
@@ -128,14 +135,8 @@ or Important review finding. No new dependency → the single line `none — <re
 
 <!--
 Mechanism 6.3. Excluded from the plan hash: appending rows never voids Design sign-off.
-Rows come from `run-ledger render` (references/loops.md): one row per failed round, per round that
-fixed a failure, per ruling and per halt. Loop: red-green | build-test | review-fix | debug (plus
-`ruling` and `halt` rows). Cause: spec | design | plan | code | test | env | unknown; a second
-`unknown` on one task is treated as `design` (breaker B6). Result: failed | fixed | escalated.
-Signature = first failing test + first error line. The same signature in 2 consecutive rounds, or
-3 failed fixes on one task → Result `escalated` and a design question for the Architect.
-Waves are the plan-graph frontier waves in graph.json; a red DoD after merging a wave's worktrees
-is a `build-test` round on the task whose files the failure names.
+Rows come from `run-ledger render`: one row per failed round, per round that fixed a failure, per
+ruling and per halt. Loop, Cause, Result, signature and breakers: references/loops.md.
 -->
 
 | Date | Task | Loop | Round | Failure signature | Cause | Tried | Result |

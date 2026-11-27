@@ -6,6 +6,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { LIMITS, parseFiles, parseSize, planHash, specAcIds } from '../plan-graph.mjs';
 import { contentHash } from '../lib/md.mjs';
+import { approvalState } from '../run-ledger.mjs';
 import { makeDir, makeRepo, write, commit, sh, cleanup } from './helpers.mjs';
 
 after(cleanup);
@@ -246,7 +247,7 @@ test('--from-git marks tasks done from Refs trailers', () => {
 test('done-state warnings', () => {
   const r = exec(join(FIX, 'valid.plan.md'), '--done', 'T2,T7', '--json');
   assert.equal(r.code, 0);
-  assert.deepEqual(r.json.warnings.map((w) => w.code).sort(), ['DONE_OUT_OF_ORDER', 'DONE_UNKNOWN']);
+  assert.deepEqual(r.json.warnings.map((w) => w.code).sort(), ['DECISIONS_UNKNOWN', 'DONE_OUT_OF_ORDER', 'DONE_UNKNOWN']);
 });
 
 test('helpers: files and sizes', () => {
@@ -265,6 +266,88 @@ test('directory and glob entries count as overlapping Files', () => {
   assert.equal(r.code, 0, r.stdout);
   assert.deepEqual(r.json.graph.waves, [['T1', 'T3'], ['T2', 'T4']]);
   assert.equal(r.json.graph.conflicts.length, 2);
+});
+
+// Task 3.5: a task whose Adds cell names a component, data model or integration needs a ## Decisions row.
+function decisionsPlan({ path = 'Standard', adds = ['component', '—', '—'], decisions = null } = {}) {
+  const rows = [
+    ['T1', 'Export rows', 'AC-1, AC-2', '—', '`src/export.ts`, `test/export.test.ts`', '3h'],
+    ['T2', 'Check the permission', 'AC-3', 'T1', '`src/auth.ts`, `test/auth.test.ts`', '2h'],
+    ['T3', 'Log exports', 'AC-1', 'T1', '`src/log.ts`, `test/log.test.ts`', '90m'],
+  ].map((r, i) => `| ${r.join(' | ')} | ${adds[i]} |`).join('\n');
+  const dec = decisions == null ? '' : `## Decisions\n\n${decisions}\n\n`;
+  return `# Decisions fixture\n\n**Path:** ${path} · **Spec:** \`spec.md\` rev 2\n\n${dec}## Tasks\n\n| ID | Title | AC | Blocked by | Files | Size | Adds |\n|---|---|---|---|---|---|---|\n${rows}\n\n## Revision log\n\n| Rev | Date | Change | Reason |\n|---|---|---|---|\n| 1 | 2026-11-20 | First plan | — |\n`;
+}
+const decTable = (...rows) => `| ID | Decision | Task(s) | Options considered | ADR |\n|---|---|---|---|---|\n${rows.join('\n')}`;
+const FULL_SPEC = SPEC.replace('| Path | Standard |', '| Path | Full |');
+
+test('decisions: Standard component task without a decision row → exit 1 DECISION_MISSING', () => {
+  let r = exec(stage(decisionsPlan()), '--json');
+  assert.equal(r.code, 1, r.stdout);
+  assert.deepEqual(codes(r), ['DECISION_MISSING']);
+  assert.equal(r.json.errors[0].task, 'T1');
+  r = exec(stage(decisionsPlan({ decisions: 'none — no decision is expensive to reverse' })), '--json');
+  assert.deepEqual(codes(r), ['DECISION_MISSING'], 'a none line covers no task');
+  r = exec(stage(decisionsPlan({ decisions: decTable('| D-1 | Serializer as a pure module | T2 | pure module · class | — |') })), '--json');
+  assert.deepEqual(codes(r), ['DECISION_MISSING'], 'a row for another task does not cover T1');
+  const plan = stage(decisionsPlan());
+  assert.equal(exec(plan, '--write').code, 1);
+  assert.equal(existsSync(join(dirname(plan), 'graph.json')), false, 'a missing decision blocks --write and --check alike');
+});
+
+test('decisions: a decision row covering the task → exit 0; no qualifying task needs none', () => {
+  let r = exec(stage(decisionsPlan({ adds: ['component, data model', '—', 'integration'], decisions: decTable('| D-1 | Serializer as a pure module | T1, T3 | pure module · class | — |') })), '--json');
+  assert.equal(r.code, 0, r.stdout);
+  assert.deepEqual(r.json.warnings, []);
+  r = exec(stage(decisionsPlan({ adds: ['—', 'none', '-'] })), '--json');
+  assert.equal(r.code, 0, r.stdout);
+  assert.deepEqual(r.json.warnings, []);
+});
+
+test('decisions: Quick is exempt; Full needs an ADR link', () => {
+  let r = exec(stage(decisionsPlan({ path: 'Quick' }), { spec: SPEC.replace('| Path | Standard |', '| Path | Quick |') }), '--json');
+  assert.ok(codes(r).includes('PATH_QUICK'));
+  assert.ok(!codes(r).includes('DECISION_MISSING'));
+  const row = (adr) => decTable(`| D-1 | Serializer as a pure module | T1 | pure module · class | ${adr} |`);
+  r = exec(stage(decisionsPlan({ path: 'Full', decisions: row('—') }), { spec: FULL_SPEC }), '--json');
+  assert.equal(r.code, 1, r.stdout);
+  assert.deepEqual(codes(r), ['DECISION_ADR']);
+  r = exec(stage(decisionsPlan({ path: 'Full', decisions: row('docs/adr/serializer.md') }), { spec: FULL_SPEC }), '--json');
+  assert.deepEqual(codes(r), ['DECISION_ADR'], 'ADR link needs the NNNN- prefix');
+  r = exec(stage(decisionsPlan({ path: 'Full' }), { spec: FULL_SPEC }), '--json');
+  assert.deepEqual(codes(r), ['DECISION_MISSING']);
+  r = exec(stage(decisionsPlan({ path: 'Full', decisions: row('[ADR 0007](docs/adr/0007-csv-serializer.md)') }), { spec: FULL_SPEC }), '--json');
+  assert.equal(r.code, 0, r.stdout);
+});
+
+test('decisions: invalid Adds cells, malformed decision rows and table columns', () => {
+  let r = exec(stage(decisionsPlan({ adds: ['', 'service', '—'], decisions: decTable('| D-1 | x | T1 | a · b | — |') })), '--json');
+  assert.deepEqual(codes(r), ['ADDS_INVALID', 'ADDS_INVALID']);
+  r = exec(stage(decisionsPlan({ decisions: decTable('| 1 | Serializer | T1 | a · b | — |', '| D-2 | Store | T9 | a · b | — |', '| D-3 |  | T1 | a · b | — |') })), '--json');
+  assert.deepEqual(codes(r), ['DECISION_ROW', 'DECISION_ROW', 'DECISION_ROW']);
+  r = exec(stage(decisionsPlan({ decisions: '| ID | Decision |\n|---|---|\n| D-1 | x |' })), '--json');
+  assert.equal(r.code, 1);
+  assert.deepEqual(codes(r), ['DECISION_COLUMNS']);
+});
+
+test('decisions: a ## Decisions table (Decision column) is never read as the Design sign-off table', () => {
+  const header = '\n## Approvals\n\n| Sign-off | Plan rev | Plan hash | Spec rev | Spec hash | Date | Role | Person | Exact words | Evidence reviewed | Residual risks | Decision |\n|---|---|---|---|---|---|---|---|---|---|---|---|\n';
+  const base = decisionsPlan({ decisions: decTable('| D-1 | Serializer as a pure module | T1 | pure module · class | — |') }) + header;
+  let plan = stage(base);
+  assert.equal(approvalState(plan).plan.valid, false);
+  assert.deepEqual(codes(exec(plan, '--check-approval', '--json')), ['APPROVAL_MISSING']);
+  plan = stage(approve(base));
+  assert.equal(exec(plan, '--check-approval').code, 0);
+  assert.equal(approvalState(plan).plan.valid, true);
+});
+
+test('decisions: a Standard or Full plan without the Adds column warns DECISIONS_UNKNOWN (exit unchanged)', () => {
+  const r = exec(join(FIX, 'valid.plan.md'), '--json');
+  assert.equal(r.code, 0);
+  assert.deepEqual(r.json.warnings.map((w) => w.code), ['DECISIONS_UNKNOWN']);
+  const ex = exec(EXAMPLE, '--check', '--check-approval', '--json');
+  assert.equal(ex.code, 0, ex.stdout);
+  assert.deepEqual(ex.json.warnings.map((w) => w.code), ['DECISIONS_UNKNOWN']);
 });
 
 test('--help prints usage and exits 0', () => {

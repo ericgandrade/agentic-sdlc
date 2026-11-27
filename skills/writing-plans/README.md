@@ -1,6 +1,6 @@
 # writing-plans
 
-Design stage of the Agentic SDLC. Turns an approved spec into `specs/NNN-slug/plan.md`: a task graph of vertical slices (`| ID | Title | AC | Blocked by | Files | Size |`), self-contained task subsections with fixed interfaces and red-green-refactor steps, an impact section from the code map, a dependencies note and risks. `plan-graph` validates the graph and writes `graph.json`; a 12-check self-review, a two-way AC ↔ task coverage check, a task-brief dry run and a fresh-context plan review run before the Tech Lead's Design sign-off, which is bound to the plan hash and the spec hash.
+Design stage of the Agentic SDLC. Turns an approved spec into `specs/NNN-slug/plan.md`: a task graph of vertical slices (`| ID | Title | AC | Blocked by | Files | Size | Adds |`, with a `## Decisions` row for each task that adds a component, data model or integration), self-contained task subsections with fixed interfaces and red-green-refactor steps, an impact section from the code map, a dependencies note and risks. `plan-graph` validates the graph and writes `graph.json`; a 12-check self-review, a two-way AC ↔ task coverage check, a task-brief dry run and a fresh-context plan review run before the Tech Lead's Design sign-off, which is bound to the plan hash and the spec hash.
 
 ## When to use
 

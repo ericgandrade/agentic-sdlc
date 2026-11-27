@@ -72,7 +72,7 @@ In commands, `<agentic-sdlc>` is the installed `agentic-sdlc` skill directory (`
 
 ### Step 1 — Decisions, prefactor and scope
 
-1. For each choice that is expensive to reverse (schema, public API, new component, new dependency, data retention), dispatch the Architect (`senior-solution-architect`) and wait for an ADR in status Proposed. The header lists every ADR, or `none — <reason>`.
+1. A task that adds a component, data model or integration says so in `Adds` and gets a `## Decisions` row (`D-n`, options considered; Full: an ADR link). For a choice expensive to reverse (schema, public API, new dependency, data retention), dispatch the Architect (`senior-solution-architect`) for a Proposed ADR. The header lists every ADR, or `none — <reason>`.
 2. **Scope check.** The spec describes one deliverable that ships in one plan of ≤ 15 tasks. Independent subsystems → split the spec in the Specify stage; never plan two features in one table.
 3. **Prefactor.** "Make the change easy, then make the easy change." A missing seam becomes the first task, listing the AC it enables.
 4. **File map.** Before slicing, list every file to create or modify with its one responsibility. This list becomes the Files columns; it also gives the Standard-path file count early (bound 15, `../agentic-sdlc/references/paths.md` §4).
@@ -87,7 +87,7 @@ Load `references/slicing.md`. Slice into **tracer-bullet vertical slices**:
 - Schema or public-API changes with live callers or stored data: **expand → migrate → contract**. Migrate batches block on expand and touch disjoint files; contract blocks on every migrate batch.
 - Design for parallelism: real dependencies only, one test file per slice where cheap, no directory or glob entries in Files unless unavoidable.
 
-Fill `## Tasks` with the exact columns `| ID | Title | AC | Blocked by | Files | Size |` (`references/plan-format.md` §2):
+Fill `## Tasks` with the exact columns `| ID | Title | AC | Blocked by | Files | Size | Adds |` (`references/plan-format.md` §2):
 
 | Column | Rule | Error code |
 |---|---|---|
@@ -97,6 +97,7 @@ Fill `## Tasks` with the exact columns `| ID | Title | AC | Blocked by | Files |
 | Blocked by | Task IDs or `—`; real prerequisites only | `UNKNOWN_DEP`, `CYCLE` |
 | Files | Every file created or modified, tests included, in backticks | `NO_FILES` |
 | Size | `Nh`, `Nd` (= 8h), `Nm`; ≤ 8h | `BAD_SIZE`, `SIZE_BOUND` |
+| Adds | `component`, `data model`, `integration` or `—`; a value needs a decision row | `ADDS_INVALID`, `DECISION_MISSING`, `DECISION_ADR` |
 | Count | ≤ 15 tasks; more → split the spec | `TASK_BOUND` |
 
 **Blocked by** records a real need only: the task calls, reads or tests against code, schema or an interface another task creates. File overlap is not a dependency; `plan-graph` serializes it. Every false edge shrinks the frontier.

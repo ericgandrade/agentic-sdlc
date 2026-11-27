@@ -10,6 +10,7 @@ Load this file in Steps 2–4 of the workflow, while filling the template. The t
 | 1 | Header line | `**Path:**` · `**Spec:**` path and rev · `**ADRs:**` list or `none — <reason>` | yes |
 | 2 | Executor note | The blockquote "For the executor" from the template, unchanged | yes |
 | 3 | `## Goal and architecture` | Goal (1 sentence), Architecture (2–3 sentences), Tech stack with the `sdlc-dod` commands | yes |
+| 3a | `## Decisions` | `\| ID \| Decision \| Task(s) \| Options considered \| ADR \|`, IDs `D-n` (§2 `Adds`) | yes |
 | 4 | `## Tasks` | The task table (§2) and at most one short paragraph naming the prefactor, the tracer bullet and any file conflict | yes |
 | 5 | `## Task details` | One `### Tn — <title>` per row (§4) | yes |
 | 6 | `## Impact` | Code map line, module table, Regression scope line (§6) | yes |
@@ -19,19 +20,19 @@ Load this file in Steps 2–4 of the workflow, while filling the template. The t
 | 10 | `## Revision log` | One row per plan revision | yes |
 | 11 | `## Approvals` | Design sign-off row(s) | **no** |
 
-A section with nothing to record holds one line `none — <reason>`. Delete the template's HTML comments when the plan is filled in; `plan-graph` strips comments before counting words, so a forgotten comment costs nothing in the budget but confuses the Developer.
+A section with nothing to record holds one line `none — <reason>`. HTML comments may stay; `plan-graph` ignores them.
 
 **Header fields.**
 
 - `Path` copies the spec header exactly (`Standard` or `Full`). A different value fails with `PATH_MISMATCH`; `Quick` fails with `PATH_QUICK`; a missing Path is read as Standard with the warning `PATH_DEFAULT`.
 - `Spec` names `specs/NNN-slug/spec.md` and the revision the plan was built on. The spec hash is recorded in `## Approvals`, not in the header, so a spec revision does not silently edit the plan.
-- `ADRs` lists each `docs/adr/NNNN-slug.md` in status Proposed, or `none — <reason>` where the reason states why no decision is expensive to reverse (new route behind a flag, internal module, existing store reused).
+- `ADRs` lists each `docs/adr/NNNN-slug.md` in status Proposed, or `none — <reason>` (why no decision is expensive to reverse).
 
-**Prose budget.** `WORD_BOUND` fails above 3,000 words on Standard and 6,000 on Full, counted without code fences, the Loop ledger and the Approvals sections. A plan near the bound is a plan with too much narrative: move rationale into an ADR, cut repeated context, keep commands and signatures.
+**Prose budget.** `WORD_BOUND` fails above 3,000 words on Standard and 6,000 on Full, counted without code fences, the Loop ledger and the Approvals sections. Near the bound, move rationale into an ADR; keep commands and signatures.
 
 ## 2. The `## Tasks` table
 
-The header row is fixed, in this order: `| ID | Title | AC | Blocked by | Files | Size |`. `plan-graph` locates the columns by name; extra columns are ignored by the script but are not part of the contract, so do not add them.
+The header row is fixed, in this order: `| ID | Title | AC | Blocked by | Files | Size | Adds |`. `plan-graph` locates the columns by name and ignores any other column. A plan without `Adds` gets the warning `DECISIONS_UNKNOWN`.
 
 | Column | Format | Rule | Code |
 |---|---|---|---|
@@ -41,6 +42,7 @@ The header row is fixed, in this order: `| ID | Title | AC | Blocked by | Files 
 | Blocked by | `T1, T3` or `—` | Real prerequisites only (§3). `—`, `–`, `-`, `none` and `n/a` all mean none | `UNKNOWN_DEP`, `CYCLE` |
 | Files | `` `src/a.ts`, `test/a.test.ts` `` | Every file the task creates or modifies, tests included, each in backticks. A directory ends in `/`; a glob is cut at its first `*` for overlap checks | `NO_FILES` |
 | Size | `2h`, `0.5d`, `90m`, `1d` | ≤ 8h (`1d` = 8h). A larger task is split, never re-estimated down (`references/slicing.md` §4) | `BAD_SIZE`, `SIZE_BOUND` |
+| Adds | `component`, `data model`, `integration` (comma list) or `—` | A value needs ≥ 1 `## Decisions` row naming the task; on Full that row links `docs/adr/NNNN-slug.md` | `ADDS_INVALID`, `DECISION_MISSING`, `DECISION_ADR`, `DECISION_ROW`, `DECISION_COLUMNS` |
 
 Table-level bounds: ≥ 1 task (`NO_TASKS`) and ≤ 15 tasks (`TASK_BOUND`; more → split the spec in the Specify stage). The Standard path also stops at 15 changed files (`../../agentic-sdlc/references/paths.md` §4): count the distinct paths in the Files column, lockfiles and generated files excluded (`paths.md` §2); 16 or more → stop and re-score the path with the Analyst instead of trimming the list.
 
@@ -135,5 +137,3 @@ A plan containing any of these is not ready; replace each with the concrete cont
 ## 8. Standalone plans
 
 `docs/plans/YYYY-MM-DD-<feature>.md`, same template. Replace the Spec reference with the requirement source, add `## Requirements` listing `AC-1..AC-n`, validate with `--no-spec` (AC existence and coverage are not checked by the script, so run the coverage check of `references/self-review-and-readiness.md` §2 by hand). The approval row uses Sign-off `Design`, Spec rev and Spec hash `n/a`.
-
-† Added in a later release; manual fallback in `../../agentic-sdlc/references/artifacts.md` §Later-release files.
