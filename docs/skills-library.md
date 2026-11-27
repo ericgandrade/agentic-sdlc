@@ -138,11 +138,7 @@ claude --plugin-dir ./agentic-sdlc
 
 ### Option B — Claude.ai Web (claude.ai)
 
-Plugin installation on claude.ai requires the plugin to be listed in the **official Anthropic marketplace**. Submission is pending. Once approved, you will be able to install directly from:
-
-> **Settings → Extensions → Browse Plugins** on [claude.ai](https://claude.ai)
-
-To be notified when the plugin is available on claude.ai, watch this repository.
+claude.ai installs plugins only from the **official Anthropic marketplace** (**Settings → Extensions → Browse Plugins**), where this plugin is not listed. Use Option A (Claude Code) or Option C (Claude Desktop Cowork).
 
 ---
 

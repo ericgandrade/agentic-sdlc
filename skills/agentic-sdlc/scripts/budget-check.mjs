@@ -107,7 +107,7 @@ export function checkBudgets(skillDir, { guide } = {}) {
   return { skillDir: dir, checks, firstPath, over: over.length };
 }
 
-// Token proxy for one file: ceil(characters / 4). Tiktoken counts are used only in independent re-scores.
+// Token proxy for one file: ceil(characters / 4). It tracks the trend in CI; it is not a tokenizer count.
 export function proxyTokens(text) {
   return Math.ceil(String(text).length / 4);
 }
