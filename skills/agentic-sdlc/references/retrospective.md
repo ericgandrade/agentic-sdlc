@@ -36,14 +36,14 @@ At the timebox, stop; topics not reached go to the next retro's agenda under `Ca
 
 | Fact | Source |
 |---|---|
-| Lead time, first commit → merge (hours) | `git log --reverse --format=%cI <base>..<merge> \| head -1` and the merge commit time |
-| Loop rounds per task; escalations | `plan.md` loop ledger |
+| Lead time, first commit → merge (hours) | `metrics.mjs --record --cycle <spec or batch>` |
+| Loop rounds per task; escalations | `metrics.mjs`; else `plan.md` loop ledger |
 | Review findings by severity; Critical found after Test sign-off | PR Review triage; postmortems |
 | Reverts or hotfixes ≤ 7 days after release | `git log -E -i --since=<release date> --grep='^Revert\|hotfix'` |
 | Indicator: first reading vs target | `ops.md` |
 | Incidents (SEV1–SEV3) since release; SEV4 is not an incident | `docs/postmortems/` |
 
-**Trends.** Change failure rate above 15% at two retros in a row, or lead time above 1.5 × the median of the last 3 retros → one Change item is mandatory and its action targets the cause.
+**Trends.** Change failure rate above 15% at two retros in a row, or lead time above 1.5 × the median of the last 3 retros → one Change item is mandatory and its action targets the cause (`metrics.mjs` exits 1 without it → record invalid).
 
 ## Action rule
 

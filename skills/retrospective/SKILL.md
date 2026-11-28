@@ -63,7 +63,7 @@ The procedure, commands and source per fact are in `references/evidence-gatherin
 
 1. **Source or n/a.** Each value names the command or file that produced it. No source → `n/a — <reason>`. Never estimate, round up from memory or carry a number from chat.
 2. **Checked vs never checked.** `0 (checked: docs/postmortems/ since 2026-11-30)` and `n/a — postmortem folder absent` are different facts; a blank or a bare `0` is neither.
-3. **Read, do not recall.** Loop data comes from `node skills/agentic-sdlc/scripts/run-ledger.mjs status --ledger specs/NNN-slug/run-ledger.jsonl --json` (or `--run <id>` while the run is still active; installed copies run `../agentic-sdlc/scripts/run-ledger.mjs`); without Node or a ledger, from the `## Loop ledger` table in `plan.md`. `metrics.mjs`† is not available: compute lead time from git and loop rounds from `run-ledger status`.
+3. **Read, do not recall.** Loop data comes from `node skills/agentic-sdlc/scripts/run-ledger.mjs status --ledger specs/NNN-slug/run-ledger.jsonl --json` (or `--run <id>` while the run is still active; installed copies run `../agentic-sdlc/scripts/run-ledger.mjs`); without Node or a ledger, from the `## Loop ledger` table in `plan.md`. Lead time, change-failure rate, loop rounds, escalations and reverts for the cycle come from `node skills/agentic-sdlc/scripts/metrics.mjs --record --cycle <spec slug or batch> --json` (installed copies run `../agentic-sdlc/scripts/metrics.mjs`), which appends the cycle to `.agentic-sdlc/metrics/history.jsonl`; record each value with that command as its source.
 4. **Write history, not the present.** Date every reading and anchor code claims to a SHA: `As of 1b8d74a, …`.
 
 Gather all seven template facts (lead time; loop rounds and escalations; findings by severity; Critical after Test sign-off; reverts or hotfixes ≤ 7 days; indicator vs target; incidents) plus the cycle signals the template leaves to observations: impediments from `specs/NNN-slug/impediments.md` (count, oldest age), approval wait per sign-off from `approvals.md` and the PR review times, `CANNOT_VERIFY` and `self-review` rows in the PR Verification section, waivers used, and rulings at loop bounds. Each signal that shows friction becomes a **candidate** Change item with its evidence; the meeting decides which ones enter the record.
@@ -90,7 +90,7 @@ Record the result in the Facts indicator row: `1 ticket (7 of 30 days, partial) 
 
 ### Step 5 — Trend check against earlier retros
 
-Read the Facts tables of the last 6 retros of the track (the retro records are the history until `metrics.mjs`† writes `.agentic-sdlc/metrics/history.jsonl`). Two rules produce candidate Change items tagged `process`; neither changes a path on its own — the Tech Lead rules in the meeting:
+`metrics.mjs` (Step 2) applies the trend rule of the contract to `.agentic-sdlc/metrics/history.jsonl` and prints `trend: worse | better | flat` per metric; without a history, read the Facts tables of the last 6 retros of the track. When the rule fires, the record needs a Change item naming the metric (`lead time`, `change failure`) and an `RA-` action whose From cites it; `metrics.mjs` exits 1 until it does. Two rules produce candidate Change items tagged `process` (over the last 30 days and comparable kinds only when computed by hand); neither changes a path on its own — the Tech Lead rules in the meeting:
 
 - **Change failure rate** = releases in the last 30 days whose ops record says `Change failed: yes` (SEV1/SEV2, rollback, or revert ≤ 7 days; SEV4 is not an incident) ÷ releases in the last 30 days. Above 15% at this retro and the previous one → propose raising the minimum path for the affected area or adding a check.
 - **Lead time** above 1.5 × the median of the previous 3 retros of comparable kind → propose a review of the path sizing (`../agentic-sdlc/references/paths.md`).
@@ -136,7 +136,7 @@ Rules: prefer the check whenever both fit. A mechanical lesson answered only wit
 
 ### Step 9 — Validate, commit, feed the next cycle
 
-Tick the five validity boxes in the template. Any unchecked box → the record is invalid and the retro counts as not held (still overdue). Typical failures: 0 valid actions; an action without a target file; an action owned by an agent; a recurring tag without an approved control; held after the due date without saying so.
+Re-run `node skills/agentic-sdlc/scripts/metrics.mjs --cycle <label>`: exit 1 means a required trend Change item or its action is missing, and the record is invalid. Tick the five validity boxes in the template. Any unchecked box → the record is invalid and the retro counts as not held (still overdue). Typical failures: 0 valid actions; an action without a target file; an action owned by an agent; a recurring tag without an approved control; held after the due date without saying so.
 
 The human facilitator commits the record (`docs: retro YYYY-MM-DD for specs/NNN-slug`); the agent never commits, pushes or merges on its own. Then route the outputs:
 

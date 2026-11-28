@@ -19,7 +19,7 @@ Load in vendor mode, as the last step of setup and adopt, when the installed `ag
 
 `<skill>` is the `agentic-sdlc` directory to copy from, in this order: `$AGENTIC_SDLC_SKILL` when set; `$SUPERSKILLS_REPO/skills/agentic-sdlc` for a checkout of `claude-superskills` (a `--plugin-dir` session); the Claude Code plugin cache `~/.claude/plugins/cache/*/skills/agentic-sdlc`; then the install targets in `../../agentic-sdlc/references/platforms.md` §2 (`~/.*/skills/agentic-sdlc`, `~/.gemini/antigravity/skills/agentic-sdlc`). The procedure below lists every candidate; with several, take the one whose README Metadata `Version` is highest, set `AGENTIC_SDLC_SKILL` to it and name it in `VERSION`.
 
-`preflight.mjs` imports `run-ledger.mjs`; never vendor one without the other. Scripts marked † in the router Module Index that are absent from the installed skill are listed on the `missing:` line; the router applies their Markdown fallback (`../../agentic-sdlc/references/artifacts.md` §Later-release files).
+`preflight.mjs` and `metrics.mjs` import `run-ledger.mjs` (which imports `dod-gate.mjs`); never vendor one without the others. Scripts marked † in the router Module Index that are absent from the installed skill are listed on the `missing:` line; the router applies their Markdown fallback (`../../agentic-sdlc/references/artifacts.md` §Later-release files).
 
 ## 3. Procedure (POSIX shell, from the repository root)
 

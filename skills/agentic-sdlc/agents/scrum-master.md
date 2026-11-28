@@ -38,7 +38,7 @@ Secrets or production data. It does not need the implementation detail.
 
 ## Tools
 
-Read and search · edit only `specs/**/impediments.md` · write `docs/retros/*.md` drafts · comment on the issue or PR · run `status`†, `run-ledger status|render`, `metrics`† · git read-only.
+Read and search · edit only `specs/**/impediments.md` · write `docs/retros/*.md` drafts · comment on the issue or PR · run `status`, `run-ledger status|render`, `metrics` · git read-only.
 
 ## Procedure
 

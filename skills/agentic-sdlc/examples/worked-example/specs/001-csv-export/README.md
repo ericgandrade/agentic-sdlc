@@ -12,6 +12,6 @@ Artifact folder for the worked example, written from the templates in `templates
 | `run-ledger.jsonl` | Build | Archived ledger of run `r1`: preflight, red, round, check and finish events | `scripts/run-ledger.mjs status` and `render` |
 | `pr-body.md` | Test | Verification rows bound to the fingerprint, Trace table, Review triage, GO | `dod-gate`, `approval-check`, `audit-export` |
 | `release-notes.md` | Release | AC list, rollout 10% → 100%, rollback rehearsal output, Release sign-off | release checklist R1–R9 in the file (`references/release-ops.md`) |
-| `retro.md` | Operate | Retro within 5 business days, actions with owners | validity checklist in the file (`references/retrospective.md`); `metrics`† |
+| `retro.md` | Operate | Retro within 5 business days, actions with owners | validity checklist in the file (`references/retrospective.md`); `metrics` |
 
 The example has no Operate record `ops.md` (template `templates/ops-record.md`): the indicator reading and incident count live in `retro.md` §Facts, so `trace-check` reports TR12 once 14 days pass after the 2026-11-30 release.

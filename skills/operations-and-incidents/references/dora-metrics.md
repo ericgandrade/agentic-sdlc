@@ -1,6 +1,6 @@
 # DORA metrics — manual computation
 
-Load in Workflow Step 8, before a retro, or when someone asks how often the team deploys, how long changes take to reach production, how many releases fail, or how fast service is restored. The later-release script `metrics.mjs`† will compute these and append `.agentic-sdlc/metrics/history.jsonl`; it does not exist yet (`../../agentic-sdlc/references/artifacts.md` §Later-release files). Until it does, compute by hand from git, the release notes and the postmortems, and record the values in the retro record §Facts as extra rows.
+Load in Workflow Step 8, before a retro, or when someone asks how often the team deploys, how long changes take to reach production, how many releases fail, or how fast service is restored. `../../agentic-sdlc/scripts/metrics.mjs` computes lead time to merge, change-failure rate and reverts per cycle and appends `.agentic-sdlc/metrics/history.jsonl`. Deployment frequency, lead time merge → stage 1 and time to restore stay manual: compute them from git, the release notes and the postmortems, and record the values in the retro record §Facts as extra rows.
 
 ## 1. Definitions (window: last 30 days; trend: last 90 days)
 

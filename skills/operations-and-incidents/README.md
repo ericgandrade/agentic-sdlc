@@ -51,7 +51,7 @@ Not for: defining observability for a new change (`spec-driven-development`), re
 | MP-75 | Matt Pocock skills (MIT) | Mechanical problems become deterministic checks | Recurring cause tag (2 in 90 days) → automated control approved by a person other than the proposer |
 | — | Google SRE practice (public books; paraphrased) | SLI/SLO/error budget, burn rate, incident command roles, blameless postmortem culture | SLO floor derived from the spec alert; incident commander is always a named human; blameless rewrite table |
 | — | AWS AI-DLC Operation phase (public docs; paraphrased) | Operations as a phase that feeds the next cycle | Operate → Discover via `from-production` issues triaged within 2 business days |
-| — | DORA research (public; paraphrased) | Four delivery metrics | Manual computation from git tags, deploy logs and postmortems until `metrics.mjs`† exists |
+| — | DORA research (public; paraphrased) | Four delivery metrics | Manual computation from git tags, deploy logs and postmortems; `metrics.mjs` computes lead time to merge and change-failure rate |
 
 † Added in a later release of `agentic-sdlc`.
 

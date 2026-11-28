@@ -154,7 +154,7 @@ Discover triages within 2 business days (`issue-triage`: duplicate search, path 
 
 ### Step 8 — Delivery metrics and retro facts
 
-Load `references/dora-metrics.md`. The later-release `metrics.mjs`† does not exist yet; compute by hand over the last 30 days:
+Load `references/dora-metrics.md`. `metrics.mjs` computes lead time to merge, change-failure rate and reverts per cycle; compute the rest by hand over the last 30 days:
 
 - Deployment frequency: production releases with a stage-1 row in the window ÷ weeks.
 - Lead time for changes: per release, first commit → stage-1 start (median), also split at the merge.
@@ -232,7 +232,7 @@ The ops record shows fires at 2026-12-01T02:10Z, 2026-12-03T02:12Z and 2026-12-0
 **5. Retro prep with DORA metrics**
 > "Retro on Monday. Pull the production numbers."
 
-Release tags and deploy logs give 4 releases in 30 days (0.93/week); median lead time first commit → production 77 h; change failure 1 of 3 closed windows (a revert on v2.13.0); time to restore `n/a — no SEV1/SEV2 incident`. Facts handed to the Scrum Master with each command; `metrics.mjs`† noted as not yet available.
+Release tags and deploy logs give 4 releases in 30 days (0.93/week); median lead time first commit → production 77 h; change failure 1 of 3 closed windows (a revert on v2.13.0); time to restore `n/a — no SEV1/SEV2 incident`. Facts handed to the Scrum Master with each command; lead time to merge and change failure cross-checked with `metrics.mjs`.
 
 ## References
 

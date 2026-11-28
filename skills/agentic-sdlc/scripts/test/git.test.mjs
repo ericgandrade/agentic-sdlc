@@ -42,6 +42,8 @@ test('fingerprint changes with content and ignores the evidence folder', () => {
 
   write(repo, '.agentic-sdlc/evidence/run.json', '{}');
   assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'evidence files are excluded');
+  write(repo, '.agentic-sdlc/metrics/history.jsonl', '{}\n');
+  assert.equal(fingerprint({ cwd: repo }).fingerprint, f0.fingerprint, 'the metrics history is excluded');
   write(repo, 'specs/001-x/review.md', 'fingerprint ' + f0.short);
   write(repo, 'docs/reviews/142.md', 'fingerprint ' + f0.short);
   commit(repo, 'review records');
