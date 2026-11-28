@@ -103,7 +103,7 @@ Record the deciding evidence in one line. Class-specific duties:
 
 ### Step 5 — Score the path
 
-Use `../agentic-sdlc/references/paths.md` §2 exactly; estimate the diff the change will produce, not the wording of the request.
+Use `../agentic-sdlc/references/paths.md` §2 exactly; estimate the diff the change will produce, not the wording of the request. Compute the line with `node .agentic-sdlc/bin/path-score.mjs --files <n> --components <n> --iterations <n> --risk <triggers|none>` (not vendored: `<agentic-sdlc skill>/scripts/path-score.mjs`; leave out an unknown input) and copy its first output line. The tool also applies the file bound (more than 3 files is never Quick). The rubric below is the manual fallback without Node; worked cases: `../agentic-sdlc/examples/paths/`.
 
 **Size S (3–9)** = files + components + iterations:
 

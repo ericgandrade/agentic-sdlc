@@ -396,6 +396,22 @@ Behaviour:
 
 ---
 
+**Task 4.4 implementation notes (recorded while executing):**
+- `metrics.mjs` reads only git and local records. Lead time runs from the first `Refs: Tn` commit on the merged branch to the first-parent merge commit; squash and fast-forward merges are not measured.
+- Change-failure rate comes from the `specs/*/ops.md` "Change failed" row (an open window is pending, outside the denominator). Without that row: rollback, a SEV1/SEV2 postmortem, or a revert/hotfix commit naming the item.
+- Loop rounds and escalations come from the archived `run-ledger.jsonl` files of the cycle's items; a done task with no round event counts 1.
+- `--record --cycle` appends to `.agentic-sdlc/metrics/history.jsonl` (excluded from the fingerprint). Duplicate labels exit 2; a torn last line is handled as in `evidence.mjs`.
+- The trend rule follows `retrospective.md`: CFR > 15% twice in a row, or lead time > 1.5 × the median of the previous 3 cycles. Exit 1 until the retro has a Change row naming the metric and an `RA-` action from it.
+- No per-person data: author and committer are never read (a test asserts it). Deployment frequency and time to restore stay manual.
+
+**Task 4.5 implementation notes (recorded while executing):**
+- `path-score.mjs` reuses `sizeRoute`, `riskRoute`, `TRIGGER_ALIASES` and `PATH_RANK` from spec-lint (now exported); it adds only the size bands, the file count rules and a code-map reader.
+- A known file count also routes the item (≤ 3 Quick, ≤ 15 Standard, else Full), so a scored path never fails its own Build check; the rubric alone allowed 4–5 files at Quick.
+- Missing inputs default to Standard but never below a known route.
+- `--from-spec` reads the spec through spec-lint's `lintFile`; `--diff` adds uncommitted and untracked files; components come from code-map `deploy` units, or `--components` without a map.
+- `examples/paths/` holds 6 cases whose `path-score` blocks are run by the test; the paths.md §2 scored-examples table is pinned too.
+- Wired into issue-triage Step 5, paths.md §1/§4, the router Step 1 and the CI spec job (`--from-spec --diff`, guarded, base-branch checker).
+
 ## Phase 5 · v3.4.0 (more than 90 days)
 
 | # | Task | Notes |

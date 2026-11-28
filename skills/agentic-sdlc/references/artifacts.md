@@ -43,7 +43,7 @@ Decision rule: 1 existing convention found → map the artifacts below onto it a
     ├── runs/preflight.json            # preflight without --run
     ├── evidence/ledger.jsonl          # fingerprint-bound evidence records (evidence)
     ├── audit/                         # audit-export bundles (JSON + CSV)
-    ├── metrics/history.jsonl          # † (metrics)
+    ├── metrics/history.jsonl          # metrics history (metrics.mjs)
     └── doctor.json                    # doctor
 ../<repo>-sdlc-<id>/                   # unattended run worktree on branch sdlc/NNN-<id> (run-ledger start)
 ```
@@ -99,11 +99,8 @@ Planned files, marked † where other files name them. The router Module Index l
 
 | File | Target | Purpose | Manual fallback |
 |---|---|---|---|
-| `scripts/path-score.mjs`† | v3.3.0 | Path score | `references/paths.md` §Score rubric by hand |
-| `scripts/metrics.mjs`† | v3.3.0 | Retro metrics history | Compute lead time and loop rounds from git and `run-ledger status` (`references/retrospective.md`) |
 | `references/faq.md`† | unscheduled | Troubleshooting | `project-context audit`; `status.mjs --topic blocked` |
 | `references/standards-mapping.md`† | unscheduled | Standards mapping (SSDF practices: skill `security-hardening`, `references/ssdf-mapping.md`) | Control mapping in `references/security.md` and `references/governance.md` |
-| `examples/paths/`† | v3.3.0 | Path examples | `references/paths.md` §2 Scored examples |
 
 ## Naming and numbering
 

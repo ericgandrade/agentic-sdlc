@@ -52,7 +52,7 @@ When the user names a stage, check its entry condition (`references/lifecycle.md
 
 ### Step 1 — Choose the path
 
-Score Size S and Risk R with `references/paths.md` §2; **path = the higher route** (§1). Write the score line in the issue or spec header: `Path: Standard · S=5 · R=1 (money)`. Missing inputs → Standard, recorded `default: inputs missing`. During Build, a file bound (Quick > 3, Standard > 15) or a new risk trigger → stop, re-score, route up and log a Revision entry (§4). Never route down silently. Sign-offs and artifacts per path: §3 (Full adds a second human reviewer on the Test sign-off).
+Score with `path-score` (`references/paths.md` §2); **path = the higher route** (§1). Write the score line in the issue or spec header: `Path: Standard · S=5 · R=1 (money)`. Missing inputs → Standard, recorded `default: inputs missing`. During Build, a file bound (Quick > 3, Standard > 15) or a new risk trigger → stop, re-score, route up and log a Revision entry (§4). Never route down silently. Sign-offs and artifacts per path: §3 (Full adds a second human reviewer on the Test sign-off).
 
 ### Step 2 — Run the stage
 

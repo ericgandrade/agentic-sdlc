@@ -7,7 +7,7 @@ Load this file in Discover for every work item and in Build whenever a task touc
 | Step | Action | Record |
 |---|---|---|
 | 1 | The Analyst collects the three size inputs and checks the seven risk triggers (§2) from the request, the code map (`docs/codemap.md`) and the code | — |
-| 2 | Compute S and R, look up the size route and the risk route | — |
+| 2 | Run `path-score` for S, R and both routes | — |
 | 3 | **Path = the higher of the two routes.** Risk overrides size: a one-file change with a Full-forcing trigger is Full | — |
 | 4 | Write the score line before any other artifact | Quick: first line of the issue body. Standard/Full: header of `specs/NNN-slug/spec.md` |
 | 5 | Show the score line to the requester in one sentence and continue; the path needs no separate approval | — |
@@ -59,7 +59,7 @@ Risk route: **R = 0 → Quick · R = 1 → Standard · R ≥ 2, or any Full-forc
 | Add customer email to the CSV export | 5 · 2 · 1 | 5 | money, personal data | 2 | Standard / Full | **Full** |
 | Drop the legacy `orders_old` table | 3 · 1 · 1 | 3 | schema, irreversible | 2 | Quick / Full | **Full** |
 
-The fourth and sixth rows show risk overriding size. The tool form of this rubric (`scripts/path-score.mjs`†) returns the same route for the same inputs.
+The fourth and sixth rows show risk overriding size. `scripts/path-score.mjs` computes this rubric; its tests pin these rows and `examples/paths/`.
 
 ## 3. Approval depth by path (mechanism 10.2)
 
@@ -83,7 +83,7 @@ Checked by the Developer at each Build task start and before each commit, and by
 
 | Trigger | Detection | Bound |
 |---|---|---|
-| File bound exceeded | `git diff --name-only <base>...HEAD` plus uncommitted files, counted with the §2 file definition | Quick > 3 files · Standard > 15 files · Full: no bound |
+| File bound exceeded | `path-score --diff <base> --path <P>` (or `--from-spec`); exit 1 = escalate | Quick > 3 files · Standard > 15 files · Full: no bound |
 | New risk trigger | A §2 trigger present in the diff that the score line does not list | Any one |
 | Component or iteration growth | The change now needs another deployed unit or another PR that raises S into a higher size route | Size route rises |
 
@@ -125,8 +125,6 @@ Failure behaviour: Build continuing past a trigger without re-routing → the Re
 - Any code change requested before adopt mode completes → status `BLOCKED` with next step `project-context` (adopt).
 - Baseline tests red at adoption → each failing test is listed in the block's `Baseline:` line and one issue labelled `baseline-red` is opened per test; Build preflight halts on a red baseline until the test is fixed or a waiver covers it.
 - No test suite at all → `Baseline: no tests`; every first change on that code is at least Standard, and characterization tests come first.
-
-† Added in a later release; manual fallback in `references/artifacts.md` §Later-release files.
 
 ## Sources
 

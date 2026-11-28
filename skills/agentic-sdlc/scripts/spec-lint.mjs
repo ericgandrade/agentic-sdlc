@@ -29,7 +29,7 @@ Exit codes: 0 pass · 1 check failed (do not request approval / do not start Bui
 
 export const PATHS = ['Quick', 'Standard', 'Full'];
 export const BUDGET = { Quick: 1500, Standard: 1500, Full: 3000 };
-const PATH_RANK = { Quick: 0, Standard: 1, Full: 2 };
+export const PATH_RANK = { Quick: 0, Standard: 1, Full: 2 };
 
 // The 30 vague terms flagged unless the same sentence holds a number with a unit.
 export const VAGUE_TERMS = [
@@ -40,7 +40,7 @@ export const VAGUE_TERMS = [
 ];
 
 // Path risk triggers (references/paths.md §Score). Aliases map to the canonical name.
-const TRIGGER_ALIASES = {
+export const TRIGGER_ALIASES = {
   auth: 'auth', authentication: 'auth', authorization: 'auth',
   'personal data': 'personal/health data', 'health data': 'personal/health data',
   'personal/health data': 'personal/health data', pii: 'personal/health data',

@@ -188,6 +188,7 @@ jobs:
             if [ ! -f "$dir/spec.md" ]; then echo "::notice::$dir has no spec.md (deleted or Quick path)"; continue; fi
             echo "::group::spec-lint $dir/spec.md"
             node "${GATE_BIN:-$SDLC_BIN}/spec-lint.mjs" "$dir/spec.md" --check-approval || status=$?
+            if [ -f "${GATE_BIN:-$SDLC_BIN}/path-score.mjs" ]; then node "${GATE_BIN:-$SDLC_BIN}/path-score.mjs" --from-spec "$dir/spec.md" --diff "origin/$BASE_REF" || status=$?; fi
             echo "::endgroup::"
           done < "$RUNNER_TEMP/spec-dirs.txt"
           if [ ! -s "$RUNNER_TEMP/spec-dirs.txt" ]; then echo "No spec touched or named (Quick path or code-only change)."; fi

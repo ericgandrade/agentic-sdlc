@@ -78,7 +78,7 @@ Every script gate has a manual equivalent with the same pass rule. The method's 
 | Script | Manual equivalent |
 |---|---|
 | `status.mjs`† | Apply the router Step 0 table by reading the files |
-| `path-score.mjs`† | Fill the §2 rubric of `references/paths.md` by hand |
+| `path-score.mjs` | Fill the §2 rubric of `references/paths.md` by hand |
 | `spec-lint.mjs` | Check the required sections of `templates/spec.md` one by one; AC IDs contiguous from `AC-1` |
 | Approval hash | Bind the approval to the commit instead: `rev N @ <git log -1 --format=%h -- specs/NNN-slug/spec.md>`; any later commit touching the file voids it |
 | `plan-graph.mjs` | Each `Blocked by` names only lower task IDs (acyclic by construction); list waves by hand in `plan.md` |

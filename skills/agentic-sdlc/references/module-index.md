@@ -14,6 +14,9 @@ The router Module Index (`SKILL.md`) lists the modules a Standard work item load
 | `scripts/preflight.mjs`, `run-ledger.mjs` | Build start; unattended runs; each loop round |
 | `scripts/dod-gate.mjs`, `evidence.mjs`, `trace-check.mjs` | Completion claims; before Reviewer GO and Test sign-off; CI |
 | `scripts/status.mjs`, `doctor.mjs`, `guard.mjs` | Router Step 0; setup check; host hooks |
+| `scripts/metrics.mjs` (imports `run-ledger.mjs`) | Retro §Facts and trend rule (skill `retrospective` Steps 2, 5, 9) |
+| `scripts/path-score.mjs` | Discover path score (issue-triage Step 5); Build file-bound and route-down check (`references/paths.md` §4) |
+| `examples/paths/` | Path scoring cases; what Quick keeps; `path-score` test fixtures |
 | `scripts/budget-check.mjs`, `ext-check.mjs` | CI on `skills/**`; before loading any extension |
 | `scripts/lib/md.mjs`, `lib/git.mjs`, `lib/cli.mjs` | Imported by the scripts above |
 | `examples/worked-example/` | Learning the Standard path; script test fixtures |
